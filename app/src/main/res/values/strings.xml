@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">UNIC</string>
+    <string name="title_activity_navigation">navigation</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">JOHN DOE</string>
+    <string name="nav_header_subtitle">JOHNDOE@EXAMPLE.COM</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="company_full_name">UNIFIED NETWORK FOR INFORMATION AND COMMUNICATION</string>
+
+    <string name="login">LOGIN</string>
+    <string name="sign_up">SIGN UP</string>
+
+    <string name="full_name">FULL NAME</string>
+    <string name="email">E-MAIL</string>
+    <string name="phone">PHONE</string>
+    <string name="otp">OTP</string>
+    <string name="have_prev_account">"Already have an account?"</string>
+
+    <string name="menu_home">HOME</string>
+    <string name="menu_my_apps">MY APPS</string>
+    <string name="menu_help">HELP</string>
+    <string name="menu_settings">SETTINGS</string>
+    <string name="menu_qr">MY QR</string>
+    <string name="menu_logout">SIGN OUT</string>
+
+    <string name="menu_about_us">ABOUT US</string>
+    <string name="menu_share">SHARE</string>
+    <string name="menu_feedback">FEEDBACK</string>
+    <string name="menu_faq">FAQs</string>
+
+    <string name="tab_title_trending">Trending</string>
+    <string name="tab_title_subscribed">Subscribed</string>
+
+    <string name="success_message">Success!</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="myorders_tv2">Your order information will be forwaded to your email</string>
+    <string name="myorders">My Orders</string>
+    <string name="tvnext">What happens next?</string>
+    <string name="ordersinfo1">We will inform you when the package is ready</string>
+    <string name="ordersinfo2">Your products will be shipped in 2-3 days</string>
+    <string name="ordersinfo3">You will receive an email when the package is delivered</string>
+</resources>

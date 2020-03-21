@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.SignUp">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/signupmain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/icon1"
+                android:layout_width="53dp"
+                android:layout_height="47dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="41dp"
+                android:src="@drawable/logonotext"
+                />
+
+            <EditText
+                android:id="@+id/edtfullname"
+                android:layout_width="365dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="53dp"
+                android:drawableStart="@drawable/ic_person_black_24dp"
+                android:drawableTint="#EC4156"
+                android:hint="@string/full_name"
+                android:paddingTop="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/icon1" />
+
+            <EditText
+                android:id="@+id/edtemail"
+                android:paddingTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/edtfullname"
+                android:layout_marginTop="53dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:drawableStart="@drawable/ic_email_black_24dp"
+                android:drawableLeft="@drawable/ic_email_black_24dp"
+                android:drawableTint="#EC4156"
+                android:hint="@string/email"/>
+            <EditText
+                android:id="@+id/edtphone"
+                android:paddingTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/edtemail"
+                android:layout_marginTop="53dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:drawableStart="@drawable/ic_phone_black_24dp"
+                android:drawableLeft="@drawable/ic_phone_black_24dp"
+                android:drawableTint="#EC4156"
+                android:hint="@string/phone"/>
+
+            <Button
+                android:id="@+id/btncontinue"
+                android:layout_width="327dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="53dp"
+                android:background="@drawable/roundbutton"
+                android:text="CONTINUE"
+                android:textColor="#ffffff"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edtphone" />
+            <Button
+                android:id="@+id/btnfb"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/facebook"
+                app:layout_constraintRight_toLeftOf="@id/btngoogle"
+                app:layout_constraintTop_toBottomOf="@id/btncontinue"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="40dp"/>
+            <Button
+                android:id="@+id/btngoogle"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/googleicom"
+                app:layout_constraintLeft_toRightOf="@id/btnfb"
+                app:layout_constraintTop_toBottomOf="@id/btncontinue"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="40dp"/>
+            <TextView
+                android:id="@+id/ques"
+                android:layout_width="128dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/btngoogle"
+                android:text="@string/have_prev_account"
+                android:textColor="@color/colorSecondary"
+                app:layout_constraintLeft_toLeftOf="@id/btnfb"
+                app:layout_constraintRight_toRightOf="@id/btngoogle"
+                android:layout_marginTop="41dp"
+                android:gravity="center"/>
+            <Button
+                android:id="@+id/btnlogin"
+                android:layout_width="327dp"
+                android:layout_height="48dp"
+                android:text="LOGIN"
+                app:layout_constraintTop_toBottomOf="@id/ques"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/roundbutton"
+                android:textColor="#ffffff"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/signuppin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/edtpin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="253dp"
+                android:hint="OTP"
+                android:paddingTop="5dp"
+                android:visibility="invisible"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="24dp" />
+
+            <Button
+                android:id="@+id/btnconfirm"
+                android:layout_width="327dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/roundbutton"
+                android:text="Confirm OTP"
+                android:textColor="#ffffff"
+                android:visibility="invisible"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edtpin" />
+
+            <Button
+                android:id="@+id/btnresend"
+                android:layout_width="327dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/roundbutton"
+                android:text="Resend Verification Code"
+                android:textColor="#ffffff"
+                android:visibility="invisible"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnconfirm" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

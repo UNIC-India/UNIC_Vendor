@@ -1,0 +1,2 @@
+rootProject.name='UNIC_Vendor_Final_1'
+include ':app'
