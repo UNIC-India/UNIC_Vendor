@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RadioGroup
+        android:id="@+id/rg_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <RadioButton
+            android:id="@+id/rad_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Slider"/>
+        <RadioButton
+            android:id="@+id/rad_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fixed image with label"/>
+        <RadioButton
+            android:id="@+id/rad_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Double images scroller"/>
+        <RadioButton
+            android:id="@+id/rad_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Triple images scroller"/>
+        <RadioButton
+            android:id="@+id/rad_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Categories list"/>
+    </RadioGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

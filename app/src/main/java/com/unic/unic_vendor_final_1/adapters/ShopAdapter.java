@@ -1,5 +1,6 @@
 package com.unic.unic_vendor_final_1.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 
@@ -17,8 +19,11 @@ import java.util.List;
 public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 
     private List<Shop> shops;
+    private Context context;
 
-    public ShopAdapter(){}
+    public ShopAdapter(Context context){
+        this.context = context;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvShopName;
@@ -39,6 +44,13 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ShopAdapter.ViewHolder holder, int position) {
+
+        holder.tvShopName.setText(shops.get(position).getName());
+
+        Glide
+                .with(context)
+                .load(shops.get(position).getImageLink())
+                .into(holder.ivShopPhoto);
 
     }
 

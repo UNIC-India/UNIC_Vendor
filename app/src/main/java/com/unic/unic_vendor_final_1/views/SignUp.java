@@ -95,7 +95,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.btnSignUp:
+            case R.id.btncontinue:
                 startAuth();
                 break;
             case R.id.btnconfirm:
@@ -112,7 +112,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
             Toast.makeText(this, "Enter all details", Toast.LENGTH_SHORT).show();
             return;
         }
-        signUpViewModel.verifyPhoneNumber(signUpBinding.edtphone.getText().toString().trim());
+        signUpViewModel.verifyPhoneNumber("+91"+signUpBinding.edtphone.getText().toString().trim());
     }
 
     public void authWithOTP(){
@@ -120,7 +120,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
             signUpBinding.edtpin.setError("Incorrect OTP Entered");
             return;
         }
-        signUpViewModel.verifyWithOTP(signUpBinding.edtpin.getText().toString().trim());
+        signUpViewModel.verifyWithOTP("+91"+signUpBinding.edtpin.getText().toString().trim());
 
     }
 

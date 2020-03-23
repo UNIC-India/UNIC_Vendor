@@ -25,7 +25,7 @@ public class SplashScreen extends AppCompatActivity {
             public void run() {
                 Intent intent;
                 if(isUserOnline)
-                    intent = new Intent(SplashScreen.this,Welcome.class);
+                    intent = new Intent(SplashScreen.this,UserHome.class);
                 else
                     intent = new Intent(SplashScreen.this,Welcome.class);
                 startActivity(intent);
