@@ -92,8 +92,12 @@ public class FirebaseRepository {
         return db.collection("shops").document(shopId).update("logoLink",logoLink);
     }
 
-    public Task<QuerySnapshot> getProducts(String shopId){
-        return db.collection("products").whereEqualTo("shopId",shopId).get();
+    public Query getProducts(String shopId){
+        return db.collection("products").whereEqualTo("shopId",shopId);
+    }
+
+    public String getUserId(){
+        return mUser.getUid();
     }
 
 }

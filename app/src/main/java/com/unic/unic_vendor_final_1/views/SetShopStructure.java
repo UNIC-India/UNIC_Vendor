@@ -2,6 +2,8 @@ package com.unic.unic_vendor_final_1.views;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -9,14 +11,18 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.DoubleImageAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductListAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.TripleImageAdapter;
 import com.unic.unic_vendor_final_1.databinding.ActivitySetShopStructureBinding;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
@@ -26,19 +32,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SetShopStructure extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener, RadioGroup.OnCheckedChangeListener {
+public class SetShopStructure extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
     private Shop shop;
     private List<Map<String,Object>> products;
 
     private ActivitySetShopStructureBinding setStructureBinding;
     private boolean isDataAcquired = false;
+    private int checkedId;
 
     private SetStructureViewModel setStructureViewModel;
     ArrayList<String> categories = new ArrayList<String>();
     ArrayList<String> selectedProducts = new ArrayList<>();
     ArrayList<String> selectedImages = new ArrayList<>();
     ProductListAdapter productListAdapter = new ProductListAdapter(this);
+
+    ViewGroup parent;
+    ArrayList<View> views = new ArrayList<>();
+    int prevY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,13 +78,14 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             }
         });
         setStructureBinding.addView.setOnClickListener(this);
-        setStructureViewModel.getProductDetails(shop.getId());
+        setStructureBinding.finishAddingProduct.setOnClickListener(this);
+        setStructureViewModel.getShopData(getIntent().getStringExtra("shopId"));
+        parent = findViewById(R.id.view_inflater);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        setStructureViewModel.getShopData(getIntent().getStringExtra("shopId"));
 
     }
 
@@ -85,15 +97,34 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.add_view:
-                View popupView = LayoutInflater.from(this).inflate(R.layout.view_selector,null);
-                PopupWindow popupWindow =new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                final View popupView = LayoutInflater.from(this).inflate(R.layout.view_selector,null);
+                final PopupWindow popupWindow =new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 popupWindow.setFocusable(true);
-                popupWindow.showAsDropDown(findViewById(R.id.btn_add_shop));
+                popupWindow.showAtLocation(parent, Gravity.CENTER,0,0);
                 RadioGroup radioGroup = popupView.findViewById(R.id.rg_selector);
-                radioGroup.setOnCheckedChangeListener(this);
+                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                        isDataAcquired = false;
+                        int children = radioGroup.getChildCount();
+                        for(int anInt=0;anInt<children;anInt++){
+                            if(radioGroup.getChildAt(anInt).getId()==i){
+                                getDisplayData(anInt);
+                                checkedId = anInt;
+                            }
+                        }
+                        popupWindow.dismiss();
+
+
+                    }
+                });
                 break;
             case R.id.finish_adding_product:
                 selectedProducts =  productListAdapter.returnSelectedProducts();
+                isDataAcquired = true;
+                setStructureBinding.dataTableSelector.setVisibility(View.GONE);
+                setStructureBinding.viewInflater.setVisibility(View.VISIBLE);
+                addView(checkedId);
                 break;
 
 
@@ -105,16 +136,43 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         return false;
     }
 
-    @Override
-    public void onCheckedChanged(RadioGroup radioGroup, int i) {
-        isDataAcquired = false;
-        getDisplayData(i);
-        if(isDataAcquired){
-            addView(i);
-        }
-    }
-
     private void addView(int id){
+        RelativeLayout.LayoutParams maxParams = views.size()>0? (RelativeLayout.LayoutParams)views.get(views.size()-1).getLayoutParams():null;
+        switch(id){
+            case 2:
+                View doubleItemView = LayoutInflater.from(this).inflate(R.layout.double_image_view,null);
+                doubleItemView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(350)));
+                views.add(doubleItemView);
+
+                RelativeLayout.LayoutParams params3 = (RelativeLayout.LayoutParams)doubleItemView.getLayoutParams();
+                params3.topMargin = views.size()>1?maxParams.topMargin+maxParams.height:0;
+                doubleItemView.setLayoutParams(params3);
+                parent.addView(doubleItemView);
+
+                RecyclerView doubleItemRecyclerView = doubleItemView.findViewById(R.id.double_image_recycler_view);
+                LinearLayoutManager layoutManager3= new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false);
+                doubleItemRecyclerView.setLayoutManager(layoutManager3);
+                DoubleImageAdapter adapter3 = new DoubleImageAdapter(this);
+                adapter3.setProducts(products);
+                doubleItemRecyclerView.setAdapter(adapter3);
+                break;
+            case 3:
+                View tripleItemView = LayoutInflater.from(this).inflate(R.layout.triple_image_view,null);
+                tripleItemView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(243)));
+                views.add(tripleItemView);
+
+                RelativeLayout.LayoutParams params4 = (RelativeLayout.LayoutParams) tripleItemView.getLayoutParams();
+                params4.topMargin = views.size()>1?maxParams.topMargin+maxParams.height:0;
+                tripleItemView.setLayoutParams(params4);
+                parent.addView(tripleItemView);
+
+                RecyclerView tripleItemRecyclerView = tripleItemView.findViewById(R.id.triple_image_recycler_view);
+                LinearLayoutManager layoutManager4 = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+                tripleItemRecyclerView.setLayoutManager(layoutManager4);
+                TripleImageAdapter adapter4 = new TripleImageAdapter(this);
+                adapter4.setProducts(products);
+                tripleItemRecyclerView.setAdapter(adapter4);
+        }
 
     }
 
@@ -124,17 +182,15 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         setStructureBinding.viewInflater.setVisibility(View.GONE);
         setStructureBinding.dataTableSelector.setVisibility(View.VISIBLE);
         switch(id){
-            case R.id.rad_1:
+            case 0:
                 //TODO: Add image selector for slider
                 break;
-            case R.id.rad_2:
-                //TODO: Add image & label selector
-                break;
-            case R.id.rad_3|R.id.rad_4:
+            case 1:
+            case 2:
+            case 3:
                 selectProducts();
-                //TODO: Add data for double image scroller
                 break;
-            case R.id.rad_5:
+            case 4:
                 isDataAcquired = true;
                 break;
 
@@ -150,13 +206,18 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         isDataAcquired = true;
     }
 
-    private void selectImages(){
-        setStructureBinding.viewInflater.setVisibility(View.GONE);
-        setStructureBinding.dataTableSelector.setVisibility(View.VISIBLE);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        setStructureBinding.dataSelectorRecyclerView.setLayoutManager(layoutManager);
-        productListAdapter.setProducts(products);
-        setStructureBinding.dataSelectorRecyclerView.setAdapter(productListAdapter);
-        isDataAcquired = true;
+    private float dpToPx(int dp){
+        return TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                getResources().getDisplayMetrics()
+        );
+    }
+
+    private ArrayList<View> swapViews(ArrayList<View> views,int v1, int v2){
+        View v = views.get(v1);
+        views.set(v1,views.get(v2));
+        views.set(v2,v);
+        return views;
     }
 }

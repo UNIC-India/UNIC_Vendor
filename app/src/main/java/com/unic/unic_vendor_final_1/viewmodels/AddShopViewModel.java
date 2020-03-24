@@ -23,9 +23,11 @@ public class AddShopViewModel extends ViewModel {
 
     private MutableLiveData<Integer> shopAddStatus = new MutableLiveData<>();
 
-    private FirebaseRepository firebaseRepository;
+    private FirebaseRepository firebaseRepository=new FirebaseRepository();
 
     public void saveShop(){
+
+        shop.getValue().setOwnerId(firebaseRepository.getUserId());
 
 
         firebaseRepository.saveShop(shop.getValue())

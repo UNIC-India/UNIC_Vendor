@@ -1,11 +1,16 @@
 package com.unic.unic_vendor_final_1.viewmodels;
 
+import android.util.Log;
+
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.unic.unic_vendor_final_1.datamodels.FirebaseRepository;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
@@ -22,19 +27,25 @@ public class SetStructureViewModel extends ViewModel {
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
-    public void getShopData(String shopId){
+    public void getShopData(final String shopId){
         firebaseRepository.getShop(shopId).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 shop.setValue(documentSnapshot.toObject(Shop.class));
+                getProductDetails(shopId);
             }
         });
     }
 
     public void getProductDetails(String shopId){
-        firebaseRepository.getProducts(shopId).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+
+        firebaseRepository.getProducts(shopId).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if(e!=null){
+                    Log.d("SetStructure",e.toString());
+                    return;
+                }
                 ArrayList<Map<String,Object>> data = new ArrayList<>();
                 for(DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()){
 
