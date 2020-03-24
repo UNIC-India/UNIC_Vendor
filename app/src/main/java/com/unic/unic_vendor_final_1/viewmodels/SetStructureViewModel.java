@@ -1,5 +1,6 @@
 package com.unic.unic_vendor_final_1.viewmodels;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -12,11 +13,12 @@ import com.unic.unic_vendor_final_1.datamodels.Shop;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SetStructureViewModel extends ViewModel {
 
     private MutableLiveData<Shop> shop = new MutableLiveData<>();
-    private MutableLiveData<List<Object>> products = new MutableLiveData<>();
+    private MutableLiveData<List<Map<String,Object>>> products = new MutableLiveData<>();
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
@@ -33,12 +35,10 @@ public class SetStructureViewModel extends ViewModel {
         firebaseRepository.getProducts(shopId).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                ArrayList<Object> data = new ArrayList<>();
+                ArrayList<Map<String,Object>> data = new ArrayList<>();
                 for(DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()){
-                    HashMap<String,String> map = new HashMap<>();
-                    map.put("name",doc.get("name").toString());
-                    map.put("imageLink",doc.get("imageLink").toString());
-                    data.add(map);
+
+                    data.add(doc.getData());
                 }
 
                 products.setValue(data);
@@ -48,6 +48,26 @@ public class SetStructureViewModel extends ViewModel {
 
     public MutableLiveData<Shop> getShop(){
         return shop;
+    }
+
+    public LiveData<List<Map<String,Object>>> getProducts(){
+        return products;
+    }
+
+    public LiveData<ArrayList<String>> getCategories(){
+
+        MutableLiveData<ArrayList<String>> categories = new MutableLiveData<>();
+
+        ArrayList<String> data = new ArrayList<String>();
+        for(int i=0;i<products.getValue().size();i++){
+            String categ;
+            categ = products.getValue().get(i).get("category").toString();
+            if(data.contains(categ))
+                 continue;
+            data.add(categ);
+        }
+        categories.setValue(data);
+        return categories;
     }
 
 }

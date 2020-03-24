@@ -31,7 +31,10 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            tvShopName = itemView.findViewById(R.id.shop_name);
+            ivShopPhoto = itemView.findViewById(R.id.shop_photo);
+            ivPreview = itemView.findViewById(R.id.btn_preview_shop);
+            ivEdit = itemView.findViewById(R.id.btn_edit_shop);
         }
     }
 
@@ -56,7 +59,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return 0;
+        return shops.size();
     }
 
     public void setShops(List<Shop> shops) {

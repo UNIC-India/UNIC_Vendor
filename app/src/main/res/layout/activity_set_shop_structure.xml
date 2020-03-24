@@ -7,6 +7,7 @@
     tools:context=".views.SetShopStructure">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/set_structure_app_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintTop_toTopOf="parent">
@@ -39,7 +40,8 @@
     <FrameLayout
         android:id="@+id/selector_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/set_structure_app_bar">
         <RelativeLayout
             android:id="@+id/view_inflater"
             android:layout_width="match_parent"
@@ -47,7 +49,24 @@
         <ScrollView
             android:id="@+id/data_table_selector"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/finish_adding_product"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="Add Products"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/data_selector_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/finish_adding_product"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
