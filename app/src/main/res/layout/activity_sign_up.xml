@@ -132,7 +132,6 @@
                 android:layout_marginTop="253dp"
                 android:hint="OTP"
                 android:paddingTop="5dp"
-                android:visibility="invisible"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="24dp" />
 
@@ -144,7 +143,6 @@
                 android:background="@drawable/roundbutton"
                 android:text="Confirm OTP"
                 android:textColor="#ffffff"
-                android:visibility="invisible"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edtpin" />
@@ -157,7 +155,6 @@
                 android:background="@drawable/roundbutton"
                 android:text="Resend Verification Code"
                 android:textColor="#ffffff"
-                android:visibility="invisible"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btnconfirm" />

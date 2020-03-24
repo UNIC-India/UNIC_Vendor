@@ -49,8 +49,8 @@ public class FirebaseRepository {
         return db.collection("users").document(mUser.getUid()).set(user);
     }
 
-    public Task<DocumentSnapshot> getUser(String Uid){
-        return db.collection("users").document(Uid).get();
+    public Task<DocumentSnapshot> getUser(){
+        return db.collection("users").document(mUser.getUid()).get();
     }
 
     public Query getAllShops(String ownerID){

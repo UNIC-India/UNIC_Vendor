@@ -9,6 +9,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.ActivityUserHomeBinding;
 import com.unic.unic_vendor_final_1.databinding.AppBarHomeBinding;
 import com.unic.unic_vendor_final_1.datamodels.User;
+import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
 import com.unic.unic_vendor_final_1.views.nav_fragments.HomeFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyAppsFragment;
 
@@ -31,7 +34,9 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     boolean doubleBackToExitPressedOnce = false;
     private User user;
 
-    ActivityUserHomeBinding userHomeBinding;
+    private ActivityUserHomeBinding userHomeBinding;
+
+    private FirestoreDataViewModel firestoreDataViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,14 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
 
         userHomeBinding = ActivityUserHomeBinding.inflate(getLayoutInflater());
         setContentView(userHomeBinding.getRoot());
+
+        firestoreDataViewModel = ViewModelProviders.of(this).get(FirestoreDataViewModel.class);
+        firestoreDataViewModel.getUser().observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                setUser(user);
+            }
+        });
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -103,5 +116,12 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
 
         }
         return true;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    private void populateHeader(){
     }
 }

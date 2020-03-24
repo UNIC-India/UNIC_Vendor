@@ -48,7 +48,7 @@ public class UserShopsViewModel extends ViewModel {
     }
 
     public void getUser(){
-        firebaseRepository.getUser(user.getUid())
+        firebaseRepository.getUser()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {

@@ -120,7 +120,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
             signUpBinding.edtpin.setError("Incorrect OTP Entered");
             return;
         }
-        signUpViewModel.verifyWithOTP("+91"+signUpBinding.edtpin.getText().toString().trim());
+        signUpViewModel.verifyWithOTP(signUpBinding.edtpin.getText().toString().trim());
 
     }
 
