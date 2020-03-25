@@ -45,6 +45,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         loginBinding.btnconf.setOnClickListener(this);
         loginBinding.btnlogin.setOnClickListener(this);
         loginBinding.btnres.setOnClickListener(this);
+        loginBinding.signupLink.setOnClickListener(this);
     }
 
 
@@ -92,6 +93,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             case R.id.btnres:
                 resendOTP();
                 break;
+            case R.id.signupLink:
+                startActivity(new Intent(this,SignUp.class));
         }
     }
 

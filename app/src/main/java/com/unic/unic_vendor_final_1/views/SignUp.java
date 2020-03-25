@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.ActivitySignUpBinding;
 import com.unic.unic_vendor_final_1.datamodels.User;
@@ -129,7 +130,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void addUserToFirebase(){
-        User user = new User(signUpBinding.edtfullname.getText().toString().trim(),signUpBinding.edtemail.getText().toString().trim(),signUpBinding.edtphone.getText().toString().trim());
+        User user = new User(FirebaseAuth.getInstance().getUid(),signUpBinding.edtfullname.getText().toString().trim(),signUpBinding.edtemail.getText().toString().trim(),signUpBinding.edtphone.getText().toString().trim());
         firestoreDataViewModel.addUser(user);
     }
 

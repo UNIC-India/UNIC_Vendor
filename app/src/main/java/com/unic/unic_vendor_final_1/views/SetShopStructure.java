@@ -13,6 +13,7 @@ import android.view.Window;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -156,6 +157,71 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
+
+        View parentView = (View)view.getParent();
+        int currView = views.indexOf(parentView);
+
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)parentView.getLayoutParams();
+
+
+
+
+        switch(motionEvent.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                prevY = (int)motionEvent.getRawY();
+                return true;
+            case MotionEvent.ACTION_MOVE:
+
+                if((currView!=views.size()-1)&&params.topMargin>((RelativeLayout.LayoutParams)views.get(currView+1).getLayoutParams()).topMargin){
+                    RelativeLayout.LayoutParams lowerViewParams = (RelativeLayout.LayoutParams)views.get(currView+1).getLayoutParams();
+                    lowerViewParams.topMargin-=params.height;
+                    views.get(currView+1).setLayoutParams(lowerViewParams);
+                    swapViews(views,currView,currView+1);
+                    currView++;
+                    break;
+                }
+                else if((currView!=0)&&params.topMargin<((RelativeLayout.LayoutParams)views.get(currView-1).getLayoutParams()).topMargin){
+                    RelativeLayout.LayoutParams lowerViewParams = (RelativeLayout.LayoutParams)views.get(currView-1).getLayoutParams();
+                    lowerViewParams.topMargin+=params.height;
+                    views.get(currView-1).setLayoutParams(lowerViewParams);
+                    swapViews(views,currView,currView-1);
+                    currView++;
+                    break;
+                }
+                else{
+                    params.topMargin+=((int)motionEvent.getRawY()-prevY);
+                    parentView.setLayoutParams(params);
+                    prevY = (int) motionEvent.getRawY();
+                }
+
+                return true;
+            case MotionEvent.ACTION_UP:
+                /*
+                if(motionEvent.getRawX()>540){
+
+                    deleteView(currView);
+                    return true;
+                }
+
+                 */
+                if((currView!=views.size()-1)&&params.topMargin+params.height>((RelativeLayout.LayoutParams)views.get(currView+1).getLayoutParams()).topMargin){
+                    params.topMargin = ((RelativeLayout.LayoutParams)views.get(currView+1).getLayoutParams()).topMargin-params.height;
+                }
+                else if (currView!=0&&params.topMargin<((RelativeLayout.LayoutParams)views.get(currView-1).getLayoutParams()).topMargin + ((RelativeLayout.LayoutParams)views.get(currView-1).getLayoutParams()).height){
+                    params.topMargin = ((RelativeLayout.LayoutParams)views.get(currView-1).getLayoutParams()).topMargin + ((RelativeLayout.LayoutParams)views.get(currView-1).getLayoutParams()).height;
+                }
+                else if(params.topMargin < 0){
+                    params.topMargin = 0;
+                }
+                else if(params.topMargin+params.height>1920){
+                    params.topMargin = 1920 - params.topMargin;
+                }
+
+                parentView.setLayoutParams(params);
+                Toast.makeText(this, new Integer(view.getId()).toString(), Toast.LENGTH_SHORT).show();
+                return true;
+        }
+
         return false;
     }
 
@@ -172,6 +238,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 doubleItemView.setLayoutParams(params3);
                 parent.addView(doubleItemView);
 
+                doubleItemView.findViewById(R.id.double_image_header).setOnTouchListener(this);
                 RecyclerView doubleItemRecyclerView = doubleItemView.findViewById(R.id.double_image_recycler_view);
                 LinearLayoutManager layoutManager3= new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false);
                 doubleItemRecyclerView.setLayoutManager(layoutManager3);
@@ -190,6 +257,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 tripleItemView.setLayoutParams(params4);
                 parent.addView(tripleItemView);
 
+                tripleItemView.findViewById(R.id.triple_image_header).setOnTouchListener(this);
                 RecyclerView tripleItemRecyclerView = tripleItemView.findViewById(R.id.triple_image_recycler_view);
                 LinearLayoutManager layoutManager4 = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
                 tripleItemRecyclerView.setLayoutManager(layoutManager4);
@@ -198,6 +266,8 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 tripleItemRecyclerView.setAdapter(adapter4);
                 tripleItemRecyclerView.addItemDecoration(new SpacesItemDecoration((int)dpToPx(10)));
         }
+
+        updateParentHeight();
 
     }
 
@@ -243,5 +313,19 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         views.set(v1,views.get(v2));
         views.set(v2,v);
         return views;
+    }
+
+    private void deleteView(int id){
+        parent.removeViewAt(id);
+        views.remove(id);
+    }
+
+    private void updateParentHeight(){
+        ViewGroup.LayoutParams params =  parent.getLayoutParams();
+        int height = 0;
+        for(int i=0;i<views.size();i++){
+            height+=views.get(i).getLayoutParams().height;
+        }
+        params.height = height;
     }
 }
