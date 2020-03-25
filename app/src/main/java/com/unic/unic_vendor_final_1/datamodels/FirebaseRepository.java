@@ -46,7 +46,7 @@ public class FirebaseRepository {
 
     public Task<Void> saveUser(User user){
         mUser = FirebaseAuth.getInstance().getCurrentUser();
-        return db.collection("users").document().set(user);
+        return db.collection("users").document(user.getId()).set(user);
     }
 
     public DocumentReference getUser(){
