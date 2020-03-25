@@ -50,6 +50,9 @@ public class MyAppsFragment extends Fragment implements View.OnClickListener{
                 adapter.notifyDataSetChanged();
             }
         });
+
+        recyclerView.setAdapter(adapter);
+
         view.findViewById(R.id.btn_add_shop).setOnClickListener(this);
         return view;
     }

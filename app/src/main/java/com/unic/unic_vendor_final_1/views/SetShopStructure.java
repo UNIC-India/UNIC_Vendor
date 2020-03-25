@@ -1,6 +1,7 @@
 package com.unic.unic_vendor_final_1.views;
 
 import android.app.Dialog;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -43,13 +44,34 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
     private SetStructureViewModel setStructureViewModel;
     ArrayList<String> categories = new ArrayList<String>();
-    ArrayList<String> selectedProducts = new ArrayList<>();
+    ArrayList<String> selectedProductIDs = new ArrayList<>();
+    ArrayList<Map<String,Object>> selectedProducts = new ArrayList<>();
     ArrayList<String> selectedImages = new ArrayList<>();
     ProductListAdapter productListAdapter = new ProductListAdapter(this);
 
     ViewGroup parent;
     ArrayList<View> views = new ArrayList<>();
     int prevY;
+
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
+
+        public SpacesItemDecoration(int space) {
+            this.space = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view,
+                                   RecyclerView parent, RecyclerView.State state) {
+
+            // Add top margin only for the first item to avoid double space between items
+            if (parent.getChildLayoutPosition(view) == 0) {
+                outRect.left = 0;
+            } else {
+                outRect.left = space;
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +142,8 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 });
                 break;
             case R.id.finish_adding_product:
-                selectedProducts =  productListAdapter.returnSelectedProducts();
+                selectedProductIDs =  productListAdapter.returnSelectedProductIDs();
+                selectedProducts = productListAdapter.returnSelectedProducts();
                 isDataAcquired = true;
                 setStructureBinding.dataTableSelector.setVisibility(View.GONE);
                 setStructureBinding.viewInflater.setVisibility(View.VISIBLE);
@@ -141,7 +164,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         switch(id){
             case 2:
                 View doubleItemView = LayoutInflater.from(this).inflate(R.layout.double_image_view,null);
-                doubleItemView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(350)));
+                doubleItemView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(360)));
                 views.add(doubleItemView);
 
                 RelativeLayout.LayoutParams params3 = (RelativeLayout.LayoutParams)doubleItemView.getLayoutParams();
@@ -153,12 +176,13 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 LinearLayoutManager layoutManager3= new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false);
                 doubleItemRecyclerView.setLayoutManager(layoutManager3);
                 DoubleImageAdapter adapter3 = new DoubleImageAdapter(this);
-                adapter3.setProducts(products);
+                adapter3.setProducts(selectedProducts);
                 doubleItemRecyclerView.setAdapter(adapter3);
+                doubleItemRecyclerView.addItemDecoration(new SpacesItemDecoration((int)dpToPx(10)));
                 break;
             case 3:
                 View tripleItemView = LayoutInflater.from(this).inflate(R.layout.triple_image_view,null);
-                tripleItemView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(243)));
+                tripleItemView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(253)));
                 views.add(tripleItemView);
 
                 RelativeLayout.LayoutParams params4 = (RelativeLayout.LayoutParams) tripleItemView.getLayoutParams();
@@ -170,14 +194,15 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 LinearLayoutManager layoutManager4 = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
                 tripleItemRecyclerView.setLayoutManager(layoutManager4);
                 TripleImageAdapter adapter4 = new TripleImageAdapter(this);
-                adapter4.setProducts(products);
+                adapter4.setProducts(selectedProducts);
                 tripleItemRecyclerView.setAdapter(adapter4);
+                tripleItemRecyclerView.addItemDecoration(new SpacesItemDecoration((int)dpToPx(10)));
         }
 
     }
 
     private void getDisplayData(int id){
-        selectedProducts.clear();
+        selectedProductIDs.clear();
         selectedImages.clear();
         setStructureBinding.viewInflater.setVisibility(View.GONE);
         setStructureBinding.dataTableSelector.setVisibility(View.VISIBLE);
@@ -203,7 +228,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         setStructureBinding.dataSelectorRecyclerView.setLayoutManager(layoutManager);
         productListAdapter.setProducts(products);
         setStructureBinding.dataSelectorRecyclerView.setAdapter(productListAdapter);
-        isDataAcquired = true;
     }
 
     private float dpToPx(int dp){

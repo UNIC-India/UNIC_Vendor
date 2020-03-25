@@ -59,7 +59,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return shops.size();
+        return shops==null?0:shops.size();
     }
 
     public void setShops(List<Shop> shops) {

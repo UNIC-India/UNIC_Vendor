@@ -30,7 +30,7 @@ public class FirebaseRepository {
                 phoneNumber,        // Phone number to verify
                 60,                 // Timeout duration
                 TimeUnit.SECONDS,   // Unit of timeout
-                TaskExecutors.MAIN_THREAD,               // Activity (for callback binding)
+                TaskExecutors.MAIN_THREAD,// Activity (for callback binding)
                 mCallbacks);        // OnVerificationStateChangedCallbacks
     }
     public void resendVerificationCode(String phoneNumber,
@@ -49,8 +49,8 @@ public class FirebaseRepository {
         return db.collection("users").document(mUser.getUid()).set(user);
     }
 
-    public Task<DocumentSnapshot> getUser(){
-        return db.collection("users").document(mUser.getUid()).get();
+    public DocumentReference getUser(){
+        return db.collection("users").document(mUser.getUid());
     }
 
     public Query getAllShops(String ownerID){

@@ -1,13 +1,13 @@
 package com.unic.unic_vendor_final_1.datamodels;
 
 public class User {
-    private String fullName,Email,phoneNo;
+    private String fullName,email,phoneNo;
 
     public User(){}
 
-    public User(String fullName,String Email,String phoneNo){
+    public User(String fullName,String email,String phoneNo){
         this.fullName = fullName;
-        this.Email = Email;
+        this.email = email;
         this.phoneNo = phoneNo;
     }
 
@@ -16,7 +16,7 @@ public class User {
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public String getPhoneNo() {

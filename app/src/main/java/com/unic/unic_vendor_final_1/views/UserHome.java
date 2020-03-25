@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -74,6 +75,12 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        firestoreDataViewModel.getUserData();
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Fragment fragment = null;
         int id = menuItem.getItemId();
@@ -120,8 +127,13 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
 
     public void setUser(User user) {
         this.user = user;
+        populateHeader();
     }
 
     private void populateHeader(){
+
+        ((TextView)findViewById(R.id.user_FullName)).setText(user.getFullName());
+        ((TextView)findViewById(R.id.user_Email)).setText(user.getEmail());
+
     }
 }

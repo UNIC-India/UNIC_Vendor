@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     private Context mContext;
     private List<Map<String,Object>> products;
-    private ArrayList<String> checkedProducts = new ArrayList<>();
+    private ArrayList<String> checkedProductIDs = new ArrayList<>();
 
     public ProductListAdapter(Context context){
         this.mContext = context;
@@ -63,9 +64,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if(isChecked)
-                    checkedProducts.add(products.get(position).get("id").toString());
+                    checkedProductIDs.add(products.get(position).get("id").toString());
                 else
-                    checkedProducts.remove(products.get(position).get("id").toString());
+                    checkedProductIDs.remove(products.get(position).get("id").toString());
             }
         });
     }
@@ -79,7 +80,21 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         this.products = products;
     }
 
-    public ArrayList<String> returnSelectedProducts(){
+    public ArrayList<String> returnSelectedProductIDs(){
+        return checkedProductIDs;
+    }
+
+    public ArrayList<Map<String,Object>> returnSelectedProducts(){
+
+        ArrayList<Map<String,Object>> checkedProducts = new ArrayList<>();
+
+        for(int i=0;i<products.size();i++){
+            if (checkedProductIDs.contains(products.get(i).get("id").toString())) {
+
+                Map<String, Object> data = new HashMap<>(products.get(i));
+                checkedProducts.add(data);
+            }
+        }
         return checkedProducts;
     }
 }

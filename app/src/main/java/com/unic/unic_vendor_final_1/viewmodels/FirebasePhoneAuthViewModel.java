@@ -46,6 +46,7 @@ public class FirebasePhoneAuthViewModel extends ViewModel {
     }
 
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
         @Override
         public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
             signInWithPhoneAuthCredential(phoneAuthCredential);

@@ -48,13 +48,12 @@ public class UserShopsViewModel extends ViewModel {
     }
 
     public void getUser(){
-        firebaseRepository.getUser()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        mUser.setValue(documentSnapshot.toObject(User.class));
-                    }
-                });
+        firebaseRepository.getUser().addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                mUser.setValue(documentSnapshot.toObject(User.class));
+            }
+        });
     }
 
 }
