@@ -49,7 +49,6 @@ public class FirebasePhoneAuthViewModel extends ViewModel {
 
         @Override
         public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-            String method = phoneAuthCredential.getSignInMethod();
             signInWithPhoneAuthCredential(phoneAuthCredential);
             SMSCode.setValue(phoneAuthCredential.getSmsCode());
 

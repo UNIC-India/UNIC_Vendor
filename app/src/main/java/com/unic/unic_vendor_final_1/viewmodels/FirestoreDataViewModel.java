@@ -14,11 +14,12 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.unic.unic_vendor_final_1.datamodels.FirebaseRepository;
 import com.unic.unic_vendor_final_1.datamodels.User;
 
+import java.io.File;
+
 public class FirestoreDataViewModel extends ViewModel {
 
     private MutableLiveData<Integer> userStatus = new MutableLiveData<>();
     private MutableLiveData<User> user = new MutableLiveData<>();
-
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
@@ -45,6 +46,10 @@ public class FirestoreDataViewModel extends ViewModel {
                 user.setValue(documentSnapshot.toObject(User.class));
             }
         });
+    }
+
+    public  void getSplashImage(){
+
     }
 
     public LiveData<Integer> getUserStatus(){
