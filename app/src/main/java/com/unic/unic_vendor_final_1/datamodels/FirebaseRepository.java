@@ -97,6 +97,14 @@ public class FirebaseRepository {
         return db.collection("products").whereEqualTo("shopId",shopId);
     }
 
+    public Task<Void> setUserSplashStatus(String Uid,int status){
+        return db.collection("imp_data").document(Uid).update("status",status);
+    }
+
+    public Task<DocumentSnapshot> getUserSplashStatus(){
+        return db.collection("imp_data").document(mUser.getUid()).get();
+    }
+
     public String getUserId(){
         return mUser.getUid();
     }
