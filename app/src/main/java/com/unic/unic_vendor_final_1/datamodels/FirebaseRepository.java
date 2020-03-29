@@ -102,6 +102,8 @@ public class FirebaseRepository {
     }
 
     public Task<DocumentSnapshot> getUserSplashStatus(){
+        if (mUser == null)
+            throw new NullPointerException();
         return db.collection("imp_data").document(mUser.getUid()).get();
     }
 

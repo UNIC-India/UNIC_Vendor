@@ -55,20 +55,28 @@ public class FirestoreDataViewModel extends ViewModel {
     }
 
     public LiveData<Integer> getUserSplashStatus(){
-        firebaseRepository.getUserSplashStatus()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    userSplashStatus.setValue((Integer) documentSnapshot.get("status"));
-                }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        userStatus.setValue(-1);
-                    }
-                });
+
+        try {
+
+            firebaseRepository.getUserSplashStatus()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            userSplashStatus.setValue((Integer) documentSnapshot.get("status"));
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            userStatus.setValue(-1);
+                        }
+                    });
+        }
+        catch (NullPointerException e){
+            userSplashStatus.setValue(-1);
+        }
         return userSplashStatus;
+
     }
 
     public LiveData<Integer> getUserStatus(){
