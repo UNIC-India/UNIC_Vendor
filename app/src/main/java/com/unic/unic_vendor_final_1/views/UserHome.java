@@ -132,8 +132,8 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
 
     private void populateHeader(){
 
-        ((TextView)findViewById(R.id.user_FullName)).setText(user.getFullName());
-        ((TextView)findViewById(R.id.user_Email)).setText(user.getEmail());
+        ((TextView)findViewById(R.id.user_FullName)).setText(user.getFullName()==null?"Not received yet":user.getFullName());
+        ((TextView)findViewById(R.id.user_Email)).setText(user.getEmail()==null?"Not received yet":user.getEmail());
 
     }
 }
