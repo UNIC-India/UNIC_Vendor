@@ -11,6 +11,7 @@ import android.os.Handler;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -38,20 +39,32 @@ public class SplashScreen extends AppCompatActivity {
 
         file = new File(getCacheDir() + "splashimage.jpg");
 
-        vm.getUserSplashStatus().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                if(!file.exists()||integer==1){
-                    FirebaseStorage.getInstance().getReference().child("splashimage.jpg");
-                }
 
-                Glide.with(SplashScreen.this)
-                        .load(file)
-                        .into(splashScreenBinding.icon);
-            }
-        });
 
         final boolean isUserOnline = mAuth.getCurrentUser()!=null&&!mAuth.getCurrentUser().isAnonymous();
+
+        if(isUserOnline){
+            vm.getUserSplashStatus(mAuth.getUid()).observe(this, new Observer<Integer>() {
+                @Override
+                public void onChanged(Integer integer) {
+                //    if(integer==null)
+                //        return;
+                    if(!file.exists()||integer==1){
+                        FirebaseStorage.getInstance().getReference().child("splashimage.jpg").getFile(file);
+                        Glide
+                                .with(SplashScreen.this)
+                                .load(file)
+                                .into(splashScreenBinding.icon);
+                    }
+                }
+            });
+        }
+        else {
+            splashScreenBinding.icon.setImageResource(R.drawable.logonotext);
+
+        }
+
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

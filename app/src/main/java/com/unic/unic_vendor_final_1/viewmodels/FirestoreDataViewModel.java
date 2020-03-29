@@ -12,6 +12,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.unic.unic_vendor_final_1.datamodels.FirebaseRepository;
+import com.unic.unic_vendor_final_1.datamodels.Structure;
 import com.unic.unic_vendor_final_1.datamodels.User;
 
 import java.io.File;
@@ -50,31 +51,32 @@ public class FirestoreDataViewModel extends ViewModel {
         });
     }
 
-    public void setUserSplashStatus(String Uid){
-        firebaseRepository.setUserSplashStatus(Uid,1);
+    private void setUserSplashStatus(String Uid){
+        firebaseRepository.setUserSplashStatus(Uid,1).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+        });
     }
 
-    public LiveData<Integer> getUserSplashStatus(){
+    public LiveData<Integer> getUserSplashStatus(String Uid){
 
-        try {
+        firebaseRepository.getUserSplashStatus(Uid)
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if(documentSnapshot.exists())
+                            userSplashStatus.setValue(Integer.valueOf(documentSnapshot.get("status").toString()));
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        userStatus.setValue(-1);
+                    }
+                });
 
-            firebaseRepository.getUserSplashStatus()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            userSplashStatus.setValue((Integer) documentSnapshot.get("status"));
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            userStatus.setValue(-1);
-                        }
-                    });
-        }
-        catch (NullPointerException e){
-            userSplashStatus.setValue(-1);
-        }
         return userSplashStatus;
 
     }
