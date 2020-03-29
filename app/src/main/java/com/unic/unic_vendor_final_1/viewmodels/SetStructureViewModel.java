@@ -14,16 +14,23 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.unic.unic_vendor_final_1.datamodels.FirebaseRepository;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
+import com.unic.unic_vendor_final_1.datamodels.Structure;
+import com.unic.unic_vendor_final_1.datamodels.View;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+
 
 public class SetStructureViewModel extends ViewModel {
 
     private MutableLiveData<Shop> shop = new MutableLiveData<>();
     private MutableLiveData<List<Map<String,Object>>> products = new MutableLiveData<>();
+    private MutableLiveData<Structure> structure = new MutableLiveData<>();
+    private MutableLiveData<List<Object>> adapters = new MutableLiveData<>();
+
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
@@ -70,9 +77,9 @@ public class SetStructureViewModel extends ViewModel {
         MutableLiveData<ArrayList<String>> categories = new MutableLiveData<>();
 
         ArrayList<String> data = new ArrayList<String>();
-        for(int i=0;i<products.getValue().size();i++){
+        for(int i = 0; i< Objects.requireNonNull(products.getValue()).size(); i++){
             String categ;
-            categ = products.getValue().get(i).get("category").toString();
+            categ = Objects.requireNonNull(products.getValue().get(i).get("category")).toString();
             if(data.contains(categ))
                  continue;
             data.add(categ);
@@ -81,4 +88,11 @@ public class SetStructureViewModel extends ViewModel {
         return categories;
     }
 
+    public MutableLiveData<List<Object>> getAdapters(){
+        return adapters;
+    }
+
+    public MutableLiveData<Structure> getStructure() {
+        return structure;
+    }
 }
