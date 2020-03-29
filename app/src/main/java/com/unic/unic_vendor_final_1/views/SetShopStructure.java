@@ -36,6 +36,26 @@ import java.util.Map;
 
 public class SetShopStructure extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
+    static class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
+
+        SpacesItemDecoration(int space) {
+            this.space = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view,
+                                   RecyclerView parent, RecyclerView.State state) {
+
+            // Add top margin only for the first item to avoid double space between items
+            if (parent.getChildLayoutPosition(view) == 0) {
+                outRect.left = 0;
+            } else {
+                outRect.left = space;
+            }
+        }
+    }
+
     private Shop shop;
     private List<Map<String,Object>> products;
 
@@ -53,26 +73,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     ViewGroup parent;
     ArrayList<View> views = new ArrayList<>();
     int prevY;
-
-    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
-
-        public SpacesItemDecoration(int space) {
-            this.space = space;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view,
-                                   RecyclerView parent, RecyclerView.State state) {
-
-            // Add top margin only for the first item to avoid double space between items
-            if (parent.getChildLayoutPosition(view) == 0) {
-                outRect.left = 0;
-            } else {
-                outRect.left = space;
-            }
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -245,7 +245,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 DoubleImageAdapter adapter3 = new DoubleImageAdapter(this);
                 adapter3.setProducts(selectedProducts);
                 doubleItemRecyclerView.setAdapter(adapter3);
-                doubleItemRecyclerView.addItemDecoration(new SpacesItemDecoration((int)dpToPx(10)));
+                doubleItemRecyclerView.addItemDecoration(new SpacesItemDecoration((int) dpToPx(10)));
                 break;
             case 3:
                 View tripleItemView = LayoutInflater.from(this).inflate(R.layout.triple_image_view,null);
@@ -264,7 +264,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 TripleImageAdapter adapter4 = new TripleImageAdapter(this);
                 adapter4.setProducts(selectedProducts);
                 tripleItemRecyclerView.setAdapter(adapter4);
-                tripleItemRecyclerView.addItemDecoration(new SpacesItemDecoration((int)dpToPx(10)));
+                tripleItemRecyclerView.addItemDecoration(new SpacesItemDecoration((int) dpToPx(10)));
         }
 
         updateParentHeight();

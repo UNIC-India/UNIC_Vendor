@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
@@ -47,6 +48,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         setContentView(userHomeBinding.getRoot());
 
         firestoreDataViewModel = ViewModelProviders.of(this).get(FirestoreDataViewModel.class);
+        firestoreDataViewModel.getUserData();
         firestoreDataViewModel.getUser().observe(this, new Observer<User>() {
             @Override
             public void onChanged(User user) {
@@ -77,7 +79,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     protected void onStart() {
         super.onStart();
-        firestoreDataViewModel.getUserData();
+        populateHeader();
     }
 
     @Override
@@ -132,8 +134,13 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
 
     private void populateHeader(){
 
-        ((TextView)findViewById(R.id.user_FullName)).setText(user.getFullName()==null?"Not received yet":user.getFullName());
-        ((TextView)findViewById(R.id.user_Email)).setText(user.getEmail()==null?"Not received yet":user.getEmail());
+        View header =navigationView.getHeaderView(0);
+
+        TextView tvFullName = header.findViewById(R.id.user_FullName);
+        TextView tvEmail = header.findViewById(R.id.user_Email);
+
+        tvFullName.setText(user!=null?user.getFullName():"Not received yet");
+        tvEmail.setText(user!=null?user.getFullName():"Not received yet");
 
     }
 }
