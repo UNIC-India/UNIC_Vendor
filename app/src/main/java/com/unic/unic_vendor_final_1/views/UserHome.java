@@ -140,7 +140,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         TextView tvEmail = header.findViewById(R.id.user_Email);
 
         tvFullName.setText(user!=null?user.getFullName():"Not received yet");
-        tvEmail.setText(user!=null?user.getFullName():"Not received yet");
+        tvEmail.setText(user!=null?user.getEmail():"Not received yet");
 
     }
 }

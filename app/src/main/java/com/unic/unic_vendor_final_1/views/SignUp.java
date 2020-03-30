@@ -52,8 +52,10 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                 if(integer==-1){
                     updateUI(integer);
                 }
-                else startActivity(new Intent(SignUp.this,UserHome.class));
-                finish();
+                else if(integer==1){
+                    startActivity(new Intent(SignUp.this,UserHome.class));
+                    finish();
+                }
             }
         });
 
