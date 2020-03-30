@@ -1,5 +1,7 @@
 package com.unic.unic_vendor_final_1.viewmodels;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -30,8 +32,7 @@ public class FirestoreDataViewModel extends ViewModel {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        userStatus.setValue(1);
-                        setUserSplashStatus(user.getId());
+                        setUserSplashStatus(user.getId(),1,true);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -51,11 +52,18 @@ public class FirestoreDataViewModel extends ViewModel {
         });
     }
 
-    private void setUserSplashStatus(String Uid){
-        firebaseRepository.setUserSplashStatus(Uid,1).addOnSuccessListener(new OnSuccessListener<Void>() {
+    public void setUserSplashStatus(String Uid, final int status,boolean isNewUser){
+        firebaseRepository.setUserSplashStatus(Uid,status,isNewUser).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-
+                if(status==1)
+                    userStatus.setValue(1);
+            }
+        })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("AddUser",e.toString());
             }
         });
     }

@@ -5,8 +5,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -20,6 +24,8 @@ import com.unic.unic_vendor_final_1.databinding.ActivitySplashScreenBinding;
 import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -33,29 +39,55 @@ public class SplashScreen extends AppCompatActivity {
         splashScreenBinding = ActivitySplashScreenBinding.inflate(getLayoutInflater());
         setContentView(splashScreenBinding.getRoot());
 
-        FirestoreDataViewModel vm = ViewModelProviders.of(this).get(FirestoreDataViewModel.class);
+        final FirestoreDataViewModel vm = ViewModelProviders.of(this).get(FirestoreDataViewModel.class);
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-        file = new File(getCacheDir() + "splashimage.jpg");
+        file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/splashimage.jpg");
 
 
 
         final boolean isUserOnline = mAuth.getCurrentUser()!=null&&!mAuth.getCurrentUser().isAnonymous();
 
         if(isUserOnline){
+
+            try{
+                splashScreenBinding.icon.setImageBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             vm.getUserSplashStatus(mAuth.getUid()).observe(this, new Observer<Integer>() {
                 @Override
                 public void onChanged(Integer integer) {
                 //    if(integer==null)
                 //        return;
                     if(!file.exists()||integer==1){
-                        FirebaseStorage.getInstance().getReference().child("splashimage.jpg").getFile(file);
-                        Glide
-                                .with(SplashScreen.this)
-                                .load(file)
-                                .into(splashScreenBinding.icon);
+                        boolean bool = file.delete();
+                        //deleteFile(getExternalFilesDir(Environment.DIRECTORY_PICTURES)+"/splashimage.jpg");
+                        FirebaseStorage.getInstance().getReference().child("splashimage.jpg").getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                Toast.makeText(SplashScreen.this, "New image received", Toast.LENGTH_SHORT).show();
+                                try{
+                                    splashScreenBinding.icon.setImageBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file)));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
+                        vm.setUserSplashStatus(mAuth.getUid(),0,false);
                     }
+                    else if(integer==0){
+                        try{
+                            splashScreenBinding.icon.setImageBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file)));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    else
+                        splashScreenBinding.icon.setImageResource(R.drawable.logonotext);
                 }
             });
         }
