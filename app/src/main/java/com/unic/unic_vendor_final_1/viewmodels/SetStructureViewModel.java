@@ -147,4 +147,8 @@ public class SetStructureViewModel extends ViewModel {
     public MutableLiveData<ArrayList<View>> getViews() {
         return views;
     }
+
+    public LiveData<Integer> getStructureSaveStatus() {
+        return structureSaveStatus;
+    }
 }

@@ -1,6 +1,7 @@
 package com.unic.unic_vendor_final_1.views.activities;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -109,8 +110,18 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 setStructure(structure);
             }
         });
+        setStructureViewModel.getStructureSaveStatus().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if(integer==1)
+                    Toast.makeText(SetShopStructure.this, "Structure saved!", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(SetShopStructure.this,UserHome.class));
+                    finish();
+            }
+        });
         setStructureBinding.addView.setOnClickListener(this);
         setStructureBinding.finishAddingProduct.setOnClickListener(this);
+        setStructureBinding.finishShopAddition.setOnClickListener(this);
         parent = findViewById(R.id.view_inflater);
     }
 
