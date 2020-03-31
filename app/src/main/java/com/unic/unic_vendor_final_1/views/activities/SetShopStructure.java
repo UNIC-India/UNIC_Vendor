@@ -271,7 +271,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 doubleImagesViewClass.setViewId("22"+Integer.valueOf(views.size()).toString());
                 doubleImagesViewClass.setFields("imageId,name,price");
                 doubleImagesViewClass.setProducts(selectedProductIDs);
-                doubleImagesViewClass.setHeight(doubleItemView.getLayoutParams().height);
+                doubleImagesViewClass.setHeight(360);
                 doubleImagesViewClass.setPos(views.size()-1);
                 doubleImagesViewClass.setyPos(params3.topMargin);
 
@@ -300,7 +300,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 tripleImagesViewClass.setViewId("23"+Integer.valueOf(views.size()).toString());
                 tripleImagesViewClass.setFields("imageId,name,price");
                 tripleImagesViewClass.setProducts(selectedProductIDs);
-                tripleImagesViewClass.setHeight(tripleItemView.getLayoutParams().height);
+                tripleImagesViewClass.setHeight(253);
                 tripleImagesViewClass.setPos(views.size()-1);
                 tripleImagesViewClass.setyPos(params4.topMargin);
 

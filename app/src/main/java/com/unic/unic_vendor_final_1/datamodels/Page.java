@@ -46,5 +46,14 @@ public class Page {
 
     public void addView(View view){
         this.views.add(view);
+
+    }
+
+    private void updateHeight(){
+        int height = 0;
+        for(int i=0;i<views.size();i++){
+            height+=views.get(i).getHeight();
+        }
+        this.setSize(height);
     }
 }
