@@ -12,19 +12,17 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.ActivitySplashScreenBinding;
 import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
+import com.unic.unic_vendor_final_1.views.activities.UserHome;
+import com.unic.unic_vendor_final_1.views.activities.Welcome;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class SplashScreen extends AppCompatActivity {
@@ -103,9 +101,9 @@ public class SplashScreen extends AppCompatActivity {
             public void run() {
                 Intent intent;
                 if(isUserOnline)
-                    intent = new Intent(SplashScreen.this,UserHome.class);
+                    intent = new Intent(SplashScreen.this, UserHome.class);
                 else
-                    intent = new Intent(SplashScreen.this,Welcome.class);
+                    intent = new Intent(SplashScreen.this, Welcome.class);
                 startActivity(intent);
                 finish();
             }

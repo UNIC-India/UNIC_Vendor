@@ -1,4 +1,4 @@
-package com.unic.unic_vendor_final_1.views;
+package com.unic.unic_vendor_final_1.views.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;

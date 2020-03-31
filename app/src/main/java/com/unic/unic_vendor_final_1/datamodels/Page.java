@@ -9,6 +9,7 @@ public class Page {
 
     public Page(){
         this.pageId = 0;
+        views = new ArrayList<>();
     }
 
     public int getPageId() {

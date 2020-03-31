@@ -1,4 +1,4 @@
-package com.unic.unic_vendor_final_1.views;
+package com.unic.unic_vendor_final_1.views.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -23,7 +23,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.ActivityUserHomeBinding;
-import com.unic.unic_vendor_final_1.databinding.AppBarHomeBinding;
 import com.unic.unic_vendor_final_1.datamodels.User;
 import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
 import com.unic.unic_vendor_final_1.views.nav_fragments.HomeFragment;
