@@ -11,6 +11,7 @@ public class Structure {
     public Structure(String shopId){
         this.shopId = shopId;
         this.pages = new ArrayList<>();
+        this.pages.add(new Page());
     }
 
     public ArrayList<Page> getPages() {

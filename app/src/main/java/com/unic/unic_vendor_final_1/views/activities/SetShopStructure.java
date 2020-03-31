@@ -1,4 +1,4 @@
-package com.unic.unic_vendor_final_1.views;
+package com.unic.unic_vendor_final_1.views.activities;
 
 import android.app.Dialog;
 import android.graphics.Rect;
@@ -27,6 +27,7 @@ import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductListAda
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.TripleImageAdapter;
 import com.unic.unic_vendor_final_1.databinding.ActivitySetShopStructureBinding;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
+import com.unic.unic_vendor_final_1.datamodels.Structure;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 
 import java.util.ArrayList;
@@ -69,6 +70,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     ArrayList<Map<String,Object>> selectedProducts = new ArrayList<>();
     ArrayList<String> selectedImages = new ArrayList<>();
     ProductListAdapter productListAdapter = new ProductListAdapter(this);
+    private Structure structure;
 
     ViewGroup parent;
     ArrayList<View> views = new ArrayList<>();
@@ -81,6 +83,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         setContentView(setStructureBinding.getRoot());
 
         setStructureViewModel = ViewModelProviders.of(this).get(SetStructureViewModel.class);
+        setStructureViewModel.getShopData(getIntent().getStringExtra("shopId"));
         setStructureViewModel.getShop().observe(this, new Observer<Shop>() {
             @Override
             public void onChanged(Shop shop) {
@@ -100,9 +103,14 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 }
             }
         });
+        setStructureViewModel.getStructure().observe(this, new Observer<Structure>() {
+            @Override
+            public void onChanged(Structure structure) {
+                setStructure(structure);
+            }
+        });
         setStructureBinding.addView.setOnClickListener(this);
         setStructureBinding.finishAddingProduct.setOnClickListener(this);
-        setStructureViewModel.getShopData(getIntent().getStringExtra("shopId"));
         parent = findViewById(R.id.view_inflater);
     }
 
@@ -150,8 +158,9 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 setStructureBinding.viewInflater.setVisibility(View.VISIBLE);
                 addView(checkedId);
                 break;
-
-
+            case R.id.finish_shop_addition:
+                setStructureViewModel.uploadShopStructure(structure);
+                break;
         }
     }
 
@@ -246,6 +255,16 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 adapter3.setProducts(selectedProducts);
                 doubleItemRecyclerView.setAdapter(adapter3);
                 doubleItemRecyclerView.addItemDecoration(new SpacesItemDecoration((int) dpToPx(10)));
+
+                com.unic.unic_vendor_final_1.datamodels.View doubleImagesViewClass = new com.unic.unic_vendor_final_1.datamodels.View();
+                doubleImagesViewClass.setViewId("22"+Integer.valueOf(views.size()).toString());
+                doubleImagesViewClass.setFields("imageId,name,price");
+                doubleImagesViewClass.setProducts(selectedProductIDs);
+                doubleImagesViewClass.setHeight(doubleItemView.getLayoutParams().height);
+                doubleImagesViewClass.setPos(views.size()-1);
+                doubleImagesViewClass.setyPos(params3.topMargin);
+
+                structure.addView(doubleImagesViewClass);
                 break;
             case 3:
                 View tripleItemView = LayoutInflater.from(this).inflate(R.layout.triple_image_view,null);
@@ -265,9 +284,20 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 adapter4.setProducts(selectedProducts);
                 tripleItemRecyclerView.setAdapter(adapter4);
                 tripleItemRecyclerView.addItemDecoration(new SpacesItemDecoration((int) dpToPx(10)));
+
+                com.unic.unic_vendor_final_1.datamodels.View tripleImagesViewClass = new com.unic.unic_vendor_final_1.datamodels.View();
+                tripleImagesViewClass.setViewId("23"+Integer.valueOf(views.size()).toString());
+                tripleImagesViewClass.setFields("imageId,name,price");
+                tripleImagesViewClass.setProducts(selectedProductIDs);
+                tripleImagesViewClass.setHeight(tripleItemView.getLayoutParams().height);
+                tripleImagesViewClass.setPos(views.size()-1);
+                tripleImagesViewClass.setyPos(params4.topMargin);
+
+                structure.addView(tripleImagesViewClass);
         }
 
         updateParentHeight();
+        setStructureViewModel.getStructure().setValue(structure);
 
     }
 
@@ -326,6 +356,10 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         for(int i=0;i<views.size();i++){
             height+=views.get(i).getLayoutParams().height;
         }
-        params.height = height;
+        params.height = height+(int)dpToPx(50);
+    }
+
+    private void setStructure(Structure structure){
+        this.structure = structure;
     }
 }

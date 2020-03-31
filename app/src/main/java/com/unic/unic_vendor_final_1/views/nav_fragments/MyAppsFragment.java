@@ -18,7 +18,7 @@ import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.ShopAdapter;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
-import com.unic.unic_vendor_final_1.views.AddShop;
+import com.unic.unic_vendor_final_1.views.activities.AddShop;
 
 import java.util.List;
 

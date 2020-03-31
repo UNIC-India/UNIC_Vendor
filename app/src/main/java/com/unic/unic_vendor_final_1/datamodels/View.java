@@ -68,4 +68,13 @@ public class View {
     public void setyPos(int yPos) {
         this.yPos = yPos;
     }
+
+    public List<String> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<String> products) {
+        this.products = products;
+    }
+
 }

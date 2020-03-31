@@ -116,4 +116,8 @@ public class FirebaseRepository {
         return mUser.getUid();
     }
 
+    public Task<Void> saveShopStructure(Structure structure){
+        return db.collection("structures").document(structure.getShopId()).set(structure);
+    }
+
 }
