@@ -1,10 +1,6 @@
 package com.unic.unic_vendor_final_1.viewmodels;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.renderscript.ScriptGroup;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,7 +18,6 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.unic.unic_vendor_final_1.datamodels.FirebaseRepository;
-import com.unic.unic_vendor_final_1.views.UserHome;
 
 public class FirebasePhoneAuthViewModel extends ViewModel {
 

@@ -1,4 +1,4 @@
-package com.unic.unic_vendor_final_1.views;
+package com.unic.unic_vendor_final_1.views.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -52,8 +52,10 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                 if(integer==-1){
                     updateUI(integer);
                 }
-                else startActivity(new Intent(SignUp.this,UserHome.class));
-                finish();
+                else if(integer==1){
+                    startActivity(new Intent(SignUp.this,UserHome.class));
+                    finish();
+                }
             }
         });
 

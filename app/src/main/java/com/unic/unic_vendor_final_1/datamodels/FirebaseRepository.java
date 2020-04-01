@@ -17,6 +17,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class FirebaseRepository {
@@ -97,8 +98,26 @@ public class FirebaseRepository {
         return db.collection("products").whereEqualTo("shopId",shopId);
     }
 
+    public Task<Void> setUserSplashStatus(String Uid,int status,boolean isNewUser){
+        if(isNewUser){
+            HashMap<String,Object> data = new HashMap<>();
+            data.put("status",1);
+            return db.collection("imp_data").document(Uid).set(data);
+        }
+        else
+            return db.collection("imp_data").document(Uid).update("status",status);
+    }
+
+    public Task<DocumentSnapshot> getUserSplashStatus(String Uid){
+        return db.collection("imp_data").document(Uid).get();
+    }
+
     public String getUserId(){
         return mUser.getUid();
+    }
+
+    public Task<Void> saveShopStructure(Structure structure){
+        return db.collection("structures").document(structure.getShopId()).set(structure);
     }
 
 }

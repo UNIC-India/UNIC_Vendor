@@ -1,4 +1,4 @@
-package com.unic.unic_vendor_final_1.views;
+package com.unic.unic_vendor_final_1.views.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
@@ -22,7 +23,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.ActivityUserHomeBinding;
-import com.unic.unic_vendor_final_1.databinding.AppBarHomeBinding;
 import com.unic.unic_vendor_final_1.datamodels.User;
 import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
 import com.unic.unic_vendor_final_1.views.nav_fragments.HomeFragment;
@@ -47,6 +47,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         setContentView(userHomeBinding.getRoot());
 
         firestoreDataViewModel = ViewModelProviders.of(this).get(FirestoreDataViewModel.class);
+        firestoreDataViewModel.getUserData();
         firestoreDataViewModel.getUser().observe(this, new Observer<User>() {
             @Override
             public void onChanged(User user) {
@@ -77,7 +78,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     protected void onStart() {
         super.onStart();
-        firestoreDataViewModel.getUserData();
+        populateHeader();
     }
 
     @Override
@@ -132,8 +133,13 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
 
     private void populateHeader(){
 
-        ((TextView)findViewById(R.id.user_FullName)).setText(user.getFullName());
-        ((TextView)findViewById(R.id.user_Email)).setText(user.getEmail());
+        View header =navigationView.getHeaderView(0);
+
+        TextView tvFullName = header.findViewById(R.id.user_FullName);
+        TextView tvEmail = header.findViewById(R.id.user_Email);
+
+        tvFullName.setText(user!=null?user.getFullName():"Not received yet");
+        tvEmail.setText(user!=null?user.getEmail():"Not received yet");
 
     }
 }

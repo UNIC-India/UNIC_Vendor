@@ -38,6 +38,7 @@ public class UserShopsViewModel extends ViewModel {
                     return;
                 }
                 ArrayList<Shop> data = new ArrayList<>();
+                assert snapshots != null;
                 for(DocumentSnapshot doc : snapshots.getDocuments())
                     data.add(doc.toObject(Shop.class));
 
