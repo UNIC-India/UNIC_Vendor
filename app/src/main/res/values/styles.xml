@@ -56,7 +56,9 @@
         <item name="fontFamily">@font/montserrat_bold_normal</item>
         <item name="android:textColor">@color/light_gray</item>
     </style>
-
+    <style name="clickTheme1" >
+        <item name="colorControlHighlight">@color/light_gray</item>
+    </style>
 
 
 </resources>

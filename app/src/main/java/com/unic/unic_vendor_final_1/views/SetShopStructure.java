@@ -1,6 +1,7 @@
 package com.unic.unic_vendor_final_1.views;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -15,6 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -35,9 +37,10 @@ import java.util.List;
 import java.util.Map;
 
 public class SetShopStructure extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
-
+    public static final int ViewId_REQUEST = 1;
     private Shop shop;
     private List<Map<String,Object>> products;
+
 
     private ActivitySetShopStructureBinding setStructureBinding;
     private boolean isDataAcquired = false;
@@ -112,6 +115,24 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
     }
 
+    /**
+     * Dispatch incoming result to the correct fragment.
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==ViewId_REQUEST){
+            if(resultCode==RESULT_OK){
+                checkedId=data.getIntExtra("ID",-1);
+                getDisplayData(checkedId);
+            }
+        }
+    }
+
     private void updateShop(Shop shop){
         this.shop = shop;
     }
@@ -120,6 +141,11 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.add_view:
+                Intent intent=new Intent(this,SelectView.class);
+                startActivityForResult(intent,ViewId_REQUEST);
+
+                break;
+           /* case R.id.add_view:
                 final View popupView = LayoutInflater.from(this).inflate(R.layout.view_selector,null);
                 final PopupWindow popupWindow =new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 popupWindow.setFocusable(true);
@@ -141,7 +167,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
                     }
                 });
-                break;
+                break;*/
             case R.id.finish_adding_product:
                 selectedProductIDs =  productListAdapter.returnSelectedProductIDs();
                 selectedProducts = productListAdapter.returnSelectedProducts();
