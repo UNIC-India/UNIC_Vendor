@@ -55,4 +55,12 @@ public class Structure {
             }
         }
     }
+
+    public Page getPage(int pageId){
+        for(int i=0;i<pages.size();i++){
+            if(pages.get(i).getPageId()==pageId)
+                return pages.get(i);
+        }
+        return null;
+    }
 }

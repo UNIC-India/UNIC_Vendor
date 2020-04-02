@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -148,6 +149,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         updateUI(0);
         setStructureBinding.shopNewPage.setOnClickListener(this);
         setStructureBinding.confirmProductSelection.setOnClickListener(this);
+        setStructureBinding.shopPagesNavView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -171,12 +173,14 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             case R.id.shop_new_page:
                 final View popupView = LayoutInflater.from(this).inflate(R.layout.page_title_selector,null);
                 final PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                popupWindow.showAtLocation(setStructureBinding.getRoot(), Gravity.CENTER,0,0);
+                popupWindow.setFocusable(true);
+                popupWindow.showAtLocation(setStructureBinding.shopPagesLoader, Gravity.CENTER,0,0);
                 popupView.clearFocus();
                 popupView.findViewById(R.id.btn_page_title_confirm).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        structure.addPage("Trial");
+                        String title = ((TextView)popupView.findViewById(R.id.et_page_title_text)).getText().toString();
+                        structure.addPage(title);
                         setStructureViewModel.getStructure().setValue(structure);
                         popupWindow.dismiss();
                     }
@@ -428,16 +432,20 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             shopPagesMenu.add(0,structure.getPages().get(i).getPageId(),Menu.NONE,structure.getPages().get(i).getPageName());
         }
         setStructureBinding.shopPagesNavView.invalidate();
+        setStructureBinding.shopPagesNavView.setNavigationItemSelectedListener(this);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         Fragment fragment = null;
+        int id = item.getItemId();
+        setStructureBinding.shopPagesNavView.setCheckedItem(id);
 
         for(int i=0;i<structure.getPages().size();i++){
             if(structure.getPages().get(i).getPageId()==item.getItemId()){
                 fragment = new ShopPageFragment(structure.getPages().get(i));
+                break;
             }
 
         }
@@ -446,13 +454,12 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             setStructureBinding.shopStructureDrawer.closeDrawers();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(setStructureBinding.shopPagesLoader.getId(),fragment);
+            ft.replace(R.id.shop_pages_loader,fragment);
             ft.commit();
 
             return true;
 
         }
-
         return false;
     }
 
@@ -486,6 +493,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
     private void confirmSelectedProducts(){
         structure.updateProductList(Integer.parseInt(viewAdditionData.get("pageId").toString()),viewAdditionData.get("viewCode").toString(),selectedProductIDs);
+        updateUI(2);
 
     }
 

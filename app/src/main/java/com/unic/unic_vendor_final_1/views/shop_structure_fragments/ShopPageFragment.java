@@ -75,13 +75,14 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener{
         shopPageBinding = FragmentShopPageBinding.inflate(inflater,container,false);
         parent = shopPageBinding.shopViewParent;
         setStructureViewModel = ViewModelProviders.of(getActivity()).get(SetStructureViewModel.class);
+        shopPageBinding.btnAddView.setOnClickListener(this);
         return shopPageBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        view.findViewById(R.id.btn_add_view).setOnClickListener(this);
+        inflateViews();
     }
 
     public void inflateViews(){
@@ -96,7 +97,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener{
                 View doubleImagesView = getLayoutInflater().inflate(R.layout.double_image_view,null);
                 doubleImagesView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
                 RelativeLayout.LayoutParams doubleImagesParams = (RelativeLayout.LayoutParams)doubleImagesView.getLayoutParams();
-                doubleImagesParams.topMargin = view.getyPos();
+                doubleImagesParams.topMargin =(int)dpToPx(view.getyPos());
                 doubleImagesView.setLayoutParams(doubleImagesParams);
                 parent.addView(doubleImagesView);
 
@@ -114,7 +115,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener{
                 View tripleImagesView = getLayoutInflater().inflate(R.layout.triple_image_view,null);
                 tripleImagesView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
                 RelativeLayout.LayoutParams tripleImagesParams = (RelativeLayout.LayoutParams)tripleImagesView.getLayoutParams();
-                tripleImagesParams.topMargin = view.getyPos();
+                tripleImagesParams.topMargin =(int)dpToPx(view.getyPos());
                 tripleImagesView.setLayoutParams(tripleImagesParams);
                 parent.addView(tripleImagesView);
 
@@ -169,6 +170,8 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener{
                         popupWindow.dismiss();
                     }
                 });
+                page = setStructureViewModel.getStructure().getValue().getPage(page.getPageId());
+                inflateViews();
                 break;
             case 23:
                 //TODO
