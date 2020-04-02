@@ -31,6 +31,7 @@ import com.unic.unic_vendor_final_1.databinding.ActivitySetShopStructureBinding;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.datamodels.Structure;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
+import com.unic.unic_vendor_final_1.views.SelectView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +39,6 @@ import java.util.List;
 import java.util.Map;
 
 public class SetShopStructure extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
-<<<<<<< HEAD:app/src/main/java/com/unic/unic_vendor_final_1/views/SetShopStructure.java
     public static final int ViewId_REQUEST = 1;
     private Shop shop;
     private List<Map<String,Object>> products;
@@ -54,16 +54,14 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     ArrayList<Map<String,Object>> selectedProducts = new ArrayList<>();
     ArrayList<String> selectedImages = new ArrayList<>();
     ProductListAdapter productListAdapter = new ProductListAdapter(this);
+    private Structure structure;
 
     ViewGroup parent;
     ArrayList<View> views = new ArrayList<>();
     int prevY;
 
-    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-=======
 
     static class SpacesItemDecoration extends RecyclerView.ItemDecoration {
->>>>>>> 9b60e3931bf2a21247f03d73a127a0b48549f23c:app/src/main/java/com/unic/unic_vendor_final_1/views/activities/SetShopStructure.java
         private int space;
 
         SpacesItemDecoration(int space) {
@@ -82,26 +80,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             }
         }
     }
-
-    private Shop shop;
-    private List<Map<String,Object>> products;
-
-    private ActivitySetShopStructureBinding setStructureBinding;
-    private boolean isDataAcquired = false;
-    private int checkedId;
-
-    private SetStructureViewModel setStructureViewModel;
-    ArrayList<String> categories = new ArrayList<String>();
-    ArrayList<String> selectedProductIDs = new ArrayList<>();
-    ArrayList<Map<String,Object>> selectedProducts = new ArrayList<>();
-    ArrayList<String> selectedImages = new ArrayList<>();
-    ProductListAdapter productListAdapter = new ProductListAdapter(this);
-    private Structure structure;
-
-    ViewGroup parent;
-    ArrayList<View> views = new ArrayList<>();
-    int prevY;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -182,7 +160,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.add_view:
-                Intent intent=new Intent(this,SelectView.class);
+                Intent intent=new Intent(this, SelectView.class);
                 startActivityForResult(intent,ViewId_REQUEST);
 
                 break;
