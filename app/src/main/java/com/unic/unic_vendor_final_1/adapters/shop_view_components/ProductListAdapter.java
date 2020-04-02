@@ -25,7 +25,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     private Context mContext;
     private List<Map<String,Object>> products;
-    private ArrayList<String> checkedProductIDs = new ArrayList<>();
+    private List<String> checkedProductIDs = new ArrayList<>();
 
     public ProductListAdapter(Context context){
         this.mContext = context;
@@ -60,6 +60,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 .load(products.get(position).get("imageId").toString())
                 .into(holder.ivProductPhoto);
 
+        if(checkedProductIDs.contains(products.get(position).get("id").toString()))
+            holder.cbCheck.setChecked(true);
+
         holder.cbCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -80,7 +83,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         this.products = products;
     }
 
-    public ArrayList<String> returnSelectedProductIDs(){
+    public List<String> returnSelectedProductIDs(){
         return checkedProductIDs;
     }
 
@@ -96,5 +99,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             }
         }
         return checkedProducts;
+    }
+
+    public void  setSelectedProducts(List<String> productIDs){
+        this.checkedProductIDs = productIDs;
     }
 }
