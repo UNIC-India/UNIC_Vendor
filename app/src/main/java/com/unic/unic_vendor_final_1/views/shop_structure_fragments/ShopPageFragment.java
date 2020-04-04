@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.Adapter_oooa;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.DoubleImageAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.TripleImageAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentShopPageBinding;
@@ -108,11 +109,11 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener{
 
                 ((TextView)doubleImagesView.findViewById(R.id.double_image_header)).setText(view.getHeader());
                 RecyclerView doubleImagesRecyclerView = doubleImagesView.findViewById(R.id.double_image_recycler_view);
-                DoubleImageAdapter doubleImageAdapter = new DoubleImageAdapter(getContext());
-                doubleImageAdapter.setProducts(setStructureViewModel.getViewProducts(view.getProducts()));
+                Adapter_oooa adapter_oooa = new Adapter_oooa(getContext());
+                adapter_oooa.setProducts(setStructureViewModel.getViewProducts(view.getProducts()));
                 LinearLayoutManager doubleImagesLayoutManager = new LinearLayoutManager(getContext());
                 doubleImagesRecyclerView.setLayoutManager(doubleImagesLayoutManager);
-                doubleImagesRecyclerView.setAdapter(doubleImageAdapter);
+                doubleImagesRecyclerView.setAdapter(adapter_oooa);
                 doubleImagesRecyclerView.addItemDecoration(new SpacesItemDecoration(10));
 
                 break;

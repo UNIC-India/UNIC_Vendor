@@ -44,6 +44,7 @@ public class SplashScreen extends AppCompatActivity {
         file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/splashimage.jpg");
 
         final boolean isUserOnline = mAuth.getCurrentUser()!=null&&!mAuth.getCurrentUser().isAnonymous();
+        /*
 
         if(isUserOnline){
 
@@ -92,6 +93,9 @@ public class SplashScreen extends AppCompatActivity {
 
         }
 
+         */
+
+        splashScreenBinding.icon.setImageResource(R.drawable.logonotext);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

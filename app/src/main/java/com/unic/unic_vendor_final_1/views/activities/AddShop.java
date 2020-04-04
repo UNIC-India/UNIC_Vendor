@@ -16,6 +16,7 @@ import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.ActivityAddShopBinding;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.viewmodels.AddShopViewModel;
+import com.unic.unic_vendor_final_1.views.helpers.SelectTemplate;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -106,7 +107,7 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
                 break;
 
             case 4:
-                Intent intent = new Intent(this,SetShopStructure.class);
+                Intent intent = new Intent(this, SelectTemplate.class);
                 intent.putExtra("shopId",shop.getId());
                 startActivity(intent);
                 break;
