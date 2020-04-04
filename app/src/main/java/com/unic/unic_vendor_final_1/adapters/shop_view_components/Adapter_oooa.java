@@ -17,12 +17,12 @@ import com.unic.unic_vendor_final_1.R;
 import java.util.List;
 import java.util.Map;
 
-public class adapter_oooa extends RecyclerView.Adapter<adapter_oooa.ViewHolder> {
+public class Adapter_oooa extends RecyclerView.Adapter<Adapter_oooa.ViewHolder> {
 
     private Context mContext;
     private List<Map<String,Object>> products;
 
-    public adapter_oooa(Context context){
+    public Adapter_oooa(Context context){
         this.mContext = context;
     }
 
