@@ -11,6 +11,7 @@ import com.unic.unic_vendor_final_1.datamodels.Structure;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SelectTemplate extends AppCompatActivity implements View.OnClickListener {
 
@@ -34,6 +35,8 @@ public class SelectTemplate extends AppCompatActivity implements View.OnClickLis
                 view1.setFields("name,imageId,price");
                 view1.setProducts(new ArrayList<String>());
                 view1.setHeight(360);
+                List<String> ids = new ArrayList<>();
+                
                 structure.addView(1001,view1);
                 Intent intent = new Intent(this, SetShopStructure.class);
                 intent.putExtra("shopId",getIntent().getStringExtra("shopId"));

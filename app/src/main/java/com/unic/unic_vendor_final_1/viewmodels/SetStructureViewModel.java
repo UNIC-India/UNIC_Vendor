@@ -152,6 +152,7 @@ public class SetStructureViewModel extends ViewModel {
                 product.put("id",products.getValue().get(i).get("id"));
                 product.put("imageId",products.getValue().get(i).get("imageId"));
                 product.put("price",products.getValue().get(i).get("price"));
+                product.put("name",products.getValue().get((i)).get("name"));
                 data.add(product);
             }
         }
