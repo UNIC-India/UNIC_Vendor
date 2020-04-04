@@ -102,6 +102,8 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         productListAdapter = new ProductListAdapter(this);
         setStructureBinding.productSelectRecyclerView.setAdapter(productListAdapter);
 
+
+
         setStructureViewModel = ViewModelProviders.of(this).get(SetStructureViewModel.class);
         setStructureViewModel.getShopData(getIntent().getStringExtra("shopId"));
         setStructureViewModel.getShop().observe(this, new Observer<Shop>() {
@@ -155,9 +157,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         setStructureBinding.shopPagesNavView.setNavigationItemSelectedListener(this);
         setStructureBinding.btnConfirmStructure.setOnClickListener(this);
 
-        if(getIntent().getExtras().get("structure")!=null){
-            setStructure((Structure)getIntent().getExtras().get("structure"));
-        }
+
     }
 
     @Override
@@ -418,6 +418,34 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 FragmentTransaction ft0 = getSupportFragmentManager().beginTransaction();
                 ft0.replace(setStructureBinding.shopPagesLoader.getId(),new ShopPageFragment(structure.getPages().get(0)),"Home");
                 ft0.commit();
+                if(getIntent().getIntExtra("stat",0)==1){
+                    Structure structure2 = new Structure(getIntent().getStringExtra("shopId"));
+                    com.unic.unic_vendor_final_1.datamodels.View view1 = new com.unic.unic_vendor_final_1.datamodels.View();
+                    view1.setViewId("411");
+                    view1.setHeader("Newest");
+                    view1.setFields("name,imageId,price");
+                    view1.setProducts(new ArrayList<String>());
+                    view1.setHeight(360);
+                    List<String> ids = new ArrayList<>();
+                    ids.add("I6Wjq4NCjMVIrnv4vt4Q");
+                    ids.add("IJp362oXZqv7wjzoOsLy");
+                    ids.add("ovHw199qHqV7mPPsenPL");
+                    view1.setProducts(ids);
+                    structure2.addView(1001,view1);
+                    com.unic.unic_vendor_final_1.datamodels.View view2 = new com.unic.unic_vendor_final_1.datamodels.View();
+                    view2.setViewId("412");
+                    view2.setHeader("Trending");
+                    view2.setFields("name,imageId,price");
+                    view2.setProducts(new ArrayList<String>());
+                    view2.setHeight(360);
+                    List<String> ids2 = new ArrayList<>();
+                    ids2.add("MMFJM159h1xcDWoBvlj9");
+                    ids2.add("XqvY0qxaGuRmfoZuQrsr");
+                    ids2.add("Y6QSXRtpB171DWqweCQg");
+                    view2.setProducts(ids2);
+                    structure2.addView(1001,view2);
+                    setStructureViewModel.getStructure().setValue(structure2);
+                }
                 break;
             case 1:
                 setStructureBinding.shopStructureDrawer.setVisibility(View.GONE);
