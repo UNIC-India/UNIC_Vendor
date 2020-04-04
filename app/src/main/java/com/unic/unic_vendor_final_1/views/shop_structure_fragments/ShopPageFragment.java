@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -76,12 +77,18 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener{
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         shopPageBinding = FragmentShopPageBinding.inflate(inflater,container,false);
         parent = shopPageBinding.shopViewParent;
         setStructureViewModel = ViewModelProviders.of(getActivity()).get(SetStructureViewModel.class);
         shopPageBinding.btnAddView.setOnClickListener(this);
+        setStructureViewModel.getStructure().observe(getViewLifecycleOwner(), new Observer<Structure>() {
+            @Override
+            public void onChanged(Structure structure) {
+                inflateViews();
+            }
+        });
         return shopPageBinding.getRoot();
     }
 
@@ -111,7 +118,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener{
                 RecyclerView doubleImagesRecyclerView = doubleImagesView.findViewById(R.id.double_image_recycler_view);
                 Adapter_oooa adapter_oooa = new Adapter_oooa(getContext());
                 adapter_oooa.setProducts(setStructureViewModel.getViewProducts(view.getProducts()));
-                LinearLayoutManager doubleImagesLayoutManager = new LinearLayoutManager(getContext());
+                LinearLayoutManager doubleImagesLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
                 doubleImagesRecyclerView.setLayoutManager(doubleImagesLayoutManager);
                 doubleImagesRecyclerView.setAdapter(adapter_oooa);
                 doubleImagesRecyclerView.addItemDecoration(new SpacesItemDecoration(10));
