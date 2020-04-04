@@ -19,10 +19,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.Adapter_oooa;
@@ -124,22 +126,16 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener{
                 doubleImagesRecyclerView.addItemDecoration(new SpacesItemDecoration(10));
 
                 break;
-            case 42:
-                View tripleImagesView = getLayoutInflater().inflate(R.layout.triple_image_view,null);
+            case 11:
+                View tripleImagesView = getLayoutInflater().inflate(R.layout.simple_image_item,null);
                 tripleImagesView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
                 RelativeLayout.LayoutParams tripleImagesParams = (RelativeLayout.LayoutParams)tripleImagesView.getLayoutParams();
                 tripleImagesParams.topMargin =(int)dpToPx(view.getyPos());
                 tripleImagesView.setLayoutParams(tripleImagesParams);
                 parent.addView(tripleImagesView);
-
-                ((TextView)tripleImagesView.findViewById(R.id.triple_image_header)).setText(view.getHeader());
-                RecyclerView tripleImagesRecyclerView = tripleImagesView.findViewById(R.id.triple_image_recycler_view);
-                TripleImageAdapter tripleImageAdapter = new TripleImageAdapter(getContext());
-                tripleImageAdapter.setProducts(setStructureViewModel.getViewProducts(view.getProducts()));
-                LinearLayoutManager tripleImagesLayoutManager = new LinearLayoutManager(getContext());
-                tripleImagesRecyclerView.setLayoutManager(tripleImagesLayoutManager);
-                tripleImagesRecyclerView.setAdapter(tripleImageAdapter);
-                tripleImagesRecyclerView.addItemDecoration(new SpacesItemDecoration(10));
+                Glide.with(getContext())
+                        .load("https://firebasestorage.googleapis.com/v0/b/unic-1f430.appspot.com/o/shops%2FF4lmRWpQ2kyeYwu4lTuO%2Fshopimage?alt=media&token=90633dbc-1182-4472-817e-0bde7262d819")
+                        .into((ImageView) tripleImagesView);
 
                 break;
         }
@@ -161,7 +157,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener{
             case 41:
                 final com.unic.unic_vendor_final_1.datamodels.View doubleImagesView = new com.unic.unic_vendor_final_1.datamodels.View();
                 doubleImagesView.setViewId(Integer.valueOf(code).toString()+page.getViews().size());
-                doubleImagesView.setHeight(360);
+                doubleImagesView.setHeight(250);
                 doubleImagesView.setFields("imageId,name,price");
                 popupWindow.showAtLocation(parent, Gravity.CENTER,0,0);
                 popupView.findViewById(R.id.btn_view_header_confirm).setOnClickListener(new View.OnClickListener() {
@@ -187,7 +183,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener{
                     }
                 });
                 break;
-            case 42:
+            case 11:
                 final com.unic.unic_vendor_final_1.datamodels.View tripleImagesView = new com.unic.unic_vendor_final_1.datamodels.View();
                 tripleImagesView.setViewId(Integer.valueOf(code).toString()+page.getViews().size());
                 tripleImagesView.setHeight(253);

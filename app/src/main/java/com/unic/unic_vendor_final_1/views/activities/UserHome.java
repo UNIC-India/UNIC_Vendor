@@ -174,21 +174,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
 
 
 
-        double secs = 0.1;
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                ft.replace(R.id.home_fragment,new MyAppsFragment());
-                ft.commit();
-
-
-
-            }
-        }, (int) (secs * 1000));
+        startActivity(new Intent(this,OrdersLol.class));
 
     }
 
