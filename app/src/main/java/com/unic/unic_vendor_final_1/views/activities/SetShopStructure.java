@@ -443,6 +443,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
     private void confirmSelectedProducts(){
         structure.updateProductList(Integer.parseInt(viewAdditionData.get("pageId").toString()),viewAdditionData.get("viewCode").toString(),selectedProductIDs);
+        setStructureViewModel.getStructure().setValue(structure);
         updateUI(2);
 
     }
