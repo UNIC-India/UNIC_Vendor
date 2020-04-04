@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,7 +31,7 @@ public class Adapter_oooa extends RecyclerView.Adapter<Adapter_oooa.ViewHolder> 
         TextView tvProductName;
         ImageView ivProductImage;
         TextView tvProductPrice;
-        ImageButton addToCart;
+        Button addToCart;
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
