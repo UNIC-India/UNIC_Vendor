@@ -69,7 +69,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     }
 
     private Shop shop;
-    private List<Map<String,Object>> products;
+    private List<Map<String,Object>> products = new ArrayList<>();
 
     private ActivitySetShopStructureBinding setStructureBinding;
     private boolean isDataAcquired = false;
@@ -100,6 +100,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
         setStructureBinding.productSelectRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         productListAdapter = new ProductListAdapter(this);
+        setStructureBinding.productSelectRecyclerView.setAdapter(productListAdapter);
 
         setStructureViewModel = ViewModelProviders.of(this).get(SetStructureViewModel.class);
         setStructureViewModel.getShopData(getIntent().getStringExtra("shopId"));
@@ -153,6 +154,10 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         setStructureBinding.confirmProductSelection.setOnClickListener(this);
         setStructureBinding.shopPagesNavView.setNavigationItemSelectedListener(this);
         setStructureBinding.btnConfirmStructure.setOnClickListener(this);
+
+        if(getIntent().getExtras().get("structure")!=null){
+            setStructure((Structure)getIntent().getExtras().get("structure"));
+        }
     }
 
     @Override

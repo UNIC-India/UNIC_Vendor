@@ -38,6 +38,10 @@ public class SelectTemplate extends AppCompatActivity implements View.OnClickLis
                 Intent intent = new Intent(this, SetShopStructure.class);
                 intent.putExtra("shopId",getIntent().getStringExtra("shopId"));
                 startActivity(intent);
+            case R.id.custom:
+                Intent intent2 = new Intent(this, SetShopStructure.class);
+                intent2.putExtra("shopId",getIntent().getStringExtra("shopId"));
+                startActivity(intent2);
         }
     }
 }

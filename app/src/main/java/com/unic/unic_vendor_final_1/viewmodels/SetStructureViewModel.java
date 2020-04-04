@@ -181,4 +181,6 @@ public class SetStructureViewModel extends ViewModel {
     public LiveData<Map<String, Object>> getViewAdditionData() {
         return viewAdditionData;
     }
+
+
 }
