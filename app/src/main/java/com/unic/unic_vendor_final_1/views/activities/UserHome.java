@@ -14,8 +14,10 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
@@ -73,6 +75,10 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.home_fragment,new HomeFragment());
+        ft.commit();
     }
 
     @Override
@@ -142,4 +148,55 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         tvEmail.setText(user!=null?user.getEmail():"Not received yet");
 
     }
+    public void onCategorySelect1(View v){
+        final View a=v;
+        ImageView iv1=v.findViewById(R.id.imageView);
+        iv1.setImageResource(R.drawable.ordercolumnafterclick);
+
+
+
+        double secs = 0.1;
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.home_fragment,new MyAppsFragment());
+                ft.commit();
+
+
+
+            }
+        }, (int) (secs * 1000));
+
+    }
+
+    public void onCategorySelect2(View v){
+        final View a=v;
+        ImageView iv2=v.findViewById(R.id.imageView2);
+        iv2.setImageResource(R.drawable.myappscolumnafterclick);
+
+
+
+        double secs = 0.1;
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.home_fragment,new MyAppsFragment());
+                ft.commit();
+
+
+
+            }
+        }, (int) (secs * 1000));
+
+    }
+
+
 }

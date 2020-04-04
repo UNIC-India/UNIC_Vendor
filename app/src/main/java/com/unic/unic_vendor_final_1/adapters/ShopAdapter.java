@@ -1,6 +1,7 @@
 package com.unic.unic_vendor_final_1.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
+import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 
 import java.util.List;
 
@@ -46,9 +48,16 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ShopAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ShopAdapter.ViewHolder holder, final int position) {
 
         holder.tvShopName.setText(shops.get(position).getName());
+        holder.ivEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(context, SetShopStructure.class);
+                intent.putExtra("shopId",shops.get(position).getId());
+            }
+        });
 
         Glide
                 .with(context)
