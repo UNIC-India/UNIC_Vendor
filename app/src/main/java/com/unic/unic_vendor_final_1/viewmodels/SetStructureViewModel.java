@@ -32,6 +32,7 @@ import com.unic.unic_vendor_final_1.datamodels.Structure;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -63,8 +64,9 @@ public class SetStructureViewModel extends ViewModel {
     private MutableLiveData<List<Map<String,Object>>> products = new MutableLiveData<>();
     private MutableLiveData<Structure> structure = new MutableLiveData<>();
     private MutableLiveData<ArrayList<View>> views = new MutableLiveData<>();
+    private MutableLiveData<Map<String,Object>> viewAdditionData = new MutableLiveData<>();
 
-    private MutableLiveData<Integer> structureSaveStatus = new MutableLiveData<>();
+    private MutableLiveData<Integer> structureStatus = new MutableLiveData<>();
 
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
@@ -129,15 +131,31 @@ public class SetStructureViewModel extends ViewModel {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    structureSaveStatus.setValue(1);
+                    structureStatus.setValue(5);
                 }
             })
             .addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    structureSaveStatus.setValue(-1);
+                    structureStatus.setValue(-1);
                 }
             });
+    }
+
+    public List<Map<String,Object>> getViewProducts(List<String> productIDs){
+
+        ArrayList<Map<String,Object>> data = new ArrayList<>();
+
+        for (int i=0;i<products.getValue().size();i++){
+            if(productIDs.contains(products.getValue().get(i).get("id").toString())){
+                HashMap<String,Object> product = new HashMap<>();
+                product.put("id",products.getValue().get(i).get("id"));
+                product.put("imageId",products.getValue().get(i).get("imageId"));
+                product.put("price",products.getValue().get(i).get("price"));
+                data.add(product);
+            }
+        }
+        return data;
     }
 
     public MutableLiveData<Structure> getStructure() {
@@ -148,7 +166,19 @@ public class SetStructureViewModel extends ViewModel {
         return views;
     }
 
-    public LiveData<Integer> getStructureSaveStatus() {
-        return structureSaveStatus;
+    public LiveData<Integer> getStructureStatus() {
+        return structureStatus;
+    }
+
+    public void getSelectedProducts(int pageId,String viewCode){
+        Map<String,Object> data = new HashMap<>();
+        data.put("pageId",pageId);
+        data.put("viewCode",viewCode);
+        viewAdditionData.setValue(data);
+        structureStatus.setValue(1);
+    }
+
+    public LiveData<Map<String, Object>> getViewAdditionData() {
+        return viewAdditionData;
     }
 }

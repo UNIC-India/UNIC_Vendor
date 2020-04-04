@@ -1,5 +1,6 @@
 package com.unic.unic_vendor_final_1.datamodels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -25,9 +26,13 @@ import java.util.List;
 */
 
 public class View {
-    private String viewId,fields;
+    private String viewId,fields,header;
     private int pos,height,yPos;
     private List<String> products;
+
+    public View(){
+        products = new ArrayList<>();
+    }
 
     public String getViewId() {
         return viewId;
@@ -75,6 +80,14 @@ public class View {
 
     public void setProducts(List<String> products) {
         this.products = products;
+    }
+
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
     }
 
 }

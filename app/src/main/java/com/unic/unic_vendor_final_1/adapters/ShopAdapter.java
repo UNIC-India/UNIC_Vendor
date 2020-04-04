@@ -27,11 +27,11 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
         this.context = context;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvShopName;
         ImageView ivShopPhoto,ivPreview,ivEdit;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvShopName = itemView.findViewById(R.id.shop_name);
             ivShopPhoto = itemView.findViewById(R.id.shop_photo);
@@ -42,7 +42,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 
     @NonNull
     @Override
-    public ShopAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_shop_list_item, parent, false);
         return new ViewHolder(view);
     }
@@ -63,6 +63,15 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
                 .with(context)
                 .load(shops.get(position).getImageLink())
                 .into(holder.ivShopPhoto);
+
+        holder.ivEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,SetShopStructure.class);
+                intent.putExtra("shopId",shops.get(position).getId());
+                context.startActivity(intent);
+            }
+        });
 
     }
 

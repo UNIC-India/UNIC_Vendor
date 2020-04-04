@@ -1,8 +1,4 @@
-package com.unic.unic_vendor_final_1.views;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+package com.unic.unic_vendor_final_1.views.helpers;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -11,6 +7,10 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,8 +42,6 @@ public class SplashScreen extends AppCompatActivity {
         final FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/splashimage.jpg");
-
-
 
         final boolean isUserOnline = mAuth.getCurrentUser()!=null&&!mAuth.getCurrentUser().isAnonymous();
 

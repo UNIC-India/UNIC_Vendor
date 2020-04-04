@@ -1,15 +1,16 @@
 package com.unic.unic_vendor_final_1.datamodels;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Page {
-    private int pageId;
-    private int pos,size;
+    private String pageName;
+    private int pageId,pos,size;
     private ArrayList<View> views;
 
-    public Page(){
-        this.pageId = 0;
+    public Page(String pageName){
         views = new ArrayList<>();
+        this.pageName = pageName;
     }
 
     public int getPageId() {
@@ -18,6 +19,14 @@ public class Page {
 
     public void setPageId(int pageId) {
         this.pageId = pageId;
+    }
+
+    public String getPageName() {
+        return pageName;
+    }
+
+    public void setPageName(String pageName) {
+        this.pageName = pageName;
     }
 
     public int getPos() {
@@ -45,8 +54,10 @@ public class Page {
     }
 
     public void addView(View view){
-        this.views.add(view);
-
+        view.setyPos(size);
+        view.setPos(views.size());
+        views.add(view);
+        updateHeight();
     }
 
     private void updateHeight(){
@@ -55,5 +66,13 @@ public class Page {
             height+=views.get(i).getHeight();
         }
         this.setSize(height);
+    }
+
+    public void updateView(String viewId, List<String> products){
+        for(int i=0;i<views.size();i++){
+            if(views.get(i).getViewId().equals(viewId)){
+                views.get(i).setProducts(products);
+            }
+        }
     }
 }

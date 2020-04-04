@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,7 +34,6 @@ import com.unic.unic_vendor_final_1.views.nav_fragments.MyAppsFragment;
 public class UserHome extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private NavigationView navigationView;
     private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
     boolean doubleBackToExitPressedOnce = false;
     private User user;
 
@@ -58,7 +58,6 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         });
 
         mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
 
@@ -75,6 +74,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.replace(R.id.home_fragment,new HomeFragment());
@@ -148,8 +148,27 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         tvEmail.setText(user!=null?user.getEmail():"Not received yet");
 
     }
+
+    @Override
+    public void onBackPressed() {
+        if(doubleBackToExitPressedOnce){
+            super.onBackPressed();
+            return;
+        }
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
+
     public void onCategorySelect1(View v){
-        final View a=v;
+        final View a =v;
         ImageView iv1=v.findViewById(R.id.imageView);
         iv1.setImageResource(R.drawable.ordercolumnafterclick);
 
