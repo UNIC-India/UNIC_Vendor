@@ -39,6 +39,7 @@ import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.datamodels.Structure;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 import com.unic.unic_vendor_final_1.views.shop_structure_fragments.ShopPageFragment;
+import com.unic.unic_vendor_final_1.views.SelectView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -87,6 +88,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     private ViewGroup parent;
     private ArrayList<View> views = new ArrayList<>();
     private int prevY;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,6 +162,21 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
     }
 
+    /*
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==ViewId_REQUEST){
+            if(resultCode==RESULT_OK){
+                checkedId=data.getIntExtra("ID",-1);
+                getDisplayData(checkedId);
+            }
+        }
+    }
+
+     */
+
     private void updateShop(Shop shop){
         this.shop = shop;
     }
@@ -175,26 +192,8 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             case R.id.shop_new_page:
                 final View popupView = LayoutInflater.from(this).inflate(R.layout.page_title_selector,null);
                 final PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                popupWindow.setFocusable(true);
-                popupWindow.showAtLocation(setStructureBinding.shopPagesLoader, Gravity.CENTER,0,0);
-                popupView.clearFocus();
-                popupView.findViewById(R.id.btn_page_title_confirm).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String title = ((TextView)popupView.findViewById(R.id.et_page_title_text)).getText().toString();
-                        structure.addPage(title);
-                        setStructureViewModel.getStructure().setValue(structure);
-                        popupWindow.dismiss();
-                    }
-                });
-                popupView.findViewById(R.id.btn_page_title_cancel).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        popupWindow.dismiss();
-                    }
-                });
-                break;
-            case R.id.btn_confirm_structure:
+
+            case R.id.finish_shop_addition:
                 setStructureViewModel.uploadShopStructure(structure);
         }
 
