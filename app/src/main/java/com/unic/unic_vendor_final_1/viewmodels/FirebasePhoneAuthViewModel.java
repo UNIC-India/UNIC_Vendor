@@ -21,7 +21,8 @@ import com.unic.unic_vendor_final_1.datamodels.FirebaseRepository;
 
 public class FirebasePhoneAuthViewModel extends ViewModel {
 
-    public FirebasePhoneAuthViewModel(){}
+    public FirebasePhoneAuthViewModel() {
+    }
 
     private Context context;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -36,7 +37,7 @@ public class FirebasePhoneAuthViewModel extends ViewModel {
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
-    public FirebasePhoneAuthViewModel(Context context){
+    public FirebasePhoneAuthViewModel(Context context) {
         this.context = context;
     }
 
@@ -51,12 +52,13 @@ public class FirebasePhoneAuthViewModel extends ViewModel {
 
         @Override
         public void onVerificationFailed(@NonNull FirebaseException e) {
-            if(e instanceof FirebaseAuthInvalidCredentialsException)
+            if (e instanceof FirebaseAuthInvalidCredentialsException)
                 status.setValue(2);
             else if (e instanceof FirebaseTooManyRequestsException)
                 status.setValue(3);
 
         }
+
         @Override
         public void onCodeSent(@NonNull String verificationId,
                                @NonNull PhoneAuthProvider.ForceResendingToken token) {
@@ -73,15 +75,15 @@ public class FirebasePhoneAuthViewModel extends ViewModel {
         }
     };
 
-    public void verifyPhoneNumber(String phoneNumber){
-        firebaseRepository.startPhoneNumberVerification(phoneNumber,mCallbacks);
+    public void verifyPhoneNumber(String phoneNumber) {
+        firebaseRepository.startPhoneNumberVerification(phoneNumber, mCallbacks);
     }
 
-    public void verifyWithOTP(String code){
-        signInWithOTP(mVerificationId,code);
+    public void verifyWithOTP(String code) {
+        signInWithOTP(mVerificationId, code);
     }
 
-    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential){
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
@@ -98,19 +100,21 @@ public class FirebasePhoneAuthViewModel extends ViewModel {
                 });
     }
 
-    private void signInWithOTP(String verificationId, String code){
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId,code);
+    private void signInWithOTP(String verificationId, String code) {
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
         signInWithPhoneAuthCredential(credential);
     }
 
-    public void resendOTP(String phoneNumber){
-        firebaseRepository.resendVerificationCode(phoneNumber,mResendToken,mCallbacks);
+    public void resendOTP(String phoneNumber) {
+        firebaseRepository.resendVerificationCode(phoneNumber, mResendToken, mCallbacks);
     }
 
-    public LiveData<Integer> getStatus(){
+    public LiveData<Integer> getStatus() {
         return status;
     }
 
-    public LiveData<String> getCode(){return SMSCode;}
+    public LiveData<String> getCode() {
+        return SMSCode;
+    }
 
 }

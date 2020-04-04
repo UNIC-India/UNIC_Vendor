@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -150,6 +151,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         setStructureBinding.shopNewPage.setOnClickListener(this);
         setStructureBinding.confirmProductSelection.setOnClickListener(this);
         setStructureBinding.shopPagesNavView.setNavigationItemSelectedListener(this);
+        setStructureBinding.btnConfirmStructure.setOnClickListener(this);
     }
 
     @Override
@@ -192,47 +194,10 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                     }
                 });
                 break;
-        }
-
-        /*
-        switch (view.getId()){
-            case R.id.add_view:
-                final View popupView = LayoutInflater.from(this).inflate(R.layout.view_selector,null);
-                final PopupWindow popupWindow =new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                popupWindow.setFocusable(true);
-                popupWindow.showAtLocation(parent, Gravity.CENTER,0,0);
-                RadioGroup radioGroup = popupView.findViewById(R.id.rg_selector);
-                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                        isDataAcquired = false;
-                        int children = radioGroup.getChildCount();
-                        for(int anInt=0;anInt<children;anInt++){
-                            if(radioGroup.getChildAt(anInt).getId()==i){
-                                getDisplayData(anInt);
-                                checkedId = anInt;
-                            }
-                        }
-                        popupWindow.dismiss();
-
-
-                    }
-                });
-                break;
-            case R.id.finish_adding_product:
-                selectedProductIDs =  productListAdapter.returnSelectedProductIDs();
-                selectedProducts = productListAdapter.returnSelectedProducts();
-                isDataAcquired = true;
-                setStructureBinding.dataTableSelector.setVisibility(View.GONE);
-                setStructureBinding.viewInflater.setVisibility(View.VISIBLE);
-                addView(checkedId);
-                break;
-            case R.id.finish_shop_addition:
+            case R.id.btn_confirm_structure:
                 setStructureViewModel.uploadShopStructure(structure);
-                break;
         }
 
-         */
     }
 
     @Override
@@ -372,29 +337,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
     }
 
-    /*
-    private void getDisplayData(int id){
-        selectedProductIDs.clear();
-        selectedImages.clear();
-        setStructureBinding.viewInflater.setVisibility(View.GONE);
-        setStructureBinding.dataTableSelector.setVisibility(View.VISIBLE);
-        switch(id){
-            case 0:
-                //TODO: Add image selector for slider
-                break;
-            case 1:
-            case 2:
-            case 3:
-                selectProducts();
-                break;
-            case 4:
-                isDataAcquired = true;
-                break;
-
-        }
-    }
-
-     */
 
     private float dpToPx(int dp){
         return TypedValue.applyDimension(
@@ -440,11 +382,13 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
         Fragment fragment = null;
         int id = item.getItemId();
+        String tag = null;
         setStructureBinding.shopPagesNavView.setCheckedItem(id);
 
         for(int i=0;i<structure.getPages().size();i++){
             if(structure.getPages().get(i).getPageId()==item.getItemId()){
                 fragment = new ShopPageFragment(structure.getPages().get(i));
+                tag = structure.getPages().get(i).getPageName();
                 break;
             }
 
@@ -452,11 +396,10 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
         if(fragment!=null){
             setStructureBinding.shopStructureDrawer.closeDrawers();
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.shop_pages_loader,fragment);
-            ft.commit();
-
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.shop_pages_loader,fragment,tag)
+                    .commit();
             return true;
 
         }
@@ -470,7 +413,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 setStructureBinding.productSelectParentView.setVisibility(View.GONE);
                 setStructureBinding.shopPagesNavView.setCheckedItem(structure.getPages().get(0).getPageId());
                 FragmentTransaction ft0 = getSupportFragmentManager().beginTransaction();
-                ft0.replace(setStructureBinding.shopPagesLoader.getId(),new ShopPageFragment(structure.getPages().get(0)));
+                ft0.replace(setStructureBinding.shopPagesLoader.getId(),new ShopPageFragment(structure.getPages().get(0)),"Home");
                 ft0.commit();
                 break;
             case 1:
@@ -482,6 +425,10 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 setStructureBinding.shopStructureDrawer.setVisibility(View.VISIBLE);
                 setStructureBinding.productSelectParentView.setVisibility(View.GONE);
                 break;
+            case 5:
+                Toast.makeText(this, "Structure saved successfully", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this,UserHome.class));
+                finish();
         }
     }
 
@@ -499,5 +446,12 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
     public void setViewAdditionData(Map<String, Object> viewAdditionData) {
         this.viewAdditionData = viewAdditionData;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(data.getStringExtra("tag"));
+        fragment.onActivityResult(requestCode, resultCode, data);
+
     }
 }
