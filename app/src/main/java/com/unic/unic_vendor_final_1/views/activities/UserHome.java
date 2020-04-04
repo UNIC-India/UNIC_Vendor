@@ -168,7 +168,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     public void onCategorySelect1(View v){
-        final View a=v;
+        final View a =v;
         ImageView iv1=v.findViewById(R.id.imageView);
         iv1.setImageResource(R.drawable.ordercolumnafterclick);
 

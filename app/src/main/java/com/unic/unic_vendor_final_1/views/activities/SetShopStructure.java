@@ -145,7 +145,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         });
         //setStructureBinding.addView.setOnClickListener(this);
         //setStructureBinding.finishAddingProduct.setOnClickListener(this);
-        //setStructureBinding.finishShopAddition.setOnClickListener(this);
         //parent = findViewById(R.id.view_inflater);
 
         shopPagesMenu = setStructureBinding.shopPagesNavView.getMenu();
@@ -193,7 +192,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 final View popupView = LayoutInflater.from(this).inflate(R.layout.page_title_selector,null);
                 final PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-            case R.id.finish_shop_addition:
+            case R.id.btn_confirm_structure:
                 setStructureViewModel.uploadShopStructure(structure);
         }
 
@@ -449,8 +448,10 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(data.getStringExtra("tag"));
-        fragment.onActivityResult(requestCode, resultCode, data);
+        if (data!=null) {
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag(data.getStringExtra("tag"));
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
 
     }
 }
