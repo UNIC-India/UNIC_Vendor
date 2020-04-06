@@ -8,6 +8,8 @@ public class Page {
     private int pageId,pos,size;
     private ArrayList<View> views;
 
+    public Page(){}
+
     public Page(String pageName){
         views = new ArrayList<>();
         this.pageName = pageName;

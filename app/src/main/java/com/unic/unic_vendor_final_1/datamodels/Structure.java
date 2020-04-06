@@ -9,6 +9,10 @@ public class Structure {
     private String shopId;
     private ArrayList<Page> pages;
 
+    public Structure(){
+
+    }
+
     public Structure(String shopId){
         this.shopId = shopId;
         pages = new ArrayList<>();
@@ -50,7 +54,7 @@ public class Structure {
 
     public void updateProductList(int pageId, String viewId, List<String> products){
         for (int i=0;i<pages.size();i++){
-            if ((pages.get(i).getPageId() == pageId)){
+            if (pages.get(i).getPageId() == pageId){
                 pages.get(i).updateView(viewId, products);
             }
         }

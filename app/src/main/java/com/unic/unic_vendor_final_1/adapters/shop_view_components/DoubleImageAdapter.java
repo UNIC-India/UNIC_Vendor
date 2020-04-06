@@ -33,7 +33,7 @@ public class DoubleImageAdapter extends RecyclerView.Adapter<DoubleImageAdapter.
         TextView tvProductName;
         ImageView ivProductImage;
         TextView tvProductPrice;
-        ImageButton addToCart;
+        Button addToCart;
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);

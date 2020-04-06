@@ -119,4 +119,8 @@ public class FirebaseRepository {
         return db.collection("structures").document(structure.getShopId()).set(structure);
     }
 
+    public Task<DocumentSnapshot> getShopStructure(String shopId){
+        return db.collection("structures").document(shopId).get();
+    }
+
 }
