@@ -91,7 +91,11 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
                 if(userWantsImage) {
 
                     if (addShopBinding.etAddShopName.getText().toString().trim().length()==0 || (addShopBinding.etAddShopAddressLine1.getText().toString().trim().length()==0 && addShopBinding.etAddShopAddressLine2.getText().toString().trim().length()==0) || addShopBinding.etShopAddLocality.getText().toString().trim().length()==0||addShopBinding.etShopAddCity.getText().toString().trim().length()==0) {
-                        Toast.makeText(this, "Please enter all fields", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddShop.this, "Please enter all fields", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if(location.size()==0){
+                        Toast.makeText(AddShop.this, "Please select location on map", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     shop = new Shop(addShopBinding.etAddShopName.getText().toString().trim(),
