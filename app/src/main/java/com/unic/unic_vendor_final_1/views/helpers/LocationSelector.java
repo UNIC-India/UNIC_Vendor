@@ -71,6 +71,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
     private String address;
     private Point initPoint;
     private MapboxGeocoding mapboxGeocoding;
+    private  int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +80,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
         setContentView(R.layout.activity_location_selector);
 
         address = getIntent().getStringExtra("address");
-        Geocode(address);
-
+        type = getIntent().getIntExtra("type",0);
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
@@ -92,7 +92,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
         mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull final Style style) {
-                enableLocationPlugin(style);
+                enableLocationPlugin();
 
                 hoveringMarker = new ImageView(LocationSelector.this);
                 hoveringMarker.setImageResource(R.drawable.ic_place_red_24dp);
@@ -102,7 +102,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
                 hoveringMarker.setLayoutParams(params);
                 mapView.addView(hoveringMarker);
 
-                //initDroppedMarker(style);
+                initDroppedMarker(style);
 
                 hoveringMarker.setVisibility(View.VISIBLE);
 
@@ -110,6 +110,22 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
                 droppedMarkerLayer = style.getLayer(DROPPED_MARKER_LAYER_ID);
                 if (droppedMarkerLayer != null) {
                     droppedMarkerLayer.setProperties(visibility(NONE));
+                }
+
+                switch (type){
+                    case 0:
+                        LocationComponent locationComponent = mapboxMap.getLocationComponent();
+                        locationComponent.activateLocationComponent(LocationComponentActivationOptions.builder(
+                                LocationSelector.this, style).build());
+                        locationComponent.setLocationComponentEnabled(true);
+
+// Set the component's camera mode
+                        locationComponent.setCameraMode(CameraMode.TRACKING);
+                        locationComponent.setRenderMode(RenderMode.NORMAL);
+                        break;
+                    case 1:
+                        Geocode(address);
+                        break;
                 }
 
                 selectLocationButton = findViewById(R.id.select_location_button);
@@ -197,20 +213,13 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
     }
 
     @SuppressWarnings( {"MissingPermission"})
-    private void enableLocationPlugin(@NonNull Style loadedMapStyle) {
+    private void enableLocationPlugin() {
 // Check if permissions are enabled and if not request
         if (PermissionsManager.areLocationPermissionsGranted(this)) {
 
 // Get an instance of the component. Adding in LocationComponentOptions is also an optional
 // parameter
-            LocationComponent locationComponent = mapboxMap.getLocationComponent();
-            locationComponent.activateLocationComponent(LocationComponentActivationOptions.builder(
-                    this, loadedMapStyle).build());
-            locationComponent.setLocationComponentEnabled(true);
 
-// Set the component's camera mode
-            locationComponent.setCameraMode(CameraMode.TRACKING);
-            locationComponent.setRenderMode(RenderMode.NORMAL);
 
         } else {
             permissionsManager = new PermissionsManager(this);
@@ -228,7 +237,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
         if (granted && mapboxMap != null) {
             Style style = mapboxMap.getStyle();
             if (style != null) {
-                enableLocationPlugin(style);
+                enableLocationPlugin();
             }
         } else {
             Toast.makeText(this, "Location was not granted", Toast.LENGTH_LONG).show();
