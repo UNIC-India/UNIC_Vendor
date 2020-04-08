@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -147,6 +148,11 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         return false;
     }
 
+    void populateHeader(){
+        View header = setShopStructureBinding.setStructureNavView.getHeaderView(0);
+        ((TextView)header.findViewById(R.id.header_shop_name)).setText(shop.getName());
+    }
+
     void setTemplate(int template){
         switch (template){
             case 0:
@@ -156,6 +162,12 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             case 1:
                 structure = StructureTemplates.getTemplate1(shopId);
                 setStructureViewModel.getStructure().setValue(structure);
+                updateMenu();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .replace(R.id.shop_pages_loader,new ShopPageFragment(structure.getPage(1001)),structure.getPage(1001).getPageName())
+                        .commit();
                 status = 3;
                 updateStatus(status);
                 break;
@@ -169,6 +181,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 setStructureViewModel.getShopData(shopId);
                 break;
             case 1:
+                populateHeader();
                 setTemplate(option);
                 break;
             case 2:

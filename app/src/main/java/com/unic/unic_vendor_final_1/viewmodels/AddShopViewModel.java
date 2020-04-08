@@ -64,7 +64,13 @@ public class AddShopViewModel extends ViewModel {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         shopAddStatus.setValue(3);
                     }
-                });
+                })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                shopAddStatus.setValue(-2);
+            }
+        });
     }
 
     public void setShopImageLink(){

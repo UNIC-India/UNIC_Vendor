@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+    tools:context=".views.helpers.LocationSelector">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <ImageButton
+            android:id="@+id/location_search"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_search_black_24dp"
+            android:background="@color/colorPrimary"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="10dp"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        mapbox:mapbox_cameraZoom="15"/>
+
+    <Button
+        android:id="@+id/select_location_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="8dp"
+        android:background="@color/colorPrimary"
+        android:text="Select this Location"
+        android:textColor="@android:color/white"/>
+
+</FrameLayout>
