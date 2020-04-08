@@ -3,6 +3,7 @@ package com.unic.unic_vendor_final_1.views.helpers;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -21,6 +22,8 @@ import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.api.geocoding.v5.MapboxGeocoding;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
 import com.mapbox.api.geocoding.v5.models.GeocodingResponse;
+import com.mapbox.geojson.Feature;
+import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
@@ -116,24 +119,15 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
                     droppedMarkerLayer.setProperties(visibility(NONE));
                 }
 
-                switch (type){
-                    case 0:
-                        LocationComponent locationComponent = mapboxMap.getLocationComponent();
-                        locationComponent.activateLocationComponent(LocationComponentActivationOptions.builder(
-                                LocationSelector.this, style).build());
-                        locationComponent.setLocationComponentEnabled(true);
+                if (type == 0) {
+                    LocationComponent locationComponent = mapboxMap.getLocationComponent();
+                    locationComponent.activateLocationComponent(LocationComponentActivationOptions.builder(
+                            LocationSelector.this, style).build());
+                    locationComponent.setLocationComponentEnabled(true);
 
 // Set the component's camera mode
-                        locationComponent.setCameraMode(CameraMode.TRACKING);
-                        locationComponent.setRenderMode(RenderMode.NORMAL);
-                        break;
-                    case 1:
-                        mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(
-                                new CameraPosition.Builder()
-                                        .target(new LatLng(initPoint.latitude(),initPoint.longitude()))
-                                        .zoom(14)
-                                        .build()), 4000);
-                        break;
+                    locationComponent.setCameraMode(CameraMode.TRACKING);
+                    locationComponent.setRenderMode(RenderMode.NORMAL);
                 }
 
                 selectLocationButton = findViewById(R.id.select_location_button);
@@ -211,7 +205,8 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
     protected void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
-        mapboxGeocoding.cancelCall();
+        if (mapboxGeocoding!=null)
+            mapboxGeocoding.cancelCall();
     }
 
     @Override
@@ -285,9 +280,24 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
 
                     // Log the first results Point.
                     initPoint = results.get(0).center();
+                    assert initPoint != null;
+                    mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+                            new CameraPosition.Builder()
+                                    .target(new LatLng(initPoint.latitude(),initPoint.longitude()))
+                                    .zoom(14)
+                                    .build()), 4000);
                     Timber.d("onResponse: %s", initPoint.toString());
 
                 } else {
+
+                    LocationComponent locationComponent = mapboxMap.getLocationComponent();
+                    locationComponent.activateLocationComponent(LocationComponentActivationOptions.builder(
+                            LocationSelector.this, mapboxMap.getStyle()).build());
+                    locationComponent.setLocationComponentEnabled(true);
+
+// Set the component's camera mode
+                    locationComponent.setCameraMode(CameraMode.TRACKING);
+                    locationComponent.setRenderMode(RenderMode.NORMAL);
 
                     // No result for your request were found.
                     Timber.d("onResponse: No result found");
@@ -308,5 +318,37 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
         intent.putExtra("longitude",location.getLongitude());
         setResult(RESULT_OK,intent);
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_AUTOCOMPLETE) {
+
+// Retrieve selected location's CarmenFeature
+            CarmenFeature selectedCarmenFeature = PlaceAutocomplete.getPlace(data);
+
+// Create a new FeatureCollection and add a new Feature to it using selectedCarmenFeature above.
+// Then retrieve and update the source designated for showing a selected location's symbol layer icon
+
+            if (mapboxMap != null) {
+                Style style = mapboxMap.getStyle();
+                if (style != null) {
+                    GeoJsonSource source = style.getSourceAs("geojsonSourceLayerId");
+                    if (source != null) {
+                        source.setGeoJson(FeatureCollection.fromFeatures(
+                                new Feature[] {Feature.fromJson(selectedCarmenFeature.toJson())}));
+                    }
+
+// Move map camera to the selected location
+                    mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+                            new CameraPosition.Builder()
+                                    .target(new LatLng(((Point) selectedCarmenFeature.geometry()).latitude(),
+                                            ((Point) selectedCarmenFeature.geometry()).longitude()))
+                                    .zoom(14)
+                                    .build()), 4000);
+                }
+            }
+        }
     }
 }
