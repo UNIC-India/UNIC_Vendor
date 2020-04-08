@@ -2,6 +2,7 @@ package com.unic.unic_vendor_final_1.datamodels;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /*
 
@@ -10,36 +11,44 @@ import java.util.List;
     _ _ _ _ (4 digits)
 
     _       -> 1: For image only views, click to open full image
-               2: For product basic details, like name,price and image, add to cart button present
-               3: For text type views only
+               2: For category views
+               3: For sliders
+               4: For product basic details, like name,price and image, add to cart button present
 
-    1 _     -> 1: For slider
-               2: For single image display with tag
+    1 _     -> 1: For single image display with tag
+               2: For double image display with tag
+               3: For triple image display with tag
 
-    2 _     -> 2: For double item horizontal scroller
-               3: For triple item horizontal scroller
+    2 _     -> 1: For vertical categories list view with images
+               2: For horizontal categories scroll view with images
+               3: For vertical grid view with images
+               4: For text only vertical list
 
-    3 _     -> 1: For showing categories
-               2: For simple text views
+    3 _     -> 1: Single image slider without position indicator
+               2: Single image slider with position indicator
+
+    4 _     -> 1: For double item horizontal scroller
+               2: For double item grid view horizontal scroller
+
         _ _ -> Last two digits are meant to show order of views in structure
 
 */
 
 public class View {
-    private String viewId,fields,header;
-    private int pos,height,yPos;
-    private List<String> products;
+    private String  fields,header;
+    private int viewCode,pos,height,yPos;
+    private List<Map<String,Object>> data;
 
     public View(){
-        products = new ArrayList<>();
+        data = new ArrayList<>();
     }
 
-    public String getViewId() {
-        return viewId;
+    public int getViewCode() {
+        return viewCode;
     }
 
-    public void setViewId(String viewId) {
-        this.viewId = viewId;
+    public void setViewCode(int viewCode) {
+        this.viewCode = viewCode;
     }
 
     public String getFields() {
@@ -74,12 +83,12 @@ public class View {
         this.yPos = yPos;
     }
 
-    public List<String> getProducts() {
-        return products;
+    public List<Map<String, Object>> getData() {
+        return data;
     }
 
-    public void setProducts(List<String> products) {
-        this.products = products;
+    public void setData(List<Map<String, Object>> data) {
+        this.data = data;
     }
 
     public String getHeader() {

@@ -31,12 +31,12 @@
                 android:layout_gravity="center">
 
                 <ImageView
-                    android:id="@+id/double_image_view"
+                    android:id="@+id/double_product_view"
                     android:layout_width="125.4dp"
                     android:layout_height="119.9dp"
                     android:layout_gravity="center"/>
                 <TextView
-                    android:id="@+id/double_image_name"
+                    android:id="@+id/double_product_name"
                     android:layout_width="115.5dp"
                     android:fontFamily="@font/montserrat_bold"
                     android:layout_gravity="center"
@@ -47,7 +47,7 @@
                     android:layout_height="20dp"
                     android:layout_marginTop="9dp"/>
                 <TextView
-                    android:id="@+id/double_image_price"
+                    android:id="@+id/double_product_price"
                     android:layout_width="115.5dp"
                     android:gravity="center"
                     android:fontFamily="@font/montserrat_bold_normal"
@@ -57,11 +57,11 @@
                     android:layout_height="18dp"
                     />
                 <Button
-                    android:id="@+id/double_image_cart"
+                    android:id="@+id/double_product_cart"
                     android:layout_width="93dp"
                     android:background="@color/green"
                     android:layout_marginTop="5dp"
-                    android:textSize="11sp"
+                    android:textSize="12sp"
                     android:layout_gravity="center"
                     android:text="ADD TO CART"
                     android:layout_height="21dp"

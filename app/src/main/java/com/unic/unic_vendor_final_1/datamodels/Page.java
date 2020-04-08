@@ -2,6 +2,7 @@ package com.unic.unic_vendor_final_1.datamodels;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Page {
     private String pageName;
@@ -70,10 +71,10 @@ public class Page {
         this.setSize(height);
     }
 
-    public void updateView(String viewId, List<String> products){
+    public void updateView(int viewCode, List<Map<String,Object>> data){
         for(int i=0;i<views.size();i++){
-            if(views.get(i).getViewId().equals(viewId)){
-                views.get(i).setProducts(products);
+            if(views.get(i).getViewCode()==viewCode){
+                views.get(i).setData(data);
             }
         }
     }

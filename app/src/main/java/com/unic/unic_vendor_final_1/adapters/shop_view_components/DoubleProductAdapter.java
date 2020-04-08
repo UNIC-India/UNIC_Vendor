@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,17 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DoubleImageAdapter extends RecyclerView.Adapter<DoubleImageAdapter.ViewHolder> {
+public class DoubleProductAdapter extends RecyclerView.Adapter<DoubleProductAdapter.ViewHolder> {
 
     private Context mContext;
     private List<Map<String,Object>> products;
 
-    public DoubleImageAdapter(Context context){
+    public DoubleProductAdapter(Context context){
         this.mContext = context;
     }
 
@@ -37,17 +34,17 @@ public class DoubleImageAdapter extends RecyclerView.Adapter<DoubleImageAdapter.
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
-            tvProductName = itemView.findViewById(R.id.double_image_name);
-            ivProductImage = itemView.findViewById(R.id.double_image_view);
-            tvProductPrice = itemView.findViewById(R.id.double_image_price);
-            addToCart = itemView.findViewById(R.id.double_image_cart);
+            tvProductName = itemView.findViewById(R.id.double_product_name);
+            ivProductImage = itemView.findViewById(R.id.double_product_view);
+            tvProductPrice = itemView.findViewById(R.id.double_product_price);
+            addToCart = itemView.findViewById(R.id.double_product_cart);
         }
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.double_image_view_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.double_product_view_item,parent,false);
         return new ViewHolder(view);
     }
 

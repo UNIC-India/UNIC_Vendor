@@ -42,7 +42,7 @@ public class adapter_ooob extends RecyclerView.Adapter<adapter_ooob.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.double_image_view_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.double_product_view_item,parent,false);
         return new ViewHolder(view);
     }
 

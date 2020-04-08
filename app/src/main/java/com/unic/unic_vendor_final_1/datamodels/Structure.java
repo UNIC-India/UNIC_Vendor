@@ -1,8 +1,8 @@
 package com.unic.unic_vendor_final_1.datamodels;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Structure {
 
@@ -52,10 +52,10 @@ public class Structure {
         }
     }
 
-    public void updateProductList(int pageId, String viewId, List<String> products){
+    public void updateProductList(int pageId, int viewCode, List<Map<String,Object>> data){
         for (int i=0;i<pages.size();i++){
             if (pages.get(i).getPageId() == pageId){
-                pages.get(i).updateView(viewId, products);
+                pages.get(i).updateView(viewCode,data);
             }
         }
     }
