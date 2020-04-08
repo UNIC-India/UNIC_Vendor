@@ -80,7 +80,8 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
         setContentView(R.layout.activity_location_selector);
 
         address = getIntent().getStringExtra("address");
-        Geocode(address);
+        if (address!=null)
+            Geocode(address);
 
         type = getIntent().getIntExtra("type",0);
         mapView = findViewById(R.id.mapView);
