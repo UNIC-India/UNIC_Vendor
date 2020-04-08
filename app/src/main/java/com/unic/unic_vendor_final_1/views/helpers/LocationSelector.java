@@ -80,6 +80,8 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
         setContentView(R.layout.activity_location_selector);
 
         address = getIntent().getStringExtra("address");
+        Geocode(address);
+
         type = getIntent().getIntExtra("type",0);
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
@@ -125,7 +127,11 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
                         locationComponent.setRenderMode(RenderMode.NORMAL);
                         break;
                     case 1:
-                        Geocode(address);
+                        mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+                                new CameraPosition.Builder()
+                                        .target(new LatLng(initPoint.latitude(),initPoint.longitude()))
+                                        .zoom(14)
+                                        .build()), 4000);
                         break;
                 }
 
@@ -278,11 +284,6 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
 
                     // Log the first results Point.
                     initPoint = results.get(0).center();
-                    mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(
-                            new CameraPosition.Builder()
-                                    .target(new LatLng(initPoint.latitude(),initPoint.longitude()))
-                                    .zoom(14)
-                                    .build()), 4000);
                     Timber.d("onResponse: %s", initPoint.toString());
 
                 } else {
