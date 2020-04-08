@@ -84,6 +84,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
+        initSearchFab();
     }
 
     @Override
