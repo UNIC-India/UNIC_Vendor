@@ -41,6 +41,7 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
 
     private Map<String,Double> location = new HashMap<>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
