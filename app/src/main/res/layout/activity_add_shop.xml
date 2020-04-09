@@ -56,19 +56,22 @@
         app:layout_constraintTop_toBottomOf="@id/et_add_shop_address_line1"
         app:layout_constraintStart_toStartOf="@id/et_add_shop_name"
         android:layout_marginTop="20dp"/>
-    <EditText
-        android:id="@+id/et_add_shop_address_line3"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/et_add_shop_address_line2"
-        app:layout_constraintStart_toStartOf="@id/et_add_shop_name"
-        android:layout_marginTop="20dp"/>
-
+    <ImageButton
+        android:id="@+id/shop_location_select"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintStart_toStartOf="@id/tv_add_shop_address"
+        app:layout_constraintTop_toBottomOf="@id/tv_add_shop_address"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@color/white"
+        android:src="@drawable/ic_map_black_24dp"
+        android:scaleType="fitXY"/>
     <TextView
         android:id="@+id/tv_shop_locality"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/et_add_shop_address_line3"
+        app:layout_constraintTop_toBottomOf="@id/et_add_shop_address_line2"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
@@ -80,12 +83,28 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/tv_shop_locality"
         app:layout_constraintStart_toStartOf="@id/et_add_shop_name"/>
+    <TextView
+        android:id="@+id/tv_add_shop_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/et_shop_add_locality"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:textSize="22sp"
+        android:text="City:"/>
+    <EditText
+        android:id="@+id/et_shop_add_city"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/tv_add_shop_city"
+        app:layout_constraintStart_toStartOf="@id/et_shop_add_locality"/>
 
     <Button
         android:id="@+id/add_shop_step_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tv_shop_locality"
+        app:layout_constraintTop_toBottomOf="@id/tv_add_shop_city"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="50dp"

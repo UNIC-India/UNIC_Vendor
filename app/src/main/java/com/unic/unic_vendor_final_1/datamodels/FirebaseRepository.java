@@ -12,7 +12,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -95,7 +94,7 @@ public class FirebaseRepository {
     }
 
     public Query getProducts(String shopId){
-        return db.collection("products").whereEqualTo("shopId",shopId);
+        return db.collection("products");
     }
 
     public Task<Void> setUserSplashStatus(String Uid,int status,boolean isNewUser){
@@ -118,6 +117,10 @@ public class FirebaseRepository {
 
     public Task<Void> saveShopStructure(Structure structure){
         return db.collection("structures").document(structure.getShopId()).set(structure);
+    }
+
+    public Task<DocumentSnapshot> getShopStructure(String shopId){
+        return db.collection("structures").document(shopId).get();
     }
 
 }

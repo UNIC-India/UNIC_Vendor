@@ -44,4 +44,7 @@
     <string name="ordersinfo1">We will inform you when the package is ready</string>
     <string name="ordersinfo2">Your products will be shipped in 2-3 days</string>
     <string name="ordersinfo3">You will receive an email when the package is delivered</string>
+
+    <string name="map_api_key">pk.eyJ1IjoicHNrMTEwMyIsImEiOiJjazhxNjM2MTUwMGoyM2xucXcwOGxieGhlIn0.C4WLlBI0995yKMsWur8FIQ</string>
+
 </resources>

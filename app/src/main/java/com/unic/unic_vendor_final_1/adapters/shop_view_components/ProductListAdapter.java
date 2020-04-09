@@ -25,7 +25,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     private Context mContext;
     private List<Map<String,Object>> products;
-    private ArrayList<String> checkedProductIDs = new ArrayList<>();
+    private List<Map<String,Object>> checkedProducts;
 
     public ProductListAdapter(Context context){
         this.mContext = context;
@@ -39,7 +39,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             cbCheck = itemView.findViewById(R.id.product_checkbox);
-            tvProductName = itemView.findViewById(R.id.product_name);;
+            tvProductName = itemView.findViewById(R.id.product_name);
             ivProductPhoto = itemView.findViewById(R.id.product_image_view);
         }
     }
@@ -60,13 +60,19 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 .load(products.get(position).get("imageId").toString())
                 .into(holder.ivProductPhoto);
 
+        if(checkedProducts.contains(products.get(position)))
+            holder.cbCheck.setChecked(true);
+
+        else
+            holder.cbCheck.setChecked(false);
+
         holder.cbCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if(isChecked)
-                    checkedProductIDs.add(products.get(position).get("id").toString());
+                    checkedProducts.add(products.get(position));
                 else
-                    checkedProductIDs.remove(products.get(position).get("id").toString());
+                    checkedProducts.remove(products.get(position));
             }
         });
     }
@@ -80,21 +86,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         this.products = products;
     }
 
-    public ArrayList<String> returnSelectedProductIDs(){
-        return checkedProductIDs;
+    public List<Map<String,Object>> returnSelectedProducts(){
+        return checkedProducts;
     }
 
-    public ArrayList<Map<String,Object>> returnSelectedProducts(){
 
-        ArrayList<Map<String,Object>> checkedProducts = new ArrayList<>();
-
-        for(int i=0;i<products.size();i++){
-            if (checkedProductIDs.contains(products.get(i).get("id").toString())) {
-
-                Map<String, Object> data = new HashMap<>(products.get(i));
-                checkedProducts.add(data);
-            }
-        }
-        return checkedProducts;
+    public void  setSelectedProducts(List<Map<String,Object>> productIDs){
+        this.checkedProducts = productIDs;
     }
 }

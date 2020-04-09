@@ -43,7 +43,7 @@ public class MyAppsFragment extends Fragment implements View.OnClickListener{
         recyclerView.setLayoutManager(layoutManager);
         adapter = new ShopAdapter(getContext());
         shopsViewModel = ViewModelProviders.of(this).get(UserShopsViewModel.class);
-        shopsViewModel.getAllShops().observe(this, new Observer<List<Shop>>() {
+        shopsViewModel.getAllShops().observe(getViewLifecycleOwner(), new Observer<List<Shop>>() {
             @Override
             public void onChanged(List<Shop> shops) {
                 adapter.setShops(shops);

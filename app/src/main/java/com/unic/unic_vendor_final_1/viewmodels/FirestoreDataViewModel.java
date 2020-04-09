@@ -14,10 +14,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.unic.unic_vendor_final_1.datamodels.FirebaseRepository;
-import com.unic.unic_vendor_final_1.datamodels.Structure;
 import com.unic.unic_vendor_final_1.datamodels.User;
-
-import java.io.File;
 
 public class FirestoreDataViewModel extends ViewModel {
 

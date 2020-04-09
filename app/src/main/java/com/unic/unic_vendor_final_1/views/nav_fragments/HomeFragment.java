@@ -1,11 +1,16 @@
 package com.unic.unic_vendor_final_1.views.nav_fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.unic.unic_vendor_final_1.R;
 
@@ -20,5 +25,55 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
+
+    }
+    public void onCategorySelect1(View v){
+        final View a=v;
+        ImageView iv1=v.findViewById(R.id.imageView);
+        iv1.setImageResource(R.drawable.ordercolumnafterclick);
+
+
+
+        double secs = 0.05;
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.home_fragment,new MyAppsFragment());
+                ft.commit();
+
+
+
+            }
+        }, (int) (secs * 1000));
+
+    }
+
+    public void onCategorySelect2(View v){
+        final View a=v;
+        ImageView iv2=v.findViewById(R.id.imageView2);
+        iv2.setImageResource(R.drawable.myappscolumnafterclick);
+
+
+
+        double secs = 0.05;
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.home_fragment,new MyAppsFragment());
+                ft.commit();
+
+
+
+            }
+        }, (int) (secs * 1000));
+
     }
 }
