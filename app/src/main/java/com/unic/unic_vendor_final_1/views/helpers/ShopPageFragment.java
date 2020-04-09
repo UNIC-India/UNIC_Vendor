@@ -15,17 +15,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.DoubleProductAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentShopPageBinding;
 import com.unic.unic_vendor_final_1.datamodels.Page;
 import com.unic.unic_vendor_final_1.helper_classes.StructureTemplates;
+import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShopPageFragment extends Fragment {
+public class ShopPageFragment extends Fragment implements View.OnClickListener {
 
     static class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
@@ -106,12 +108,14 @@ public class ShopPageFragment extends Fragment {
                 //TODO
             case 41:
                 View doubleProductView = getActivity().getLayoutInflater().inflate(R.layout.double_product_view,parent,false);
+                doubleProductView.setId(view.getViewCode());
                 parent.addView(doubleProductView, RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()));
                 RelativeLayout.LayoutParams doubleProductLayoutParams = (RelativeLayout.LayoutParams) doubleProductView.getLayoutParams();
                 doubleProductLayoutParams.topMargin = (int)dpToPx(view.getyPos());
                 doubleProductView.setLayoutParams(doubleProductLayoutParams);
                 TextView tvHeader = doubleProductView.findViewById(R.id.double_product_header);
                 tvHeader.setText(view.getHeader());
+                doubleProductView.findViewById(R.id.btn_add_products).setOnClickListener(this);
 
                 DoubleProductAdapter doubleProductAdapter = new DoubleProductAdapter(getContext());
                 doubleProductAdapter.setProducts(view.getData());
@@ -120,7 +124,6 @@ public class ShopPageFragment extends Fragment {
                 doubleProductRecyclerView.setLayoutManager(doubleProductLayoutManager);
                 doubleProductRecyclerView.setAdapter(doubleProductAdapter);
                 doubleProductRecyclerView.addItemDecoration(new SpacesItemDecoration(10));
-
         }
     }
 
@@ -132,4 +135,8 @@ public class ShopPageFragment extends Fragment {
         );
     }
 
+    @Override
+    public void onClick(View v) {
+        ((SetShopStructure)getActivity()).selectProducts(page.getPageId(),((View)v.getParent()).getId());
+    }
 }

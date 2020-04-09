@@ -31,6 +31,7 @@ import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.datamodels.Structure;
 import com.unic.unic_vendor_final_1.helper_classes.StructureTemplates;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
+import com.unic.unic_vendor_final_1.views.helpers.ProductSelector;
 import com.unic.unic_vendor_final_1.views.helpers.ShopPageFragment;
 
 public class SetShopStructure extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
@@ -126,6 +127,11 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             case R.id.confirm_shop_structure:
                 setStructureViewModel.saveShopStructure();
                 break;
+                /*
+            case R.id.btn_add_products:
+                Toast.makeText(this, Integer.valueOf(((View)v.getParent()).getId()).toString(), Toast.LENGTH_SHORT).show();
+                break;
+                 */
         }
 
     }
@@ -140,6 +146,8 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .replace(R.id.shop_pages_loader,new ShopPageFragment(page),page.getPageName())
                         .commit();
+                setShopStructureBinding.setStructureNavView.setCheckedItem(item);
+                setShopStructureBinding.drawerLayout.closeDrawers();
                 setShopStructureBinding.setStructureNavView.setCheckedItem(item);
                 return true;
             }
@@ -160,6 +168,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 updateStatus(status);
                 break;
             case 1:
+                setStructureViewModel.getProductData(shopId);
                 structure = StructureTemplates.getTemplate1(shopId);
                 setStructureViewModel.getStructure().setValue(structure);
                 updateMenu();
@@ -265,5 +274,22 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                     .commit();
             setShopStructureBinding.setStructureNavView.setCheckedItem(setShopStructureBinding.setStructureNavView.getMenu().getItem(0));
         }
+    }
+
+    public void selectProducts(int pageId,int viewCode){
+        Toast.makeText(this, Integer.valueOf(pageId).toString()+","+Integer.valueOf(viewCode).toString(), Toast.LENGTH_SHORT).show();
+        getSupportFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .replace(R.id.shop_pages_loader,new ProductSelector(pageId,viewCode))
+                .commit();
+    }
+
+    public void returnToPage(int pageId){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .replace(R.id.shop_pages_loader,new ShopPageFragment(structure.getPage(pageId)),structure.getPage(pageId).getPageName())
+                .commit();
+        setShopStructureBinding.setStructureNavView.setCheckedItem(pageId);
     }
 }
