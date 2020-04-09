@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/l1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        >
+    <View
+        android:id="@+id/v1"
+        android:layout_width="25dp"
+        android:layout_height="1dp"
+        android:background="@color/grey3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"></View>
+    <View
+        android:id="@+id/v2"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/v1"
+        android:background="@drawable/round_corner"></View>
+    <View
+        android:id="@+id/v3"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/grey3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintRight_toLeftOf="@id/tv_shop_info"
+        app:layout_constraintLeft_toRightOf="@id/v2"
+        android:layout_gravity="center_vertical"></View>
+
+    <TextView
+        android:id="@+id/tv_shop_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Shop Info"
+        android:padding="7dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="@color/darkest"
+        android:background="@drawable/round_corner"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"></TextView>
+    <View
+        android:id="@+id/v6"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/grey3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toRightOf="@id/tv_shop_info"
+        android:layout_gravity="center_vertical"
+        app:layout_constraintRight_toLeftOf="@id/v4"></View>
+
+    <View
+        android:id="@+id/v4"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/round_corner"
+        app:layout_constraintRight_toLeftOf="@id/v5"></View>
+
+    <View
+        android:id="@+id/v5"
+        android:layout_width="25dp"
+        android:layout_height="1dp"
+        android:background="@color/grey3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_gravity="center_vertical"></View>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+<TextView
+android:id="@+id/tv_shop_pincode"
+android:layout_width="wrap_content"
+android:layout_height="15sp"
+android:textSize="12sp"
+android:text="Area Pincode"
+app:layout_constraintTop_toBottomOf="@id/l1"
+android:layout_marginTop="30dp"
+android:layout_marginLeft="15dp"
+app:layout_constraintLeft_toLeftOf="parent"></TextView>
+<EditText
+android:id="@+id/edt_shop_pincode"
+android:layout_width="match_parent"
+android:layout_height="30dp"
+android:paddingTop="2dp"
+android:paddingBottom="2dp"
+android:paddingLeft="10dp"
+android:textColor="@color/darkest"
+app:layout_constraintTop_toBottomOf="@id/tv_shop_pincode"
+android:layout_marginTop="10dp"
+android:layout_marginLeft="10dp"
+android:layout_marginRight="10dp"
+android:background="@drawable/round_corner"></EditText>
+<TextView
+android:id="@+id/tv_shop_building"
+android:layout_width="wrap_content"
+android:layout_height="15sp"
+android:textSize="12sp"
+android:text="Building-Floor"
+app:layout_constraintTop_toBottomOf="@id/edt_shop_pincode"
+android:layout_marginTop="30dp"
+android:layout_marginLeft="15dp"
+app:layout_constraintLeft_toLeftOf="parent"></TextView>
+<EditText
+android:id="@+id/edt_shop_building"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:paddingTop="2dp"
+android:paddingBottom="2dp"
+android:paddingLeft="10dp"
+android:textColor="@color/darkest"
+app:layout_constraintTop_toBottomOf="@id/tv_shop_building"
+android:layout_marginTop="10dp"
+android:layout_marginLeft="10dp"
+android:layout_marginRight="10dp"
+android:background="@drawable/round_corner"></EditText>
+<TextView
+android:id="@+id/tv_shop_locality"
+android:layout_width="wrap_content"
+android:layout_height="15sp"
+android:textSize="12sp"
+android:text="Locality"
+app:layout_constraintTop_toBottomOf="@id/edt_shop_building"
+android:layout_marginTop="30dp"
+android:layout_marginLeft="15dp"
+app:layout_constraintLeft_toLeftOf="parent"></TextView>
+<EditText
+android:id="@+id/edt_shop_locality"
+android:layout_width="match_parent"
+android:layout_height="30dp"
+android:paddingTop="2dp"
+android:paddingBottom="2dp"
+android:paddingLeft="10dp"
+android:textColor="@color/darkest"
+app:layout_constraintTop_toBottomOf="@id/tv_shop_locality"
+android:layout_marginTop="10dp"
+android:layout_marginLeft="10dp"
+android:layout_marginRight="10dp"
+android:background="@drawable/round_corner"></EditText>
+<TextView
+android:id="@+id/tv_landmark"
+android:layout_width="wrap_content"
+android:layout_height="15sp"
+android:textSize="12sp"
+android:text="Landmark"
+app:layout_constraintTop_toBottomOf="@id/edt_shop_locality"
+android:layout_marginTop="30dp"
+android:layout_marginLeft="15dp"
+app:layout_constraintLeft_toLeftOf="parent"></TextView>
+<EditText
+android:id="@+id/edt_landmark"
+android:layout_width="match_parent"
+android:layout_height="30dp"
+app:layout_constraintTop_toBottomOf="@id/tv_landmark"
+android:layout_marginTop="10dp"
+android:paddingTop="2dp"
+android:paddingBottom="2dp"
+android:paddingLeft="10dp"
+android:textColor="@color/darkest"
+android:layout_marginLeft="10dp"
+android:layout_marginRight="10dp"
+android:background="@drawable/round_corner"></EditText>
+<TextView
+android:id="@+id/tv_city"
+android:layout_width="wrap_content"
+android:layout_height="15sp"
+android:textSize="12sp"
+android:text="City"
+app:layout_constraintTop_toBottomOf="@id/edt_landmark"
+android:layout_marginTop="30dp"
+android:layout_marginLeft="15dp"
+app:layout_constraintLeft_toLeftOf="parent"></TextView>
+<EditText
+android:id="@+id/edt_city"
+android:layout_width="175dp"
+android:layout_height="wrap_content"
+android:paddingTop="2dp"
+android:paddingBottom="2dp"
+android:paddingLeft="10dp"
+android:textColor="@color/darkest"
+app:layout_constraintTop_toBottomOf="@id/tv_city"
+app:layout_constraintLeft_toLeftOf="parent"
+android:layout_marginTop="10dp"
+android:layout_marginLeft="10dp"
+android:background="@drawable/round_corner"></EditText>
+<TextView
+android:id="@+id/tv_state"
+android:layout_width="wrap_content"
+android:layout_height="15sp"
+android:textSize="12sp"
+android:text="State"
+app:layout_constraintTop_toBottomOf="@id/edt_landmark"
+android:layout_marginTop="30dp"
+android:layout_marginLeft="5dp"
+app:layout_constraintLeft_toLeftOf="@id/edt_state"></TextView>
+<EditText
+android:id="@+id/edt_state"
+android:layout_width="175dp"
+android:layout_height="wrap_content"
+android:paddingTop="2dp"
+android:paddingBottom="2dp"
+android:paddingLeft="10dp"
+android:textColor="@color/darkest"
+app:layout_constraintTop_toBottomOf="@id/tv_state"
+app:layout_constraintLeft_toRightOf="@id/edt_city"
+app:layout_constraintRight_toRightOf="parent"
+android:layout_marginTop="10dp"
+android:layout_marginRight="10dp"
+android:background="@drawable/round_corner"></EditText>
+
+<Button
+android:layout_width="160dp"
+android:layout_height="wrap_content"
+app:layout_constraintTop_toBottomOf="@id/edt_city"
+app:layout_constraintLeft_toLeftOf="parent"
+app:layout_constraintRight_toRightOf="parent"
+android:textSize="16sp"
+android:layout_marginTop="50dp"
+android:text="Done"
+android:textColor="@color/white"
+android:background="@color/colourQuaternary"></Button>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
