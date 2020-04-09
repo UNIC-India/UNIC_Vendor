@@ -253,6 +253,10 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         this.structureStatus = structureStatus;
 
         if(structureStatus==1||structureStatus==0){
+            if(structureStatus==0){
+                structure = new Structure(shopId);
+                setStructureViewModel.setStructure(structure);
+            }
             updateMenu();
             getSupportFragmentManager()
                     .beginTransaction()

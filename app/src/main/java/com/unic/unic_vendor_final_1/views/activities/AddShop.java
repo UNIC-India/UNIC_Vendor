@@ -159,6 +159,7 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
             case 4:
                 Intent intent = new Intent(this, SetShopStructure.class);
                 intent.putExtra("shopId",shop.getId());
+                intent.putExtra("template",Integer.valueOf(1));
                 startActivity(intent);
                 break;
         }
