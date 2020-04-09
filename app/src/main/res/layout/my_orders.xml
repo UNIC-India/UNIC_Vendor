@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:id="@+id/tv_order_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Order id : "
+        android:paddingLeft="15dp"
+        android:paddingTop="10dp"
+        android:fontFamily="@font/montserrat_bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"></TextView>
+
+    <TextView
+        android:id="@+id/order_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="348"
+        android:paddingTop="10dp"
+        android:fontFamily="@font/montserrat_bold"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColorHint="@color/colourQuaternary"
+        android:textColor="@color/colourQuaternary"
+        app:layout_constraintLeft_toRightOf="@id/tv_order_id"
+        ></TextView>
+
+    <TextView
+        android:id="@+id/tv_schedule_pick_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pick up time : "
+        android:paddingTop="10dp"
+        android:fontFamily="@font/montserrat_bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="80dp"></TextView>
+    <EditText
+        android:id="@+id/pick_up_by"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="time"
+        android:hint="3:48 PM"
+        android:backgroundTint="@color/white"
+        android:paddingTop="10dp"
+        android:fontFamily="@font/montserrat_bold"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColorHint="@color/colourQuaternary"
+        android:textColor="@color/colourQuaternary"
+        app:layout_constraintLeft_toRightOf="@id/tv_schedule_pick_up"
+        ></EditText>
+
+    <View
+        android:id="@+id/dashed_line"
+        android:layout_width="match_parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_height="4dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_order_id"
+        android:background="@drawable/horizontal_dashed_line"></View>
+
+    <TextView
+        android:id="@+id/tv_product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="13sp"
+        android:textSize="12sp"
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@id/dashed_line"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:paddingLeft="15dp"
+        android:text="Product Name : "></TextView>
+    <TextView
+        android:id="@+id/product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="13sp"
+        android:textSize="12sp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@id/dashed_line"
+        app:layout_constraintLeft_toRightOf="@id/tv_product_name"
+        android:hint="Pulses"></TextView>
+    <TextView
+        android:id="@+id/tv_product_qty"
+        android:layout_width="wrap_content"
+        android:layout_height="15sp"
+        android:textSize="12sp"
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@id/product_name"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:paddingLeft="15dp"
+        android:text="Product qty : "></TextView>
+    <TextView
+        android:id="@+id/product_qty"
+        android:layout_width="wrap_content"
+        android:layout_height="13sp"
+        android:textSize="12sp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@id/product_name"
+        app:layout_constraintLeft_toRightOf="@id/tv_product_qty"
+        android:hint="3"></TextView>
+    <TextView
+        android:id="@+id/tv_product_bill_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="13sp"
+        android:textSize="12sp"
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@id/product_qty"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:paddingLeft="15dp"
+        android:text="Bill amount : Rs. "></TextView>
+    <TextView
+        android:id="@+id/bill_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="13sp"
+        android:textSize="12sp"
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@id/product_qty"
+        app:layout_constraintLeft_toRightOf="@id/tv_product_bill_amount"
+        android:hint="330"></TextView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="13sp"
+        app:layout_constraintRight_toLeftOf="@id/icon_collected"
+        android:layout_marginRight="10dp"
+        android:textSize="12sp"
+        android:text="@string/collected"
+        app:layout_constraintTop_toTopOf="@id/icon_collected"
+        app:layout_constraintBottom_toBottomOf="@id/icon_collected"></TextView>
+    <ImageButton
+        android:id="@+id/icon_collected"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/roundbackground"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="25dp"
+        app:layout_constraintTop_toTopOf="@id/dashed_line"
+        app:layout_constraintBottom_toBottomOf="@id/solid_line"
+        android:src="@drawable/check_icon"></ImageButton>
+    <View
+        android:id="@+id/solid_line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_product_bill_amount"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:background="@color/gray_1"></View>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
