@@ -71,6 +71,13 @@ public class Page {
         this.setSize(height);
     }
 
+    public View getView(int viewCode){
+        for(View view : views)
+            if(view.getViewCode()==viewCode)
+                return view;
+        return null;
+    }
+
     public void updateView(int viewCode, List<Map<String,Object>> data){
         for(int i=0;i<views.size();i++){
             if(views.get(i).getViewCode()==viewCode){

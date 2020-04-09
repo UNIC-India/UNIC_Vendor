@@ -117,6 +117,10 @@ public class SetStructureViewModel extends ViewModel {
         return structure;
     }
 
+    public LiveData<List<Map<String, Object>>> getProducts() {
+        return products;
+    }
+
     public void setStructure(Structure structure) {
         this.structure.setValue(structure);
     }
