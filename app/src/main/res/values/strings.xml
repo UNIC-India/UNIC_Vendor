@@ -38,13 +38,27 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="myorders_tv2">Your order information will be forwaded to your email</string>
+    <string name="myorders_tv2">Your order information will be forwarded to your email</string>
     <string name="myorders">My Orders</string>
     <string name="tvnext">What happens next?</string>
     <string name="ordersinfo1">We will inform you when the package is ready</string>
-    <string name="ordersinfo2">Your products will be shipped in 2-3 days</string>
+    <string name="ordersinfo2">Your products will be shipped in 2–3 days</string>
     <string name="ordersinfo3">You will receive an email when the package is delivered</string>
 
     <string name="map_api_key">pk.eyJ1IjoicHNrMTEwMyIsImEiOiJjazhxNjM2MTUwMGoyM2xucXcwOGxieGhlIn0.C4WLlBI0995yKMsWur8FIQ</string>
+
+    <string name="successful_order">Order placed successfully</string>
+    <string name="nav_to_home">Back to Home</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="received_orders">Orders Received</string>
+    <string name="view_orders">You can see your orders here</string>
+    <string name="my_qr">My QR</string>
+    <string name="special_qr">Your specialised QR code</string>
+    <string name="my_products">My Products</string>
+    <string name="edit_products">Add, remove and modify your list of products</string>
+    <string name="my_report">My Report</string>
+    <string name="analysis">Detailed analysis of your sales</string>
+    <string name="management">Manage notifications, order limit, etc</string>
+    <string name="settings">Settings</string>
 
 </resources>
