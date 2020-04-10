@@ -1,7 +1,5 @@
 package com.unic.unic_vendor_final_1.viewmodels;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -15,6 +13,10 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.unic.unic_vendor_final_1.datamodels.FirebaseRepository;
 import com.unic.unic_vendor_final_1.datamodels.User;
+
+import java.util.Objects;
+
+import timber.log.Timber;
 
 public class FirestoreDataViewModel extends ViewModel {
 
@@ -44,6 +46,7 @@ public class FirestoreDataViewModel extends ViewModel {
         firebaseRepository.getUser().addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                assert documentSnapshot != null;
                 user.setValue(documentSnapshot.toObject(User.class));
             }
         });
@@ -60,7 +63,7 @@ public class FirestoreDataViewModel extends ViewModel {
         .addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("AddUser",e.toString());
+                Timber.d(e.toString());
             }
         });
     }
@@ -72,7 +75,7 @@ public class FirestoreDataViewModel extends ViewModel {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if(documentSnapshot.exists())
-                            userSplashStatus.setValue(Integer.valueOf(documentSnapshot.get("status").toString()));
+                            userSplashStatus.setValue(Integer.valueOf(Objects.requireNonNull(documentSnapshot.get("status")).toString()));
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

@@ -35,6 +35,8 @@ public class FirebasePhoneAuthViewModel extends ViewModel {
 
     private PhoneAuthProvider.ForceResendingToken mResendToken;
 
+    private MutableLiveData<String> errorMessage = new MutableLiveData<>();
+
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
     public FirebasePhoneAuthViewModel(Context context) {
@@ -56,6 +58,9 @@ public class FirebasePhoneAuthViewModel extends ViewModel {
                 status.setValue(2);
             else if (e instanceof FirebaseTooManyRequestsException)
                 status.setValue(3);
+            else
+                status.setValue(5);
+            errorMessage.setValue(e.toString());
 
         }
 
@@ -94,7 +99,6 @@ public class FirebasePhoneAuthViewModel extends ViewModel {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         status.setValue(-1);
-                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -114,6 +118,10 @@ public class FirebasePhoneAuthViewModel extends ViewModel {
 
     public LiveData<String> getCode() {
         return SMSCode;
+    }
+
+    public LiveData<String> getError(){
+        return errorMessage;
     }
 
 }

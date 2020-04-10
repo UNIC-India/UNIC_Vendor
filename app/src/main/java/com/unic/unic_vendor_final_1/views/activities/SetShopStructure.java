@@ -5,13 +5,10 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
+import androidx.lifecycle.ViewModelProvider;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,11 +22,10 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.ActivitySetShopStructureBinding;
-import com.unic.unic_vendor_final_1.databinding.ActivitySplashScreenBinding;
 import com.unic.unic_vendor_final_1.datamodels.Page;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.datamodels.Structure;
-import com.unic.unic_vendor_final_1.helper_classes.StructureTemplates;
+import com.unic.unic_vendor_final_1.commons.StructureTemplates;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 import com.unic.unic_vendor_final_1.views.helpers.ProductSelector;
 import com.unic.unic_vendor_final_1.views.helpers.ShopPageFragment;
@@ -51,7 +47,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setStructureViewModel = ViewModelProviders.of(this).get(SetStructureViewModel.class);
+        setStructureViewModel = new ViewModelProvider(this).get(SetStructureViewModel.class);
 
         setShopStructureBinding = ActivitySetShopStructureBinding.inflate(getLayoutInflater());
         setContentView(setShopStructureBinding.getRoot());

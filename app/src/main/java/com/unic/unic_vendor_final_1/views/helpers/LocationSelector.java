@@ -5,10 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,12 +38,14 @@ import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import com.mapbox.mapboxsdk.style.layers.Layer;
-import com.mapbox.mapboxsdk.style.layers.Property;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.unic.unic_vendor_final_1.R;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,16 +62,13 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.visibility;
 public class LocationSelector extends AppCompatActivity implements PermissionsListener, OnMapReadyCallback {
 
     private static final String DROPPED_MARKER_LAYER_ID = "DROPPED_MARKER_LAYER_ID";
-    private static final String TAG = "Location Receiver";
     private static final int REQUEST_CODE_AUTOCOMPLETE = 1005;
 
     private MapView mapView;
     private MapboxMap mapboxMap;
     private Button selectLocationButton;
-    private PermissionsManager permissionsManager;
     private ImageView hoveringMarker;
     private Layer droppedMarkerLayer;
-    private String address;
     private Point initPoint;
     private MapboxGeocoding mapboxGeocoding;
     private  int type;
@@ -82,8 +79,8 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
         Mapbox.getInstance(this,getString(R.string.map_api_key));
         setContentView(R.layout.activity_location_selector);
 
-        address = getIntent().getStringExtra("address");
-        if (address!=null)
+        String address = getIntent().getStringExtra("address");
+        if (address !=null)
             Geocode(address);
 
         type = getIntent().getIntExtra("type",0);
@@ -158,7 +155,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
 
     private void initDroppedMarker(@NonNull Style loadedMapStyle) {
 // Add the marker image to map
-        loadedMapStyle.addImage("dropped-icon-image", getDrawable(R.drawable.ic_place_red_24dp));
+        loadedMapStyle.addImage("dropped-icon-image", Objects.requireNonNull(getDrawable(R.drawable.ic_place_red_24dp)));
         loadedMapStyle.addSource(new GeoJsonSource("dropped-marker-source-id"));
         loadedMapStyle.addLayer(new SymbolLayer(DROPPED_MARKER_LAYER_ID,
                 "dropped-marker-source-id").withProperties(
@@ -196,7 +193,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NotNull Bundle outState) {
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
     }
@@ -225,7 +222,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
 
 
         } else {
-            permissionsManager = new PermissionsManager(this);
+            PermissionsManager permissionsManager = new PermissionsManager(this);
             permissionsManager.requestLocationPermissions(this);
         }
     }
@@ -274,6 +271,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
             @Override
             public void onResponse(@NonNull Call<GeocodingResponse> call, @NonNull Response<GeocodingResponse> response) {
 
+                assert response.body() != null;
                 List<CarmenFeature> results = response.body().features();
 
                 if (results.size() > 0) {
@@ -292,7 +290,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
 
                     LocationComponent locationComponent = mapboxMap.getLocationComponent();
                     locationComponent.activateLocationComponent(LocationComponentActivationOptions.builder(
-                            LocationSelector.this, mapboxMap.getStyle()).build());
+                            LocationSelector.this, Objects.requireNonNull(mapboxMap.getStyle())).build());
                     locationComponent.setLocationComponentEnabled(true);
 
 // Set the component's camera mode
@@ -306,7 +304,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
             }
 
             @Override
-            public void onFailure(Call<GeocodingResponse> call, Throwable throwable) {
+            public void onFailure(@NotNull Call<GeocodingResponse> call, @NotNull Throwable throwable) {
                 throwable.printStackTrace();
             }
         });
@@ -343,7 +341,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
 // Move map camera to the selected location
                     mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(
                             new CameraPosition.Builder()
-                                    .target(new LatLng(((Point) selectedCarmenFeature.geometry()).latitude(),
+                                    .target(new LatLng(((Point) Objects.requireNonNull(selectedCarmenFeature.geometry())).latitude(),
                                             ((Point) selectedCarmenFeature.geometry()).longitude()))
                                     .zoom(14)
                                     .build()), 4000);
