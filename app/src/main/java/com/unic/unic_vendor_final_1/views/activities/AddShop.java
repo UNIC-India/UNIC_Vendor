@@ -3,7 +3,7 @@ package com.unic.unic_vendor_final_1.views.activities;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -50,7 +50,7 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
         addShopBinding.btnAddShopImage.setOnClickListener(this);
         addShopBinding.addShopStep2.setOnClickListener(this);
         addShopBinding.shopLocationSelect.setOnClickListener(this);
-        addShopViewModel = ViewModelProviders.of(this).get(AddShopViewModel.class);
+        addShopViewModel = new ViewModelProvider(this).get(AddShopViewModel.class);
         addShopViewModel.getShopAddStatus().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
@@ -88,6 +88,8 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
                                     userWantsImage = false;
                                 }
                             });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 }
                 if(userWantsImage) {
 

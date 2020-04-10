@@ -2,7 +2,7 @@ package com.unic.unic_vendor_final_1.views.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,7 +31,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
         updateUI(0);
 
-        signUpViewModel = ViewModelProviders.of(this).get(FirebasePhoneAuthViewModel.class);
+        signUpViewModel = new ViewModelProvider(this).get(FirebasePhoneAuthViewModel.class);
         signUpViewModel.getStatus().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
@@ -45,15 +45,14 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
             }
         });
 
-        firestoreDataViewModel = ViewModelProviders.of(this).get(FirestoreDataViewModel.class);
+        firestoreDataViewModel = new ViewModelProvider(this).get(FirestoreDataViewModel.class);
         firestoreDataViewModel.getUserStatus().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
-                if(integer==-1){
+                if (integer == -1) {
                     updateUI(integer);
-                }
-                else if(integer==1){
-                    startActivity(new Intent(SignUp.this,UserHome.class));
+                } else if (integer == 1) {
+                    startActivity(new Intent(SignUp.this, UserHome.class));
                     finish();
                 }
             }
@@ -64,8 +63,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         signUpBinding.btnresend.setOnClickListener(this);
     }
 
-    private void updateUI(int code){
-        switch(code){
+    private void updateUI(int code) {
+        switch (code) {
             case 0:
                 signUpBinding.signupmain.setVisibility(View.VISIBLE);
                 signUpBinding.signuppin.setVisibility(View.GONE);
@@ -87,6 +86,9 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
             case 4:
                 addUserToFirebase();
                 break;
+            case 5:
+                Toast.makeText(this, signUpViewModel.getError().getValue(), Toast.LENGTH_SHORT).show();
+                break;
             case -1:
                 signUpBinding.signupmain.setVisibility(View.VISIBLE);
                 signUpBinding.signuppin.setVisibility(View.GONE);
@@ -97,7 +99,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btncontinue:
                 startAuth();
                 break;
@@ -110,16 +112,16 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
-    public void startAuth(){
-        if(signUpBinding.edtphone.getText()==null||signUpBinding.edtemail.getText()==null||signUpBinding.edtfullname.getText()==null){
+    public void startAuth() {
+        if (signUpBinding.edtphone.getText() == null || signUpBinding.edtemail.getText() == null || signUpBinding.edtfullname.getText() == null) {
             Toast.makeText(this, "Enter all details", Toast.LENGTH_SHORT).show();
             return;
         }
-        signUpViewModel.verifyPhoneNumber("+91"+signUpBinding.edtphone.getText().toString().trim());
+        signUpViewModel.verifyPhoneNumber("+91" + signUpBinding.edtphone.getText().toString().trim());
     }
 
-    public void authWithOTP(){
-        if(signUpBinding.edtpin.getText().toString().trim().length()!=6){
+    public void authWithOTP() {
+        if (signUpBinding.edtpin.getText().toString().trim().length() != 6) {
             signUpBinding.edtpin.setError("Incorrect OTP Entered");
             return;
         }
@@ -127,12 +129,12 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
     }
 
-    private void resendOTP(){
-        signUpViewModel.resendOTP("+91"+signUpBinding.edtphone.getText().toString().trim());
+    private void resendOTP() {
+        signUpViewModel.resendOTP("+91" + signUpBinding.edtphone.getText().toString().trim());
     }
 
-    public void addUserToFirebase(){
-        User user = new User(FirebaseAuth.getInstance().getUid(),signUpBinding.edtfullname.getText().toString().trim(),signUpBinding.edtemail.getText().toString().trim(),signUpBinding.edtphone.getText().toString().trim());
+    public void addUserToFirebase() {
+        User user = new User(FirebaseAuth.getInstance().getUid(), signUpBinding.edtfullname.getText().toString().trim(), signUpBinding.edtemail.getText().toString().trim(), signUpBinding.edtphone.getText().toString().trim());
         firestoreDataViewModel.addUser(user);
     }
 

@@ -1,6 +1,5 @@
 package com.unic.unic_vendor_final_1.views.nav_fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -13,6 +12,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.unic.unic_vendor_final_1.R;
+
+import java.util.Objects;
 
 public class HomeFragment extends Fragment {
     public HomeFragment() {
@@ -28,7 +29,6 @@ public class HomeFragment extends Fragment {
 
     }
     public void onCategorySelect1(View v){
-        final View a=v;
         ImageView iv1=v.findViewById(R.id.imageView);
         iv1.setImageResource(R.drawable.ordercolumnafterclick);
 
@@ -40,7 +40,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void run() {
 
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 ft.replace(R.id.home_fragment,new MyAppsFragment());
                 ft.commit();
@@ -53,7 +53,6 @@ public class HomeFragment extends Fragment {
     }
 
     public void onCategorySelect2(View v){
-        final View a=v;
         ImageView iv2=v.findViewById(R.id.imageView2);
         iv2.setImageResource(R.drawable.myappscolumnafterclick);
 
@@ -65,7 +64,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void run() {
 
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 ft.replace(R.id.home_fragment,new MyAppsFragment());
                 ft.commit();

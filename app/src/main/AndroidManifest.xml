@@ -24,7 +24,7 @@
         <activity android:name=".views.activities.SignUp" />
         <activity android:name=".views.activities.UserHome" />
         <activity
-            android:name=".views.activities.Welcome"
+            android:name=".views.helpers.Welcome"
             android:screenOrientation="portrait" />
         <activity android:name=".views.helpers.SplashScreen" >
             <intent-filter>

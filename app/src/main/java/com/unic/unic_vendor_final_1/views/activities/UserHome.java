@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
@@ -31,24 +32,22 @@ import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
 import com.unic.unic_vendor_final_1.views.nav_fragments.HomeFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyAppsFragment;
 
+import java.util.Objects;
+
 public class UserHome extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private NavigationView navigationView;
     private FirebaseAuth mAuth;
     boolean doubleBackToExitPressedOnce = false;
     private User user;
 
-    private ActivityUserHomeBinding userHomeBinding;
-
-    private FirestoreDataViewModel firestoreDataViewModel;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        userHomeBinding = ActivityUserHomeBinding.inflate(getLayoutInflater());
+        com.unic.unic_vendor_final_1.databinding.ActivityUserHomeBinding userHomeBinding = ActivityUserHomeBinding.inflate(getLayoutInflater());
         setContentView(userHomeBinding.getRoot());
 
-        firestoreDataViewModel = ViewModelProviders.of(this).get(FirestoreDataViewModel.class);
+        FirestoreDataViewModel firestoreDataViewModel = new ViewModelProvider(this).get(FirestoreDataViewModel.class);
         firestoreDataViewModel.getUserData();
         firestoreDataViewModel.getUser().observe(this, new Observer<User>() {
             @Override
@@ -63,6 +62,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
 
         setSupportActionBar(toolbar);
         ActionBar actionBar=getSupportActionBar();
+        assert actionBar != null;
         actionBar.setTitle("");
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
@@ -101,15 +101,17 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
                 fragment = appsFragment;
                 break;
             case R.id.nav_help:
+                //TODO
                 break;
-
             case R.id.nav_settings:
+                //TODO
                 fragment = homeFragment;
                 break;
             case R.id.nav_my_qr:
+                //TODO
                 break;
             case R.id.logout:
-                String Phone = mAuth.getCurrentUser().getPhoneNumber()!=null?mAuth.getCurrentUser().getPhoneNumber():" ";
+                String Phone = Objects.requireNonNull(mAuth.getCurrentUser()).getPhoneNumber()!=null?mAuth.getCurrentUser().getPhoneNumber():" ";
                 mAuth.signOut();
                 Intent intent = new Intent(UserHome.this,Login.class);
                 intent.putExtra("Phone",Phone);
@@ -168,7 +170,6 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     public void onCategorySelect1(View v){
-        final View a =v;
         ImageView iv1=v.findViewById(R.id.imageView);
         iv1.setImageResource(R.drawable.ordercolumnafterclick);
 
@@ -179,7 +180,6 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     public void onCategorySelect2(View v){
-        final View a=v;
         ImageView iv2=v.findViewById(R.id.imageView2);
         iv2.setImageResource(R.drawable.myappscolumnafterclick);
 

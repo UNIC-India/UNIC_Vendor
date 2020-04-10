@@ -2,7 +2,7 @@ package com.unic.unic_vendor_final_1.views.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,7 +27,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         updateUI(0);
 
-        loginViewModel = ViewModelProviders.of(this).get(FirebasePhoneAuthViewModel.class);
+        loginViewModel = new ViewModelProvider(this).get(FirebasePhoneAuthViewModel.class);
         loginViewModel.getStatus().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
@@ -99,7 +99,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void startAuth(){
-        if(loginBinding.etphone.getText().toString().trim()==null) {
+        if(loginBinding.etphone.getText().toString().trim().length()==0) {
             loginBinding.etphone.setError("Enter phone number");
             return;
         }

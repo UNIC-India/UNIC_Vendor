@@ -25,7 +25,7 @@ public class FirebaseRepository {
     private FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
     private StorageReference mRef = FirebaseStorage.getInstance().getReference();
 
-    public void startPhoneNumberVerification(String phoneNumber, PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks){
+    public void startPhoneNumberVerification(String phoneNumber, PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 phoneNumber,        // Phone number to verify
                 60,                 // Timeout duration
@@ -33,8 +33,9 @@ public class FirebaseRepository {
                 TaskExecutors.MAIN_THREAD,// Activity (for callback binding)
                 mCallbacks);        // OnVerificationStateChangedCallbacks
     }
+
     public void resendVerificationCode(String phoneNumber,
-                                        PhoneAuthProvider.ForceResendingToken token,PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks) {
+                                       PhoneAuthProvider.ForceResendingToken token, PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 phoneNumber,        // Phone number to verify
                 10,                 // Timeout duration
@@ -44,82 +45,81 @@ public class FirebaseRepository {
                 token);             // ForceResendingToken from callbacks
     }
 
-    public Task<Void> saveUser(User user){
+    public Task<Void> saveUser(User user) {
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         return db.collection("users").document(user.getId()).set(user);
     }
 
-    public DocumentReference getUser(){
+    public DocumentReference getUser() {
         return db.collection("users").document(mUser.getUid());
     }
 
-    public Query getAllShops(String ownerID){
-        return db.collection("shops").whereEqualTo("ownerId",ownerID);
+    public Query getAllShops(String ownerID) {
+        return db.collection("shops").whereEqualTo("ownerId", ownerID);
     }
 
-    public Task<DocumentSnapshot> getShop(String shopId){
+    public Task<DocumentSnapshot> getShop(String shopId) {
         return db.collection("shops").document(shopId).get();
     }
 
-    public Task<DocumentReference> saveShop(Shop shop){
+    public Task<DocumentReference> saveShop(Shop shop) {
         return db.collection("shops").add(shop);
     }
 
-    public Task<Void> setShopId(String id){
-        return db.collection("shops").document(id).update("id",id);
+    public Task<Void> setShopId(String id) {
+        return db.collection("shops").document(id).update("id", id);
     }
 
-    public UploadTask saveShopImage(String shopId,byte[] data){
+    public UploadTask saveShopImage(String shopId, byte[] data) {
         return mRef.child("shops").child(shopId).child("shopimage").putBytes(data);
     }
 
-    public Task<Uri> getImageLink(String shopId){
+    public Task<Uri> getImageLink(String shopId) {
         return mRef.child("shops").child(shopId).child("shopimage").getDownloadUrl();
     }
 
-    public Task<Void> setShopImage(String shopId,String imageLink){
-        return db.collection("shops").document(shopId).update("imageLink",imageLink);
+    public Task<Void> setShopImage(String shopId, String imageLink) {
+        return db.collection("shops").document(shopId).update("imageLink", imageLink);
     }
 
-    public UploadTask saveShopLogo(String shopId,byte[] data){
+    public UploadTask saveShopLogo(String shopId, byte[] data) {
         return mRef.child("shops").child(shopId).child("shoplogo").putBytes(data);
     }
 
-    public Task<Uri> getLogoLink(String shopId){
+    public Task<Uri> getLogoLink(String shopId) {
         return mRef.child("shops").child(shopId).child("shoplogo").getDownloadUrl();
     }
 
-    public Task<Void> setShopLogo(String shopId,String logoLink){
-        return db.collection("shops").document(shopId).update("logoLink",logoLink);
+    public Task<Void> setShopLogo(String shopId, String logoLink) {
+        return db.collection("shops").document(shopId).update("logoLink", logoLink);
     }
 
-    public Query getProducts(String shopId){
+    public Query getProducts(String shopId) {
         return db.collection("products");
     }
 
-    public Task<Void> setUserSplashStatus(String Uid,int status,boolean isNewUser){
-        if(isNewUser){
-            HashMap<String,Object> data = new HashMap<>();
-            data.put("status",1);
+    public Task<Void> setUserSplashStatus(String Uid, int status, boolean isNewUser) {
+        if (isNewUser) {
+            HashMap<String, Object> data = new HashMap<>();
+            data.put("status", 1);
             return db.collection("imp_data").document(Uid).set(data);
-        }
-        else
-            return db.collection("imp_data").document(Uid).update("status",status);
+        } else
+            return db.collection("imp_data").document(Uid).update("status", status);
     }
 
-    public Task<DocumentSnapshot> getUserSplashStatus(String Uid){
+    public Task<DocumentSnapshot> getUserSplashStatus(String Uid) {
         return db.collection("imp_data").document(Uid).get();
     }
 
-    public String getUserId(){
+    public String getUserId() {
         return mUser.getUid();
     }
 
-    public Task<Void> saveShopStructure(Structure structure){
+    public Task<Void> saveShopStructure(Structure structure) {
         return db.collection("structures").document(structure.getShopId()).set(structure);
     }
 
-    public Task<DocumentSnapshot> getShopStructure(String shopId){
+    public Task<DocumentSnapshot> getShopStructure(String shopId) {
         return db.collection("structures").document(shopId).get();
     }
 

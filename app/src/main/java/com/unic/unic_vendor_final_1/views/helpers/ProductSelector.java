@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -49,7 +50,7 @@ public class ProductSelector extends Fragment implements View.OnClickListener{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         productSelectorBinding = ActivityProductSelectorBinding.inflate(inflater,container,false);
-        setStructureViewModel = ViewModelProviders.of(getActivity()).get(SetStructureViewModel.class);
+        setStructureViewModel = new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
         data = setStructureViewModel.getStructure().getValue().getPage(pageId).getView(viewCode).getData();
         adapter = new ProductListAdapter(getContext());
 

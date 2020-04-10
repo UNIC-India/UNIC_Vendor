@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,7 +43,7 @@ public class MyAppsFragment extends Fragment implements View.OnClickListener{
         RecyclerView recyclerView =view.findViewById(R.id.my_shops);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new ShopAdapter(getContext());
-        shopsViewModel = ViewModelProviders.of(this).get(UserShopsViewModel.class);
+        shopsViewModel = new ViewModelProvider(this).get(UserShopsViewModel.class);
         shopsViewModel.getAllShops().observe(getViewLifecycleOwner(), new Observer<List<Shop>>() {
             @Override
             public void onChanged(List<Shop> shops) {
