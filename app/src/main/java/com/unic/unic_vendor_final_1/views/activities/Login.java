@@ -45,6 +45,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onChanged(String s) {
                 loginBinding.etOTP.setText(s);
+                ((ViewGroup)loginBinding.getRoot()).addView(coverView);
+                loginBinding.loginProgressBar.setVisibility(View.VISIBLE);
+                loginBinding.loginProgressBar.bringToFront();
+                enableDisableViewGroup((ViewGroup)loginBinding.getRoot(),false);
+
             }
         });
 
@@ -52,6 +57,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         loginBinding.btnlogin.setOnClickListener(this);
         loginBinding.btnres.setOnClickListener(this);
         loginBinding.signupLink.setOnClickListener(this);
+
+        coverView = new View(this);
+        coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        coverView.setBackgroundResource(R.color.gray_1);
+        coverView.setAlpha(0.5f);
     }
 
 
@@ -106,10 +116,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btnlogin:
-                coverView = new View(this);
-                coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                coverView.setBackgroundResource(R.color.gray_1);
-                coverView.setAlpha(0.5f);
+
                 ((ViewGroup)loginBinding.getRoot()).addView(coverView);
                 loginBinding.loginProgressBar.setVisibility(View.VISIBLE);
                 loginBinding.loginProgressBar.bringToFront();
@@ -117,10 +124,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 startAuth();
                 break;
             case R.id.btnconf:
-                coverView = new View(this);
-                coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                coverView.setBackgroundResource(R.color.gray_1);
-                coverView.setAlpha(0.5f);
+
                 ((ViewGroup)loginBinding.getRoot()).addView(coverView);
                 loginBinding.loginProgressBar.setVisibility(View.VISIBLE);
                 loginBinding.loginProgressBar.bringToFront();
