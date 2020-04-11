@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/StandardButton"
-        android:background="@drawable/std_button"
+        android:background="@drawable/std_button_normal"
         android:text="Confirm Products "
         android:drawableEnd="@drawable/ic_arrow_forward_light_gray_24dp"
         android:paddingStart="10dp"

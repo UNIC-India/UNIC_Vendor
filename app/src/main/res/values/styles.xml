@@ -54,7 +54,7 @@
         <item name="android:textSize">15sp</item>
         <item name="background">@drawable/roundbutton</item>
         <item name="fontFamily">@font/montserrat_bold_normal</item>
-        <item name="android:textColor">@color/light_gray</item>
+        <item name="android:textColor">@color/white</item>
     </style>
     <style name="clickTheme1" >
         <item name="colorControlHighlight">@color/light_gray</item>

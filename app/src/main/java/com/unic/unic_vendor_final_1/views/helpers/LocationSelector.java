@@ -219,6 +219,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
 
 // Get an instance of the component. Adding in LocationComponentOptions is also an optional
 // parameter
+            Toast.makeText(this, "Got perms", Toast.LENGTH_SHORT).show();
 
 
         } else {

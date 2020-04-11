@@ -169,39 +169,4 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         }, 2000);
     }
 
-    public void onCategorySelect1(View v){
-        ImageView iv1=v.findViewById(R.id.imageView);
-        iv1.setImageResource(R.drawable.ordercolumnafterclick);
-
-
-
-        startActivity(new Intent(this,OrdersLol.class));
-
-    }
-
-    public void onCategorySelect2(View v){
-        ImageView iv2=v.findViewById(R.id.imageView2);
-        iv2.setImageResource(R.drawable.myappscolumnafterclick);
-
-
-
-        double secs = 0.1;
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                ft.replace(R.id.home_fragment,new MyAppsFragment());
-                ft.commit();
-
-
-
-            }
-        }, (int) (secs * 1000));
-
-    }
-
-
 }

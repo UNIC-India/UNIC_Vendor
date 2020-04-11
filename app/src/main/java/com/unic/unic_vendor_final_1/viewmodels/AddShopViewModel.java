@@ -80,6 +80,12 @@ public class AddShopViewModel extends ViewModel {
                 shop.getValue().setImageLink(uri.toString());
                 setImageLink();
             }
+        })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                shopAddStatus.setValue(-3);
+            }
         });
     }
 
@@ -88,6 +94,12 @@ public class AddShopViewModel extends ViewModel {
             @Override
             public void onSuccess(Void aVoid) {
                 shopAddStatus.setValue(4);
+            }
+        })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                shopAddStatus.setValue(-4);
             }
         });
     }

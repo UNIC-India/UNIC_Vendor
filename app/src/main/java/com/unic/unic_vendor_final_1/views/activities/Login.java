@@ -1,23 +1,29 @@
 package com.unic.unic_vendor_final_1.views.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.ActivityLoginBinding;
 import com.unic.unic_vendor_final_1.viewmodels.FirebasePhoneAuthViewModel;
 
+import static com.unic.unic_vendor_final_1.commons.Helpers.enableDisableViewGroup;
+
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
     private FirebasePhoneAuthViewModel loginViewModel;
 
     private ActivityLoginBinding loginBinding;
+
+    private View coverView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,24 +62,39 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 loginBinding.loginOTP.setVisibility(View.GONE);
                 break;
             case 1:
+                enableDisableViewGroup((ViewGroup)loginBinding.getRoot(),true);
+                ((ViewGroup)loginBinding.getRoot()).removeView(coverView);
+                loginBinding.loginProgressBar.setVisibility(View.GONE);
                 loginBinding.details.setVisibility(View.GONE);
                 loginBinding.loginOTP.setVisibility(View.VISIBLE);
                 break;
             case 2:
+                enableDisableViewGroup((ViewGroup)loginBinding.getRoot(),true);
+                ((ViewGroup)loginBinding.getRoot()).removeView(coverView);
+                loginBinding.loginProgressBar.setVisibility(View.GONE);
                 loginBinding.details.setVisibility(View.VISIBLE);
                 loginBinding.loginOTP.setVisibility(View.GONE);
                 loginBinding.etphone.setError("Phone number might be incorrect");
                 break;
             case 3:
+                enableDisableViewGroup((ViewGroup)loginBinding.getRoot(),true);
+                ((ViewGroup)loginBinding.getRoot()).removeView(coverView);
+                loginBinding.loginProgressBar.setVisibility(View.GONE);
                 loginBinding.details.setVisibility(View.VISIBLE);
                 loginBinding.loginOTP.setVisibility(View.GONE);
                 loginBinding.etphone.setError("Verification limit exceeded for today");
                 break;
             case 4:
+                enableDisableViewGroup((ViewGroup)loginBinding.getRoot(),true);
+                ((ViewGroup)loginBinding.getRoot()).removeView(coverView);
+                loginBinding.loginProgressBar.setVisibility(View.GONE);
                 startActivity(new Intent(this,UserHome.class));
                 finish();
                 break;
             case -1:
+                enableDisableViewGroup((ViewGroup)loginBinding.getRoot(),true);
+                ((ViewGroup)loginBinding.getRoot()).removeView(coverView);
+                loginBinding.loginProgressBar.setVisibility(View.GONE);
                 loginBinding.details.setVisibility(View.VISIBLE);
                 loginBinding.loginOTP.setVisibility(View.GONE);
                 Toast.makeText(this, "OOPS! Something went wrong", Toast.LENGTH_SHORT).show();
@@ -85,9 +106,25 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btnlogin:
+                coverView = new View(this);
+                coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                coverView.setBackgroundResource(R.color.gray_1);
+                coverView.setAlpha(0.5f);
+                ((ViewGroup)loginBinding.getRoot()).addView(coverView);
+                loginBinding.loginProgressBar.setVisibility(View.VISIBLE);
+                loginBinding.loginProgressBar.bringToFront();
+                enableDisableViewGroup((ViewGroup)loginBinding.getRoot(),false);
                 startAuth();
                 break;
             case R.id.btnconf:
+                coverView = new View(this);
+                coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                coverView.setBackgroundResource(R.color.gray_1);
+                coverView.setAlpha(0.5f);
+                ((ViewGroup)loginBinding.getRoot()).addView(coverView);
+                loginBinding.loginProgressBar.setVisibility(View.VISIBLE);
+                loginBinding.loginProgressBar.bringToFront();
+                enableDisableViewGroup((ViewGroup)loginBinding.getRoot(),false);
                 authWithOTP();
                 break;
             case R.id.btnres:
