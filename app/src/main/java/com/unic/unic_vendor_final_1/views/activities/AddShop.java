@@ -1,7 +1,9 @@
 package com.unic.unic_vendor_final_1.views.activities;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -9,9 +11,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.unic.unic_vendor_final_1.R;
@@ -25,16 +32,21 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.unic.unic_vendor_final_1.commons.Helpers.enableDisableViewGroup;
+
 public class AddShop extends AppCompatActivity implements View.OnClickListener {
 
     private ActivityAddShopBinding addShopBinding;
     private AddShopViewModel addShopViewModel;
+
+    private View coverView;
 
     private static final int GALLERY_INTENT = 1001;
     private static final int LOCATION_SELECTOR = 1002;
 
     private Shop shop;
     private Bitmap imageBitmap;
+    private AlertDialog dialog;
 
     private boolean userWantsImage = true;
     private boolean imageSelectSuccessful = false;
@@ -65,6 +77,7 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -101,6 +114,16 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
                         Toast.makeText(AddShop.this, "Please select location on map", Toast.LENGTH_SHORT).show();
                         return;
                     }
+
+                    coverView = new View(this);
+                    coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    coverView.setBackgroundResource(R.color.gray_1);
+                    coverView.setAlpha(0.5f);
+                    ((ViewGroup)addShopBinding.getRoot()).addView(coverView);
+                    addShopBinding.addShopProgressBar.setVisibility(View.VISIBLE);
+                    addShopBinding.addShopProgressBar.bringToFront();
+                    enableDisableViewGroup((ViewGroup)addShopBinding.getRoot(),false);
+
                     shop = new Shop(addShopBinding.etAddShopName.getText().toString().trim(),
                             addShopBinding.etAddShopAddressLine1.getText().toString().trim() + " " +
                                     addShopBinding.etAddShopAddressLine2.getText().toString().trim(),
@@ -141,7 +164,6 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
                 break;
 
             case 2:
-
                 if(!userWantsImage){
                     Intent intent = new Intent(this,SetShopStructure.class);
                     intent.putExtra("shopId",shop.getId());
@@ -159,11 +181,21 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
                 break;
 
             case 4:
+                enableDisableViewGroup((ViewGroup)addShopBinding.getRoot(),true);
+                ((ViewGroup)addShopBinding.getRoot()).removeView(coverView);
+                addShopBinding.addShopProgressBar.setVisibility(View.GONE);
                 Intent intent = new Intent(this, SetShopStructure.class);
                 intent.putExtra("shopId",shop.getId());
                 intent.putExtra("template",Integer.valueOf(1));
                 startActivity(intent);
                 break;
+            case -1:
+            case -2:
+            case -3:
+            case -4:
+                enableDisableViewGroup((ViewGroup)addShopBinding.getRoot(),true);
+                ((ViewGroup)addShopBinding.getRoot()).removeView(coverView);
+                addShopBinding.addShopProgressBar.setVisibility(View.GONE);
         }
     }
 
@@ -198,4 +230,14 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
             }
 
         }
-    }}
+    }
+
+   /* private float dpToPx(int dp){
+        return TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                getResources().getDisplayMetrics()
+        );
+    }*/
+
+}

@@ -28,7 +28,7 @@ import com.unic.unic_vendor_final_1.datamodels.Structure;
 import com.unic.unic_vendor_final_1.commons.StructureTemplates;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 import com.unic.unic_vendor_final_1.views.helpers.ProductSelector;
-import com.unic.unic_vendor_final_1.views.helpers.ShopPageFragment;
+import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ShopPageFragment;
 
 public class SetShopStructure extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 

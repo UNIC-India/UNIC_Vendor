@@ -1,12 +1,14 @@
 package com.unic.unic_vendor_final_1.views.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,12 +18,16 @@ import com.unic.unic_vendor_final_1.datamodels.User;
 import com.unic.unic_vendor_final_1.viewmodels.FirebasePhoneAuthViewModel;
 import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
 
+import static com.unic.unic_vendor_final_1.commons.Helpers.enableDisableViewGroup;
+
 public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
     private ActivitySignUpBinding signUpBinding;
 
     private FirebasePhoneAuthViewModel signUpViewModel;
     private FirestoreDataViewModel firestoreDataViewModel;
+
+    private View coverView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +47,17 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         signUpViewModel.getCode().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                signUpBinding.edtpin.setText(s);
+                if(s!=null&&s.length()!=0) {
+                    signUpBinding.edtpin.setText(s);
+                    coverView = new View(SignUp.this);
+                    coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    coverView.setBackgroundResource(R.color.gray_1);
+                    coverView.setAlpha(0.5f);
+                    ((ViewGroup)signUpBinding.getRoot()).addView(coverView);
+                    signUpBinding.signUpProgressBar.setVisibility(View.VISIBLE);
+                    signUpBinding.signUpProgressBar.bringToFront();
+                    enableDisableViewGroup((ViewGroup)signUpBinding.getRoot(),false);
+                }
             }
         });
 
@@ -52,6 +68,9 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                 if (integer == -1) {
                     updateUI(integer);
                 } else if (integer == 1) {
+                    enableDisableViewGroup((ViewGroup)signUpBinding.getRoot(),true);
+                    ((ViewGroup)signUpBinding.getRoot()).removeView(coverView);
+                    signUpBinding.signUpProgressBar.setVisibility(View.GONE);
                     startActivity(new Intent(SignUp.this, UserHome.class));
                     finish();
                 }
@@ -70,15 +89,24 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                 signUpBinding.signuppin.setVisibility(View.GONE);
                 break;
             case 1:
+                enableDisableViewGroup((ViewGroup)signUpBinding.getRoot(),true);
+                ((ViewGroup)signUpBinding.getRoot()).removeView(coverView);
+                signUpBinding.signUpProgressBar.setVisibility(View.GONE);
                 signUpBinding.signupmain.setVisibility(View.GONE);
                 signUpBinding.signuppin.setVisibility(View.VISIBLE);
                 break;
             case 2:
+                enableDisableViewGroup((ViewGroup)signUpBinding.getRoot(),true);
+                ((ViewGroup)signUpBinding.getRoot()).removeView(coverView);
+                signUpBinding.signUpProgressBar.setVisibility(View.GONE);
                 signUpBinding.signupmain.setVisibility(View.VISIBLE);
                 signUpBinding.signuppin.setVisibility(View.GONE);
                 signUpBinding.edtphone.setError("Phone number might be incorrect");
                 break;
             case 3:
+                enableDisableViewGroup((ViewGroup)signUpBinding.getRoot(),true);
+                ((ViewGroup)signUpBinding.getRoot()).removeView(coverView);
+                signUpBinding.signUpProgressBar.setVisibility(View.GONE);
                 signUpBinding.signupmain.setVisibility(View.VISIBLE);
                 signUpBinding.signuppin.setVisibility(View.GONE);
                 signUpBinding.edtphone.setError("Verification limit exceeded for today");
@@ -86,10 +114,10 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
             case 4:
                 addUserToFirebase();
                 break;
-            case 5:
-                Toast.makeText(this, signUpViewModel.getError().getValue(), Toast.LENGTH_SHORT).show();
-                break;
             case -1:
+                enableDisableViewGroup((ViewGroup)signUpBinding.getRoot(),true);
+                ((ViewGroup)signUpBinding.getRoot()).removeView(coverView);
+                signUpBinding.signUpProgressBar.setVisibility(View.GONE);
                 signUpBinding.signupmain.setVisibility(View.VISIBLE);
                 signUpBinding.signuppin.setVisibility(View.GONE);
                 Toast.makeText(this, "OOPS! Something went wrong", Toast.LENGTH_SHORT).show();
@@ -101,9 +129,25 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btncontinue:
+                coverView = new View(this);
+                coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                coverView.setBackgroundResource(R.color.gray_1);
+                coverView.setAlpha(0.5f);
+                ((ViewGroup)signUpBinding.getRoot()).addView(coverView);
+                signUpBinding.signUpProgressBar.setVisibility(View.VISIBLE);
+                signUpBinding.signUpProgressBar.bringToFront();
+                enableDisableViewGroup((ViewGroup)signUpBinding.getRoot(),false);
                 startAuth();
                 break;
             case R.id.btnconfirm:
+                coverView = new View(this);
+                coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                coverView.setBackgroundResource(R.color.gray_1);
+                coverView.setAlpha(0.5f);
+                ((ViewGroup)signUpBinding.getRoot()).addView(coverView);
+                signUpBinding.signUpProgressBar.setVisibility(View.VISIBLE);
+                signUpBinding.signUpProgressBar.bringToFront();
+                enableDisableViewGroup((ViewGroup)signUpBinding.getRoot(),false);
                 authWithOTP();
                 break;
             case R.id.btnresend:
@@ -137,5 +181,6 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         User user = new User(FirebaseAuth.getInstance().getUid(), signUpBinding.edtfullname.getText().toString().trim(), signUpBinding.edtemail.getText().toString().trim(), signUpBinding.edtphone.getText().toString().trim());
         firestoreDataViewModel.addUser(user);
     }
+
 
 }

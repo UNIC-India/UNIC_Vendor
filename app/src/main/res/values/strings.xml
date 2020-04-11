@@ -60,5 +60,7 @@
     <string name="analysis">Detailed analysis of your sales</string>
     <string name="management">Manage notifications, order limit, etc</string>
     <string name="settings">Settings</string>
+    <string name="my_apps">My Apps</string>
+    <string name="see_apps">View all your apps in one place</string>
 
 </resources>

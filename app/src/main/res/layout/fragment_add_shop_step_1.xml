@@ -6,10 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".views.shop_addition_fragments.AddShopStep1">
 
-    <?xml version="1.0" encoding="utf-8"?>
     <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/l1"
             android:layout_width="match_parent"

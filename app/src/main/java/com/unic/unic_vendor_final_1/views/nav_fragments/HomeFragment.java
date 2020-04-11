@@ -1,5 +1,6 @@
 package com.unic.unic_vendor_final_1.views.nav_fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -12,67 +13,36 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.databinding.FragmentHomeBinding;
 
 import java.util.Objects;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnClickListener {
+
+    private FragmentHomeBinding fragmentHomeBinding;
+
     public HomeFragment() {
         // Required empty public constructor
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
-
-    }
-    public void onCategorySelect1(View v){
-        ImageView iv1=v.findViewById(R.id.imageView);
-        iv1.setImageResource(R.drawable.ordercolumnafterclick);
-
-
-
-        double secs = 0.05;
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                ft.replace(R.id.home_fragment,new MyAppsFragment());
-                ft.commit();
-
-
-
-            }
-        }, (int) (secs * 1000));
+        fragmentHomeBinding = FragmentHomeBinding.inflate(inflater,container,false);
+        fragmentHomeBinding.cardViewApps.setOnClickListener(this);
+        return fragmentHomeBinding.getRoot();
 
     }
 
-    public void onCategorySelect2(View v){
-        ImageView iv2=v.findViewById(R.id.imageView2);
-        iv2.setImageResource(R.drawable.myappscolumnafterclick);
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.card_view_apps){
 
-
-
-        double secs = 0.05;
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                ft.replace(R.id.home_fragment,new MyAppsFragment());
-                ft.commit();
-
-
-
-            }
-        }, (int) (secs * 1000));
-
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.home_fragment,new MyAppsFragment())
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .commit();
+        }
     }
 }

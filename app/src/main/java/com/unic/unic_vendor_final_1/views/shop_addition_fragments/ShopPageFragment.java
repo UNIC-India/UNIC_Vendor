@@ -1,4 +1,4 @@
-package com.unic.unic_vendor_final_1.views.helpers;
+package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 
 import android.graphics.Rect;
 import android.os.Bundle;

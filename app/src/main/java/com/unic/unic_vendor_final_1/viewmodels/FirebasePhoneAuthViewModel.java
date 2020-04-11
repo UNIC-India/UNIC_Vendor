@@ -35,8 +35,6 @@ public class FirebasePhoneAuthViewModel extends ViewModel {
 
     private PhoneAuthProvider.ForceResendingToken mResendToken;
 
-    private MutableLiveData<String> errorMessage = new MutableLiveData<>();
-
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
     public FirebasePhoneAuthViewModel(Context context) {
@@ -59,9 +57,7 @@ public class FirebasePhoneAuthViewModel extends ViewModel {
             else if (e instanceof FirebaseTooManyRequestsException)
                 status.setValue(3);
             else
-                status.setValue(5);
-            errorMessage.setValue(e.toString());
-
+                status.setValue(-1);
         }
 
         @Override
@@ -118,10 +114,6 @@ public class FirebasePhoneAuthViewModel extends ViewModel {
 
     public LiveData<String> getCode() {
         return SMSCode;
-    }
-
-    public LiveData<String> getError(){
-        return errorMessage;
     }
 
 }
