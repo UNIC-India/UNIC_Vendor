@@ -69,8 +69,11 @@ public class SetStructureViewModel extends ViewModel {
                 .getShopStructure(shopId).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        structure.setValue(documentSnapshot.toObject(Structure.class));
-                        structureStatus.setValue(1);
+                        if (documentSnapshot.exists()) {
+                            structure.setValue(documentSnapshot.toObject(Structure.class));
+                            structureStatus.setValue(1);
+                        }
+                        else structureStatus.setValue(0);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

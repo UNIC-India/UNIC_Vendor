@@ -97,6 +97,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "436737072568-7q88hrgt51o3p1n6s3evkd8rsu1imbg9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unic.unic_vendor_final_1",
+            "certificate_hash": "06c7848e741952079e1913016a89c1df806b321f"
+          }
+        },
+        {
           "client_id": "436737072568-ds132vbkgjrrcddd4o00qi5pcphf3al0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

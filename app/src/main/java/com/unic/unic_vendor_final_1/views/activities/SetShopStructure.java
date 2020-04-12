@@ -280,6 +280,12 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 .commit();
     }
 
+    public void addView(int pageId, com.unic.unic_vendor_final_1.datamodels.View view,int code){
+        structure.getPage(pageId).addView(view,code);
+        setStructureViewModel.setStructure(structure);
+        returnToPage(pageId);
+    }
+
     public void returnToPage(int pageId){
         getSupportFragmentManager()
                 .beginTransaction()
