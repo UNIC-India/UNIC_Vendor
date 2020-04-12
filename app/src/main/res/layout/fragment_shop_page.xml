@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/StandardButton"
-                android:background="@drawable/std_button_normal"
+                android:background="@drawable/std_button"
                 android:text="Add View"
                 app:layout_constraintTop_toBottomOf="@id/shop_view_parent"
                 app:layout_constraintEnd_toEndOf="parent"

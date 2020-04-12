@@ -44,14 +44,6 @@ public class Structure {
         pages.add(page);
     }
 
-    public void addView(int pageId,View view){
-        for(int i=0;i<pages.size();i++){
-            if (pages.get(i).getPageId() == pageId){
-                pages.get(i).addView(view);
-            }
-        }
-    }
-
     public void updateProductList(int pageId, int viewCode, List<Map<String,Object>> data){
         for (int i=0;i<pages.size();i++){
             if (pages.get(i).getPageId() == pageId){

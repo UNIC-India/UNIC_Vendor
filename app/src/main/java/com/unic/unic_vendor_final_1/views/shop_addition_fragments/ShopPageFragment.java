@@ -1,5 +1,7 @@
 package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Rect;
 import android.os.Bundle;
 
@@ -13,17 +15,20 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.DoubleProductAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.TripleImageAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentShopPageBinding;
 import com.unic.unic_vendor_final_1.datamodels.Page;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -68,7 +73,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         com.unic.unic_vendor_final_1.databinding.FragmentShopPageBinding shopPageBinding = FragmentShopPageBinding.inflate(inflater, container, false);
         parent = shopPageBinding.shopViewParent;
-
+        shopPageBinding.btnAddView.setOnClickListener(this);
         return shopPageBinding.getRoot();
     }
 
@@ -138,6 +143,30 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        ((SetShopStructure) Objects.requireNonNull(getActivity())).selectProducts(page.getPageId(),((View)v.getParent()).getId());
+        switch (v.getId()){
+            case R.id.btn_add_products:
+                ((SetShopStructure) Objects.requireNonNull(getActivity())).selectProducts(page.getPageId(),((View)v.getParent()).getId());
+                break;
+            case R.id.btn_add_view:
+                final EditText etViewHeader = new EditText(getContext());
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Enter View Title");
+                builder.setMessage("");
+                builder.setView(etViewHeader);
+                builder.setPositiveButton("DONE", (dialog, which) -> {
+                    if (etViewHeader.getText().toString().trim().length()>0) {
+                        com.unic.unic_vendor_final_1.datamodels.View view = new com.unic.unic_vendor_final_1.datamodels.View();
+                        view.setHeight(260);
+                        view.setFields("name,imageId,price");
+                        view.setHeader(etViewHeader.getText().toString().trim());
+                        ((SetShopStructure) Objects.requireNonNull(getActivity())).addView(page.getPageId(), view,41);
+                    }
+                });
+                builder.setNegativeButton("CANCEL", (dialog, which) -> {
+                });
+                AlertDialog dialog  = builder.create();
+                dialog.show();
+
+        }
     }
 }
