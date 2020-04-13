@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/pick_option_1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Select from Firebase"
+        android:textSize="22sp"
+        android:clickable="true"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:id="@+id/pick_option_2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Choose from Gallery"
+        android:textSize="22sp"
+        android:clickable="true"
+        app:layout_constraintTop_toBottomOf="@id/pick_option_1"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
