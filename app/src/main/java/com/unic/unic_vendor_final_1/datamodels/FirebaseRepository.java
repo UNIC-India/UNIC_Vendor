@@ -123,4 +123,5 @@ public class FirebaseRepository {
         return db.collection("structures").document(shopId).get();
     }
 
+
 }

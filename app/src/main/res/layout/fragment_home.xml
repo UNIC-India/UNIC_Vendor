@@ -235,14 +235,15 @@
                     android:background="@drawable/home_page_circle" />
 
                 <ImageView
-                    android:id="@+id/report_icon"
+                    android:id="@+id/notify_icon"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="40dp"
                     android:elevation="2dp"
                     android:src="@drawable/analytics"
-                    android:tint="@color/colorTertiary" />
+                    android:tint="@color/colorTertiary"
+                    app:srcCompat="@drawable/notifications_icon" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -250,7 +251,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="55dp"
                     android:elevation="2dp"
-                    android:text="@string/my_report"
+                    android:text="Notifications"
                     android:textColor="@color/darkest"
                     android:textSize="15sp" />
 
@@ -260,7 +261,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="85dp"
                     android:elevation="2dp"
-                    android:text="@string/analysis"
+                    android:text="Notify your customers."
                     android:textAlignment="center"
                     android:textColor="@color/darkest"
                     android:textSize="12sp" />
@@ -312,6 +313,55 @@
                     android:layout_marginTop="85dp"
                     android:elevation="2dp"
                     android:text="@string/edit_products"
+                    android:textAlignment="center"
+                    android:textColor="@color/darkest"
+                    android:textSize="12sp" />
+
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view7"
+                android:layout_width="190dp"
+                android:layout_height="220dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:elevation="5dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_view5">
+
+                <View
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/home_page_circle" />
+
+                <ImageView
+                    android:id="@+id/report_icon"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="40dp"
+                    android:elevation="2dp"
+                    android:src="@drawable/analytics"
+                    android:tint="@color/colorTertiary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="55dp"
+                    android:elevation="2dp"
+                    android:text="@string/my_report"
+                    android:textColor="@color/darkest"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="85dp"
+                    android:elevation="2dp"
+                    android:text="@string/analysis"
                     android:textAlignment="center"
                     android:textColor="@color/darkest"
                     android:textSize="12sp" />
