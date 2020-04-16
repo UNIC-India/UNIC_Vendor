@@ -15,7 +15,7 @@
             />
         <Button
             android:id="@+id/btn_add_shop"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             style="@style/StandardButton"
             android:background="@drawable/std_button"

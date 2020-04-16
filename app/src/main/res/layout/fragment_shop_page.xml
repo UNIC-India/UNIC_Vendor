@@ -19,19 +19,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"/>
-            <Button
-                android:id="@+id/btn_add_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/StandardButton"
-                android:background="@drawable/std_button"
-                android:text="Add View"
-                app:layout_constraintTop_toBottomOf="@id/shop_view_parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="20dp"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+    <Button
+        android:id="@+id/btn_add_view"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        style="@style/StandardButton"
+        android:background="@drawable/std_button"
+        android:text="Add View"
+        android:textColor="@color/white"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="145dp"
+        android:layout_marginRight="145dp"
+        android:layout_marginBottom="30dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"/>
 
 </FrameLayout>
