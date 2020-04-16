@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,12 +29,14 @@ import com.unic.unic_vendor_final_1.datamodels.Structure;
 import com.unic.unic_vendor_final_1.commons.StructureTemplates;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 import com.unic.unic_vendor_final_1.views.helpers.ProductSelector;
+import com.unic.unic_vendor_final_1.views.helpers.ViewSelector;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ShopPageFragment;
 
 public class SetShopStructure extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
-    private Structure structure;
+    public Structure structure;
     private Shop shop;
+    public int whatToDoId;
 
     private int status,productStatus,structureStatus;
 
@@ -240,7 +243,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         this.shop = shop;
     }
 
-    void setStructure(Structure structure) {
+    public void setStructure(Structure structure) {
         this.structure = structure;
     }
 
@@ -279,8 +282,16 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 .replace(R.id.shop_pages_loader,new ProductSelector(pageId,viewCode))
                 .commit();
     }
+    public void selectView(int pageId,int code){
+        getSupportFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .replace(R.id.shop_pages_loader,new ViewSelector(pageId,code))
+                .commit();
+    }
 
-    public void addView(int pageId, com.unic.unic_vendor_final_1.datamodels.View view,int code){
+
+
+    public void addView(int pageId, com.unic.unic_vendor_final_1.datamodels.View view, int code){
         structure.getPage(pageId).addView(view,code);
         setStructureViewModel.setStructure(structure);
         returnToPage(pageId);

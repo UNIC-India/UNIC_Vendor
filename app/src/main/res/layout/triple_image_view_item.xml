@@ -2,7 +2,9 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginRight="3dp"
+    app:cardElevation="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
@@ -10,8 +12,8 @@
 
         <ImageView
             android:id="@+id/ivProductPhoto"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="185dp"
+            android:layout_height="190dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -53,8 +55,8 @@
 
         <ImageView
             android:id="@+id/ivCart"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             app:layout_constraintBottom_toBottomOf="@+id/ivProductPhoto"
             app:layout_constraintEnd_toEndOf="@+id/ivProductPhoto"
             app:srcCompat="@drawable/cart" />

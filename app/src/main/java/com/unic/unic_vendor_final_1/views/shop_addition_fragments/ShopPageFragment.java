@@ -1,6 +1,7 @@
 package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -15,7 +16,9 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,7 +32,9 @@ import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,6 +63,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
 
     private Page page;
     private ViewGroup parent;
+    public Dialog dialog;
 
     public ShopPageFragment() {
         // Required empty public constructor
@@ -148,7 +154,21 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
                 ((SetShopStructure) Objects.requireNonNull(getActivity())).selectProducts(page.getPageId(),((View)v.getParent()).getId());
                 break;
             case R.id.btn_add_view:
-                final EditText etViewHeader = new EditText(getContext());
+                dialog = new Dialog(getActivity());
+                dialog.setContentView(R.layout.popup_what_you_want_to_do);
+                dialog.setTitle("What Do You want to do?");
+                ListView whatToDo = (ListView) dialog.findViewById(R.id.listWhatDo);
+                whatToDo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        ((SetShopStructure)Objects.requireNonNull(getActivity())).selectView(page.getPageId(),position);
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+                break;
+
+                /*final EditText etViewHeader = new EditText(getContext());
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("Enter View Title");
                 builder.setMessage("");
@@ -165,7 +185,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
                 builder.setNegativeButton("CANCEL", (dialog, which) -> {
                 });
                 AlertDialog dialog  = builder.create();
-                dialog.show();
+                dialog.show();*/
 
         }
     }
