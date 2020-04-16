@@ -65,6 +65,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
     private ViewGroup parent;
     public Dialog dialog;
 
+
     public ShopPageFragment() {
         // Required empty public constructor
     }
@@ -136,6 +137,27 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
                 doubleProductRecyclerView.setLayoutManager(doubleProductLayoutManager);
                 doubleProductRecyclerView.setAdapter(doubleProductAdapter);
                 doubleProductRecyclerView.addItemDecoration(new SpacesItemDecoration(10));
+                break;
+            case 42:
+                View TripleProductView = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.triple_image_view,parent,false);
+                TripleProductView.setId(view.getViewCode());
+                parent.addView(TripleProductView, RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()));
+                RelativeLayout.LayoutParams TripleProductLayoutParams = (RelativeLayout.LayoutParams) TripleProductView.getLayoutParams();
+                TripleProductLayoutParams.topMargin = (int)dpToPx(view.getyPos());
+                TripleProductView.setLayoutParams(TripleProductLayoutParams);
+                TextView tvHeader2 = TripleProductView.findViewById(R.id.triple_image_header);
+                tvHeader2.setText(view.getHeader());
+                TripleProductView.findViewById(R.id.btn_add_products).setOnClickListener(this);
+
+                TripleImageAdapter tripleImageAdapter = new TripleImageAdapter(getContext());
+                tripleImageAdapter.setProducts(view.getData());
+                LinearLayoutManager TripleProductLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL,false);
+                RecyclerView tripleProductRecyclerView = TripleProductView.findViewById(R.id.triple_image_recycler_view);
+                tripleProductRecyclerView.setLayoutManager(TripleProductLayoutManager);
+                tripleProductRecyclerView.setAdapter(tripleImageAdapter);
+                tripleProductRecyclerView.addItemDecoration(new SpacesItemDecoration(5));
+                break;
+
         }
     }
 
@@ -146,6 +168,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
                 getResources().getDisplayMetrics()
         );
     }
+
 
     @Override
     public void onClick(View v) {
@@ -167,6 +190,8 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
                 });
                 dialog.show();
                 break;
+
+
 
                 /*final EditText etViewHeader = new EditText(getContext());
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());

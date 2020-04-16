@@ -6,6 +6,12 @@
     android:orientation="vertical"
     tools:context=".views.helpers.ViewSelector">
 
+    <Button
+        android:id="@+id/done_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Done" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvDemo1"
         android:layout_width="match_parent"

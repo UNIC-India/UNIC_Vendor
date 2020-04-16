@@ -36,7 +36,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
     public Structure structure;
     private Shop shop;
-    public int whatToDoId;
+    public int currentPage=1001;
 
     private int status,productStatus,structureStatus;
 
@@ -44,7 +44,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     private int option;
 
     private SetStructureViewModel setStructureViewModel;
-    private ActivitySetShopStructureBinding setShopStructureBinding;
+    public ActivitySetShopStructureBinding setShopStructureBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +112,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onStart() {
         super.onStart();
+        setShopStructureBinding.doneView.setVisibility(View.GONE);
         status = 0;
         updateStatus(status);
     }
@@ -126,6 +127,8 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             case R.id.confirm_shop_structure:
                 setStructureViewModel.saveShopStructure();
                 break;
+
+
                 /*
             case R.id.btn_add_products:
                 Toast.makeText(this, Integer.valueOf(((View)v.getParent()).getId()).toString(), Toast.LENGTH_SHORT).show();
@@ -140,6 +143,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
         for(Page page : structure.getPages()){
             if(page.getPageId() == item.getItemId()){
+                currentPage=page.getPageId();
                 getSupportFragmentManager()
                         .beginTransaction()
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -287,13 +291,17 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.shop_pages_loader,new ViewSelector(pageId,code))
                 .commit();
+        setShopStructureBinding.shopAddPage.setVisibility(View.GONE);
+        setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
     }
 
 
 
     public void addView(int pageId, com.unic.unic_vendor_final_1.datamodels.View view, int code){
+
         structure.getPage(pageId).addView(view,code);
         setStructureViewModel.setStructure(structure);
+        selectProducts(pageId,view.getViewCode());
         returnToPage(pageId);
     }
 
@@ -304,5 +312,19 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 .replace(R.id.shop_pages_loader,new ShopPageFragment(structure.getPage(pageId)),structure.getPage(pageId).getPageName())
                 .commit();
         setShopStructureBinding.setStructureNavView.setCheckedItem(pageId);
+        setShopStructureBinding.doneView.setVisibility(View.GONE);
+        setShopStructureBinding.shopAddPage.setVisibility(View.VISIBLE);
+        setShopStructureBinding.confirmShopStructure.setVisibility(View.VISIBLE);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        int count=getSupportFragmentManager().getBackStackEntryCount();
+        if(count==0)
+        super.onBackPressed();
+        else{
+            onStart();
+        }
     }
 }
