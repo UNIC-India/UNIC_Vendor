@@ -29,7 +29,8 @@ import java.util.Map;
 
     4 _     -> 1: For double item horizontal scroller
                2: For triple item horizontal scroller
-               3: For double item grid view horizontal scroller
+               3: For vertical product display without images
+               4: For vertical product display with images
 
     5_      ->1: TextView
 

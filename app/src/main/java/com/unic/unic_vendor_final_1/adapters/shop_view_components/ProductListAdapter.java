@@ -26,15 +26,20 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private Context mContext;
     private List<Map<String,Object>> products;
     private List<Map<String,Object>> checkedProducts;
+    int demo=0;
 
     public ProductListAdapter(Context context){
         this.mContext = context;
+    }
+    public ProductListAdapter(int demo){
+        this.demo=demo;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvProductName;
         ImageView ivProductPhoto;
         CheckBox cbCheck;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -54,32 +59,43 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 
-        holder.tvProductName.setText(products.get(position).get("name").toString());
-        Glide
-                .with(mContext)
-                .load(products.get(position).get("imageId").toString())
-                .into(holder.ivProductPhoto);
+        if(demo==0){
+            holder.tvProductName.setText(products.get(position).get("name").toString());
+            Glide
+                    .with(mContext)
+                    .load(products.get(position).get("imageId").toString())
+                    .into(holder.ivProductPhoto);
 
-        if(checkedProducts.contains(products.get(position)))
-            holder.cbCheck.setChecked(true);
+            if(checkedProducts.contains(products.get(position)))
+                holder.cbCheck.setChecked(true);
 
-        else
-            holder.cbCheck.setChecked(false);
+            else
+                holder.cbCheck.setChecked(false);
 
-        holder.cbCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if(isChecked)
-                    checkedProducts.add(products.get(position));
-                else
-                    checkedProducts.remove(products.get(position));
-            }
-        });
+            holder.cbCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if(isChecked)
+                        checkedProducts.add(products.get(position));
+                    else
+                        checkedProducts.remove(products.get(position));
+                }
+            });
+        }
+        else{
+            holder.tvProductName.setText("Demo Product");
+            holder.ivProductPhoto.setImageResource(R.drawable.demo_product);
+            holder.cbCheck.setVisibility(View.GONE);
+
+        }
     }
 
     @Override
     public int getItemCount() {
+        if(demo==0)
         return products.size();
+        else
+            return 3;
     }
 
     public void setProducts(List<Map<String,Object>> products){

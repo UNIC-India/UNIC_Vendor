@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.datamodels.Product;
 
 import java.util.List;
 import java.util.Map;
@@ -71,6 +72,21 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
                     holder.rv.setAdapter(tripleImageAdapter);
                     holder.tvViewTitle.setText("Double Products");
                 }
+                if(position==2){
+                    ProductListWithoutImagesAdapter productListWithoutImagesAdapter=new ProductListWithoutImagesAdapter(1);
+                    LinearLayoutManager ProductLayoutManager=new LinearLayoutManager(mContext);
+                    holder.rv.setLayoutManager(ProductLayoutManager);
+                    holder.rv.setAdapter(productListWithoutImagesAdapter);
+                    holder.tvViewTitle.setText("Product List Without Image");
+                }
+                if(position==3){
+                    ProductListAdapter productListWithoutImagesAdapter=new ProductListAdapter(1);
+                    LinearLayoutManager ProductLayoutManager=new LinearLayoutManager(mContext);
+                    holder.rv.setLayoutManager(ProductLayoutManager);
+                    holder.rv.setAdapter(productListWithoutImagesAdapter);
+                    holder.tvViewTitle.setText("Product List with Images");
+                }
+
 
         }
 
@@ -81,7 +97,7 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
     @Override
     public int getItemCount() {
         if(code==4)
-            return 2;
+            return 4;
         return 0;
     }
 
