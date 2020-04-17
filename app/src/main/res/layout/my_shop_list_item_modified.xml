@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/shop_item_border">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/shop_photo"
+                android:layout_width="150dp"
+                android:layout_height="160dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:elevation="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="15dp"
+                />
+
+            <TextView
+                android:id="@+id/shop_name"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:textSize="20dp"
+                app:layout_constraintTop_toTopOf="@id/shop_photo"
+                app:layout_constraintLeft_toRightOf="@id/shop_photo"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:hint="Shop Name"
+                android:textColorHint="@color/darkest"
+                android:textColor="@color/darkest"
+                android:fontFamily="@font/montserrat_bold"
+                ></TextView>
+
+            <TextView
+                android:id="@+id/shop_locality"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:textSize="15dp"
+                app:layout_constraintTop_toBottomOf="@id/shop_name"
+                app:layout_constraintLeft_toLeftOf="@id/shop_name"
+                app:layout_constraintRight_toRightOf="@id/shop_name"
+                android:layout_marginTop="5dp"
+                android:hint="Shop Locality"
+                android:textColorHint="@color/darkest"
+                android:textColor="@color/darkest"
+                ></TextView>
+            <ImageButton
+                android:id="@+id/delete_shop"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_delete_black_24dp"
+                android:backgroundTint="@color/common_google_signin_btn_text_dark_default"
+                android:tint="@color/darkest"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/shop_photo"
+                android:layout_marginRight="5dp"></ImageButton>
+            <LinearLayout
+                android:id="@+id/edit_shop"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/shop_photo"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="5dp"
+                android:paddingLeft="7dp"
+                android:paddingRight="5dp"
+                android:background="@color/colorTertiary"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Edit"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:layout_marginRight="5dp"></TextView>
+
+
+            <ImageButton
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@drawable/ic_edit_black_24dp"
+                android:backgroundTint="@color/white"
+                android:tint="@color/white"
+                ></ImageButton>
+
+            </LinearLayout>
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

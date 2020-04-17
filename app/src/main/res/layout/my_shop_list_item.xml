@@ -9,6 +9,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,10 +24,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:hint="SHOP NAME"
-                android:textColor="#000000"
-                android:textColorHint="#000000"
                 android:textSize="24sp"
-                android:textStyle="bold"
+                android:textColor="@color/darkest"
+                android:fontFamily="@font/montserrat_bold"
+                android:textColorHint="@color/darkest"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -38,8 +39,8 @@
                 android:id="@+id/shop_photo"
                 android:layout_width="150dp"
                 android:layout_height="160dp"
-
                 app:layout_constraintBottom_toBottomOf="parent"
+
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
