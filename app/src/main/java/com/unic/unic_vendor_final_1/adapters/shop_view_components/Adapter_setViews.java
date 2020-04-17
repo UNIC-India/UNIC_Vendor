@@ -6,23 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
-import com.unic.unic_vendor_final_1.datamodels.Product;
-import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
-import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ShopPageFragment;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListWithoutImagesAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.TripleImageAdapter;
 
 public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.ViewHolder> {
 
@@ -41,9 +37,11 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
         RecyclerView rv;
         RadioButton rdbtn;
         TextView tvViewTitle;
+        CardView cvDemo;
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
+            cvDemo=itemView.findViewById(R.id.cvDemo);
             rv=itemView.findViewById(R.id.rvDemo);
             rdbtn=itemView.findViewById(R.id.rdBtn);
             tvViewTitle=itemView.findViewById(R.id.tvViewTitle);
@@ -81,6 +79,7 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
 
                     holder.rv.setLayoutManager(doubleProductLayoutManager);
                     holder.rv.setAdapter(doubleProductAdapter);
+                    holder.rv.setNestedScrollingEnabled(false);
                     holder.rdbtn.setChecked(position==lastchecked);
                     holder.tvViewTitle.setText("Triple Products");
                 }
@@ -89,6 +88,7 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
                     LinearLayoutManager tripleProductLayoutManager=new LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false);
                     holder.rv.setLayoutManager(tripleProductLayoutManager);
                     holder.rv.setAdapter(tripleImageAdapter);
+                    holder.rv.setNestedScrollingEnabled(false);
                     holder.rdbtn.setChecked(position==lastchecked);
                     holder.tvViewTitle.setText("Double Products");
                 }
@@ -96,6 +96,7 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
                     ProductListWithoutImagesAdapter productListWithoutImagesAdapter=new ProductListWithoutImagesAdapter(1);
                     LinearLayoutManager ProductLayoutManager=new LinearLayoutManager(mContext);
                     holder.rv.setLayoutManager(ProductLayoutManager);
+                    holder.rv.setNestedScrollingEnabled(false);
                     holder.rv.setAdapter(productListWithoutImagesAdapter);
                     holder.rdbtn.setChecked(position==lastchecked);
                     holder.tvViewTitle.setText("Product List Without Image");
@@ -104,6 +105,7 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
                     ProductListAdapter productListWithoutImagesAdapter=new ProductListAdapter(1);
                     LinearLayoutManager ProductLayoutManager=new LinearLayoutManager(mContext);
                     holder.rv.setLayoutManager(ProductLayoutManager);
+                    holder.rv.setNestedScrollingEnabled(false);
                     holder.rv.setAdapter(productListWithoutImagesAdapter);
                     holder.rdbtn.setChecked(position==lastchecked);
                     holder.tvViewTitle.setText("Product List with Images");

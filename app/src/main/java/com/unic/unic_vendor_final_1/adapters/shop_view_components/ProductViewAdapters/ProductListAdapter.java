@@ -1,6 +1,5 @@
-package com.unic.unic_vendor_final_1.adapters.shop_view_components;
+package com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

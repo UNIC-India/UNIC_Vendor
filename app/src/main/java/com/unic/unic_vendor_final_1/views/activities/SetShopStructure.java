@@ -302,7 +302,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         structure.getPage(pageId).addView(view,code);
         setStructureViewModel.setStructure(structure);
         selectProducts(pageId,view.getViewCode());
-        returnToPage(pageId);
+
     }
 
     public void returnToPage(int pageId){
@@ -327,4 +327,5 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             onStart();
         }
     }
+
 }

@@ -1,4 +1,4 @@
-package com.unic.unic_vendor_final_1.adapters.shop_view_components;
+package com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
