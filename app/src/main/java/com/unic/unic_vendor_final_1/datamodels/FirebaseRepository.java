@@ -16,6 +16,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -127,5 +130,12 @@ public class FirebaseRepository {
         return db.collection("structures").document(shopId).get();
     }
 
+
+    public UploadTask uploadSelectedImage(ByteArrayOutputStream baos){
+        int time = (int) (System.currentTimeMillis());
+        Timestamp tsTemp = new java.sql.Timestamp(time);
+        String ts =  tsTemp.toString();
+        return mRef.child(mUser.getUid()).child("images").child(ts).putBytes(baos.toByteArray());
+    }
 
 }
