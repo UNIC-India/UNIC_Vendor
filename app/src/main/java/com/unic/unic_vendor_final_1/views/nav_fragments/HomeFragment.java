@@ -44,5 +44,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .commit();
         }
+        else if(v.getId() == R.id.card_view5){
+
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.home_fragment,new NotificationsFragment())
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .commit();
+        }
     }
 }

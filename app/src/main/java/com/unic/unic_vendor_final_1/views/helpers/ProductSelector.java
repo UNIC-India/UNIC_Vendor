@@ -7,15 +7,14 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.unic.unic_vendor_final_1.R;
-import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductListAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListAdapter;
 import com.unic.unic_vendor_final_1.databinding.ActivityProductSelectorBinding;
 import com.unic.unic_vendor_final_1.datamodels.Structure;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
@@ -24,6 +23,7 @@ import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class ProductSelector extends Fragment implements View.OnClickListener{
 
@@ -91,7 +91,7 @@ public class ProductSelector extends Fragment implements View.OnClickListener{
             Structure structure = setStructureViewModel.getStructure().getValue();
             structure.updateProductList(pageId,viewCode,data);
             setStructureViewModel.setStructure(structure);
-            ((SetShopStructure)getActivity()).returnToPage(pageId);
+            ((SetShopStructure) Objects.requireNonNull(getActivity())).returnToPage(pageId);
         }
     }
 }

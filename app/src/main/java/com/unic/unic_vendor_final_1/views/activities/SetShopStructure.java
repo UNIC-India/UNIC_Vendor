@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,13 +28,20 @@ import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.datamodels.Structure;
 import com.unic.unic_vendor_final_1.commons.StructureTemplates;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
+import com.unic.unic_vendor_final_1.views.helpers.CategorySelector;
 import com.unic.unic_vendor_final_1.views.helpers.ProductSelector;
+import com.unic.unic_vendor_final_1.views.helpers.ViewSelector;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ShopPageFragment;
+
+import java.util.List;
+import java.util.Map;
 
 public class SetShopStructure extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
-    private Structure structure;
+    public Structure structure;
     private Shop shop;
+    public int currentPage=1001;
+    private List<Map<String,Object>> products;
 
     private int status,productStatus,structureStatus;
 
@@ -41,7 +49,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     private int option;
 
     private SetStructureViewModel setStructureViewModel;
-    private ActivitySetShopStructureBinding setShopStructureBinding;
+    public ActivitySetShopStructureBinding setShopStructureBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +74,12 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             @Override
             public void onChanged(Structure structure) {
                 setStructure(structure);
+            }
+        });
+        setStructureViewModel.getProducts().observe(this, new Observer<List<Map<String, Object>>>() {
+            @Override
+            public void onChanged(List<Map<String, Object>> maps) {
+                setProducts(maps);
             }
         });
 
@@ -109,6 +123,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onStart() {
         super.onStart();
+        setShopStructureBinding.doneView.setVisibility(View.GONE);
         status = 0;
         updateStatus(status);
     }
@@ -123,6 +138,8 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             case R.id.confirm_shop_structure:
                 setStructureViewModel.saveShopStructure();
                 break;
+
+
                 /*
             case R.id.btn_add_products:
                 Toast.makeText(this, Integer.valueOf(((View)v.getParent()).getId()).toString(), Toast.LENGTH_SHORT).show();
@@ -137,6 +154,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
         for(Page page : structure.getPages()){
             if(page.getPageId() == item.getItemId()){
+                currentPage=page.getPageId();
                 getSupportFragmentManager()
                         .beginTransaction()
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -240,7 +258,11 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         this.shop = shop;
     }
 
-    void setStructure(Structure structure) {
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setStructure(Structure structure) {
         this.structure = structure;
     }
 
@@ -272,18 +294,48 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    public void selectProducts(int pageId,int viewCode){
+    public List<Map<String, Object>> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Map<String, Object>> products) {
+        this.products = products;
+    }
+
+    public void selectProducts(int pageId, int viewCode){
         Toast.makeText(this, Integer.valueOf(pageId).toString()+","+Integer.valueOf(viewCode).toString(), Toast.LENGTH_SHORT).show();
         getSupportFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.shop_pages_loader,new ProductSelector(pageId,viewCode))
                 .commit();
     }
+    public void selectCategories(int pageId, int viewCode){
+        getSupportFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .replace(R.id.shop_pages_loader,new CategorySelector(pageId,viewCode))
+                .commit();
+    }
+    public void selectView(int pageId,int code){
+        getSupportFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .replace(R.id.shop_pages_loader,new ViewSelector(pageId,code))
+                .commit();
+        setShopStructureBinding.shopAddPage.setVisibility(View.GONE);
+        setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
+    }
 
-    public void addView(int pageId, com.unic.unic_vendor_final_1.datamodels.View view,int code){
+
+
+
+    public void addView(int pageId, com.unic.unic_vendor_final_1.datamodels.View view, int code){
+
         structure.getPage(pageId).addView(view,code);
         setStructureViewModel.setStructure(structure);
-        returnToPage(pageId);
+        if(code/10==4)
+        selectProducts(pageId,view.getViewCode());
+        else if(code/10==2)
+            selectCategories(pageId,view.getViewCode());
+
     }
 
     public void returnToPage(int pageId){
@@ -293,5 +345,20 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 .replace(R.id.shop_pages_loader,new ShopPageFragment(structure.getPage(pageId)),structure.getPage(pageId).getPageName())
                 .commit();
         setShopStructureBinding.setStructureNavView.setCheckedItem(pageId);
+        setShopStructureBinding.doneView.setVisibility(View.GONE);
+        setShopStructureBinding.shopAddPage.setVisibility(View.VISIBLE);
+        setShopStructureBinding.confirmShopStructure.setVisibility(View.VISIBLE);
     }
+
+
+    @Override
+    public void onBackPressed() {
+        int count=getSupportFragmentManager().getBackStackEntryCount();
+        if(count==0)
+        super.onBackPressed();
+        else{
+            onStart();
+        }
+    }
+
 }

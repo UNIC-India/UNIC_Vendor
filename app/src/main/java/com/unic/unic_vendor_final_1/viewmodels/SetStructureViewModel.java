@@ -19,6 +19,7 @@ import com.unic.unic_vendor_final_1.datamodels.Structure;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -31,7 +32,7 @@ public class SetStructureViewModel extends ViewModel {
     private MutableLiveData<Integer> productStatus = new MutableLiveData<>();
     private MutableLiveData<Integer> structureStatus = new MutableLiveData<>();
     private MutableLiveData<List<Map<String,Object>>> products = new MutableLiveData<>();
-    private MutableLiveData<List<String>> categories = new MutableLiveData<>();
+    private MutableLiveData<List<Map<String,Object>>> categories = new MutableLiveData<>();
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
@@ -59,8 +60,12 @@ public class SetStructureViewModel extends ViewModel {
                 }
             }
         });
+        List<Map<String,Object>> tempCat=new ArrayList<>();
+        int i=0;
+        for(String cat: categoryData)
+            tempCat.get(i++).put("cname",cat);
         products.setValue(productData);
-        categories.setValue(categoryData);
+        categories.setValue(tempCat);
         productStatus.setValue(1);
     }
 
@@ -126,5 +131,13 @@ public class SetStructureViewModel extends ViewModel {
 
     public void setStructure(Structure structure) {
         this.structure.setValue(structure);
+    }
+
+    public MutableLiveData<List<Map<String, Object>>> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(MutableLiveData<List<Map<String, Object>>> categories) {
+        this.categories = categories;
     }
 }

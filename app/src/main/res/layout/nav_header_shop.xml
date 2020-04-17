@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:background="@color/offWhite"
+    android:background="@drawable/slidertopcolour"
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -17,18 +17,17 @@
         android:id="@+id/header_shop_name"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginBottom="50dp"
+        android:fontFamily="@font/montserrat_bold_normal"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:textAllCaps="true"
-        app:autoSizeTextType="uniform"
-        app:autoSizeMinTextSize="12sp"
-        app:autoSizeMaxTextSize="30sp"
-        android:textColor="@color/colorTertiary"
-        android:fontFamily="@font/montserrat_bold_normal"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        tools:layout_editor_absoluteX="16dp"
+        android:textColor="@color/colorTertiary"
+        app:autoSizeMaxTextSize="30sp"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="50dp"/>
-
+        tools:layout_editor_absoluteX="16dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

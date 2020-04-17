@@ -11,14 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".views.activities.AddNewShop"></activity>
-        <activity android:name=".views.helpers.ProductSelector"></activity>
+        <activity android:name=".views.activities.SetNotification"></activity>
+        <activity android:name=".views.activities.AddNewShop" />
+        <activity android:name=".views.helpers.ProductSelector" />
         <activity android:name=".views.helpers.TestActivity" />
         <activity android:name=".views.helpers.LocationSelector" />
         <activity android:name=".views.activities.SetShopStructure" />
-        <activity android:name=".views.activities.ShopLol" />
-        <activity android:name=".views.activities.TemplateLol" />
-        <activity android:name=".views.activities.OrdersLol" />
         <activity android:name=".views.activities.AddShop" />
         <activity android:name=".views.activities.Login" />
         <activity android:name=".views.activities.SignUp" />
