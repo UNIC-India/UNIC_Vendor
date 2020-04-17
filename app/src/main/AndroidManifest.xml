@@ -11,11 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<<<<<<< HEAD
+
         <activity android:name=".views.activities.SetNotification"></activity>
-=======
+
         <activity android:name=".views.helpers.ImagePicker"/>
->>>>>>> PSK_Branch
+
         <activity android:name=".views.activities.AddNewShop" />
         <activity android:name=".views.helpers.ProductSelector" />
         <activity android:name=".views.helpers.TestActivity" />
