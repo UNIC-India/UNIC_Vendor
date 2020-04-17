@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategoriesAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListWithoutImagesAdapter;
@@ -70,6 +71,17 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         switch(code){
+            case 2:
+                if(position==0){
+                    CategoriesAdapter categoriesAdapter=new CategoriesAdapter(1);
+                    LinearLayoutManager categoriesLayoutManager= new LinearLayoutManager(mContext,RecyclerView.HORIZONTAL,false);
+                    holder.rv.setLayoutManager(categoriesLayoutManager);
+                    holder.rv.setAdapter(categoriesAdapter);
+                    holder.rv.setNestedScrollingEnabled(false);
+                    holder.rdbtn.setChecked(position==lastchecked);
+                    holder.tvViewTitle.setText("Simple Categories Display");
+                }
+                break;
             case 4:
 
                 if(position==0) {
@@ -122,6 +134,8 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
     public int getItemCount() {
         if(code==4)
             return 4;
+        else if(code==2)
+            return 1;
         return 0;
     }
 

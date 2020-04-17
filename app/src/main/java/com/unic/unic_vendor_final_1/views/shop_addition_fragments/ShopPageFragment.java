@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategoriesAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.TripleImageAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentShopPageBinding;
@@ -100,7 +101,17 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
             case 13:
                 //TODO
             case 21:
-                //TODO
+                View categoriesView=Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.categories_view,parent,false);
+                categoriesView.setId(view.getViewCode());
+                parent.addView(categoriesView);
+                CategoriesAdapter categoriesAdapter=new CategoriesAdapter(getContext());
+                categoriesAdapter.setCategories(view.getData());
+                LinearLayoutManager categoriesLayoutManager=new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL,false);
+                RecyclerView categoriesRecyclerView=categoriesView.findViewById(R.id.categories_recycler_view);
+                categoriesRecyclerView.setAdapter(categoriesAdapter);
+                break;
+
+
             case 22:
                 //TODO
             case 23:

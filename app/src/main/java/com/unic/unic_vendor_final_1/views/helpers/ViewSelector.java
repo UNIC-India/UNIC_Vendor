@@ -95,6 +95,11 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
 
     public void viewAdder(String code){
         switch (code){
+            case "21":
+                com.unic.unic_vendor_final_1.datamodels.View view21 = new com.unic.unic_vendor_final_1.datamodels.View();
+                view21.setFields("cname");
+                ((SetShopStructure) Objects.requireNonNull(getActivity())).addView(pageId, view21,21);
+                break;
             case "41":
                 final EditText etViewHeader = new EditText(getContext());
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());

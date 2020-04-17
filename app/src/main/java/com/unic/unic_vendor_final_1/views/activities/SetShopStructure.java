@@ -28,15 +28,20 @@ import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.datamodels.Structure;
 import com.unic.unic_vendor_final_1.commons.StructureTemplates;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
+import com.unic.unic_vendor_final_1.views.helpers.CategorySelector;
 import com.unic.unic_vendor_final_1.views.helpers.ProductSelector;
 import com.unic.unic_vendor_final_1.views.helpers.ViewSelector;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ShopPageFragment;
+
+import java.util.List;
+import java.util.Map;
 
 public class SetShopStructure extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     public Structure structure;
     private Shop shop;
     public int currentPage=1001;
+    private List<Map<String,Object>> products;
 
     private int status,productStatus,structureStatus;
 
@@ -69,6 +74,12 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             @Override
             public void onChanged(Structure structure) {
                 setStructure(structure);
+            }
+        });
+        setStructureViewModel.getProducts().observe(this, new Observer<List<Map<String, Object>>>() {
+            @Override
+            public void onChanged(List<Map<String, Object>> maps) {
+                setProducts(maps);
             }
         });
 
@@ -247,6 +258,10 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         this.shop = shop;
     }
 
+    public Shop getShop() {
+        return shop;
+    }
+
     public void setStructure(Structure structure) {
         this.structure = structure;
     }
@@ -279,11 +294,25 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    public void selectProducts(int pageId,int viewCode){
+    public List<Map<String, Object>> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Map<String, Object>> products) {
+        this.products = products;
+    }
+
+    public void selectProducts(int pageId, int viewCode){
         Toast.makeText(this, Integer.valueOf(pageId).toString()+","+Integer.valueOf(viewCode).toString(), Toast.LENGTH_SHORT).show();
         getSupportFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.shop_pages_loader,new ProductSelector(pageId,viewCode))
+                .commit();
+    }
+    public void selectCategories(int pageId, int viewCode){
+        getSupportFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .replace(R.id.shop_pages_loader,new CategorySelector(pageId,viewCode))
                 .commit();
     }
     public void selectView(int pageId,int code){
@@ -297,11 +326,15 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
 
 
+
     public void addView(int pageId, com.unic.unic_vendor_final_1.datamodels.View view, int code){
 
         structure.getPage(pageId).addView(view,code);
         setStructureViewModel.setStructure(structure);
+        if(code/10==4)
         selectProducts(pageId,view.getViewCode());
+        else if(code/10==2)
+            selectCategories(pageId,view.getViewCode());
 
     }
 

@@ -95,7 +95,11 @@ public class FirebaseRepository {
     }
 
     public Query getProducts(String shopId) {
-        return db.collection("products");
+        return db.collection("products").whereEqualTo("shopId",shopId);
+    }
+
+    public Task<DocumentReference> saveProduct(Product product){
+        return db.collection("products").add(product);
     }
 
     public Task<Void> setUserSplashStatus(String Uid, int status, boolean isNewUser) {
