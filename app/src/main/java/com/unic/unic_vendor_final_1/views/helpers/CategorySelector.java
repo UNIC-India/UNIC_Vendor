@@ -60,6 +60,23 @@ public class CategorySelector extends Fragment implements  View.OnClickListener 
         categorySelectorBinding.productsSelectorRecyclerView.setLayoutManager(layoutManager);
         categorySelectorBinding.productsSelectorRecyclerView.setAdapter(categorySelectionAdapter);
         categorySelectorBinding.btnConfirmProducts.setOnClickListener(this);
+        setStructureViewModel.getCategories().observe(getViewLifecycleOwner(), new Observer<List<Map<String, Object>>>() {
+            @Override
+            public void onChanged(List<Map<String, Object>> maps) {
+               categorySelectionAdapter.setCategories(maps);
+                categorySelectionAdapter.notifyDataSetChanged();
+            }
+        });
+
+        setStructureViewModel.getProductStatus().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if(integer==1) {
+                    categorySelectionAdapter.setSelectedCategories(prevData);
+                    categorySelectionAdapter.notifyDataSetChanged();
+                }
+            }
+        });
 
         return categorySelectorBinding.getRoot();
     }

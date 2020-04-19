@@ -48,24 +48,25 @@ public class SetStructureViewModel extends ViewModel {
 
     public void getProductData(String  shopId){
         final List<Map<String,Object>> productData = new ArrayList<>();
-        final List<String> categoryData = new ArrayList<>();
-        firebaseRepository.getProducts(shopId).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        final List<Map<String,Object>> categoryData = new ArrayList<>();
+        List<Map<String,Object>> tempCat=new ArrayList<>();
+        int i=0;
+        firebaseRepository.getProducts(shopId).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                if (queryDocumentSnapshots!=null)
-                for(DocumentSnapshot doc : queryDocumentSnapshots){
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for(DocumentSnapshot doc:queryDocumentSnapshots) {
                     productData.add(doc.getData());
-                    if(!categoryData.contains(Objects.requireNonNull(doc.get("category")).toString()))
-                        categoryData.add(Objects.requireNonNull(doc.get("category")).toString());
+                    Map<String,Object> hp=new HashMap<>();
+                    hp.put("cname",Objects.requireNonNull(doc.get("category")).toString());
+                    if (!categoryData.contains(hp))
+                        categoryData.add(hp);
                 }
             }
         });
-        List<Map<String,Object>> tempCat=new ArrayList<>();
-        int i=0;
-        for(String cat: categoryData)
-            tempCat.get(i++).put("cname",cat);
+
+
         products.setValue(productData);
-        categories.setValue(tempCat);
+        categories.setValue(categoryData);
         productStatus.setValue(1);
     }
 

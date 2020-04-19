@@ -61,7 +61,7 @@ public class TripleImageAdapter extends RecyclerView.Adapter<TripleImageAdapter.
             holder.tvProductPrice.setText(products.get(position).get("price").toString());
             Glide
                     .with(mContext)
-                    .load(products.get(position).get("imageId").toString())
+                    .load(products.get(position).get("imageid").toString())
                     .into(holder.ivProductImage);
         }
         else{

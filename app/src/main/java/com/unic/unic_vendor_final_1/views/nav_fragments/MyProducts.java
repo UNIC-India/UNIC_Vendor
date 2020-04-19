@@ -2,18 +2,18 @@ package com.unic.unic_vendor_final_1.views.nav_fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.ShopAdapter;
@@ -23,12 +23,15 @@ import com.unic.unic_vendor_final_1.views.activities.AddShop;
 
 import java.util.List;
 
-public class MyAppsFragment extends Fragment implements View.OnClickListener{
-
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class MyProducts extends Fragment {
     private UserShopsViewModel shopsViewModel;
 
     private ShopAdapter adapter;
-    public MyAppsFragment() {
+
+    public MyProducts() {
         // Required empty public constructor
     }
 
@@ -37,12 +40,12 @@ public class MyAppsFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_my_apps, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_products, container, false);
 
         LinearLayoutManager layoutManager =new LinearLayoutManager(getContext());
-        RecyclerView recyclerView =view.findViewById(R.id.my_shops);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new ShopAdapter(getContext(),0);
+        RecyclerView rvShops =view.findViewById(R.id.rvShops);
+        rvShops.setLayoutManager(layoutManager);
+        adapter = new ShopAdapter(getContext(),1);
         shopsViewModel = new ViewModelProvider(this).get(UserShopsViewModel.class);
         shopsViewModel.getAllShops().observe(getViewLifecycleOwner(), new Observer<List<Shop>>() {
             @Override
@@ -52,9 +55,9 @@ public class MyAppsFragment extends Fragment implements View.OnClickListener{
             }
         });
 
-        recyclerView.setAdapter(adapter);
+        rvShops.setAdapter(adapter);
 
-        view.findViewById(R.id.btn_add_shop).setOnClickListener(this);
+
         return view;
     }
 
@@ -63,13 +66,7 @@ public class MyAppsFragment extends Fragment implements View.OnClickListener{
         super.onViewCreated(view, savedInstanceState);
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.btn_add_shop:
-                startActivity(new Intent(getContext(), AddShop.class));
-        }
-    }
+
 
     @Override
     public void onDestroyView() {

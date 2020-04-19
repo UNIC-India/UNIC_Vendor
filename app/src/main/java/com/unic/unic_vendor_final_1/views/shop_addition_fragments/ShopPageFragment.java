@@ -108,6 +108,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
                 categoriesAdapter.setCategories(view.getData());
                 LinearLayoutManager categoriesLayoutManager=new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL,false);
                 RecyclerView categoriesRecyclerView=categoriesView.findViewById(R.id.categories_recycler_view);
+                categoriesRecyclerView.setLayoutManager(categoriesLayoutManager);
                 categoriesRecyclerView.setAdapter(categoriesAdapter);
                 break;
 

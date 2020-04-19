@@ -31,6 +31,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater,container,false);
         fragmentHomeBinding.cardViewApps.setOnClickListener(this);
+        fragmentHomeBinding.cardView6.setOnClickListener(this);
         return fragmentHomeBinding.getRoot();
 
     }
@@ -48,6 +49,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.home_fragment,new NotificationsFragment())
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .commit();
+        }
+        else if(v.getId() == R.id.card_view6){
+
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.home_fragment,new MyProducts())
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .commit();
         }

@@ -42,7 +42,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             super(itemView);
             cbCheck = itemView.findViewById(R.id.product_checkbox);
             tvProductName = itemView.findViewById(R.id.product_name);
-            ivProductPhoto = itemView.findViewById(R.id.product_image_view);
+            ivProductPhoto = itemView.findViewById(R.id.product_image);
         }
     }
 
@@ -60,7 +60,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder.tvProductName.setText(products.get(position).get("name").toString());
             Glide
                     .with(mContext)
-                    .load(products.get(position).get("imageId").toString())
+                    .load(products.get(position).get("imageid").toString())
                     .into(holder.ivProductPhoto);
 
             if(checkedProducts.contains(products.get(position)))

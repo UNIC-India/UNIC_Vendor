@@ -31,6 +31,7 @@ import com.unic.unic_vendor_final_1.datamodels.User;
 import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
 import com.unic.unic_vendor_final_1.views.nav_fragments.HomeFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyAppsFragment;
+import com.unic.unic_vendor_final_1.views.nav_fragments.MyProducts;
 
 import java.util.Objects;
 
@@ -93,6 +94,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         int id = menuItem.getItemId();
         Fragment homeFragment = new HomeFragment();
         Fragment appsFragment = new MyAppsFragment();
+        Fragment productsFragment=new MyProducts();
         switch (id){
             case R.id.nav_home:
                 fragment = homeFragment;

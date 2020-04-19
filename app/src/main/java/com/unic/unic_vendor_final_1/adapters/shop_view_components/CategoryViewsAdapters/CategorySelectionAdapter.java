@@ -56,7 +56,7 @@ public class CategorySelectionAdapter extends RecyclerView.Adapter<com.unic.unic
     public void onBindViewHolder(@NonNull com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategorySelectionAdapter.ViewHolder holder, int position) {
         if(demo==0){
             holder.tvCategory.setText(categories.get(position).get("cname").toString());
-            if(checkedCategories.contains(products.get(position)))
+            if(checkedCategories.contains(categories.get(position)))
                 holder.cbCheck.setChecked(true);
 
             else
