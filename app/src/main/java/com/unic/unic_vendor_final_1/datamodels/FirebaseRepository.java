@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 public class FirebaseRepository {
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
     private StorageReference mRef = FirebaseStorage.getInstance().getReference();
 
@@ -160,6 +160,8 @@ public class FirebaseRepository {
     public Task<DocumentSnapshot> getShopStructure(String shopId) {
         return db.collection("structures").document(shopId).get();
     }
+
+
 
 
     public UploadTask uploadSelectedImage(ByteArrayOutputStream baos){
