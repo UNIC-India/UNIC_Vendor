@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cart_item"
-    android:layout_width="370dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="20dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginRight="20dp"
+
+    android:layout_marginTop="5dp"
+
     android:backgroundTint="@color/offWhite"
     android:elevation="5dp">
 
 
     <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,25 +21,24 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <CheckBox
                 android:id="@+id/product_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+
+                app:layout_constraintBottom_toBottomOf="@+id/product_image"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/product_image"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:layout_marginLeft="17dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:elevation="2dp"
                 android:src="@color/colourQuaternary"
-                app:layout_constraintBottom_toBottomOf="parent"
+
                 app:layout_constraintLeft_toRightOf="@id/product_checkbox"
                 app:layout_constraintTop_toTopOf="parent"></ImageView>
 
@@ -46,62 +46,71 @@
                 android:id="@+id/product_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="3dp"
-                android:fontFamily="@font/montserrat_bold"
+                android:layout_marginLeft="5dp"
+                android:fontFamily="@font/montserrat_normal"
                 android:hint="MASTI DAHI"
                 android:padding="2dp"
                 android:textAllCaps="true"
-                android:textColor="@color/darkest"
-                android:textColorHint="@color/darkest"
+                android:textColor="#000000"
+                android:textColorHint="#000000"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintLeft_toRightOf="@id/product_image"
                 app:layout_constraintTop_toTopOf="@id/product_image"></TextView>
-
-
-            <TextView
-                android:id="@+id/product_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="3dp"
-                android:hint="0002"
-                android:padding="2dp"
-                android:textColor="@color/grey4"
-                android:textColorHint="@color/grey4"
-                android:textSize="17sp"
-                app:layout_constraintLeft_toRightOf="@id/product_image"
-                app:layout_constraintTop_toBottomOf="@id/product_name"></TextView>
 
 
             <TextView
                 android:id="@+id/product_company_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="3dp"
+                android:layout_marginLeft="5dp"
                 android:hint="Amul"
-                android:padding="2dp"
                 android:textColor="@color/grey4"
                 android:textColorHint="@color/grey4"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 app:layout_constraintLeft_toRightOf="@id/product_image"
-                app:layout_constraintTop_toBottomOf="@id/product_id"></TextView>
+                app:layout_constraintTop_toBottomOf="@+id/product_name"></TextView>
 
             <TextView
                 android:id="@+id/product_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="3dp"
+                android:layout_marginRight="5dp"
                 android:fontFamily="@font/montserrat_bold"
                 android:hint="Rs. 20"
-                android:padding="2dp"
-                android:textColor="@color/colorSecondary"
-                android:textColorHint="@color/colorSecondary"
-                android:textSize="18sp"
-                app:layout_constraintLeft_toRightOf="@id/product_image"
+                android:textColor="@color/colorPrimary"
+                android:textColorHint="@color/colorPrimary"
+                android:textSize="15dp"
+
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/product_company_name"></TextView>
+
+            <TextView
+                android:id="@+id/extrainfo1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ExtraIfo1"
+                app:layout_constraintBottom_toBottomOf="@+id/product_company_name"
+                app:layout_constraintEnd_toStartOf="@+id/imageView2"
+                app:layout_constraintStart_toEndOf="@+id/product_company_name" />
+
+            <TextView
+                android:id="@+id/tvCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="Category"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/product_image"
+                app:layout_constraintTop_toBottomOf="@+id/product_company_name" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:layout_constraintBottom_toTopOf="@+id/product_price"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/addtocart" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
