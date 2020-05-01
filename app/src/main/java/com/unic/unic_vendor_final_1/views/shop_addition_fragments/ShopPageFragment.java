@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,6 +27,7 @@ import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAda
 import com.unic.unic_vendor_final_1.databinding.FragmentShopPageBinding;
 import com.unic.unic_vendor_final_1.datamodels.Page;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
+import com.unic.unic_vendor_final_1.views.helpers.MasterLayoutFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -94,6 +97,13 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
     public void inflateView(com.unic.unic_vendor_final_1.datamodels.View view){
         int viewType = view.getViewCode()/100;
         switch (viewType){
+            case 00:
+                View frame=new FrameLayout(getContext());
+                frame.setId(view.getViewCode());
+                FragmentManager fm=getActivity().getSupportFragmentManager();
+                fm.beginTransaction().replace(frame.getId(),new MasterLayoutFragment()).commit();
+                parent.addView(frame);
+                break;
             case 11:
                 //TODO
             case 12:

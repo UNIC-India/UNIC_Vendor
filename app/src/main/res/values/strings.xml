@@ -69,5 +69,12 @@
         <item>Display Products</item>
         <item>Put Text</item>
     </string-array>
+    <string-array name="spinner_array">
+        <item>All Products</item>
+        <item>Categories</item>
+        <item>Company</item>
+        <item>Price</item>
+        <item>Tags</item>
+    </string-array>
 
 </resources>
