@@ -11,9 +11,13 @@ import android.widget.ImageView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.FragmentHomeBinding;
+import com.unic.unic_vendor_final_1.datamodels.User;
+import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
 import com.unic.unic_vendor_final_1.views.activities.UserHome;
 
 import java.util.Objects;
@@ -32,7 +36,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater,container,false);
         fragmentHomeBinding.cardViewApps.setOnClickListener(this);
-        fragmentHomeBinding.tvWorkspace.setText(((UserHome)Objects.requireNonNull(getActivity())).user!=null?((UserHome)Objects.requireNonNull(getActivity())).user.getFullName().split(" ")[0]+"'s"+" Workspace":"Workspace");
+        FirestoreDataViewModel firestoreDataViewModel = new ViewModelProvider(this).get(FirestoreDataViewModel.class);
+        firestoreDataViewModel.getUserData();
+        firestoreDataViewModel.getUser().observe(getActivity(), new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                fragmentHomeBinding.tvWorkspace.setText(((UserHome)Objects.requireNonNull(getActivity())).user!=null?((UserHome)Objects.requireNonNull(getActivity())).user.getFullName().split(" ")[0]+"'s"+" Workspace":"Workspace");
+            }
+        });
         fragmentHomeBinding.cardView.setOnClickListener(this);
         fragmentHomeBinding.cardView6.setOnClickListener(this);
         return fragmentHomeBinding.getRoot();

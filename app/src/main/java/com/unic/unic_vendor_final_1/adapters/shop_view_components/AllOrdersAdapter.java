@@ -43,7 +43,7 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
             tvName=itemView.findViewById(R.id.tvShopName);
             tvDate=itemView.findViewById(R.id.tvDate);
             tvPhone=itemView.findViewById(R.id.tvPhoneNo);
-            tvOrderId=itemView.findViewById(R.id.orderId);
+            tvOrderId=itemView.findViewById(R.id.tvOrderId);
             tvStatus=itemView.findViewById(R.id.tvStatus);
             cdOrder=itemView.findViewById(R.id.cdOrder);
             tvshopname=itemView.findViewById(R.id.tvShopName);
@@ -82,8 +82,8 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
                 break;
         }
 
-        holder.tvPhone.setText(""+orders.get(position).getPhoneNo());
-        holder.tvOrderId.setText("OrderID:"+orders.get(position).getId());
+       // holder.tvPhone.setText(""+orders.get(position).getPhoneNo());
+        holder.tvOrderId.setText(" "+orders.get(position).getId());
         new FirebaseRepository().db.collection("shops").document(orders.get(position).getShopId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
