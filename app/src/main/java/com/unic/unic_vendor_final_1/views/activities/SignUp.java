@@ -71,6 +71,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                     enableDisableViewGroup((ViewGroup)signUpBinding.getRoot(),true);
                     ((ViewGroup)signUpBinding.getRoot()).removeView(coverView);
                     signUpBinding.signUpProgressBar.setVisibility(View.GONE);
+                    signUpViewModel.updateInstanceId();
                     startActivity(new Intent(SignUp.this, UserHome.class));
                     finish();
                 }
