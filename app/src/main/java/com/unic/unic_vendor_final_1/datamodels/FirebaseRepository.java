@@ -161,6 +161,10 @@ public class FirebaseRepository {
         return db.collection("structures").document(shopId).get();
     }
 
+    public Task<Void> setInstanceId(String Uid,String token){
+        return db.collection("users").document(Uid).update("instanceId",token);
+    }
+
 
 
 

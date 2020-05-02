@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    private String id,fullName,email,phoneNo;
+    private String id,fullName,email,phoneNo,instanceId;
 
     public User(){
     }
@@ -14,6 +14,7 @@ public class User {
         this.fullName = fullName;
         this.email = email;
         this.phoneNo = phoneNo;
+        this.instanceId = " ";
     }
 
     public String getFullName() {
@@ -32,5 +33,27 @@ public class User {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
 
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
+    }
+
+    public String getInstanceId() {
+        return instanceId;
+    }
+
+    public void setInstanceId(String instanceId) {
+        this.instanceId = instanceId;
+    }
 }

@@ -17,6 +17,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.unic.unic_vendor_final_1.datamodels.FirebaseRepository;
 
 public class FirebasePhoneAuthViewModel extends ViewModel {
@@ -114,6 +116,16 @@ public class FirebasePhoneAuthViewModel extends ViewModel {
 
     public LiveData<String> getCode() {
         return SMSCode;
+    }
+
+    public void updateInstanceId(){
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                String token = instanceIdResult.getToken();
+                firebaseRepository.setInstanceId(mAuth.getUid(),token);
+            }
+        });
     }
 
 }
