@@ -31,6 +31,7 @@ import com.unic.unic_vendor_final_1.datamodels.User;
 import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
 import com.unic.unic_vendor_final_1.views.nav_fragments.HomeFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyAppsFragment;
+import com.unic.unic_vendor_final_1.views.nav_fragments.MyOrders;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyProducts;
 
 import java.util.Objects;
@@ -76,10 +77,22 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.replace(R.id.home_fragment,new HomeFragment());
-        ft.commit();
+        Intent intent = getIntent();
+
+        if (intent.hasExtra("load")){
+            if(intent.getStringExtra("load").equals("order")){
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.home_fragment,new MyOrders());
+                ft.commit();
+            }
+        }
+        else {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.replace(R.id.home_fragment,new HomeFragment());
+            ft.commit();
+        }
     }
 
     @Override
