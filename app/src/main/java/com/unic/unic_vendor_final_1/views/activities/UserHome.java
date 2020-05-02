@@ -39,7 +39,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     private NavigationView navigationView;
     private FirebaseAuth mAuth;
     boolean doubleBackToExitPressedOnce = false;
-    private User user;
+    public User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

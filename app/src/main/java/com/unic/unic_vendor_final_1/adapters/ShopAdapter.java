@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,9 +36,9 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvShopName,tvShopName2;
+        TextView tvShopName,tvShopName2,tvLocality;
         ImageView ivShopPhoto;
-        Button Preview,Edit;
+        LinearLayout Edit;
         CardView cdShop;
 
         ViewHolder(@NonNull View itemView) {
@@ -45,8 +46,8 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 
             tvShopName = itemView.findViewById(R.id.shop_name);
             ivShopPhoto = itemView.findViewById(R.id.shop_photo);
-            Preview = itemView.findViewById(R.id.button);
-            Edit = itemView.findViewById(R.id.button2);
+            tvLocality=itemView.findViewById(R.id.shop_locality);
+            Edit = itemView.findViewById(R.id.edit_shop);
             tvShopName2=itemView.findViewById(R.id.tvshop);
             cdShop=itemView.findViewById(R.id.cdshop);
         }
@@ -57,7 +58,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         if(from==0)
-            view= LayoutInflater.from(parent.getContext()).inflate(R.layout.my_shop_list_item, parent, false);
+            view= LayoutInflater.from(parent.getContext()).inflate(R.layout.my_shop_list_item_modified, parent, false);
         else
             view= LayoutInflater.from(parent.getContext()).inflate(R.layout.shop_list_item, parent, false);
         return new ViewHolder(view);
@@ -67,6 +68,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ShopAdapter.ViewHolder holder, final int position) {
         if(from==0){
             holder.tvShopName.setText(shops.get(position).getName());
+            holder.tvLocality.setText(shops.get(position).getLocality());
             holder.Edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
