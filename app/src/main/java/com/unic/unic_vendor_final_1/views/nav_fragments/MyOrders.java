@@ -21,6 +21,7 @@ import com.unic.unic_vendor_final_1.datamodels.User;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -52,7 +53,7 @@ public class MyOrders extends Fragment {
         userShopsViewModel.getAllOrders().observe(getActivity(), new Observer<List<Order>>() {
             @Override
             public void onChanged(List<Order> orders) {
-
+                    Collections.sort(orders,Order.compareByDate);
                     allOrdersAdapter.setShops(orders);
                     allOrdersAdapter.notifyDataSetChanged();
 

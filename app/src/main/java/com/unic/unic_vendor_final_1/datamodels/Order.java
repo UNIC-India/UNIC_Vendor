@@ -3,6 +3,7 @@ package com.unic.unic_vendor_final_1.datamodels;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -12,16 +13,18 @@ public class Order {
     private List<Map<String,Object>> items;
     private List<Integer> quantity;
     public int no_of_items;
+
     private int orderStatus;
     @ServerTimestamp
     Date time;
+    private String createBy;
     private String phoneNo;
 
     public Order() {
         //No argument constructor for firestore
     }
 
-    public Order(String shopId, List<Map<String, Object>> items, List<Integer> quantity, int no_of_items) {
+    public Order(String shopId, List<Map<String, Object>> items, List<Integer> quantity, int no_of_items,String createdBy) {
         this.shopId = shopId;
         this.items = items;
         this.quantity = quantity;
@@ -29,7 +32,16 @@ public class Order {
         this.id=" ";
         this.status=" ";
         this.orderStatus=0;
+        this.createBy=createdBy;
     }
+
+    public static Comparator<Order> compareByDate=new Comparator<Order>() {
+        @Override
+        public int compare(Order o1, Order o2) {
+            return o2.getTime().compareTo(o1.getTime());
+        }
+    };
+
 
     public String getOwnerId() {
         return ownerId;
@@ -95,6 +107,13 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
 
     public Date getTime() {
         return time;

@@ -72,8 +72,8 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
                 break;
             case "Accepted":
                 holder.tvStatus.setText("Accepted");
-                holder.tvStatus.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green)));
-                holder.line.setBackgroundColor(context.getResources().getColor(R.color.green));
+                holder.tvStatus.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.yellow)));
+                holder.line.setBackgroundColor(context.getResources().getColor(R.color.yellow));
                 break;
             case "Denied":
                 holder.tvStatus.setText("Denied");
