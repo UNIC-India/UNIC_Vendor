@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         firestoreDataViewModel.getUser().observe(getActivity(), new Observer<User>() {
             @Override
             public void onChanged(User user) {
-                fragmentHomeBinding.tvWorkspace.setText(((UserHome)Objects.requireNonNull(getActivity())).user!=null?((UserHome)Objects.requireNonNull(getActivity())).user.getFullName().split(" ")[0]+"'s"+" Workspace":"Workspace");
+                fragmentHomeBinding.tvWorkspace.setText(user!=null?user.getFullName().split(" ")[0]+"'s"+" Workspace":"Workspace");
             }
         });
         fragmentHomeBinding.cardView.setOnClickListener(this);

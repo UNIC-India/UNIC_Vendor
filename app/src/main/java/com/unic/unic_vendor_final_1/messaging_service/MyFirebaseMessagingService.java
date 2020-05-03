@@ -32,13 +32,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
-        if (remoteMessage.getNotification()!=null){
-            Toast.makeText(getApplicationContext(), remoteMessage.getNotification().getBody(), Toast.LENGTH_SHORT).show();
-        }
+        
+        Map<String,String> data = remoteMessage.getData();
 
-        if(remoteMessage.getData().get("load").equals("order")){
+        if(data.get("load").equals("order")){
+
             Intent intent = new Intent(this, UserHome.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("load","order");
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                     PendingIntent.FLAG_ONE_SHOT);
@@ -48,8 +48,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             NotificationCompat.Builder notificationBuilder =
                     new NotificationCompat.Builder(this, channelId)
                             .setSmallIcon(R.drawable.logonotext)
-                            .setContentTitle(remoteMessage.getNotification().getTitle())
-                            .setContentText(remoteMessage.getNotification().getBody())
+                            .setContentTitle(data.get("title"))
+                            .setContentText(data.get("text"))
                             .setAutoCancel(true)
                             .setSound(defaultSoundUri)
                             .setContentIntent(pendingIntent);
