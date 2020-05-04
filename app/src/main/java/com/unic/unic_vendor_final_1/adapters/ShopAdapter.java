@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,14 +30,15 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvShopName;
-        ImageView ivShopPhoto,ivPreview,ivEdit;
+        ImageView ivShopPhoto;
+        Button btnPreview,btnEdit;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvShopName = itemView.findViewById(R.id.shop_name);
             ivShopPhoto = itemView.findViewById(R.id.shop_photo);
-            ivPreview = itemView.findViewById(R.id.btn_preview_shop);
-            ivEdit = itemView.findViewById(R.id.btn_edit_shop);
+            btnPreview = itemView.findViewById(R.id.btn_preview_shop);
+            btnEdit = itemView.findViewById(R.id.btn_edit_shop);
         }
     }
 
@@ -51,20 +53,13 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ShopAdapter.ViewHolder holder, final int position) {
 
         holder.tvShopName.setText(shops.get(position).getName());
-        holder.ivEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(context, SetShopStructure.class);
-                intent.putExtra("shopId",shops.get(position).getId());
-            }
-        });
 
         Glide
                 .with(context)
                 .load(shops.get(position).getImageLink())
                 .into(holder.ivShopPhoto);
 
-        holder.ivEdit.setOnClickListener(new View.OnClickListener() {
+        holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context,SetShopStructure.class);
