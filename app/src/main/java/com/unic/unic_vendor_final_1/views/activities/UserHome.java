@@ -31,6 +31,8 @@ import com.unic.unic_vendor_final_1.datamodels.User;
 import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
 import com.unic.unic_vendor_final_1.views.nav_fragments.HomeFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyAppsFragment;
+import com.unic.unic_vendor_final_1.views.nav_fragments.MyOrders;
+import com.unic.unic_vendor_final_1.views.nav_fragments.MyProducts;
 
 import java.util.Objects;
 
@@ -38,7 +40,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     private NavigationView navigationView;
     private FirebaseAuth mAuth;
     boolean doubleBackToExitPressedOnce = false;
-    private User user;
+    public User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,10 +77,22 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.replace(R.id.home_fragment,new HomeFragment());
-        ft.commit();
+        Intent intent = getIntent();
+
+        if (intent.hasExtra("load")){
+            if(intent.getStringExtra("load").equals("order")){
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.home_fragment,new MyOrders());
+                ft.commit();
+            }
+        }
+        else {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.replace(R.id.home_fragment,new HomeFragment());
+            ft.commit();
+        }
     }
 
     @Override
@@ -93,6 +107,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         int id = menuItem.getItemId();
         Fragment homeFragment = new HomeFragment();
         Fragment appsFragment = new MyAppsFragment();
+        Fragment productsFragment=new MyProducts();
         switch (id){
             case R.id.nav_home:
                 fragment = homeFragment;
@@ -153,20 +168,33 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
 
     @Override
     public void onBackPressed() {
-        if(doubleBackToExitPressedOnce){
-            super.onBackPressed();
-            return;
-        }
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
+        Fragment fg=getSupportFragmentManager().findFragmentById(R.id.home_fragment);
+        if(fg.getClass()==HomeFragment.class){
+            if(doubleBackToExitPressedOnce){
+                super.onBackPressed();
+                return;
             }
-        }, 2000);
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce=false;
+                }
+            }, 2000);
+        }
+        else{
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.home_fragment,new HomeFragment())
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .commit();
+
+        }
+       /* */
+
     }
 
 }

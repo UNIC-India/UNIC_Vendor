@@ -74,5 +74,8 @@ dependencies {
     implementation 'com.mapbox.mapboxsdk:mapbox-sdk-geojson:5.1.0'
     implementation 'com.mapbox.mapboxsdk:mapbox-sdk-services:5.1.0'
     implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-places-v9:0.11.0'
+    implementation 'com.google.firebase:firebase-messaging:20.1.6'
+
+    implementation 'com.airbnb.android:lottie:3.4.0'
 
 }

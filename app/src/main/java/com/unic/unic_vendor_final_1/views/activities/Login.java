@@ -45,6 +45,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onChanged(String s) {
                 loginBinding.etOTP.setText(s);
+                if (coverView.getParent()!=null)
+                    return;
                 ((ViewGroup)loginBinding.getRoot()).addView(coverView);
                 loginBinding.loginProgressBar.setVisibility(View.VISIBLE);
                 loginBinding.loginProgressBar.bringToFront();
@@ -98,6 +100,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 enableDisableViewGroup((ViewGroup)loginBinding.getRoot(),true);
                 ((ViewGroup)loginBinding.getRoot()).removeView(coverView);
                 loginBinding.loginProgressBar.setVisibility(View.GONE);
+                loginViewModel.updateInstanceId();
                 startActivity(new Intent(this,UserHome.class));
                 finish();
                 break;

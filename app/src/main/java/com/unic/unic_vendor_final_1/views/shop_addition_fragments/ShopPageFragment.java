@@ -1,13 +1,14 @@
 package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.graphics.Rect;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,20 +16,23 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
+import android.widget.AdapterView;
+import android.widget.FrameLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.unic.unic_vendor_final_1.R;
-import com.unic.unic_vendor_final_1.adapters.shop_view_components.DoubleProductAdapter;
-import com.unic.unic_vendor_final_1.adapters.shop_view_components.TripleImageAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategoriesAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.TripleImageAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentShopPageBinding;
 import com.unic.unic_vendor_final_1.datamodels.Page;
+import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
+import com.unic.unic_vendor_final_1.views.helpers.MasterLayoutFragment;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -58,6 +62,9 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
 
     private Page page;
     private ViewGroup parent;
+    public Dialog dialog;
+
+
 
     public ShopPageFragment() {
         // Required empty public constructor
@@ -69,11 +76,11 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
 
 
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         com.unic.unic_vendor_final_1.databinding.FragmentShopPageBinding shopPageBinding = FragmentShopPageBinding.inflate(inflater, container, false);
         parent = shopPageBinding.shopViewParent;
-        shopPageBinding.btnAddView.setOnClickListener(this);
+        SetStructureViewModel setStructureViewModel=new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
+        setStructureViewModel.setCurrentFrag(getActivity().getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader));
         return shopPageBinding.getRoot();
     }
 
@@ -91,9 +98,16 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    private void inflateView(com.unic.unic_vendor_final_1.datamodels.View view){
+    public void inflateView(com.unic.unic_vendor_final_1.datamodels.View view){
         int viewType = view.getViewCode()/100;
         switch (viewType){
+            case 00:
+                View frame=new FrameLayout(getContext());
+                frame.setId(view.getViewCode());
+                FragmentManager fm=getActivity().getSupportFragmentManager();
+                fm.beginTransaction().replace(frame.getId(),new MasterLayoutFragment()).commit();
+                parent.addView(frame);
+                break;
             case 11:
                 //TODO
             case 12:
@@ -101,7 +115,18 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
             case 13:
                 //TODO
             case 21:
-                //TODO
+                View categoriesView=Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.categories_view,parent,false);
+                categoriesView.setId(view.getViewCode());
+                parent.addView(categoriesView);
+                CategoriesAdapter categoriesAdapter=new CategoriesAdapter(getContext());
+                categoriesAdapter.setCategories(view.getData());
+                LinearLayoutManager categoriesLayoutManager=new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL,false);
+                RecyclerView categoriesRecyclerView=categoriesView.findViewById(R.id.categories_recycler_view);
+                categoriesRecyclerView.setLayoutManager(categoriesLayoutManager);
+                categoriesRecyclerView.setAdapter(categoriesAdapter);
+                break;
+
+
             case 22:
                 //TODO
             case 23:
@@ -115,10 +140,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
             case 41:
                 View doubleProductView = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.double_product_view,parent,false);
                 doubleProductView.setId(view.getViewCode());
-                parent.addView(doubleProductView, RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()));
-                RelativeLayout.LayoutParams doubleProductLayoutParams = (RelativeLayout.LayoutParams) doubleProductView.getLayoutParams();
-                doubleProductLayoutParams.topMargin = (int)dpToPx(view.getyPos());
-                doubleProductView.setLayoutParams(doubleProductLayoutParams);
+                parent.addView(doubleProductView);
                 TextView tvHeader = doubleProductView.findViewById(R.id.double_product_header);
                 tvHeader.setText(view.getHeader());
                 doubleProductView.findViewById(R.id.btn_add_products).setOnClickListener(this);
@@ -128,8 +150,33 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
                 LinearLayoutManager doubleProductLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL,false);
                 RecyclerView doubleProductRecyclerView = doubleProductView.findViewById(R.id.double_product_recycler_view);
                 doubleProductRecyclerView.setLayoutManager(doubleProductLayoutManager);
+                doubleProductRecyclerView.setNestedScrollingEnabled(false);
                 doubleProductRecyclerView.setAdapter(doubleProductAdapter);
                 doubleProductRecyclerView.addItemDecoration(new SpacesItemDecoration(10));
+                break;
+            case 42:
+                View TripleProductView = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.triple_image_view,parent,false);
+                TripleProductView.setId(view.getViewCode());
+                parent.addView(TripleProductView);
+
+                TextView tvHeader2 = TripleProductView.findViewById(R.id.triple_image_header);
+                tvHeader2.setText(view.getHeader());
+                TripleProductView.findViewById(R.id.btn_add_products).setOnClickListener(this);
+
+                TripleImageAdapter tripleImageAdapter = new TripleImageAdapter(getContext());
+                tripleImageAdapter.setProducts(view.getData());
+                LinearLayoutManager TripleProductLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL,false);
+                RecyclerView tripleProductRecyclerView = TripleProductView.findViewById(R.id.triple_image_recycler_view);
+                tripleProductRecyclerView.setLayoutManager(TripleProductLayoutManager);
+                tripleProductRecyclerView.setNestedScrollingEnabled(false);
+                tripleProductRecyclerView.setAdapter(tripleImageAdapter);
+                tripleProductRecyclerView.addItemDecoration(new SpacesItemDecoration(5));
+                break;
+            case 43:
+                break;
+            case 44:
+                break;
+
         }
     }
 
@@ -141,14 +188,33 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
         );
     }
 
+
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_add_products:
                 ((SetShopStructure) Objects.requireNonNull(getActivity())).selectProducts(page.getPageId(),((View)v.getParent()).getId());
                 break;
-            case R.id.btn_add_view:
-                final EditText etViewHeader = new EditText(getContext());
+            case R.id.btnRight:
+                dialog = new Dialog(getActivity());
+                dialog.setContentView(R.layout.popup_what_you_want_to_do);
+                dialog.setTitle("What Do You want to do?");
+                ListView whatToDo = (ListView) dialog.findViewById(R.id.listWhatDo);
+                whatToDo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        ((SetShopStructure)Objects.requireNonNull(getActivity())).selectView(page.getPageId(),position);
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+                break;
+
+
+
+                /*final EditText etViewHeader = new EditText(getContext());
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("Enter View Title");
                 builder.setMessage("");
@@ -165,7 +231,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
                 builder.setNegativeButton("CANCEL", (dialog, which) -> {
                 });
                 AlertDialog dialog  = builder.create();
-                dialog.show();
+                dialog.show();*/
 
         }
     }

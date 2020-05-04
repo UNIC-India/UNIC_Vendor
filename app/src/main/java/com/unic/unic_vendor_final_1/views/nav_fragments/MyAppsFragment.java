@@ -42,7 +42,7 @@ public class MyAppsFragment extends Fragment implements View.OnClickListener{
         LinearLayoutManager layoutManager =new LinearLayoutManager(getContext());
         RecyclerView recyclerView =view.findViewById(R.id.my_shops);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new ShopAdapter(getContext());
+        adapter = new ShopAdapter(getContext(),0);
         shopsViewModel = new ViewModelProvider(this).get(UserShopsViewModel.class);
         shopsViewModel.getAllShops().observe(getViewLifecycleOwner(), new Observer<List<Shop>>() {
             @Override

@@ -7,15 +7,14 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.unic.unic_vendor_final_1.R;
-import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductListAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListAdapter;
 import com.unic.unic_vendor_final_1.databinding.ActivityProductSelectorBinding;
 import com.unic.unic_vendor_final_1.datamodels.Structure;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
@@ -24,6 +23,7 @@ import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class ProductSelector extends Fragment implements View.OnClickListener{
 
@@ -54,6 +54,8 @@ public class ProductSelector extends Fragment implements View.OnClickListener{
         data = setStructureViewModel.getStructure().getValue().getPage(pageId).getView(viewCode).getData();
         adapter = new ProductListAdapter(getContext());
 
+        setStructureViewModel.setCurrentFrag(getActivity().getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader));
+
         setStructureViewModel.getProducts().observe(getViewLifecycleOwner(), new Observer<List<Map<String, Object>>>() {
             @Override
             public void onChanged(List<Map<String, Object>> maps) {
@@ -75,7 +77,7 @@ public class ProductSelector extends Fragment implements View.OnClickListener{
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         productSelectorBinding.productsSelectorRecyclerView.setLayoutManager(layoutManager);
         productSelectorBinding.productsSelectorRecyclerView.setAdapter(adapter);
-        productSelectorBinding.btnConfirmProducts.setOnClickListener(this);
+
         return productSelectorBinding.getRoot();
     }
 
@@ -86,12 +88,12 @@ public class ProductSelector extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.btn_confirm_products){
+        if(v.getId()==R.id.btnRight){
             data = adapter.returnSelectedProducts();
             Structure structure = setStructureViewModel.getStructure().getValue();
             structure.updateProductList(pageId,viewCode,data);
             setStructureViewModel.setStructure(structure);
-            ((SetShopStructure)getActivity()).returnToPage(pageId);
+            ((SetShopStructure) Objects.requireNonNull(getActivity())).returnToPage(pageId);
         }
     }
 }

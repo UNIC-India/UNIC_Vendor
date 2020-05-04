@@ -2,6 +2,7 @@ package com.unic.unic_vendor_final_1.viewmodels;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -19,6 +20,7 @@ import com.unic.unic_vendor_final_1.datamodels.Structure;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -26,12 +28,13 @@ import java.util.Objects;
 public class SetStructureViewModel extends ViewModel {
 
     private MutableLiveData<Shop> shop = new MutableLiveData<>();
+    private MutableLiveData<Fragment> currentFrag=new MutableLiveData<>();
     private MutableLiveData<Structure> structure = new MutableLiveData<>();
     private MutableLiveData<Integer> status = new MutableLiveData<>();
     private MutableLiveData<Integer> productStatus = new MutableLiveData<>();
     private MutableLiveData<Integer> structureStatus = new MutableLiveData<>();
     private MutableLiveData<List<Map<String,Object>>> products = new MutableLiveData<>();
-    private MutableLiveData<List<String>> categories = new MutableLiveData<>();
+    private MutableLiveData<List<Map<String,Object>>> categories = new MutableLiveData<>();
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
@@ -47,18 +50,23 @@ public class SetStructureViewModel extends ViewModel {
 
     public void getProductData(String  shopId){
         final List<Map<String,Object>> productData = new ArrayList<>();
-        final List<String> categoryData = new ArrayList<>();
-        firebaseRepository.getProducts(shopId).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        final List<Map<String,Object>> categoryData = new ArrayList<>();
+        List<Map<String,Object>> tempCat=new ArrayList<>();
+        int i=0;
+        firebaseRepository.getProducts(shopId).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                if (queryDocumentSnapshots!=null)
-                for(DocumentSnapshot doc : queryDocumentSnapshots){
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for(DocumentSnapshot doc:queryDocumentSnapshots) {
                     productData.add(doc.getData());
-                    if(!categoryData.contains(Objects.requireNonNull(doc.get("category")).toString()))
-                        categoryData.add(Objects.requireNonNull(doc.get("category")).toString());
+                    Map<String,Object> hp=new HashMap<>();
+                    hp.put("cname",Objects.requireNonNull(doc.get("category")).toString());
+                    if (!categoryData.contains(hp))
+                        categoryData.add(hp);
                 }
             }
         });
+
+
         products.setValue(productData);
         categories.setValue(categoryData);
         productStatus.setValue(1);
@@ -126,5 +134,21 @@ public class SetStructureViewModel extends ViewModel {
 
     public void setStructure(Structure structure) {
         this.structure.setValue(structure);
+    }
+
+    public MutableLiveData<List<Map<String, Object>>> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(MutableLiveData<List<Map<String, Object>>> categories) {
+        this.categories = categories;
+    }
+
+    public MutableLiveData<Fragment> getCurrentFrag() {
+        return currentFrag;
+    }
+
+    public void setCurrentFrag(Fragment currentFrag) {
+        this.currentFrag.setValue(currentFrag);
     }
 }

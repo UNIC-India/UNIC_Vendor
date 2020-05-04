@@ -76,127 +76,129 @@
         app:layout_constraintRight_toRightOf="parent"
         android:background="@drawable/round_border"
         android:backgroundTint="@color/lightGrey"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/product_image"
-        app:layout_constraintLeft_toLeftOf="parent">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/product_image">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/tv_product_name"
                 android:layout_width="wrap_content"
                 android:layout_height="15sp"
-                android:textSize="12sp"
-                android:text="Product Name"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="30dp"
                 android:layout_marginLeft="15dp"
-                app:layout_constraintLeft_toLeftOf="parent" />
+                android:layout_marginTop="30dp"
+                android:text="Product Name"
+                android:textSize="12sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/edt_product_name"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/round_corner"
+                android:paddingLeft="10dp"
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
-                android:paddingLeft="10dp"
                 android:textColor="@color/darkest"
-                app:layout_constraintTop_toBottomOf="@id/tv_product_name"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/round_corner" />
+                app:layout_constraintTop_toBottomOf="@id/tv_product_name" />
 
             <TextView
                 android:id="@+id/tv_product_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="15sp"
-                android:textSize="12sp"
-                android:text="Product Description"
-                app:layout_constraintTop_toBottomOf="@id/edt_product_name"
-                android:layout_marginTop="30dp"
                 android:layout_marginLeft="15dp"
-                app:layout_constraintLeft_toLeftOf="parent" />
+                android:layout_marginTop="30dp"
+                android:text="Product Description"
+                android:textSize="12sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edt_product_name" />
 
             <EditText
                 android:id="@+id/edt_product_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/round_corner"
                 android:inputType="textMultiLine"
+                android:paddingLeft="10dp"
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
-                android:paddingLeft="10dp"
                 android:textColor="@color/darkest"
-                app:layout_constraintTop_toBottomOf="@id/tv_product_desc"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/round_corner" />
+                app:layout_constraintTop_toBottomOf="@id/tv_product_desc" />
 
             <TextView
                 android:id="@+id/tv_product_size"
                 android:layout_width="wrap_content"
                 android:layout_height="15sp"
-                android:textSize="12sp"
-                android:text="Size"
-                app:layout_constraintTop_toBottomOf="@id/edt_product_desc"
-                android:layout_marginTop="30dp"
                 android:layout_marginLeft="15dp"
-                app:layout_constraintLeft_toLeftOf="parent" />
+                android:layout_marginTop="30dp"
+                android:text="Size"
+                android:textSize="12sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edt_product_desc" />
 
             <EditText
                 android:id="@+id/edt_product_size"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/round_corner"
+                android:paddingLeft="10dp"
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
-                android:paddingLeft="10dp"
                 android:textColor="@color/darkest"
-                app:layout_constraintTop_toBottomOf="@id/tv_product_size"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/round_corner" />
+                app:layout_constraintTop_toBottomOf="@id/tv_product_size" />
 
             <TextView
                 android:id="@+id/tv_product_company"
                 android:layout_width="wrap_content"
                 android:layout_height="15sp"
-                android:textSize="12sp"
-                android:text="Company Name"
-                app:layout_constraintTop_toBottomOf="@id/edt_product_size"
-                android:layout_marginTop="30dp"
                 android:layout_marginLeft="15dp"
-                app:layout_constraintLeft_toLeftOf="parent" />
+                android:layout_marginTop="30dp"
+                android:text="Company Name"
+                android:textSize="12sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edt_product_size" />
 
             <EditText
                 android:id="@+id/edt_product_company"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/round_corner"
+                android:paddingLeft="10dp"
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
-                android:paddingLeft="10dp"
                 android:textColor="@color/darkest"
-                app:layout_constraintTop_toBottomOf="@id/tv_product_company"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/round_corner" />
+                app:layout_constraintTop_toBottomOf="@id/tv_product_company" />
 
             <Button
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/edt_product_company"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginTop="50dp"
-                android:textSize="16sp"
+                android:background="@color/colourQuaternary"
                 android:text="NEXT"
                 android:textColor="@color/white"
-                android:background="@color/colourQuaternary" />
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edt_product_company" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

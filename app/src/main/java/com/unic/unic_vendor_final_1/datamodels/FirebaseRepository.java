@@ -12,6 +12,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -20,11 +21,12 @@ import java.io.ByteArrayOutputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class FirebaseRepository {
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
     private StorageReference mRef = FirebaseStorage.getInstance().getReference();
 
@@ -69,20 +71,51 @@ public class FirebaseRepository {
         return db.collection("shops").add(shop);
     }
 
+    public Task<DocumentReference> saveProduct(String shopId,Product product){
+        Map<String,Object> productMap=new HashMap<>();
+        productMap.put("firestoreId",product.getFirestoreId());
+        productMap.put("subcategory",product.getSubcategory());
+        productMap.put("shopid",product.getShopid());
+        productMap.put("tags",product.getTags());
+        productMap.put("imageid",product.getImageid());
+        productMap.put("id",product.getId());
+        productMap.put("name",product.getName());
+        productMap.put("company",product.getCompany());
+        productMap.put("category",product.getCategory());
+        productMap.put("price",product.getPrice());
+        return db.collection("shops").document(shopId).collection("products").add(productMap);
+    }
+
     public Task<Void> setShopId(String id) {
         return db.collection("shops").document(id).update("id", id);
+    }
+
+    public Task<Void> setProductId(String shopId,String id){
+        return db.collection("shops").document(shopId).collection("products").document(id).update("firestoreId",id);
     }
 
     public UploadTask saveShopImage(String shopId, byte[] data) {
         return mRef.child("shops").child(shopId).child("shopimage").putBytes(data);
     }
 
+    public UploadTask saveProductImage(String shopId,String productId, byte[] data){
+        return mRef.child("shops").child(shopId).child("products").child(productId).child("productimage").putBytes(data);
+    }
+
     public Task<Uri> getImageLink(String shopId) {
         return mRef.child("shops").child(shopId).child("shopimage").getDownloadUrl();
     }
 
+    public Task<Uri> getProductImageLink(String shopId,String productId){
+        return mRef.child("shops").child(shopId).child("products").child(productId).child("productimage").getDownloadUrl();
+    }
+
     public Task<Void> setShopImage(String shopId, String imageLink) {
         return db.collection("shops").document(shopId).update("imageLink", imageLink);
+    }
+
+    public Task<Void> setProductImage(String shopId,String ProductId, String imageid){
+        return db.collection("shops").document(shopId).collection("products").document(ProductId).update("imageid",imageid);
     }
 
     public UploadTask saveShopLogo(String shopId, byte[] data) {
@@ -97,9 +130,11 @@ public class FirebaseRepository {
         return db.collection("shops").document(shopId).update("logoLink", logoLink);
     }
 
-    public Query getProducts(String shopId) {
-        return db.collection("products");
+    public Task<QuerySnapshot> getProducts(String shopId) {
+        return db.collection("shops").document(shopId).collection("products").get();
     }
+
+
 
     public Task<Void> setUserSplashStatus(String Uid, int status, boolean isNewUser) {
         if (isNewUser) {
@@ -125,6 +160,13 @@ public class FirebaseRepository {
     public Task<DocumentSnapshot> getShopStructure(String shopId) {
         return db.collection("structures").document(shopId).get();
     }
+
+    public Task<Void> setInstanceId(String Uid,String token){
+        return db.collection("users").document(Uid).update("instanceId",token);
+    }
+
+
+
 
     public UploadTask uploadSelectedImage(ByteArrayOutputStream baos){
         int time = (int) (System.currentTimeMillis());

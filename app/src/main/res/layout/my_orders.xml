@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -26,31 +27,6 @@
         android:textColor="@color/colourQuaternary"
         app:layout_constraintLeft_toRightOf="@id/tv_order_id"
         ></TextView>
-
-    <TextView
-        android:id="@+id/tv_schedule_pick_up"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pick up time : "
-        android:paddingTop="10dp"
-        android:fontFamily="@font/montserrat_bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="80dp"></TextView>
-    <EditText
-        android:id="@+id/pick_up_by"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="time"
-        android:hint="3:48 PM"
-        android:backgroundTint="@color/white"
-        android:paddingTop="10dp"
-        android:fontFamily="@font/montserrat_bold"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textColorHint="@color/colourQuaternary"
-        android:textColor="@color/colourQuaternary"
-        app:layout_constraintLeft_toRightOf="@id/tv_schedule_pick_up"
-        ></EditText>
 
     <View
         android:id="@+id/dashed_line"

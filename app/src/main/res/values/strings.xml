@@ -62,5 +62,20 @@
     <string name="settings">Settings</string>
     <string name="my_apps">My Apps</string>
     <string name="see_apps">View all your apps in one place</string>
+    <string name="msg_token_fmt">Got string</string>
+    <string-array name="what_to_do">
+        <item>Add Images</item>
+        <item>Display Categories</item>
+        <item>Show Advertisements</item>
+        <item>Display Products</item>
+        <item>Put Text</item>
+    </string-array>
+    <string-array name="spinner_array">
+        <item>All Products</item>
+        <item>Categories</item>
+        <item>Company</item>
+        <item>Price</item>
+        <item>Tags</item>
+    </string-array>
 
 </resources>

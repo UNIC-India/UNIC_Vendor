@@ -11,6 +11,42 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:elevation="6dp"
+            android:orientation="horizontal"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/btnleft"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:background="#FFFFFF"
+                android:fontFamily="@font/montserrat"
+                android:text="Add Page"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnRight"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:fontFamily="@font/montserrat"
+                android:text="Add View"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/set_structure_app_bar"
             android:layout_width="match_parent"
@@ -23,24 +59,31 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <Button
-                        android:id="@+id/shop_add_page"
+
+                    <TextView
+                        android:id="@+id/tvTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:textSize="24sp"
+                        android:textColor="#000000"
+
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:text="Add Page"
-                        android:drawableStart="@drawable/plus"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <Button
                         android:id="@+id/confirm_shop_structure"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:drawableEnd="@drawable/ic_arrow_forward_black_24dp"
+                        android:text="Save"
+                        android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:text="Next Step"
-                        android:drawableEnd="@drawable/ic_arrow_forward_black_24dp"/>
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
@@ -48,7 +91,10 @@
             android:id="@+id/shop_pages_loader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/set_structure_app_bar"/>
+            android:background="#F2F2F2"
+            app:layout_constraintTop_toBottomOf="@+id/set_structure_app_bar">
+
+        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
