@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserShopsViewModel extends ViewModel {
+    private Fragment currentFragment;
 
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 

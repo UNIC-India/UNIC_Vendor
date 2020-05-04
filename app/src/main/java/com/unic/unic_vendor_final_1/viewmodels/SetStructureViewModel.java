@@ -2,6 +2,7 @@ package com.unic.unic_vendor_final_1.viewmodels;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -27,6 +28,7 @@ import java.util.Objects;
 public class SetStructureViewModel extends ViewModel {
 
     private MutableLiveData<Shop> shop = new MutableLiveData<>();
+    private MutableLiveData<Fragment> currentFrag=new MutableLiveData<>();
     private MutableLiveData<Structure> structure = new MutableLiveData<>();
     private MutableLiveData<Integer> status = new MutableLiveData<>();
     private MutableLiveData<Integer> productStatus = new MutableLiveData<>();
@@ -140,5 +142,13 @@ public class SetStructureViewModel extends ViewModel {
 
     public void setCategories(MutableLiveData<List<Map<String, Object>>> categories) {
         this.categories = categories;
+    }
+
+    public MutableLiveData<Fragment> getCurrentFrag() {
+        return currentFrag;
+    }
+
+    public void setCurrentFrag(Fragment currentFrag) {
+        this.currentFrag.setValue(currentFrag);
     }
 }

@@ -54,6 +54,8 @@ public class ProductSelector extends Fragment implements View.OnClickListener{
         data = setStructureViewModel.getStructure().getValue().getPage(pageId).getView(viewCode).getData();
         adapter = new ProductListAdapter(getContext());
 
+        setStructureViewModel.setCurrentFrag(getActivity().getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader));
+
         setStructureViewModel.getProducts().observe(getViewLifecycleOwner(), new Observer<List<Map<String, Object>>>() {
             @Override
             public void onChanged(List<Map<String, Object>> maps) {

@@ -123,7 +123,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onStart() {
         super.onStart();
-        setShopStructureBinding.doneView.setVisibility(View.GONE);
         status = 0;
         updateStatus(status);
     }
@@ -159,6 +158,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                         .beginTransaction()
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .replace(R.id.shop_pages_loader,new ShopPageFragment(page),page.getPageName())
+                        .addToBackStack(null)
                         .commit();
                 setShopStructureBinding.setStructureNavView.setCheckedItem(item);
                 setShopStructureBinding.drawerLayout.closeDrawers();
@@ -307,21 +307,23 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         getSupportFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.shop_pages_loader,new ProductSelector(pageId,viewCode))
+                .addToBackStack(null)
                 .commit();
     }
     public void selectCategories(int pageId, int viewCode){
         getSupportFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.shop_pages_loader,new CategorySelector(pageId,viewCode))
+                .addToBackStack(null)
                 .commit();
     }
     public void selectView(int pageId,int code){
         getSupportFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.shop_pages_loader,new ViewSelector(pageId,code))
+                .addToBackStack(null)
                 .commit();
-        setShopStructureBinding.shopAddPage.setVisibility(View.GONE);
-        setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
+
     }
 
 
@@ -345,20 +347,12 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 .replace(R.id.shop_pages_loader,new ShopPageFragment(structure.getPage(pageId)),structure.getPage(pageId).getPageName())
                 .commit();
         setShopStructureBinding.setStructureNavView.setCheckedItem(pageId);
-        setShopStructureBinding.doneView.setVisibility(View.GONE);
-        setShopStructureBinding.shopAddPage.setVisibility(View.VISIBLE);
-        setShopStructureBinding.confirmShopStructure.setVisibility(View.VISIBLE);
     }
 
 
     @Override
     public void onBackPressed() {
-        int count=getSupportFragmentManager().getBackStackEntryCount();
-        if(count==0)
         super.onBackPressed();
-        else{
-            onStart();
-        }
+        getSupportFragmentManager().popBackStack();
     }
-
 }

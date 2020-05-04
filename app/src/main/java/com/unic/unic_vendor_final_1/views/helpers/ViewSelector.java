@@ -51,6 +51,8 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
         // Inflate the layout for this fragment
         viewSelectorBinding=FragmentViewSelectorBinding.inflate(inflater,container,false);
         loadViews(code);
+        SetStructureViewModel setStructureViewModel=new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
+        setStructureViewModel.setCurrentFrag(getActivity().getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader));
         Button btnDone =getActivity().findViewById(R.id.done_view);
         btnDone.setOnClickListener(ViewSelector.this);
         return viewSelectorBinding.getRoot();
