@@ -36,7 +36,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvShopName,tvShopName2,tvLocality;
+        TextView tvShopName,tvShopName2,tvLocality,tvSubscribers,tvProducts;
         ImageView ivShopPhoto;
         LinearLayout Edit;
         CardView cdShop;
@@ -49,6 +49,8 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
             tvLocality=itemView.findViewById(R.id.shop_locality);
             Edit = itemView.findViewById(R.id.edit_shop);
             tvShopName2=itemView.findViewById(R.id.tvshop);
+            tvSubscribers=itemView.findViewById(R.id.tvSubscribers);
+            tvProducts=itemView.findViewById(R.id.tvProducts);
             cdShop=itemView.findViewById(R.id.cdshop);
         }
     }
@@ -69,6 +71,8 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
         if(from==0){
             holder.tvShopName.setText(shops.get(position).getName());
             holder.tvLocality.setText(shops.get(position).getLocality());
+            holder.tvProducts.setText("Products: "+shops.get(position).getNoOfProducts());
+            holder.tvSubscribers.setText("Subscribers: "+shops.get(position).getNoOfSubscribers());
             holder.Edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

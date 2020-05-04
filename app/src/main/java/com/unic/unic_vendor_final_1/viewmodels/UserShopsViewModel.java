@@ -107,6 +107,15 @@ public class UserShopsViewModel extends ViewModel {
 
     }
 
+    public void updateOrderStatus(Order order,String status){
+        firebaseRepository.db.collection("shops").document(order.getShopId()).collection("orders").document(order.getId()).update("status",status).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+               getAllOrders();
+            }
+        });
+    }
+
 
 
     public void getUser(){

@@ -1,21 +1,28 @@
 package com.unic.unic_vendor_final_1.adapters.shop_view_components;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.datamodels.FirebaseRepository;
 import com.unic.unic_vendor_final_1.datamodels.Order;
+import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 
 import java.util.List;
 
@@ -23,11 +30,13 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
 
     private List<Order> orders;
     private Context context;
+    UserShopsViewModel userShopsViewModel;
 
 
 
     public AllOrdersAdapter(Context context){
         this.context = context;
+        userShopsViewModel=new ViewModelProvider(((FragmentActivity)context)).get(UserShopsViewModel.class);
 
     }
 
@@ -36,6 +45,8 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
         TextView tvName,tvPhone,tvDate,tvOrderId,tvStatus,tvshopname,tvUpdateStatus,tvNoOfItems,tvRetailer,tvTime;
         CardView cdOrder;
         View line;
+        ImageView ivAccept,ivReject;
+        LottieAnimationView loading;
 
 
         ViewHolder(@NonNull View itemView) {
@@ -49,6 +60,10 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
             tvshopname=itemView.findViewById(R.id.tvShopName);
             tvTime=itemView.findViewById(R.id.tvTime);
             line=itemView.findViewById(R.id.view2);
+            ivAccept=itemView.findViewById(R.id.ivAccept);
+            ivReject=itemView.findViewById(R.id.ivReject);
+            loading=itemView.findViewById(R.id.loading);
+
         }
     }
 
@@ -61,21 +76,48 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull AllOrdersAdapter.ViewHolder holder, final int position) {
+        holder.ivAccept.setVisibility(View.GONE);
+        holder.ivReject.setVisibility(View.GONE);
+        holder.tvStatus.setVisibility(View.GONE);
+
+
         holder.tvDate.setText(orders.get(position).getTime().toString().substring(8,10)+" "+orders.get(position).getTime().toString().substring(4,7)+orders.get(position).getTime().toString().substring(29,34));
         holder.tvTime.setText(orders.get(position).getTime().toString().substring(11,16));
         holder.tvStatus.setText(orders.get(position).getStatus());
+        holder.ivAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.ivAccept.setVisibility(View.GONE);
+                holder.ivReject.setVisibility(View.GONE);
+                holder.loading.setVisibility(View.VISIBLE);
+                userShopsViewModel.updateOrderStatus(orders.get(position),"Denied");
+            }
+        });
+        holder.ivReject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.ivAccept.setVisibility(View.GONE);
+                holder.ivReject.setVisibility(View.GONE);
+                holder.loading.setVisibility(View.VISIBLE);
+                userShopsViewModel.updateOrderStatus(orders.get(position),"Accepted");
+            }
+        });
         switch(orders.get(position).getStatus()){
             case " ":
-                holder.tvStatus.setText("Pending");
-                holder.tvStatus.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.colorSecondary)));
-                holder.line.setBackgroundColor(context.getResources().getColor(R.color.colorSecondary));
+                holder.ivAccept.setVisibility(View.VISIBLE);
+                holder.ivReject.setVisibility(View.VISIBLE);
+
                 break;
             case "Accepted":
+                holder.loading.setVisibility(View.GONE);
+                holder.tvStatus.setVisibility(View.VISIBLE);
                 holder.tvStatus.setText("Accepted");
                 holder.tvStatus.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.yellow)));
                 holder.line.setBackgroundColor(context.getResources().getColor(R.color.yellow));
                 break;
             case "Denied":
+                holder.loading.setVisibility(View.GONE);
+                holder.tvStatus.setVisibility(View.VISIBLE);
                 holder.tvStatus.setText("Denied");
                 holder.tvStatus.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.colorPrimary)));
                 holder.line.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));

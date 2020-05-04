@@ -1,110 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="15dp"
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="3dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    android:layout_marginTop="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginBottom="3dp"
+    app:cardCornerRadius="10dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/shop_photo"
-                android:layout_width="150dp"
-                android:layout_height="160dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:elevation="2dp"
-                android:scaleType="fitXY"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="123dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/shop_photo"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/shop_name"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="30dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
                 android:fontFamily="@font/montserrat_bold"
                 android:hint="Shop Name"
                 android:textColor="@color/darkest"
                 android:textColorHint="@color/darkest"
-                android:textSize="20dp"
-                app:layout_constraintLeft_toRightOf="@id/shop_photo"
-                app:layout_constraintTop_toTopOf="@id/shop_photo"></TextView>
+                android:textSize="20dp"></TextView>
 
             <TextView
                 android:id="@+id/shop_locality"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
                 android:hint="Shop Locality"
                 android:textColor="@color/darkest"
                 android:textColorHint="@color/darkest"
-                android:textSize="15dp"
-                app:layout_constraintLeft_toLeftOf="@id/shop_name"
-                app:layout_constraintRight_toRightOf="@id/shop_name"
-                app:layout_constraintTop_toBottomOf="@id/shop_name"></TextView>
+                android:textSize="15dp"></TextView>
+        </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/delete_shop"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginRight="5dp"
-                android:backgroundTint="@color/common_google_signin_btn_text_dark_default"
-                android:src="@drawable/ic_delete_black_24dp"
-                android:tint="@color/darkest"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/shop_photo"></ImageButton>
+        <ImageView
+            android:id="@+id/shop_photo"
+            android:layout_width="150dp"
+            android:layout_height="160dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:elevation="2dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:id="@+id/edit_shop"
-                android:layout_width="80dp"
+        <TextView
+            android:id="@+id/tvSubscribers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginBottom="5dp"
+            android:text="Subscribers:"
+            app:layout_constraintBottom_toTopOf="@+id/tvProducts"
+            app:layout_constraintStart_toEndOf="@+id/shop_photo" />
+
+        <TextView
+            android:id="@+id/tvProducts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:text="Products: "
+            app:layout_constraintBottom_toBottomOf="@+id/shop_photo"
+            app:layout_constraintStart_toEndOf="@+id/shop_photo" />
+
+        <ImageButton
+            android:id="@+id/delete_shop"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="5dp"
+            android:backgroundTint="@color/common_google_signin_btn_text_dark_default"
+            android:src="@drawable/ic_delete_black_24dp"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/shop_photo"></ImageButton>
+
+        <LinearLayout
+            android:id="@+id/edit_shop"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="2dp"
+            android:background="@color/colorTertiary"
+            android:gravity="center"
+            android:paddingLeft="7dp"
+            android:paddingRight="5dp"
+            app:layout_constraintBottom_toBottomOf="@id/shop_photo"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/colorTertiary"
-                android:gravity="center"
-                android:paddingLeft="7dp"
-                android:paddingRight="5dp"
-                app:layout_constraintBottom_toBottomOf="@id/shop_photo"
-                app:layout_constraintRight_toRightOf="parent">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:text="Edit"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"></TextView>
+                android:text="Edit"
+                android:textColor="@color/white"
+                android:textSize="16sp"></TextView>
 
 
-                <ImageButton
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:backgroundTint="@color/white"
-                    android:src="@drawable/ic_edit_black_24dp"
-                    android:tint="@color/white"></ImageButton>
+            <ImageButton
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:backgroundTint="@color/white"
+                android:src="@drawable/ic_edit_black_24dp"
+                android:tint="@color/white"></ImageButton>
 
-            </LinearLayout>
+        </LinearLayout>
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
+
