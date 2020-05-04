@@ -22,23 +22,25 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <Button
-                android:id="@+id/shop_add_page"
+                android:id="@+id/btnleft"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="2dp"
                 android:layout_weight="1"
                 android:background="#FFFFFF"
+                android:fontFamily="@font/montserrat"
                 android:text="Add Page"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/btnRight"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="2dp"
                 android:layout_weight="1"
-                android:background="#FF0000"
+                android:background="@color/colorPrimary"
+                android:fontFamily="@font/montserrat"
                 android:text="Add View"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
@@ -58,6 +60,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                    <TextView
+                        android:id="@+id/tvTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="24sp"
+                        android:textColor="#000000"
+                        
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <Button
                         android:id="@+id/confirm_shop_structure"
                         android:layout_width="wrap_content"
@@ -69,16 +82,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <Button
-                        android:id="@+id/done_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableEnd="@drawable/ic_check_black_24dp"
-                        android:text="Done"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>

@@ -88,7 +88,7 @@ public class CategorySelector extends Fragment implements  View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.btn_confirm_products){
+        if(v.getId()==R.id.btnRight){
             prevData = categorySelectionAdapter.returnSelectedCategories();
             Structure structure = setStructureViewModel.getStructure().getValue();
             structure.updateProductList(pageId,viewCode,prevData);

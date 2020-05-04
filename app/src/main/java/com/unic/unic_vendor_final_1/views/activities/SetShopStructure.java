@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -38,8 +39,10 @@ import java.util.Map;
 
 public class SetShopStructure extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
+    private Fragment currentFragment;
     public Structure structure;
     private Shop shop;
+    Toolbar toolbar;
     public int currentPage=1001;
     private List<Map<String,Object>> products;
 
@@ -103,9 +106,17 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 setProductStatus(integer);
             }
         });
+        setStructureViewModel.getCurrentFrag().observe(this, new Observer<Fragment>() {
+            @Override
+            public void onChanged(Fragment fragment) {
+                setButtonsAndToolBar(fragment);
+                setCurrentFragment(fragment);
+            }
+        });
 
-        Toolbar toolbar = setShopStructureBinding.setStructureToolbar;
+        toolbar = setShopStructureBinding.setStructureToolbar;
         setSupportActionBar(toolbar);
+
 
         DrawerLayout drawer = setShopStructureBinding.drawerLayout;
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -113,7 +124,8 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         setShopStructureBinding.setStructureNavView.setNavigationItemSelectedListener(this);
-        setShopStructureBinding.shopAddPage.setOnClickListener(this);
+        setShopStructureBinding.btnleft.setOnClickListener(this);
+        setShopStructureBinding.btnRight.setOnClickListener(this);
         setShopStructureBinding.confirmShopStructure.setOnClickListener(this);
 
         option = getIntent().getIntExtra("template",0);
@@ -131,11 +143,26 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
 
         switch (v.getId()){
-            case R.id.shop_add_page:
+            case R.id.btnleft:
                 addPage();
                 break;
             case R.id.confirm_shop_structure:
                 setStructureViewModel.saveShopStructure();
+                break;
+            case R.id.btnRight:
+                if(currentFragment.getClass()==ShopPageFragment.class){
+                    ((ShopPageFragment)currentFragment).onClick(v);
+                }
+                else if(currentFragment.getClass()==com.unic.unic_vendor_final_1.views.helpers.ViewSelector.class){
+                    ((com.unic.unic_vendor_final_1.views.helpers.ViewSelector)currentFragment).onClick(v);
+                }
+                else if(currentFragment.getClass()==com.unic.unic_vendor_final_1.views.helpers.ProductSelector.class){
+                    ((com.unic.unic_vendor_final_1.views.helpers.ProductSelector)currentFragment).onClick(v);
+
+                }
+                else if(currentFragment.getClass()==com.unic.unic_vendor_final_1.views.helpers.CategorySelector.class){
+                    ((com.unic.unic_vendor_final_1.views.helpers.CategorySelector)currentFragment).onClick(v);
+                }
                 break;
 
 
@@ -168,6 +195,39 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         }
 
         return false;
+    }
+
+    public void setButtonsAndToolBar(Fragment currentFragment){
+        if(currentFragment.getClass()==ShopPageFragment.class){
+            setShopStructureBinding.tvTitle.setText(shop.getName());
+            setShopStructureBinding.confirmShopStructure.setVisibility(View.VISIBLE);
+            setShopStructureBinding.btnRight.setText("Add View");
+            setShopStructureBinding.btnleft.setText("Add Page");
+            setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+
+        }
+        else if(currentFragment.getClass()==com.unic.unic_vendor_final_1.views.helpers.ViewSelector.class){
+            setShopStructureBinding.tvTitle.setText("Select a View");
+            setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
+            setShopStructureBinding.btnRight.setText("Confirm");
+            setShopStructureBinding.btnleft.setText("Cancel");
+            setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
+        }
+        else if(currentFragment.getClass()==com.unic.unic_vendor_final_1.views.helpers.ProductSelector.class){
+            setShopStructureBinding.tvTitle.setText("Select Products");
+           setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
+            setShopStructureBinding.btnRight.setText("Confirm");
+            setShopStructureBinding.btnleft.setText("Cancel");
+            setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
+
+        }
+        else if(currentFragment.getClass()==com.unic.unic_vendor_final_1.views.helpers.CategorySelector.class){
+            setShopStructureBinding.tvTitle.setText("Select Categories");
+            setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
+            setShopStructureBinding.btnRight.setText("Confirm");
+            setShopStructureBinding.btnleft.setText("Cancel");
+            setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
+        }
     }
 
     void populateHeader(){
@@ -273,6 +333,14 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
     void setProductStatus(int productStatus) {
         this.productStatus = productStatus;
+    }
+
+    public Fragment getCurrentFragment() {
+        return currentFragment;
+    }
+
+    public void setCurrentFragment(Fragment currentFragment) {
+        this.currentFragment = currentFragment;
     }
 
     void setStructureStatus(int structureStatus) {

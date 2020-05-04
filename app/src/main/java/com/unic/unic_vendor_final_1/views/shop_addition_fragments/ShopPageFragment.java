@@ -81,7 +81,6 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
         parent = shopPageBinding.shopViewParent;
         SetStructureViewModel setStructureViewModel=new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
         setStructureViewModel.setCurrentFrag(getActivity().getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader));
-        shopPageBinding.btnAddView.setOnClickListener(this);
         return shopPageBinding.getRoot();
     }
 
@@ -190,13 +189,15 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
     }
 
 
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_add_products:
                 ((SetShopStructure) Objects.requireNonNull(getActivity())).selectProducts(page.getPageId(),((View)v.getParent()).getId());
                 break;
-            case R.id.btn_add_view:
+            case R.id.btnRight:
                 dialog = new Dialog(getActivity());
                 dialog.setContentView(R.layout.popup_what_you_want_to_do);
                 dialog.setTitle("What Do You want to do?");

@@ -77,7 +77,7 @@ public class ProductSelector extends Fragment implements View.OnClickListener{
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         productSelectorBinding.productsSelectorRecyclerView.setLayoutManager(layoutManager);
         productSelectorBinding.productsSelectorRecyclerView.setAdapter(adapter);
-        productSelectorBinding.btnConfirmProducts.setOnClickListener(this);
+
         return productSelectorBinding.getRoot();
     }
 
@@ -88,7 +88,7 @@ public class ProductSelector extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.btn_confirm_products){
+        if(v.getId()==R.id.btnRight){
             data = adapter.returnSelectedProducts();
             Structure structure = setStructureViewModel.getStructure().getValue();
             structure.updateProductList(pageId,viewCode,data);

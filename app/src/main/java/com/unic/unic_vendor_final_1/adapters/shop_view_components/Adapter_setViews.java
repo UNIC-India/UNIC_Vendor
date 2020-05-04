@@ -51,8 +51,7 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
                 public void onClick(View v) {
                     lastchecked=getAdapterPosition();
                     notifyDataSetChanged();
-                    Button donebtn=mActivity.findViewById(R.id.done_view);
-                    donebtn.setVisibility(View.VISIBLE);
+
 
                 }
             });

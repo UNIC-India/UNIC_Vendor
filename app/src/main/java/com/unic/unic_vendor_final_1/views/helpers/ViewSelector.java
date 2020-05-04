@@ -53,8 +53,6 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
         loadViews(code);
         SetStructureViewModel setStructureViewModel=new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
         setStructureViewModel.setCurrentFrag(getActivity().getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader));
-        Button btnDone =getActivity().findViewById(R.id.done_view);
-        btnDone.setOnClickListener(ViewSelector.this);
         return viewSelectorBinding.getRoot();
     }
 
@@ -89,7 +87,7 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.done_view:
+            case R.id.btnRight:
                 viewAdder((code+1)+""+(adapter_setViews.lastchecked+1));
 
         }
