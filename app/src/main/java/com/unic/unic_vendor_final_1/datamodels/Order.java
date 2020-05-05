@@ -1,5 +1,7 @@
 package com.unic.unic_vendor_final_1.datamodels;
 
+import androidx.annotation.Nullable;
+
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.ArrayList;
@@ -42,6 +44,10 @@ public class Order {
         }
     };
 
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        return this.id==((Order) obj).getId();
+    }
 
     public String getOwnerId() {
         return ownerId;

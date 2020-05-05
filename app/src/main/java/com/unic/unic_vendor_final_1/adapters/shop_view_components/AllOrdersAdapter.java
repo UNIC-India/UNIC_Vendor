@@ -10,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,13 +25,14 @@ import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.datamodels.FirebaseRepository;
 import com.unic.unic_vendor_final_1.datamodels.Order;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
+import com.unic.unic_vendor_final_1.views.helpers.OrderItems;
 
 import java.util.List;
 
 public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.ViewHolder> {
 
     private List<Order> orders;
-    private Context context;
+    private  Context context;
     UserShopsViewModel userShopsViewModel;
 
 
@@ -64,6 +67,8 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
             ivReject=itemView.findViewById(R.id.ivReject);
             loading=itemView.findViewById(R.id.loading);
 
+
+
         }
     }
 
@@ -79,6 +84,12 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
         holder.ivAccept.setVisibility(View.GONE);
         holder.ivReject.setVisibility(View.GONE);
         holder.tvStatus.setVisibility(View.GONE);
+        holder.cdOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).replace(R.id.home_fragment,new OrderItems(orders.get(position),context)).commit();
+            }
+        });
 
 
         holder.tvDate.setText(orders.get(position).getTime().toString().substring(8,10)+" "+orders.get(position).getTime().toString().substring(4,7)+orders.get(position).getTime().toString().substring(29,34));
@@ -90,7 +101,7 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
                 holder.ivAccept.setVisibility(View.GONE);
                 holder.ivReject.setVisibility(View.GONE);
                 holder.loading.setVisibility(View.VISIBLE);
-                userShopsViewModel.updateOrderStatus(orders.get(position),"Denied");
+                userShopsViewModel.setOrderStatus(orders.get(position),orders.get(position).getOrderStatus());
             }
         });
         holder.ivReject.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +110,8 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
                 holder.ivAccept.setVisibility(View.GONE);
                 holder.ivReject.setVisibility(View.GONE);
                 holder.loading.setVisibility(View.VISIBLE);
-                userShopsViewModel.updateOrderStatus(orders.get(position),"Accepted");
+                userShopsViewModel.setOrderStatus(orders.get(position),orders.get(position).getOrderStatus());
+
             }
         });
         switch(orders.get(position).getStatus()){
@@ -126,6 +138,7 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
 
        // holder.tvPhone.setText(""+orders.get(position).getPhoneNo());
         holder.tvOrderId.setText(" "+orders.get(position).getId());
+
         new FirebaseRepository().db.collection("shops").document(orders.get(position).getShopId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {

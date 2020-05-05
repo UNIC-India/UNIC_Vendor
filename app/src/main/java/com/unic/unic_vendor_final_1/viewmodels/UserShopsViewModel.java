@@ -13,6 +13,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -23,7 +25,9 @@ import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.datamodels.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserShopsViewModel extends ViewModel {
     private Fragment currentFragment;
@@ -34,6 +38,9 @@ public class UserShopsViewModel extends ViewModel {
     private MutableLiveData<List<Order>> orders=new MutableLiveData<>();
     private MutableLiveData<User> mUser = new MutableLiveData<>();
     private MutableLiveData<List<String>> shopids=new MutableLiveData<>();
+    private MutableLiveData<User> customer =new MutableLiveData<>();
+    private MutableLiveData<Integer> orderstatuschangestatus=new MutableLiveData<>();
+    private MutableLiveData<Order> currentOrder=new MutableLiveData<>();
 
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
@@ -69,7 +76,7 @@ public class UserShopsViewModel extends ViewModel {
             @Override
             public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {
                 assert snapshots != null;
-                ArrayList<Order> data = new ArrayList<>();
+                List<Order> data = new ArrayList<>();
                 for(DocumentSnapshot doc : snapshots.getDocuments()) {
                     firebaseRepository.db.collection("shops").document(doc.getId()).collection("orders").addSnapshotListener(new EventListener<QuerySnapshot>() {
                         @Override
@@ -82,10 +89,12 @@ public class UserShopsViewModel extends ViewModel {
 
 
                             for(DocumentSnapshot doc2 :queryDocumentSnapshots.getDocuments()) {
-                                data.add(doc2.toObject(Order.class));
+                                if((doc2.getId()!=null))
+                                   data.add(doc2.toObject(Order.class));
                             }
 
                             orders.setValue(data);
+
                         }
                     });/*get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -126,5 +135,39 @@ public class UserShopsViewModel extends ViewModel {
             }
         });
     }
+
+    public MutableLiveData<User> getCustomerData(String userId){
+        firebaseRepository.getCustomer(userId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                customer.setValue(documentSnapshot.toObject(User.class));
+            }
+        });
+        return customer;
+    }
+
+    public void setOrderStatus(Order order,int orderStatus){
+        firebaseRepository.db.collection("shops").document(order.getShopId()).collection("orders").document(order.getId()).update("orderStatus",orderStatus).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+        });
+    }
+
+    public MutableLiveData<Order> listenToOrder(Order order){
+        currentOrder.setValue(order);
+        firebaseRepository.db.collection("shops").document(order.getShopId()).collection("orders").document(order.getId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if(currentOrder.getValue().getOrderStatus()!=documentSnapshot.toObject(Order.class).getOrderStatus())
+                currentOrder.setValue(documentSnapshot.toObject(Order.class));
+            }
+        });
+        return currentOrder;
+    }
+
+
+
 
 }

@@ -29,6 +29,7 @@ import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.ActivityUserHomeBinding;
 import com.unic.unic_vendor_final_1.datamodels.User;
 import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
+import com.unic.unic_vendor_final_1.views.helpers.OrderItems;
 import com.unic.unic_vendor_final_1.views.nav_fragments.HomeFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyAppsFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyOrders;
@@ -184,6 +185,13 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
                     doubleBackToExitPressedOnce=false;
                 }
             }, 2000);
+        }
+        else if(fg.getClass()== OrderItems.class){
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.home_fragment,new MyOrders())
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .commit();
         }
         else{
             getSupportFragmentManager()
