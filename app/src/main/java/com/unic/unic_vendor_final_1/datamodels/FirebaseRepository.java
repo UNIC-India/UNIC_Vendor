@@ -164,7 +164,7 @@ public class FirebaseRepository {
     }
 
     public Task<Void> setInstanceId(String Uid,String token){
-        return db.collection("users").document(Uid).update("instanceId",token);
+        return db.collection("users").document(Uid).update("vendorInstanceId",token);
     }
 
 
