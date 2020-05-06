@@ -8,25 +8,30 @@
 
     <Button
         android:id="@+id/btnLogin"
-        android:layout_width="160dp"
-        android:layout_height="48dp"
         style="@style/StandardButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="50dp"
         android:background="@drawable/std_button_normal"
+        android:text="@string/login"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="100dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnSignUp"
-        android:text="@string/login"/>
+        app:layout_constraintHeight_percent="0.065"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.386" />
+
     <Button
         android:id="@+id/btnSignUp"
-        android:layout_width="160dp"
-        android:layout_height="48dp"
         style="@style/StandardButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="50dp"
         android:background="@drawable/std_button_normal"
+        android:text="@string/sign_up"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="100dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.065"
         app:layout_constraintStart_toEndOf="@id/btnLogin"
-        android:text="@string/sign_up"/>
+        app:layout_constraintWidth_percent="0.386" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
