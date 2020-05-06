@@ -12,7 +12,8 @@
         android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardElevation="3dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -45,7 +46,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/btn_preview_shop"
                 android:layout_width="125dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="7dp"
@@ -55,13 +56,13 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/button2" />
+                app:layout_constraintEnd_toStartOf="@+id/btn_edit_shop" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/btn_edit_shop"
                 android:layout_width="125dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorTertiary"
+                android:background="@drawable/std_button"
                 android:text="Edit"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"

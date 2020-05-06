@@ -7,9 +7,9 @@
     android:layout_height="match_parent"
     tools:context=".views.activities.SignUp">
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/signUpConstraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/sign_up_progress_bar"
