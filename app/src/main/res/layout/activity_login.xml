@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".views.activities.Login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.activities.Login">
+    >
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/login_progress_bar"
@@ -21,79 +26,95 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-43dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/details"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
+
             <ImageView
                 android:id="@+id/icon2"
-                android:layout_width="118dp"
-                android:layout_height="104dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="126dp"
+                android:src="@drawable/logonotext"
+                app:layout_constraintHeight_percent="0.14"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="126dp"
-                android:src="@drawable/logonotext"/>
+                app:layout_constraintWidth_percent="0.285" />
+
             <EditText
                 android:id="@+id/etphone"
                 android:layout_width="345dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="86.5dp"
+                android:drawableStart="@drawable/ic_phone_black_24dp"
+                android:drawablePadding="10dp"
+                android:drawableTint="#EC4156"
+                android:paddingTop="5dp"
                 android:theme="@style/CustomEditTextTheme"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/icon2"
-                android:layout_marginTop="86.5dp"
-                android:drawableStart="@drawable/ic_phone_black_24dp"
-                android:drawableTint="#EC4156"
-                android:paddingTop="5dp"
-                android:drawablePadding="10dp" />
+                app:layout_constraintTop_toBottomOf="@id/icon2" />
+
             <Button
                 android:id="@+id/btnlogin"
                 android:layout_width="327dp"
                 android:layout_height="48dp"
-                android:text="LOGIN"
-                app:layout_constraintTop_toBottomOf="@id/etphone"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginTop="87dp"
                 android:background="@drawable/roundbutton"
-                android:textColor="#ffffff"/>
+                android:text="LOGIN"
+                android:textColor="#ffffff"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etphone" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/glcenterverti"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
             <Button
                 android:id="@+id/btnfb"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
+                android:layout_marginTop="97dp"
+                android:layout_marginRight="5dp"
                 android:background="@drawable/facebook"
-                app:layout_constraintRight_toLeftOf="@id/btngoogle"
-                app:layout_constraintTop_toBottomOf="@id/btnlogin"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginLeft="146dp"
-                android:layout_marginTop="97dp"/>
+
+                app:layout_constraintRight_toLeftOf="@id/glcenterverti"
+                app:layout_constraintTop_toBottomOf="@id/btnlogin" />
+
             <Button
                 android:id="@+id/btngoogle"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="97dp"
                 android:background="@drawable/googleicom"
-                app:layout_constraintLeft_toRightOf="@id/btnfb"
-                app:layout_constraintTop_toBottomOf="@id/btnlogin"
-                app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginLeft="11dp"
-                android:layout_marginRight="145dp"
-                android:layout_marginTop="97dp"/>
+                app:layout_constraintLeft_toRightOf="@id/glcenterverti"
+
+
+                app:layout_constraintTop_toBottomOf="@id/btnlogin" />
+
             <TextView
                 android:id="@+id/signupLink"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/btngoogle"
+                android:layout_marginTop="20dp"
+                android:clickable="true"
+                android:gravity="center"
                 android:text="New to UNIC? Sign up here"
                 android:textColor="@color/colorSecondary"
-                android:clickable="true"
                 app:layout_constraintLeft_toLeftOf="@id/btnfb"
                 app:layout_constraintRight_toRightOf="@id/btngoogle"
-                android:layout_marginTop="41dp"
-                android:gravity="center"/>
+                app:layout_constraintTop_toBottomOf="@id/btngoogle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -107,51 +128,53 @@
                 android:id="@+id/icon2_1"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
+                android:layout_marginTop="98dp"
+                android:src="@drawable/logonotext"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="98dp"
-                android:src="@drawable/logonotext"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
             <EditText
                 android:id="@+id/etOTP"
                 android:layout_width="match_parent"
                 android:layout_height="38dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="76dp"
+                android:layout_marginRight="25dp"
+                android:hint="Enter OTP"
+                android:padding="5dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
-                app:layout_constraintTop_toBottomOf="@id/icon2_1"
-                android:layout_marginTop="76dp"
-                android:padding="5dp"
-                android:hint="Enter OTP"
-                />
+                app:layout_constraintTop_toBottomOf="@id/icon2_1" />
+
+
             <Button
                 android:id="@+id/btnconf"
                 android:layout_width="327dp"
                 android:layout_height="48dp"
-                android:text="CONFIRM"
-                app:layout_constraintTop_toBottomOf="@id/etOTP"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginTop="58.5dp"
                 android:background="@drawable/roundbutton"
+                android:text="CONFIRM"
                 android:textColor="#ffffff"
-                />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etOTP" />
+
             <Button
                 android:id="@+id/btnres"
                 android:layout_width="327dp"
                 android:layout_height="48dp"
-                android:text="RESEND VERIFICATION CODE"
-                app:layout_constraintTop_toBottomOf="@id/btnconf"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/roundbutton"
+                android:text="RESEND VERIFICATION CODE"
                 android:textColor="#ffffff"
-                />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnconf" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

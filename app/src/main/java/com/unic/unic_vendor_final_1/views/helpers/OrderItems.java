@@ -1,6 +1,8 @@
 package com.unic.unic_vendor_final_1.views.helpers;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 
@@ -31,6 +33,7 @@ public class OrderItems extends Fragment implements View.OnClickListener {
     private UserShopsViewModel userShopsViewModel;
     OrderItemsAdapter orderItemsAdapter;
     private Context context;
+    AlertDialog.Builder builder;
 
     public OrderItems(Order order,Context context){
         this.order=order;
@@ -90,6 +93,7 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.tv1.setText("Pending");
                 fragmentOrderItemsBinding.tv1.setTextColor(context.getResources().getColor(R.color.green));
 
+
                 break;
             case 1:
                 fragmentOrderItemsBinding.iv1.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green2)));
@@ -99,6 +103,7 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.iv2.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green)));
                 fragmentOrderItemsBinding.tv2.setText("Preparing");
                 fragmentOrderItemsBinding.tv2.setTextColor(context.getResources().getColor(R.color.green));
+                fragmentOrderItemsBinding.iv1.setEnabled(false);
                 break;
             case 2:
                 fragmentOrderItemsBinding.iv1.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green2)));
@@ -112,6 +117,9 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.iv3.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green)));
                 fragmentOrderItemsBinding.tv3.setText("Dispatching");
                 fragmentOrderItemsBinding.tv3.setTextColor(context.getResources().getColor(R.color.green));
+                fragmentOrderItemsBinding.iv1.setEnabled(false);
+                fragmentOrderItemsBinding.iv2.setEnabled(false);
+
                 break;
             case 3:
                 fragmentOrderItemsBinding.iv1.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green2)));
@@ -129,6 +137,9 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.iv4.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green)));
                 fragmentOrderItemsBinding.tv4.setText("Delivering");
                 fragmentOrderItemsBinding.tv4.setTextColor(context.getResources().getColor(R.color.green));
+                fragmentOrderItemsBinding.iv1.setEnabled(false);
+                fragmentOrderItemsBinding.iv2.setEnabled(false);
+                fragmentOrderItemsBinding.iv3.setEnabled(false);
                 break;
             case 4:
                 fragmentOrderItemsBinding.iv1.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green2)));
@@ -146,6 +157,10 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.iv4.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green2)));
                 fragmentOrderItemsBinding.tv4.setText("Delivered");
                 fragmentOrderItemsBinding.tv4.setTextColor(context.getResources().getColor(R.color.green2));
+                fragmentOrderItemsBinding.iv1.setEnabled(false);
+                fragmentOrderItemsBinding.iv2.setEnabled(false);
+                fragmentOrderItemsBinding.iv3.setEnabled(false);
+                fragmentOrderItemsBinding.iv4.setEnabled(false);
                 break;
         }
     }
@@ -154,26 +169,92 @@ public class OrderItems extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.iv1:
-                fragmentOrderItemsBinding.iv1.setEnabled(false);
-                userShopsViewModel.setOrderStatus(order,1);
+                builder=new AlertDialog.Builder(getActivity());
+                builder.setTitle("Status Update");
+                builder.setMessage("Change order status to Accepted?");
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        fragmentOrderItemsBinding.iv1.setEnabled(false);
+                        userShopsViewModel.setOrderStatus(order,1);
+                    }
+                });
+
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.show();
                 break;
             case R.id.iv2:
-                fragmentOrderItemsBinding.iv1.setEnabled(false);
-                fragmentOrderItemsBinding.iv2.setEnabled(false);
-                userShopsViewModel.setOrderStatus(order,2);
-                break;
+                builder=new AlertDialog.Builder(getActivity());
+                builder.setTitle("Status Update");
+                builder.setMessage("Change order status to Prepared?");
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        fragmentOrderItemsBinding.iv1.setEnabled(false);
+                        fragmentOrderItemsBinding.iv2.setEnabled(false);
+                        userShopsViewModel.setOrderStatus(order,2);
+                    }
+                });
+
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.show();
+
             case R.id.iv3:
-                fragmentOrderItemsBinding.iv1.setEnabled(false);
-                fragmentOrderItemsBinding.iv2.setEnabled(false);
-                fragmentOrderItemsBinding.iv3.setEnabled(false);
-                userShopsViewModel.setOrderStatus(order,3);
+                builder=new AlertDialog.Builder(getActivity());
+                builder.setTitle("Status Update");
+                builder.setMessage("Change order status to Dispatched?");
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        fragmentOrderItemsBinding.iv1.setEnabled(false);
+                        fragmentOrderItemsBinding.iv2.setEnabled(false);
+                        fragmentOrderItemsBinding.iv3.setEnabled(false);
+                        userShopsViewModel.setOrderStatus(order,3);
+                    }
+                });
+
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.show();
+
                 break;
             case R.id.iv4:
-                fragmentOrderItemsBinding.iv1.setEnabled(false);
-                fragmentOrderItemsBinding.iv2.setEnabled(false);
-                fragmentOrderItemsBinding.iv3.setEnabled(false);
-                fragmentOrderItemsBinding.iv4.setEnabled(false);
-                userShopsViewModel.setOrderStatus(order,4);
+                builder=new AlertDialog.Builder(getActivity());
+                builder.setTitle("Status Update");
+                builder.setMessage("Change order status to Delivered?");
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        fragmentOrderItemsBinding.iv1.setEnabled(false);
+                        fragmentOrderItemsBinding.iv2.setEnabled(false);
+                        fragmentOrderItemsBinding.iv3.setEnabled(false);
+                        fragmentOrderItemsBinding.iv4.setEnabled(false);
+                        userShopsViewModel.setOrderStatus(order,4);
+                    }
+                });
+
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.show();
+
                 break;
         }
     }
