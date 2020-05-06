@@ -30,6 +30,7 @@ import com.unic.unic_vendor_final_1.databinding.ActivityUserHomeBinding;
 import com.unic.unic_vendor_final_1.datamodels.User;
 import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
 import com.unic.unic_vendor_final_1.views.helpers.OrderItems;
+import com.unic.unic_vendor_final_1.views.nav_fragments.ComingSoon;
 import com.unic.unic_vendor_final_1.views.nav_fragments.HomeFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyAppsFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyOrders;
@@ -117,14 +118,13 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
                 fragment = appsFragment;
                 break;
             case R.id.nav_help:
-                //TODO
+               fragment=new ComingSoon();
                 break;
             case R.id.nav_settings:
-                //TODO
-                fragment = homeFragment;
+                fragment = new ComingSoon();
                 break;
             case R.id.nav_my_qr:
-                //TODO
+                fragment = new ComingSoon();
                 break;
             case R.id.logout:
                 String Phone = Objects.requireNonNull(mAuth.getCurrentUser()).getPhoneNumber()!=null?mAuth.getCurrentUser().getPhoneNumber():" ";

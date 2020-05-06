@@ -46,38 +46,49 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         });
         fragmentHomeBinding.cardView.setOnClickListener(this);
         fragmentHomeBinding.cardView6.setOnClickListener(this);
+        fragmentHomeBinding.cardView3.setOnClickListener(this);
+        fragmentHomeBinding.cardView4.setOnClickListener(this);
+        fragmentHomeBinding.cardView5.setOnClickListener(this);
+        fragmentHomeBinding.cardView7.setOnClickListener(this);
         return fragmentHomeBinding.getRoot();
 
     }
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.card_view_apps){
+        switch(v.getId()){
+            case R.id.card_view:
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.home_fragment,new MyOrders())
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .commit();
+                break;
+            case R.id.card_view_apps:
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.home_fragment,new MyAppsFragment())
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .commit();
+                break;
+            case R.id.card_view5:
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.home_fragment,new NotificationsFragment())
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .commit();
+                break;
+            case R.id.card_view6:
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.home_fragment,new MyOrders())
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .commit();
+                break;
+            default:
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.home_fragment, new ComingSoon())
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .commit();
+                break;
 
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.home_fragment,new MyAppsFragment())
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .commit();
         }
-        else if(v.getId() == R.id.card_view5){
 
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.home_fragment,new NotificationsFragment())
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .commit();
-        }
-        else if(v.getId() == R.id.card_view6){
-
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.home_fragment,new MyProducts())
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .commit();
-        }
-        else if(v.getId()==R.id.card_view){
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.home_fragment,new MyOrders())
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .commit();
-        }
     }
 }

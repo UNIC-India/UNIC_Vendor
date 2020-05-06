@@ -37,8 +37,9 @@
                 android:layout_marginTop="10dp"
                 android:elevation="5dp"
                 android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
+                android:foreground="?android:attr/selectableItemBackground"
+
+
                 app:cardCornerRadius="15dp"
                 app:layout_constraintHeight_percent="0.222"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -95,7 +96,7 @@
                 android:elevation="5dp"
 
                 android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
+                android:foreground="?android:attr/selectableItemBackground"
                 app:cardCornerRadius="15dp"
                 app:layout_constraintHeight_percent="0.222"
                 app:layout_constraintLeft_toRightOf="@id/card_view"
@@ -151,7 +152,7 @@
                 android:layout_marginTop="20dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:elevation="5dp"
                 app:cardCornerRadius="15dp"
                 app:layout_constraintHeight_percent="0.222"
@@ -168,8 +169,8 @@
 
                 <ImageView
                     android:id="@+id/settings_icon"
-                    android:layout_width="43dp"
-                    android:layout_height="43dp"
+                    android:layout_width="47dp"
+                    android:layout_height="47dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="57dp"
                     android:elevation="2dp"
@@ -207,7 +208,7 @@
                 android:layout_marginLeft="12dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:layout_marginTop="20dp"
                 android:elevation="5dp"
                 app:cardCornerRadius="15dp"
@@ -225,8 +226,8 @@
 
                 <ImageView
                     android:id="@+id/qr_icon"
-                    android:layout_width="43dp"
-                    android:layout_height="43dp"
+                    android:layout_width="47dp"
+                    android:layout_height="47dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="57dp"
                     android:elevation="2dp"
@@ -266,7 +267,7 @@
                 android:layout_marginTop="20dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:elevation="5dp"
                 app:cardCornerRadius="15dp"
                 app:layout_constraintHeight_percent="0.222"
@@ -283,14 +284,13 @@
 
                 <ImageView
                     android:id="@+id/notify_icon"
-                    android:layout_width="43dp"
-                    android:layout_height="43dp"
+                    android:layout_width="47dp"
+                    android:layout_height="47dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="57dp"
                     android:elevation="2dp"
                     android:src="@drawable/notifications_icon"
-                    android:tint="#FFFFFF"
-                    />
+                    android:tint="#FFFFFF" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -323,7 +323,7 @@
                 android:layout_marginLeft="12dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:layout_marginTop="20dp"
                 android:elevation="5dp"
                 app:cardCornerRadius="15dp"
@@ -341,8 +341,8 @@
 
                 <ImageView
                     android:id="@+id/products_icon"
-                    android:layout_width="43dp"
-                    android:layout_height="52dp"
+                    android:layout_width="47dp"
+                    android:layout_height="47dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="48dp"
                     android:elevation="2dp"
@@ -381,7 +381,7 @@
                 android:layout_marginLeft="25dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:layout_marginTop="20dp"
                 android:elevation="5dp"
                 app:cardCornerRadius="15dp"
