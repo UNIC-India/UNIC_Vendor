@@ -27,8 +27,10 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="-43dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/details"
@@ -51,7 +53,7 @@
                 android:id="@+id/etphone"
                 android:layout_width="345dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="86.5dp"
+                android:layout_marginTop="105dp"
                 android:drawableStart="@drawable/ic_phone_black_24dp"
                 android:drawablePadding="10dp"
                 android:drawableTint="#EC4156"
@@ -65,7 +67,7 @@
                 android:id="@+id/btnlogin"
                 android:layout_width="327dp"
                 android:layout_height="48dp"
-                android:layout_marginTop="87dp"
+                android:layout_marginTop="50dp"
                 android:background="@drawable/roundbutton"
                 android:text="LOGIN"
                 android:textColor="#ffffff"
