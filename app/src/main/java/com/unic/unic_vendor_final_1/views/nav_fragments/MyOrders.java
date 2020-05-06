@@ -29,6 +29,7 @@ public class MyOrders extends Fragment {
     private UserShopsViewModel userShopsViewModel;
     private FragmentMyOrdersBinding myOrdersBinding;
     private AllOrdersAdapter allOrdersAdapter;
+
     RecyclerView rvOrders;
 
 
@@ -53,9 +54,9 @@ public class MyOrders extends Fragment {
         userShopsViewModel.getAllOrders().observe(getActivity(), new Observer<List<Order>>() {
             @Override
             public void onChanged(List<Order> orders) {
-                    Collections.sort(orders,Order.compareByDate);
-                    allOrdersAdapter.setShops(orders);
-                    allOrdersAdapter.notifyDataSetChanged();
+
+                        Collections.sort(orders, Order.compareByDate);
+                        allOrdersAdapter.setShops(orders);
 
 
             }
@@ -66,4 +67,6 @@ public class MyOrders extends Fragment {
         // Inflate the layout for this fragment
         return view;
     }
+
+
 }

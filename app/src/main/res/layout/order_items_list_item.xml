@@ -6,8 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
-    android:layout_marginTop="5dp"
+    android:layout_marginLeft="5dp"
 
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
     android:backgroundTint="@color/offWhite"
     android:elevation="5dp">
 
@@ -32,6 +34,15 @@
                 app:layout_constraintBottom_toBottomOf="@+id/product_image"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ExtraInfo1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tvTotal"
+                app:layout_constraintStart_toEndOf="@+id/product_price" />
 
             <ImageView
                 android:id="@+id/product_image"
@@ -78,26 +89,54 @@
                 android:id="@+id/product_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:fontFamily="@font/montserrat_bold"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/abeezee"
                 android:hint="Rs. 20"
                 android:textColor="@color/colorPrimary"
                 android:textColorHint="@color/colorPrimary"
-                android:textSize="15dp"
 
-                app:layout_constraintEnd_toEndOf="parent"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/product_company_name"></TextView>
 
             <TextView
-                android:id="@+id/tvCategory"
+                android:id="@+id/textView17"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:fontFamily="@font/abeezee"
-                android:text="Category"
+                android:text="Extrainfo2"
+                app:layout_constraintBottom_toTopOf="@+id/textView14"
+                app:layout_constraintEnd_toEndOf="@+id/textView14" />
+
+            <TextView
+                android:id="@+id/tvQty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Qty:"
+                android:textColor="#000000"
+                app:layout_constraintEnd_toStartOf="@+id/tvQty"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="Rs:"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/product_image"
-                app:layout_constraintTop_toBottomOf="@+id/product_company_name" />
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

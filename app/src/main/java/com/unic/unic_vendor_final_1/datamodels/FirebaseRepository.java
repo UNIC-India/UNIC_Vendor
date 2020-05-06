@@ -58,7 +58,9 @@ public class FirebaseRepository {
     public DocumentReference getUser() {
         return db.collection("users").document(mUser.getUid());
     }
-
+    public DocumentReference getCustomer(String userId){
+        return db.collection("users").document(userId);
+    }
     public Query getAllShops(String ownerID) {
         return db.collection("shops").whereEqualTo("ownerId", ownerID);
     }

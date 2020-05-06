@@ -63,13 +63,7 @@
                 <Button
                     android:id="@+id/double_product_cart"
                     android:layout_width="93dp"
-<<<<<<< HEAD
-                    android:background="@color/yellow"
-                    android:layout_marginTop="5dp"
-                    android:textSize="12sp"
-=======
                     android:layout_height="21dp"
->>>>>>> c160e084f624863467a3581e70eb0ea925defbc9
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
                     android:background="@color/green"
