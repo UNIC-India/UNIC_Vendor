@@ -31,14 +31,16 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_view"
-                android:layout_width="176dp"
-                android:layout_height="201dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="10dp"
                 android:elevation="5dp"
                 app:cardCornerRadius="15dp"
+                app:layout_constraintHeight_percent="0.222"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvWorkspace">
+                app:layout_constraintTop_toBottomOf="@id/tvWorkspace"
+                app:layout_constraintWidth_percent="0.425">
 
                 <View
                     android:layout_width="106dp"
@@ -82,15 +84,17 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_view_apps"
-                android:layout_width="176dp"
-                android:layout_height="201dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="10dp"
                 android:clickable="true"
                 android:elevation="5dp"
                 app:cardCornerRadius="15dp"
+                app:layout_constraintHeight_percent="0.222"
                 app:layout_constraintLeft_toRightOf="@id/card_view"
-                app:layout_constraintTop_toBottomOf="@id/tvWorkspace">
+                app:layout_constraintTop_toBottomOf="@id/tvWorkspace"
+                app:layout_constraintWidth_percent="0.425">
 
                 <View
                     android:layout_width="106dp"
@@ -135,14 +139,16 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_view3"
-                android:layout_width="176dp"
-                android:layout_height="201dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="20dp"
                 android:elevation="5dp"
                 app:cardCornerRadius="15dp"
+                app:layout_constraintHeight_percent="0.222"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/card_view">
+                app:layout_constraintTop_toBottomOf="@id/card_view"
+                app:layout_constraintWidth_percent="0.425">
 
                 <View
                     android:layout_width="106dp"
@@ -187,14 +193,16 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_view4"
-                android:layout_width="176dp"
-                android:layout_height="201dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="20dp"
                 android:elevation="5dp"
                 app:cardCornerRadius="15dp"
+                app:layout_constraintHeight_percent="0.222"
                 app:layout_constraintLeft_toRightOf="@id/card_view3"
-                app:layout_constraintTop_toBottomOf="@id/card_view_apps">
+                app:layout_constraintTop_toBottomOf="@id/card_view_apps"
+                app:layout_constraintWidth_percent="0.425">
 
                 <View
                     android:layout_width="106dp"
@@ -240,14 +248,16 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_view5"
-                android:layout_width="176dp"
-                android:layout_height="201dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="20dp"
                 android:elevation="5dp"
                 app:cardCornerRadius="15dp"
+                app:layout_constraintHeight_percent="0.222"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/card_view3">
+                app:layout_constraintTop_toBottomOf="@id/card_view3"
+                app:layout_constraintWidth_percent="0.425">
 
                 <View
                     android:layout_width="106dp"
@@ -293,14 +303,16 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_view6"
-                android:layout_width="176dp"
-                android:layout_height="201dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="20dp"
                 android:elevation="5dp"
                 app:cardCornerRadius="15dp"
+                app:layout_constraintHeight_percent="0.222"
                 app:layout_constraintLeft_toRightOf="@id/card_view5"
-                app:layout_constraintTop_toBottomOf="@id/card_view4">
+                app:layout_constraintTop_toBottomOf="@id/card_view4"
+                app:layout_constraintWidth_percent="0.425">
 
                 <View
                     android:layout_width="106dp"
@@ -346,14 +358,16 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_view7"
-                android:layout_width="176dp"
-                android:layout_height="201dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="20dp"
                 android:elevation="5dp"
                 app:cardCornerRadius="15dp"
+                app:layout_constraintHeight_percent="0.225"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/card_view5">
+                app:layout_constraintTop_toBottomOf="@id/card_view5"
+                app:layout_constraintWidth_percent="0.425">
 
                 <View
                     android:layout_width="106dp"

@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:layout_editor_absoluteX="233dp">
+            app:layout_constraintEnd_toEndOf="@+id/constraintLayout">
 
             <TextView
                 android:id="@+id/textView18"
@@ -77,10 +77,17 @@
 
             <View
                 android:id="@+id/view4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="2dp"
+                android:layout_height="57dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
+                android:id="@+id/linearLayout2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -114,6 +121,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/constraintLayout"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

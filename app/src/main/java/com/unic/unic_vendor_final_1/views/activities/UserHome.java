@@ -187,11 +187,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
             }, 2000);
         }
         else if(fg.getClass()== OrderItems.class){
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.home_fragment,new MyOrders())
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .commit();
+            getSupportFragmentManager().popBackStack();
         }
         else{
             getSupportFragmentManager()
