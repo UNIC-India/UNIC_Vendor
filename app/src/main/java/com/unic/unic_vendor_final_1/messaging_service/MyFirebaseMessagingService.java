@@ -32,7 +32,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
-        
+
         Map<String,String> data = remoteMessage.getData();
 
         if(data.get("load").equals("order")){

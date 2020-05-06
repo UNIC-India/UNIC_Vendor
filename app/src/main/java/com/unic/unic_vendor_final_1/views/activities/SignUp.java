@@ -35,6 +35,11 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         signUpBinding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(signUpBinding.getRoot());
 
+        coverView = new View(this);
+        coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        coverView.setBackgroundResource(R.color.gray_1);
+        coverView.setAlpha(0.5f);
+
         updateUI(0);
 
         signUpViewModel = new ViewModelProvider(this).get(FirebasePhoneAuthViewModel.class);
@@ -49,11 +54,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
             public void onChanged(String s) {
                 if(s!=null&&s.length()!=0) {
                     signUpBinding.edtpin.setText(s);
-                    coverView = new View(SignUp.this);
-                    coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                    coverView.setBackgroundResource(R.color.gray_1);
-                    coverView.setAlpha(0.5f);
-                    ((ViewGroup)signUpBinding.getRoot()).addView(coverView);
+                    if(coverView.getParent()==null)
+                    ((ViewGroup)signUpBinding.signUpConstraintLayout).addView(coverView);
                     signUpBinding.signUpProgressBar.setVisibility(View.VISIBLE);
                     signUpBinding.signUpProgressBar.bringToFront();
                     enableDisableViewGroup((ViewGroup)signUpBinding.getRoot(),false);
@@ -69,7 +71,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                     updateUI(integer);
                 } else if (integer == 1) {
                     enableDisableViewGroup((ViewGroup)signUpBinding.getRoot(),true);
-                    ((ViewGroup)signUpBinding.getRoot()).removeView(coverView);
+                    ((ViewGroup)signUpBinding.signUpConstraintLayout).removeView(coverView);
                     signUpBinding.signUpProgressBar.setVisibility(View.GONE);
                     signUpViewModel.updateInstanceId();
                     startActivity(new Intent(SignUp.this, UserHome.class));
@@ -91,14 +93,16 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                 break;
             case 1:
                 enableDisableViewGroup((ViewGroup)signUpBinding.getRoot(),true);
-                ((ViewGroup)signUpBinding.getRoot()).removeView(coverView);
+                if(coverView.getParent()!= null)
+                    ((ViewGroup)signUpBinding.signUpConstraintLayout).removeView(coverView);
                 signUpBinding.signUpProgressBar.setVisibility(View.GONE);
                 signUpBinding.signupmain.setVisibility(View.GONE);
                 signUpBinding.signuppin.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 enableDisableViewGroup((ViewGroup)signUpBinding.getRoot(),true);
-                ((ViewGroup)signUpBinding.getRoot()).removeView(coverView);
+                if(coverView.getParent()!=null)
+                    ((ViewGroup)signUpBinding.signUpConstraintLayout).removeView(coverView);
                 signUpBinding.signUpProgressBar.setVisibility(View.GONE);
                 signUpBinding.signupmain.setVisibility(View.VISIBLE);
                 signUpBinding.signuppin.setVisibility(View.GONE);
@@ -106,7 +110,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                 break;
             case 3:
                 enableDisableViewGroup((ViewGroup)signUpBinding.getRoot(),true);
-                ((ViewGroup)signUpBinding.getRoot()).removeView(coverView);
+                if(coverView.getParent()!=null)
+                    ((ViewGroup)signUpBinding.signUpConstraintLayout).removeView(coverView);
                 signUpBinding.signUpProgressBar.setVisibility(View.GONE);
                 signUpBinding.signupmain.setVisibility(View.VISIBLE);
                 signUpBinding.signuppin.setVisibility(View.GONE);
@@ -117,7 +122,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                 break;
             case -1:
                 enableDisableViewGroup((ViewGroup)signUpBinding.getRoot(),true);
-                ((ViewGroup)signUpBinding.getRoot()).removeView(coverView);
+                if(coverView.getParent()!=null)
+                    ((ViewGroup)signUpBinding.signUpConstraintLayout).removeView(coverView);
                 signUpBinding.signUpProgressBar.setVisibility(View.GONE);
                 signUpBinding.signupmain.setVisibility(View.VISIBLE);
                 signUpBinding.signuppin.setVisibility(View.GONE);
@@ -130,22 +136,16 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btncontinue:
-                coverView = new View(this);
-                coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                coverView.setBackgroundResource(R.color.gray_1);
-                coverView.setAlpha(0.5f);
-                ((ViewGroup)signUpBinding.getRoot()).addView(coverView);
+                if(coverView.getParent()==null)
+                    ((ViewGroup)signUpBinding.signUpConstraintLayout).addView(coverView);
                 signUpBinding.signUpProgressBar.setVisibility(View.VISIBLE);
                 signUpBinding.signUpProgressBar.bringToFront();
                 enableDisableViewGroup((ViewGroup)signUpBinding.getRoot(),false);
                 startAuth();
                 break;
             case R.id.btnconfirm:
-                coverView = new View(this);
-                coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                coverView.setBackgroundResource(R.color.gray_1);
-                coverView.setAlpha(0.5f);
-                ((ViewGroup)signUpBinding.getRoot()).addView(coverView);
+                if(coverView.getParent()==null)
+                    ((ViewGroup)signUpBinding.signUpConstraintLayout).addView(coverView);
                 signUpBinding.signUpProgressBar.setVisibility(View.VISIBLE);
                 signUpBinding.signUpProgressBar.bringToFront();
                 enableDisableViewGroup((ViewGroup)signUpBinding.getRoot(),false);

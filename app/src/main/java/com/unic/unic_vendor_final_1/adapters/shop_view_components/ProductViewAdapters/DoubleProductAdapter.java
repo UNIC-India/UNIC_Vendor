@@ -61,7 +61,7 @@ public class DoubleProductAdapter extends RecyclerView.Adapter<DoubleProductAdap
 
            Glide
                    .with(mContext)
-                   .load(products.get(position).get("imageid").toString())
+                   .load(products.get(position).get("imageId"))
                    .into(holder.ivProductImage);
        }
        else{
@@ -69,6 +69,7 @@ public class DoubleProductAdapter extends RecyclerView.Adapter<DoubleProductAdap
            holder.tvProductPrice.setText("Rs:2104");
            holder.ivProductImage.setImageResource(R.drawable.demo_product);
        }
+
 
 
     }

@@ -31,6 +31,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         loginBinding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(loginBinding.getRoot());
 
+        coverView = new View(this);
+        coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        coverView.setBackgroundResource(R.color.gray_1);
+        coverView.setAlpha(0.5f);
+
         updateUI(0);
 
         loginViewModel = new ViewModelProvider(this).get(FirebasePhoneAuthViewModel.class);
@@ -45,9 +50,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onChanged(String s) {
                 loginBinding.etOTP.setText(s);
-                if (coverView.getParent()!=null)
-                    return;
-                ((ViewGroup)loginBinding.getRoot()).addView(coverView);
+                if (coverView.getParent()==null)
+                ((ViewGroup)loginBinding.loginConstraintLayout).addView(coverView);
                 loginBinding.loginProgressBar.setVisibility(View.VISIBLE);
                 loginBinding.loginProgressBar.bringToFront();
                 enableDisableViewGroup((ViewGroup)loginBinding.getRoot(),false);
@@ -59,11 +63,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         loginBinding.btnlogin.setOnClickListener(this);
         loginBinding.btnres.setOnClickListener(this);
         loginBinding.signupLink.setOnClickListener(this);
-
-        coverView = new View(this);
-        coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        coverView.setBackgroundResource(R.color.gray_1);
-        coverView.setAlpha(0.5f);
     }
 
 
@@ -75,14 +74,16 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 break;
             case 1:
                 enableDisableViewGroup((ViewGroup)loginBinding.getRoot(),true);
-                ((ViewGroup)loginBinding.getRoot()).removeView(coverView);
+                if(coverView.getParent()!=null)
+                    ((ViewGroup)loginBinding.loginConstraintLayout).removeView(coverView);
                 loginBinding.loginProgressBar.setVisibility(View.GONE);
                 loginBinding.details.setVisibility(View.GONE);
                 loginBinding.loginOTP.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 enableDisableViewGroup((ViewGroup)loginBinding.getRoot(),true);
-                ((ViewGroup)loginBinding.getRoot()).removeView(coverView);
+                if(coverView.getParent()!=null)
+                    ((ViewGroup)loginBinding.loginConstraintLayout).removeView(coverView);
                 loginBinding.loginProgressBar.setVisibility(View.GONE);
                 loginBinding.details.setVisibility(View.VISIBLE);
                 loginBinding.loginOTP.setVisibility(View.GONE);
@@ -90,7 +91,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 break;
             case 3:
                 enableDisableViewGroup((ViewGroup)loginBinding.getRoot(),true);
-                ((ViewGroup)loginBinding.getRoot()).removeView(coverView);
+                if(coverView.getParent()!=null)
+                    ((ViewGroup)loginBinding.loginConstraintLayout).removeView(coverView);
                 loginBinding.loginProgressBar.setVisibility(View.GONE);
                 loginBinding.details.setVisibility(View.VISIBLE);
                 loginBinding.loginOTP.setVisibility(View.GONE);
@@ -98,7 +100,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 break;
             case 4:
                 enableDisableViewGroup((ViewGroup)loginBinding.getRoot(),true);
-                ((ViewGroup)loginBinding.getRoot()).removeView(coverView);
+                if(coverView.getParent()!=null)
+                    ((ViewGroup)loginBinding.loginConstraintLayout).removeView(coverView);
                 loginBinding.loginProgressBar.setVisibility(View.GONE);
                 loginViewModel.updateInstanceId();
                 startActivity(new Intent(this,UserHome.class));
@@ -106,7 +109,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 break;
             case -1:
                 enableDisableViewGroup((ViewGroup)loginBinding.getRoot(),true);
-                ((ViewGroup)loginBinding.getRoot()).removeView(coverView);
+                if(coverView.getParent()!=null)
+                    ((ViewGroup)loginBinding.loginConstraintLayout).removeView(coverView);
                 loginBinding.loginProgressBar.setVisibility(View.GONE);
                 loginBinding.details.setVisibility(View.VISIBLE);
                 loginBinding.loginOTP.setVisibility(View.GONE);
@@ -119,16 +123,16 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btnlogin:
-
-                ((ViewGroup)loginBinding.getRoot()).addView(coverView);
+                if(coverView.getParent()==null)
+                    ((ViewGroup)loginBinding.loginConstraintLayout).addView(coverView);
                 loginBinding.loginProgressBar.setVisibility(View.VISIBLE);
                 loginBinding.loginProgressBar.bringToFront();
                 enableDisableViewGroup((ViewGroup)loginBinding.getRoot(),false);
                 startAuth();
                 break;
             case R.id.btnconf:
-
-                ((ViewGroup)loginBinding.getRoot()).addView(coverView);
+                if(coverView.getParent()==null)
+                    ((ViewGroup)loginBinding.loginConstraintLayout).addView(coverView);
                 loginBinding.loginProgressBar.setVisibility(View.VISIBLE);
                 loginBinding.loginProgressBar.bringToFront();
                 enableDisableViewGroup((ViewGroup)loginBinding.getRoot(),false);
