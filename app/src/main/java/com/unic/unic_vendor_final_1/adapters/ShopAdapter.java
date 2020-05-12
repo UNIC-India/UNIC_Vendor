@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,6 +20,8 @@ import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.views.activities.AddNewProduct;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
+import com.unic.unic_vendor_final_1.views.activities.UserHome;
+import com.unic.unic_vendor_final_1.views.nav_fragments.MyAppsFragment;
 
 import java.util.List;
 
@@ -39,12 +42,14 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
         ImageView ivShopPhoto;
         LinearLayout Edit;
         CardView cdShop;
+        ImageButton ibDeleteShop;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tvShopName = itemView.findViewById(R.id.shop_name);
             ivShopPhoto = itemView.findViewById(R.id.shop_photo);
+            ibDeleteShop = itemView.findViewById(R.id.delete_shop);
 
             tvLocality=itemView.findViewById(R.id.shop_locality);
             Edit = itemView.findViewById(R.id.edit_shop);
@@ -108,6 +113,13 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
                 }
             });
         }
+
+        holder.ibDeleteShop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((UserHome)context).deleteShop(shops.get(position).getId());
+            }
+        });
 
     }
 

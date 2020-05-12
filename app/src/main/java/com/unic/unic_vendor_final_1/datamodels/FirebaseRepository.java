@@ -3,6 +3,9 @@ package com.unic.unic_vendor_final_1.datamodels;
 
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.auth.FirebaseAuth;
@@ -13,6 +16,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.HttpsCallableResult;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -29,6 +34,7 @@ public class FirebaseRepository {
     public FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
     private StorageReference mRef = FirebaseStorage.getInstance().getReference();
+    private FirebaseFunctions mFunctions = FirebaseFunctions.getInstance("asia-east2");
 
     public void startPhoneNumberVerification(String phoneNumber, PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
@@ -135,7 +141,38 @@ public class FirebaseRepository {
     public Task<QuerySnapshot> getProducts(String shopId) {
         return db.collection("shops").document(shopId).collection("products").get();
     }
+    public Task<String> deleteShop(String shopId){
+        Map<String,Object> data = new HashMap<>();
+        data.put("shopId",shopId);
+        data.put("push",true);
+        return mFunctions.getHttpsCallable("removeShop")
+                .call(data)
+                .continueWith(new Continuation<HttpsCallableResult, String>() {
+                    @Override
+                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                        // This continuation runs on either success or failure, but if the task
+                        // has failed then getResult() will throw an Exception which will be
+                        // propagated down.
+                        return (String) task.getResult().getData();
+                    }
+                });
+    }
 
+    public Task<String> deleteOrders(String shopId){
+        Map<String,Object> data = new HashMap<>();
+        data.put("shopId",shopId);
+        return mFunctions.getHttpsCallable("removeOrders")
+                .call(data)
+                .continueWith(new Continuation<HttpsCallableResult, String>() {
+                    @Override
+                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                        // This continuation runs on either success or failure, but if the task
+                        // has failed then getResult() will throw an Exception which will be
+                        // propagated down.
+                        return (String) task.getResult().getData();
+                    }
+                });
+    }
 
 
     public Task<Void> setUserSplashStatus(String Uid, int status, boolean isNewUser) {
@@ -165,6 +202,10 @@ public class FirebaseRepository {
 
     public Task<Void> setInstanceId(String Uid,String token){
         return db.collection("users").document(Uid).update("vendorInstanceId",token);
+    }
+
+    public Query getOrders(String shopId){
+        return db.collection("shops").document(shopId).collection("orders");
     }
 
 

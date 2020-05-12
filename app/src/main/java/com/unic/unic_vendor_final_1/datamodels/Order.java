@@ -2,6 +2,7 @@ package com.unic.unic_vendor_final_1.datamodels;
 
 import androidx.annotation.Nullable;
 
+import com.google.firebase.firestore.DocumentId;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.ArrayList;
@@ -11,11 +12,11 @@ import java.util.List;
 import java.util.Map;
 
 public class Order {
-    private String ownerId, id, shopId,status;
+    private  String id;
+    private String ownerId, shopId,status;
     private List<Map<String,Object>> items;
     private List<Integer> quantity;
     public int no_of_items;
-
     private int orderStatus;
     @ServerTimestamp
     Date time;
