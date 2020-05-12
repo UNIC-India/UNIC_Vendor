@@ -47,7 +47,7 @@ public class MyProducts extends Fragment {
         rvShops.setLayoutManager(layoutManager);
         adapter = new ShopAdapter(getContext(),1);
         shopsViewModel = new ViewModelProvider(this).get(UserShopsViewModel.class);
-        shopsViewModel.getAllShops().observe(getViewLifecycleOwner(), new Observer<List<Shop>>() {
+        shopsViewModel.getShops().observe(getViewLifecycleOwner(), new Observer<List<Shop>>() {
             @Override
             public void onChanged(List<Shop> shops) {
                 adapter.setShops(shops);

@@ -5,10 +5,12 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +31,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import timber.log.Timber;
+
 public class UserShopsViewModel extends ViewModel {
     private Fragment currentFragment;
 
@@ -45,7 +49,7 @@ public class UserShopsViewModel extends ViewModel {
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
-    public MutableLiveData<List<Shop>> getAllShops(){
+    public void getAllShops(){
         firebaseRepository.getAllShops(user.getUid()).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {
@@ -60,59 +64,57 @@ public class UserShopsViewModel extends ViewModel {
                 for(DocumentSnapshot doc : snapshots.getDocuments()) {
                     data.add(doc.toObject(Shop.class));
                     ids.add(doc.getId());
+
                 }
 
                 shops.setValue(data);
                 shopids.setValue(ids);
+                getAllOrders();
 
             }
         });
-        return shops;
     }
 
-    public MutableLiveData<List<Order>> getAllOrders(){
-        ArrayList<Order> orderdata=new ArrayList<>();
-        firebaseRepository.getAllShops(user.getUid()).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {
-                assert snapshots != null;
-                List<Order> data = new ArrayList<>();
-                for(DocumentSnapshot doc : snapshots.getDocuments()) {
-                    firebaseRepository.db.collection("shops").document(doc.getId()).collection("orders").addSnapshotListener(new EventListener<QuerySnapshot>() {
-                        @Override
-                        public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                            if(e!=null){
-                                Log.w("FirestoreViewModel","Listen Failed",e);
-                                return;
-                            }
+    public void getAllOrders(){
+        List<Order> ordersList = new ArrayList<>();
 
+        for(Shop shop : shops.getValue()){
+            firebaseRepository.getOrders(shop.getId()).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
 
+                    List<DocumentChange> documentChanges = queryDocumentSnapshots.getDocumentChanges();
 
-                            for(DocumentSnapshot doc2 :queryDocumentSnapshots.getDocuments()) {
-                                if((doc2.getId()!=null))
-                                   data.add(doc2.toObject(Order.class));
-                            }
+                    for(DocumentChange documentChange : documentChanges){
+                        switch (documentChange.getType()){
+                            case ADDED:
+                                ordersList.add(documentChange.getDocument().toObject(Order.class));
+                                ordersList.sort(Order.compareByDate);
+                                break;
+                            case MODIFIED:
+                                Order modifiedOrder = documentChange.getDocument().toObject(Order.class);
+                                for(int i=0;i<ordersList.size();i++){
 
-                            orders.setValue(data);
+                                    Order order = ordersList.get(i);
 
+                                    if(order.getId().equals(modifiedOrder.getId())){
+                                        ordersList.set(i,modifiedOrder);
+                                    }
+                                }
+                                break;
+                            case REMOVED:
+                                ordersList.remove(documentChange.getDocument().toObject(Order.class));
                         }
-                    });/*get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful()){
-                                for(DocumentSnapshot doc2:task.getResult())
-                                    orderdata.add(doc2.toObject(Order.class));
-                                orders.setValue(orderdata);
-                            }
+                    }
+                    orders.setValue(ordersList);
 
-                        }
-                    });*/
                 }
+            });
+        }
 
-            }
-        });
 
-        return orders;
+
+
 
     }
 
@@ -125,7 +127,9 @@ public class UserShopsViewModel extends ViewModel {
         });
     }
 
-
+    public void deleteShop(String shopId){
+        firebaseRepository.deleteOrders(shopId);
+    }
 
     public void getUser(){
         firebaseRepository.getUser().addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -150,9 +154,19 @@ public class UserShopsViewModel extends ViewModel {
         firebaseRepository.db.collection("shops").document(order.getShopId()).collection("orders").document(order.getId()).update("orderStatus",orderStatus).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-
+                orderstatuschangestatus.setValue(5);
+            }
+        })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Timber.e(e, e.toString());
             }
         });
+    }
+
+    public LiveData<List<Shop>> getShops() {
+        return shops;
     }
 
     public MutableLiveData<Order> listenToOrder(Order order){
@@ -167,7 +181,7 @@ public class UserShopsViewModel extends ViewModel {
         return currentOrder;
     }
 
-
-
-
+    public LiveData<List<Order>> getOrders() {
+        return orders;
+    }
 }

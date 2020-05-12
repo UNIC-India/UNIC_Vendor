@@ -29,6 +29,7 @@ import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.ActivityUserHomeBinding;
 import com.unic.unic_vendor_final_1.datamodels.User;
 import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
+import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 import com.unic.unic_vendor_final_1.views.helpers.OrderItems;
 import com.unic.unic_vendor_final_1.views.nav_fragments.ComingSoon;
 import com.unic.unic_vendor_final_1.views.nav_fragments.HomeFragment;
@@ -43,6 +44,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     private FirebaseAuth mAuth;
     boolean doubleBackToExitPressedOnce = false;
     public User user;
+    private UserShopsViewModel userShopsViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,10 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
                 setUser(user);
             }
         });
+
+        userShopsViewModel = new ViewModelProvider(this).get(UserShopsViewModel.class);
+
+        userShopsViewModel.getAllShops();
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -165,6 +171,10 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         tvFullName.setText(user!=null?user.getFullName():"Not received yet");
         tvEmail.setText(user!=null?user.getEmail():"Not received yet");
 
+    }
+
+    public void deleteShop(String shopId){
+        userShopsViewModel.deleteShop(shopId);
     }
 
     @Override

@@ -101,7 +101,7 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
                 holder.ivAccept.setVisibility(View.GONE);
                 holder.ivReject.setVisibility(View.GONE);
                 holder.loading.setVisibility(View.VISIBLE);
-                userShopsViewModel.setOrderStatus(orders.get(position),orders.get(position).getOrderStatus());
+                userShopsViewModel.setOrderStatus(orders.get(position),1);
             }
         });
         holder.ivReject.setOnClickListener(new View.OnClickListener() {
@@ -110,24 +110,24 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
                 holder.ivAccept.setVisibility(View.GONE);
                 holder.ivReject.setVisibility(View.GONE);
                 holder.loading.setVisibility(View.VISIBLE);
-                userShopsViewModel.setOrderStatus(orders.get(position),orders.get(position).getOrderStatus());
+                userShopsViewModel.setOrderStatus(orders.get(position),-1);
 
             }
         });
-        switch(orders.get(position).getStatus()){
-            case " ":
+        switch(orders.get(position).getOrderStatus()){
+            case 0:
                 holder.ivAccept.setVisibility(View.VISIBLE);
                 holder.ivReject.setVisibility(View.VISIBLE);
 
                 break;
-            case "Accepted":
+            case 1:
                 holder.loading.setVisibility(View.GONE);
                 holder.tvStatus.setVisibility(View.VISIBLE);
                 holder.tvStatus.setText("Accepted");
                 holder.tvStatus.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.yellow)));
                 holder.line.setBackgroundColor(context.getResources().getColor(R.color.yellow));
                 break;
-            case "Denied":
+            case -1:
                 holder.loading.setVisibility(View.GONE);
                 holder.tvStatus.setVisibility(View.VISIBLE);
                 holder.tvStatus.setText("Denied");

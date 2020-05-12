@@ -51,11 +51,10 @@ public class MyOrders extends Fragment {
         rvOrders.setAdapter(allOrdersAdapter);
         rvOrders.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        userShopsViewModel.getAllOrders().observe(getActivity(), new Observer<List<Order>>() {
+        userShopsViewModel.getOrders().observe(getViewLifecycleOwner(), new Observer<List<Order>>() {
             @Override
             public void onChanged(List<Order> orders) {
 
-                        Collections.sort(orders, Order.compareByDate);
                         allOrdersAdapter.setShops(orders);
 
 
