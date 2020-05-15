@@ -62,11 +62,15 @@ public class MasterProductAdapter extends RecyclerView.Adapter<MasterProductAdap
             holder.tvCompany.setText(products.get(position).get("category").toString());
             holder.tvCategory.setText(products.get(position).get("company").toString());
 
-            if(!(products.get(position).get("imageid").toString()==" "))
-            Glide
-                    .with(mContext)
-                    .load(products.get(position).get("imageid").toString())
-                    .into(holder.ivProductPhoto);
+            if(((products.get(position).get("imageid").toString().length())!=1)) {
+                holder.ivProductPhoto.setVisibility(View.VISIBLE);
+                Glide
+                        .with(mContext)
+                        .load(products.get(position).get("imageid").toString())
+                        .into(holder.ivProductPhoto);
+            }
+            else
+                holder.ivProductPhoto.setVisibility(View.GONE);
 
     }
 

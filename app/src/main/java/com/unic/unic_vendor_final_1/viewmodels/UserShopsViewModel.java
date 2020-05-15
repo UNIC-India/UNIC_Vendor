@@ -19,6 +19,7 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.unic.unic_vendor_final_1.datamodels.FirebaseRepository;
@@ -151,7 +152,8 @@ public class UserShopsViewModel extends ViewModel {
     }
 
     public void setOrderStatus(Order order,int orderStatus){
-        firebaseRepository.db.collection("shops").document(order.getShopId()).collection("orders").document(order.getId()).update("orderStatus",orderStatus).addOnSuccessListener(new OnSuccessListener<Void>() {
+        firebaseRepository.db.collection("shops").document(order.getShopId()).collection("orders").document(order.getId()).update("orderStatus",orderStatus,
+                "updateTime", FieldValue.serverTimestamp()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 orderstatuschangestatus.setValue(5);
@@ -171,7 +173,7 @@ public class UserShopsViewModel extends ViewModel {
 
     public MutableLiveData<Order> listenToOrder(Order order){
         currentOrder.setValue(order);
-        firebaseRepository.db.collection("shops").document(order.getShopId()).collection("orders").document(order.getId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        firebaseRepository.db.collection("orders").document(order.getId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 if(currentOrder.getValue().getOrderStatus()!=documentSnapshot.toObject(Order.class).getOrderStatus())

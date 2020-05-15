@@ -45,7 +45,7 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvName,tvPhone,tvDate,tvOrderId,tvStatus,tvshopname,tvUpdateStatus,tvNoOfItems,tvRetailer,tvTime;
+        TextView tvName,tvPhone,tvDate,tvOrderId,tvStatus,tvshopname,tvNoOfItems,tvRetailer,tvTime,tvCreatedBy,tvTotal;
         CardView cdOrder;
         View line;
         ImageView ivAccept,ivReject;
@@ -66,6 +66,11 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
             ivAccept=itemView.findViewById(R.id.ivAccept);
             ivReject=itemView.findViewById(R.id.ivReject);
             loading=itemView.findViewById(R.id.loading);
+            tvRetailer=itemView.findViewById(R.id.tvCustomer);
+            tvNoOfItems=itemView.findViewById(R.id.tvNoOfItems);
+            tvCreatedBy=itemView.findViewById(R.id.textView9);
+            tvTotal=itemView.findViewById(R.id.tvTotal);
+
 
 
 
@@ -81,6 +86,22 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull AllOrdersAdapter.ViewHolder holder, final int position) {
+        holder.tvCreatedBy.setText("");
+        holder.tvTotal.setText("");
+        holder.tvNoOfItems.setText("");
+        new FirebaseRepository().db.collection("users").document(orders.get(position).getOwnerId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                holder.tvCreatedBy.setText(documentSnapshot.getString("fullName"));
+            }
+        });
+
+        new FirebaseRepository().db.collection("shops").document(orders.get(position).getShopId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                holder.tvshopname.setText(documentSnapshot.getString("name"));
+            }
+        });
         holder.ivAccept.setVisibility(View.GONE);
         holder.ivReject.setVisibility(View.GONE);
         holder.tvStatus.setVisibility(View.GONE);
@@ -95,6 +116,9 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
         holder.tvDate.setText(orders.get(position).getTime().toString().substring(8,10)+" "+orders.get(position).getTime().toString().substring(4,7)+orders.get(position).getTime().toString().substring(29,34));
         holder.tvTime.setText(orders.get(position).getTime().toString().substring(11,16));
         holder.tvStatus.setText(orders.get(position).getStatus());
+        holder.tvNoOfItems.setText(orders.get(position).getNo_of_items());
+
+        holder.tvTotal.setText(orders.get(position).getTotal()+"");
         holder.ivAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,8 +148,29 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
                 holder.loading.setVisibility(View.GONE);
                 holder.tvStatus.setVisibility(View.VISIBLE);
                 holder.tvStatus.setText("Accepted");
-                holder.tvStatus.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.yellow)));
-                holder.line.setBackgroundColor(context.getResources().getColor(R.color.yellow));
+                holder.tvStatus.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green2)));
+                holder.line.setBackgroundColor(context.getResources().getColor(R.color.green2));
+                break;
+            case 2:
+                holder.loading.setVisibility(View.GONE);
+                holder.tvStatus.setVisibility(View.VISIBLE);
+                holder.tvStatus.setText("Prepared");
+                holder.tvStatus.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green2)));
+                holder.line.setBackgroundColor(context.getResources().getColor(R.color.green2));
+                break;
+            case 3:
+                holder.loading.setVisibility(View.GONE);
+                holder.tvStatus.setVisibility(View.VISIBLE);
+                holder.tvStatus.setText("Dispatched");
+                holder.tvStatus.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green2)));
+                holder.line.setBackgroundColor(context.getResources().getColor(R.color.green2));
+                break;
+            case 4:
+                holder.loading.setVisibility(View.GONE);
+                holder.tvStatus.setVisibility(View.VISIBLE);
+                holder.tvStatus.setText("Delivered");
+                holder.tvStatus.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green2)));
+                holder.line.setBackgroundColor(context.getResources().getColor(R.color.green2));
                 break;
             case -1:
                 holder.loading.setVisibility(View.GONE);
@@ -136,15 +181,9 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
                 break;
         }
 
-       // holder.tvPhone.setText(""+orders.get(position).getPhoneNo());
+        holder.tvPhone.setText(""+orders.get(position).getPhoneNo());
         holder.tvOrderId.setText(" "+orders.get(position).getId());
 
-        new FirebaseRepository().db.collection("shops").document(orders.get(position).getShopId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                holder.tvshopname.setText(documentSnapshot.getString("name"));
-            }
-        });
 
 
     }

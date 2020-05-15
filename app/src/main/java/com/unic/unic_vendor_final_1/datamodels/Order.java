@@ -1,33 +1,30 @@
 package com.unic.unic_vendor_final_1.datamodels;
 
-import androidx.annotation.Nullable;
+        import com.google.firebase.firestore.DocumentId;
+        import com.google.firebase.firestore.ServerTimestamp;
 
-import com.google.firebase.firestore.DocumentId;
-import com.google.firebase.firestore.ServerTimestamp;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+        import java.util.Comparator;
+        import java.util.Date;
+        import java.util.List;
+        import java.util.Map;
 
 public class Order {
-    private  String id;
-    private String ownerId, shopId,status;
+    @DocumentId
+    private String id;
+    private String ownerId, shopId,status,address,orgName;
+    private double total;
     private List<Map<String,Object>> items;
     private List<Integer> quantity;
     public int no_of_items;
     private int orderStatus;
     @ServerTimestamp
     Date time;
-    private String createBy;
+    @ServerTimestamp
+    Date updateTime;
     private String phoneNo;
 
-    public Order() {
-        //No argument constructor for firestore
-    }
 
-    public Order(String shopId, List<Map<String, Object>> items, List<Integer> quantity, int no_of_items,String createdBy) {
+    public Order(String shopId, List<Map<String, Object>> items, List<Integer> quantity, int no_of_items) {
         this.shopId = shopId;
         this.items = items;
         this.quantity = quantity;
@@ -35,9 +32,12 @@ public class Order {
         this.id=" ";
         this.status=" ";
         this.orderStatus=0;
-        this.createBy=createdBy;
-    }
+        address=" ";
+        this.total=0;
+        this.orgName=" ";
 
+
+    }
     public static Comparator<Order> compareByDate=new Comparator<Order>() {
         @Override
         public int compare(Order o1, Order o2) {
@@ -45,12 +45,8 @@ public class Order {
         }
     };
 
-    @Override
-    public boolean equals(@Nullable Object obj) {
-        return this.id==((Order) obj).getId();
-    }
 
-    public String getOwnerId() {
+        public String getOwnerId() {
         return ownerId;
     }
 
@@ -114,13 +110,6 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    public String getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
 
     public Date getTime() {
         return time;
@@ -132,6 +121,38 @@ public class Order {
 
     public String getPhoneNo() {
         return phoneNo;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     public void setPhoneNo(String phoneNo) {

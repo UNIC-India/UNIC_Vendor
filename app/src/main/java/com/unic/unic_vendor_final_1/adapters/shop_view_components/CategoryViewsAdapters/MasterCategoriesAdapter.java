@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.unic.unic_vendor_final_1.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -70,10 +71,13 @@ public class MasterCategoriesAdapter extends RecyclerView.Adapter<MasterCategori
     }
 
     public void setCategorySet(List<Map<String,Object>> products){
-        if(!(products==null))
-        for(Map<String,Object> i: products)
-            if(!this.categorySet.contains(i.get("category").toString()))
-            this.categorySet.add(i.get("category").toString());
+        if(!(products==null)) {
+            for (Map<String, Object> i : products)
+                if (!this.categorySet.contains(i.get("category").toString()))
+                    this.categorySet.add(i.get("category").toString());
+            Collections.sort(this.categorySet);
+        }
+
 
     }
 

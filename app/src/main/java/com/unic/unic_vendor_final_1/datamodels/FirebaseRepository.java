@@ -205,7 +205,7 @@ public class FirebaseRepository {
     }
 
     public Query getOrders(String shopId){
-        return db.collection("shops").document(shopId).collection("orders");
+        return db.collection("orders").whereEqualTo("shopId",shopId);
     }
 
 
