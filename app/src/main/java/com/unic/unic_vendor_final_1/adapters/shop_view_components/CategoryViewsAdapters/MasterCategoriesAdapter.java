@@ -66,6 +66,7 @@ public class MasterCategoriesAdapter extends RecyclerView.Adapter<MasterCategori
 
     public void setProducts(List<Map<String,Object>> products){
         this.products = products;
+        categorySet.clear();
         setCategorySet(products);
 
     }

@@ -8,12 +8,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -24,21 +27,23 @@ import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAda
 import com.unic.unic_vendor_final_1.databinding.MasterLayoutBinding;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MasterLayoutFragment extends Fragment implements AdapterView.OnItemSelectedListener {
-    RecyclerView rv;
-    Spinner spinner;
+public class MasterLayoutFragment extends Fragment implements AdapterView.OnItemSelectedListener, TextWatcher {
+    private RecyclerView rv;
+    private Spinner spinner;
     private SetStructureViewModel setStructureViewModel;
     private int setter=0;
     private MasterCategoriesAdapter masterCategoriesAdapter;
     private MasterCompaniesAdapter masterCompaniesAdapter;
     private MasterProductAdapter masterProductAdapter;
-    private List<Map<String, Object>> products;
+    private List<Map<String, Object>> products = new ArrayList<>();
+    private AutoCompleteTextView searchTextView;
 
 
     public MasterLayoutFragment() {
@@ -53,17 +58,18 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
         setStructureViewModel= new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
         rv=view.findViewById(R.id.rv);
         spinner=view.findViewById(R.id.spinner);
+        searchTextView = view.findViewById(R.id.autoCompleteTextView);
         masterProductAdapter=new MasterProductAdapter(getContext());
         masterCompaniesAdapter=new MasterCompaniesAdapter(getContext());
         masterCategoriesAdapter= new MasterCategoriesAdapter(getContext());
         setAdapter(setter);
 
-
+        searchTextView.addTextChangedListener(this);
 
         setStructureViewModel.getProducts().observe(getActivity(), new Observer<List<Map<String, Object>>>() {
             @Override
             public void onChanged(List<Map<String, Object>> maps) {
-                setProducts(products);
+                setProducts(maps);
                 masterCategoriesAdapter.setProducts(maps);
                 masterProductAdapter.setProducts(maps);
                 masterCompaniesAdapter.setProducts(maps);
@@ -72,6 +78,7 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
                 masterCategoriesAdapter.notifyDataSetChanged();
 
             }
+
         });
         ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(getActivity(), R.array.spinner_array,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -109,7 +116,7 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
                 break;
             case 2:
                 rv.setLayoutManager(new LinearLayoutManager(getContext()));
-                masterCategoriesAdapter.notifyDataSetChanged();
+                masterCompaniesAdapter.notifyDataSetChanged();
                 rv.setAdapter(masterCompaniesAdapter);
                 break;
         }
@@ -117,5 +124,70 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
 
     public void setProducts(List<Map<String, Object>> products) {
         this.products = products;
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        List<Map<String,Object>> refinedProducts = new ArrayList<>();
+        switch (setter){
+            case 0:
+                if(s.length()!=0){
+                    for(Map map : products){
+                        if (((String)map.get("name")).toLowerCase().contains(s.toString().toLowerCase())){
+                            refinedProducts.add(map);
+                        }
+                    }
+                    masterProductAdapter.setProducts(refinedProducts);
+                    masterProductAdapter.notifyDataSetChanged();
+                }
+                else {
+                    masterProductAdapter.setProducts(products);
+                    masterProductAdapter.notifyDataSetChanged();
+                }
+                break;
+            case 1:
+                if(s.length()!=0){
+                    for(Map map : products){
+                        if (((String)map.get("category")).toLowerCase().contains(s.toString().toLowerCase())){
+                            refinedProducts.add(map);
+                        }
+                    }
+                    masterCategoriesAdapter.setProducts(refinedProducts);
+                    masterCategoriesAdapter.notifyDataSetChanged();
+                }
+                else {
+                    masterCategoriesAdapter.setProducts(products);
+                    masterCategoriesAdapter.notifyDataSetChanged();
+                }
+                break;
+            case 2:
+                if(s.length()!=0){
+                    for(Map map : products){
+                        if (((String)map.get("company")).toLowerCase().contains(s.toString().toLowerCase())){
+                            refinedProducts.add(map);
+                        }
+                    }
+                    masterCompaniesAdapter.setProducts(refinedProducts);
+                    masterCompaniesAdapter.notifyDataSetChanged();
+                }
+                else {
+                    masterCompaniesAdapter.setProducts(products);
+                    masterCompaniesAdapter.notifyDataSetChanged();
+                }
+                break;
+        }
+
+
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }

@@ -16,11 +16,13 @@ public class Order {
     private double total;
     private List<Map<String,Object>> items;
     private List<Integer> quantity;
-    public int no_of_items;
+    private int no_of_items;
     private int orderStatus;
     @ServerTimestamp
+    private
     Date time;
     @ServerTimestamp
+    private
     Date updateTime;
     private String phoneNo;
 

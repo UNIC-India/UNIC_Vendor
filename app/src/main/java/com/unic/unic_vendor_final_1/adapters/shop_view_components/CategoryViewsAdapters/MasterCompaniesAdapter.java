@@ -62,6 +62,7 @@ public class MasterCompaniesAdapter extends RecyclerView.Adapter<MasterCompanies
 
     public void setProducts(List<Map<String,Object>> products){
         this.products = products;
+        companySet.clear();
         setCompanySet(products);
     }
 
