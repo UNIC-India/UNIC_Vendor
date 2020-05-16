@@ -11,7 +11,7 @@ public class StructureTemplates {
 
         view1.setHeader("Master");
         view1.setFields("name,imageLink,price");
-        structure.getPage(1001).addView(view1,00);
+        structure.getPage(1001).addView(view1, 0);
 
         return structure;
     }
