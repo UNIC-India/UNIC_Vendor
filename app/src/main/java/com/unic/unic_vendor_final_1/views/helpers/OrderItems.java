@@ -54,6 +54,7 @@ public class OrderItems extends Fragment implements View.OnClickListener {
         orderItemsAdapter.setProducts(order.getItems(),order.getQuantity());
         setStatus(order.getOrderStatus());
         fragmentOrderItemsBinding.tvCustomerName.setText(order.getOwnerId());
+        fragmentOrderItemsBinding.tvTotalAmount.setText(order.getTotal()+"");
         userShopsViewModel=new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
         userShopsViewModel.getCustomerData(order.getOwnerId()).observe(getActivity(), new Observer<User>() {
             @Override
@@ -87,11 +88,20 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.iv1.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.colorPrimary)));
                 fragmentOrderItemsBinding.tv1.setText("Rejected");
                 fragmentOrderItemsBinding.tv1.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                fragmentOrderItemsBinding.iv1.setEnabled(false);
+                fragmentOrderItemsBinding.iv2.setEnabled(false);
+                fragmentOrderItemsBinding.iv3.setEnabled(false);
+                fragmentOrderItemsBinding.iv4.setEnabled(false);
+                fragmentOrderItemsBinding.textView5.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+                fragmentOrderItemsBinding.textView5.setText("Order rejected at"+order.getUpdateTime().toString().substring(11,16)+" on "+order.getUpdateTime().toString().substring(8,10)+" "+order.getUpdateTime().toString().substring(4,7)+order.getUpdateTime().toString().substring(29,34));
+
                 break;
             case 0:
-                fragmentOrderItemsBinding.iv1.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green)));
+                fragmentOrderItemsBinding.iv1.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.yellow)));
                 fragmentOrderItemsBinding.tv1.setText("Pending");
-                fragmentOrderItemsBinding.tv1.setTextColor(context.getResources().getColor(R.color.green));
+                fragmentOrderItemsBinding.tv1.setTextColor(context.getResources().getColor(R.color.yellow));
+                fragmentOrderItemsBinding.textView5.setBackgroundColor(context.getResources().getColor(R.color.yellow));
+                fragmentOrderItemsBinding.textView5.setText("Order pending from"+order.getUpdateTime().toString().substring(11,16)+" on "+order.getUpdateTime().toString().substring(8,10)+" "+order.getUpdateTime().toString().substring(4,7)+order.getUpdateTime().toString().substring(29,34));
 
 
                 break;
@@ -100,10 +110,12 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.tv1.setText("Accepted");
                 fragmentOrderItemsBinding.tv1.setTextColor(context.getResources().getColor(R.color.green2));
                 fragmentOrderItemsBinding.v1.setBackgroundColor(context.getResources().getColor(R.color.green2));
-                fragmentOrderItemsBinding.iv2.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green)));
+                fragmentOrderItemsBinding.iv2.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.yellow)));
                 fragmentOrderItemsBinding.tv2.setText("Preparing");
-                fragmentOrderItemsBinding.tv2.setTextColor(context.getResources().getColor(R.color.green));
+                fragmentOrderItemsBinding.tv2.setTextColor(context.getResources().getColor(R.color.yellow));
                 fragmentOrderItemsBinding.iv1.setEnabled(false);
+                fragmentOrderItemsBinding.textView5.setBackgroundColor(context.getResources().getColor(R.color.green2));
+                fragmentOrderItemsBinding.textView5.setText("Order accepted at"+order.getUpdateTime().toString().substring(11,16)+" on "+order.getUpdateTime().toString().substring(8,10)+" "+order.getUpdateTime().toString().substring(4,7)+order.getUpdateTime().toString().substring(29,34));
                 break;
             case 2:
                 fragmentOrderItemsBinding.iv1.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green2)));
@@ -114,11 +126,13 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.tv2.setText("Prepared");
                 fragmentOrderItemsBinding.tv2.setTextColor(context.getResources().getColor(R.color.green2));
                 fragmentOrderItemsBinding.v2.setBackgroundColor(context.getResources().getColor(R.color.green2));
-                fragmentOrderItemsBinding.iv3.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green)));
+                fragmentOrderItemsBinding.iv3.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.yellow)));
                 fragmentOrderItemsBinding.tv3.setText("Dispatching");
-                fragmentOrderItemsBinding.tv3.setTextColor(context.getResources().getColor(R.color.green));
+                fragmentOrderItemsBinding.tv3.setTextColor(context.getResources().getColor(R.color.yellow));
                 fragmentOrderItemsBinding.iv1.setEnabled(false);
                 fragmentOrderItemsBinding.iv2.setEnabled(false);
+                fragmentOrderItemsBinding.textView5.setBackgroundColor(context.getResources().getColor(R.color.green2));
+                fragmentOrderItemsBinding.textView5.setText("Order prepared at"+order.getUpdateTime().toString().substring(11,16)+" on "+order.getUpdateTime().toString().substring(8,10)+" "+order.getUpdateTime().toString().substring(4,7)+order.getUpdateTime().toString().substring(29,34));
 
                 break;
             case 3:
@@ -134,12 +148,14 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.tv3.setText("Dispatched");
                 fragmentOrderItemsBinding.tv3.setTextColor(context.getResources().getColor(R.color.green2));
                 fragmentOrderItemsBinding.v3.setBackgroundColor(context.getResources().getColor(R.color.green2));
-                fragmentOrderItemsBinding.iv4.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green)));
+                fragmentOrderItemsBinding.iv4.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.yellow)));
                 fragmentOrderItemsBinding.tv4.setText("Delivering");
-                fragmentOrderItemsBinding.tv4.setTextColor(context.getResources().getColor(R.color.green));
+                fragmentOrderItemsBinding.tv4.setTextColor(context.getResources().getColor(R.color.yellow));
                 fragmentOrderItemsBinding.iv1.setEnabled(false);
                 fragmentOrderItemsBinding.iv2.setEnabled(false);
                 fragmentOrderItemsBinding.iv3.setEnabled(false);
+                fragmentOrderItemsBinding.textView5.setBackgroundColor(context.getResources().getColor(R.color.green2));
+                fragmentOrderItemsBinding.textView5.setText("Order Dispatched at"+order.getUpdateTime().toString().substring(11,16)+" on "+order.getUpdateTime().toString().substring(8,10)+" "+order.getUpdateTime().toString().substring(4,7)+order.getUpdateTime().toString().substring(29,34));
                 break;
             case 4:
                 fragmentOrderItemsBinding.iv1.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green2)));
@@ -161,6 +177,8 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.iv2.setEnabled(false);
                 fragmentOrderItemsBinding.iv3.setEnabled(false);
                 fragmentOrderItemsBinding.iv4.setEnabled(false);
+                fragmentOrderItemsBinding.textView5.setBackgroundColor(context.getResources().getColor(R.color.green2));
+                fragmentOrderItemsBinding.textView5.setText("Order Delivered at"+order.getUpdateTime().toString().substring(11,16)+" on "+order.getUpdateTime().toString().substring(8,10)+" "+order.getUpdateTime().toString().substring(4,7)+order.getUpdateTime().toString().substring(29,34));
                 break;
         }
     }
@@ -208,6 +226,7 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                     }
                 });
                 builder.show();
+                break;
 
             case R.id.iv3:
                 builder=new AlertDialog.Builder(getActivity());

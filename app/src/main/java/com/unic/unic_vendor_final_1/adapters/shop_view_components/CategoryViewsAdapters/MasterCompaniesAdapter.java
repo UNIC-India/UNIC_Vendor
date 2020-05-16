@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.unic.unic_vendor_final_1.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -67,10 +68,13 @@ public class MasterCompaniesAdapter extends RecyclerView.Adapter<MasterCompanies
 
 
     public void setCompanySet(List<Map<String,Object>> products){
-        if(!(products==null))
-            for(Map<String,Object> i: products)
-                if(!this.companySet.contains(i.get("company").toString()))
+        if(!(products==null)) {
+            for (Map<String, Object> i : products)
+                if (!this.companySet.contains(i.get("company").toString()))
                     this.companySet.add(i.get("company").toString());
+            Collections.sort(this.companySet);
+        }
+
 
     }
 

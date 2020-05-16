@@ -1,21 +1,19 @@
 package com.unic.unic_vendor_final_1.datamodels;
 
-import androidx.annotation.Nullable;
+        import com.google.firebase.firestore.DocumentId;
+        import com.google.firebase.firestore.ServerTimestamp;
 
-import com.google.firebase.firestore.DocumentId;
-import com.google.firebase.firestore.ServerTimestamp;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+        import java.util.Comparator;
+        import java.util.Date;
+        import java.util.List;
+        import java.util.Map;
 
 public class Order {
 
-    private String ownerId, shopId,status,orgName,address;
     @DocumentId
     private String id;
+    private String ownerId, shopId,status,address,orgName;
+    private double total;
     private List<Map<String,Object>> items;
     private List<Integer> quantity;
     public int no_of_items;
@@ -27,8 +25,7 @@ public class Order {
     private String phoneNo;
 
     public Order(){}
-
-
+    
     public Order(String shopId, List<Map<String, Object>> items, List<Integer> quantity, int no_of_items) {
         this.shopId = shopId;
         this.items = items;
@@ -39,9 +36,21 @@ public class Order {
         this.id=" ";
         this.status=" ";
         this.orderStatus=0;
-    }
+        address=" ";
+        this.total=0;
+        this.orgName=" ";
 
-    public String getOwnerId() {
+
+    }
+    public static Comparator<Order> compareByDate=new Comparator<Order>() {
+        @Override
+        public int compare(Order o1, Order o2) {
+            return o2.getTime().compareTo(o1.getTime());
+        }
+    };
+
+
+        public String getOwnerId() {
         return ownerId;
     }
 
@@ -105,21 +114,6 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    public String getOrgName() {
-        return orgName;
-    }
-
-    public void setOrgName(String orgName) {
-        this.orgName = orgName;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 
     public Date getTime() {
         return time;
@@ -133,17 +127,41 @@ public class Order {
         return phoneNo;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
     public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
     }
-
-    public static Comparator<Order> compareByDate=new Comparator<Order>() {
-        @Override
-        public int compare(Order o1, Order o2) {
-            return o2.getTime().compareTo(o1.getTime());
-        }
-    };
-
 }
 
 
