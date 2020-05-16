@@ -151,7 +151,7 @@ public class UserShopsViewModel extends ViewModel {
     }
 
     public void setOrderStatus(Order order,int orderStatus){
-        firebaseRepository.db.collection("shops").document(order.getShopId()).collection("orders").document(order.getId()).update("orderStatus",orderStatus).addOnSuccessListener(new OnSuccessListener<Void>() {
+        firebaseRepository.db.collection("orders").document(order.getId()).update("orderStatus",orderStatus).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 orderstatuschangestatus.setValue(5);

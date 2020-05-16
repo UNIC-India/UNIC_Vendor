@@ -12,42 +12,33 @@ import java.util.List;
 import java.util.Map;
 
 public class Order {
-    private  String id;
-    private String ownerId, shopId,status;
+
+    private String ownerId, shopId,status,orgName,address;
+    @DocumentId
+    private String id;
     private List<Map<String,Object>> items;
     private List<Integer> quantity;
     public int no_of_items;
     private int orderStatus;
     @ServerTimestamp
     Date time;
-    private String createBy;
+    @ServerTimestamp
+    Date updateTime;
     private String phoneNo;
 
-    public Order() {
-        //No argument constructor for firestore
-    }
+    public Order(){}
 
-    public Order(String shopId, List<Map<String, Object>> items, List<Integer> quantity, int no_of_items,String createdBy) {
+
+    public Order(String shopId, List<Map<String, Object>> items, List<Integer> quantity, int no_of_items) {
         this.shopId = shopId;
         this.items = items;
         this.quantity = quantity;
         this.no_of_items = no_of_items;
+        this.address=" ";
+        this.orgName=" ";
         this.id=" ";
         this.status=" ";
         this.orderStatus=0;
-        this.createBy=createdBy;
-    }
-
-    public static Comparator<Order> compareByDate=new Comparator<Order>() {
-        @Override
-        public int compare(Order o1, Order o2) {
-            return o2.getTime().compareTo(o1.getTime());
-        }
-    };
-
-    @Override
-    public boolean equals(@Nullable Object obj) {
-        return this.id==((Order) obj).getId();
     }
 
     public String getOwnerId() {
@@ -114,12 +105,20 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    public String getCreateBy() {
-        return createBy;
+    public String getOrgName() {
+        return orgName;
     }
 
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     public Date getTime() {
@@ -137,4 +136,14 @@ public class Order {
     public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
     }
+
+    public static Comparator<Order> compareByDate=new Comparator<Order>() {
+        @Override
+        public int compare(Order o1, Order o2) {
+            return o2.getTime().compareTo(o1.getTime());
+        }
+    };
+
 }
+
+
