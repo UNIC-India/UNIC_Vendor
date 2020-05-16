@@ -9,6 +9,7 @@ package com.unic.unic_vendor_final_1.datamodels;
         import java.util.Map;
 
 public class Order {
+
     @DocumentId
     private String id;
     private String ownerId, shopId,status,address,orgName;
@@ -23,12 +24,15 @@ public class Order {
     Date updateTime;
     private String phoneNo;
 
-
+    public Order(){}
+    
     public Order(String shopId, List<Map<String, Object>> items, List<Integer> quantity, int no_of_items) {
         this.shopId = shopId;
         this.items = items;
         this.quantity = quantity;
         this.no_of_items = no_of_items;
+        this.address=" ";
+        this.orgName=" ";
         this.id=" ";
         this.status=" ";
         this.orderStatus=0;
@@ -159,3 +163,5 @@ public class Order {
         this.phoneNo = phoneNo;
     }
 }
+
+
