@@ -23,6 +23,10 @@ public class Order {
     Date updateTime;
     private String phoneNo;
 
+    public Order(){
+
+    }
+
 
     public Order(String shopId, List<Map<String, Object>> items, List<Integer> quantity, int no_of_items) {
         this.shopId = shopId;

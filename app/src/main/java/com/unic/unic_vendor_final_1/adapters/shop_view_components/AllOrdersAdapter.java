@@ -69,7 +69,7 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
             tvRetailer=itemView.findViewById(R.id.tvCustomer);
             tvNoOfItems=itemView.findViewById(R.id.tvNoOfItems);
             tvCreatedBy=itemView.findViewById(R.id.textView9);
-            tvTotal=itemView.findViewById(R.id.tvTotal);
+            tvTotal=itemView.findViewById(R.id.tvAmount);
 
 
 
@@ -116,7 +116,7 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
         holder.tvDate.setText(orders.get(position).getTime().toString().substring(8,10)+" "+orders.get(position).getTime().toString().substring(4,7)+orders.get(position).getTime().toString().substring(29,34));
         holder.tvTime.setText(orders.get(position).getTime().toString().substring(11,16));
         holder.tvStatus.setText(orders.get(position).getStatus());
-        holder.tvNoOfItems.setText(orders.get(position).getNo_of_items());
+//        holder.tvNoOfItems.setText(orders.get(position).getNo_of_items());
 
         holder.tvTotal.setText(orders.get(position).getTotal()+"");
         holder.ivAccept.setOnClickListener(new View.OnClickListener() {
