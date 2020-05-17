@@ -141,6 +141,14 @@ public class FirebaseRepository {
     public Task<QuerySnapshot> getProducts(String shopId) {
         return db.collection("shops").document(shopId).collection("products").get();
     }
+
+    public Task<QuerySnapshot> getPaginatedProducts(String shopId, DocumentSnapshot lastDoc, boolean isFirst){
+        if(isFirst)
+            return db.collection("shops").document(shopId).collection("products").orderBy("name", Query.Direction.ASCENDING).limit(25).get();
+        else
+            return db.collection("shops").document(shopId).collection("products").orderBy("name", Query.Direction.ASCENDING).startAfter(lastDoc).limit(25).get();
+    }
+
     public Task<String> deleteShop(String shopId){
         Map<String,Object> data = new HashMap<>();
         data.put("shopId",shopId);

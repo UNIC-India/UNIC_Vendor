@@ -2,6 +2,7 @@ package com.unic.unic_vendor_final_1.views.helpers;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -44,6 +45,7 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
     private MasterProductAdapter masterProductAdapter;
     private List<Map<String, Object>> products = new ArrayList<>();
     private AutoCompleteTextView searchTextView;
+    private boolean isAtBottom = false;
 
 
     public MasterLayoutFragment() {
@@ -69,6 +71,8 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
         setStructureViewModel.getProducts().observe(getActivity(), new Observer<List<Map<String, Object>>>() {
             @Override
             public void onChanged(List<Map<String, Object>> maps) {
+                if(maps.size()>products.size())
+                    isAtBottom = false;
                 setProducts(maps);
                 masterCategoriesAdapter.setProducts(maps);
                 masterProductAdapter.setProducts(maps);
@@ -105,7 +109,17 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
         switch (position){
             case 0:
                 rv.setLayoutManager(new LinearLayoutManager(getContext()));
-               rv.setAdapter(masterProductAdapter);
+                rv.setAdapter(masterProductAdapter);
+                rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                        super.onScrollStateChanged(recyclerView, newState);
+                        if(newState==RecyclerView.SCROLL_STATE_IDLE&&!isAtBottom&&!recyclerView.canScrollVertically(1)){
+                            isAtBottom = true;
+                            setStructureViewModel.getPaginatedProductData(setStructureViewModel.getShop().getValue().getId());
+                        }
+                    }
+                });
 
                 break;
             case 1:

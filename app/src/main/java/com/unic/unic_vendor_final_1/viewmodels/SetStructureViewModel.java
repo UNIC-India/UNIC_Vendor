@@ -35,6 +35,8 @@ public class SetStructureViewModel extends ViewModel {
     private MutableLiveData<Integer> structureStatus = new MutableLiveData<>();
     private MutableLiveData<List<Map<String,Object>>> products = new MutableLiveData<>();
     private MutableLiveData<List<Map<String,Object>>> categories = new MutableLiveData<>();
+    private DocumentSnapshot lastDoc=null;
+    private boolean isFirst = true;
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
@@ -70,6 +72,28 @@ public class SetStructureViewModel extends ViewModel {
         products.setValue(productData);
         categories.setValue(categoryData);
         productStatus.setValue(1);
+    }
+
+    public void getPaginatedProductData(String shopId){
+        List<Map<String,Object>> productData;
+        if(isFirst)
+            productData = new ArrayList<>();
+        else
+            productData = products.getValue();
+        firebaseRepository.getPaginatedProducts(shopId,lastDoc,isFirst)
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if(queryDocumentSnapshots.getDocuments().size()==0)
+                            return;
+                        for(DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
+                            productData.add(doc.getData());
+                        lastDoc = queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size()-1);
+                        products.setValue(productData);
+                    }
+                });
+        productStatus.setValue(1);
+        isFirst=false;
     }
 
     public void getStructureData(final String shopId){
