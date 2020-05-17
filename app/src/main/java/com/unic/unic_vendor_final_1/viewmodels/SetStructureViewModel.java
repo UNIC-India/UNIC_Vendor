@@ -35,6 +35,7 @@ public class SetStructureViewModel extends ViewModel {
     private MutableLiveData<Integer> structureStatus = new MutableLiveData<>();
     private MutableLiveData<List<Map<String,Object>>> products = new MutableLiveData<>();
     private MutableLiveData<List<Map<String,Object>>> categories = new MutableLiveData<>();
+    private MutableLiveData<List<Map<String,Object>>> searchResults = new MutableLiveData<>();
     private DocumentSnapshot lastDoc=null;
     private boolean isFirst = true;
 
@@ -132,6 +133,23 @@ public class SetStructureViewModel extends ViewModel {
                 });
     }
 
+    public void searchProductsByName(String shopId,String nameKey){
+        List<Map<String,Object>> data = new ArrayList<>();
+        firebaseRepository.searchProductsByName(nameKey,shopId).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                for(DocumentSnapshot doc : queryDocumentSnapshots){
+                    data.add(doc.getData());
+                }
+                searchResults.setValue(data);
+            }
+        });
+
+    }
+    public void clearSearch(){
+        searchResults.setValue(null);
+    }
+
     public LiveData<Shop> getShop() {
         return shop;
     }
@@ -170,6 +188,10 @@ public class SetStructureViewModel extends ViewModel {
 
     public MutableLiveData<Fragment> getCurrentFrag() {
         return currentFrag;
+    }
+
+    public LiveData<List<Map<String, Object>>> getSearchResults() {
+        return searchResults;
     }
 
     public void setCurrentFrag(Fragment currentFrag) {

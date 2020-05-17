@@ -216,8 +216,9 @@ public class FirebaseRepository {
         return db.collection("orders").whereEqualTo("shopId",shopId);
     }
 
-
-
+    public Query searchProductsByName(String nameKey,String shopId){
+        return  db.collection("shops").document(shopId).collection("products").whereArrayContains("nameKeywords",nameKey.toLowerCase());
+    }
 
     public UploadTask uploadSelectedImage(ByteArrayOutputStream baos){
         int time = (int) (System.currentTimeMillis());

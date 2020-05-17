@@ -46,6 +46,7 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
     private List<Map<String, Object>> products = new ArrayList<>();
     private AutoCompleteTextView searchTextView;
     private boolean isAtBottom = false;
+    private List<Map<String,Object>> searchResults = new ArrayList<>();
 
 
     public MasterLayoutFragment() {
@@ -83,6 +84,12 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
 
             }
 
+        });
+        setStructureViewModel.getSearchResults().observe(getActivity(), new Observer<List<Map<String, Object>>>() {
+            @Override
+            public void onChanged(List<Map<String, Object>> maps) {
+                setSearchResults(maps);
+            }
         });
         ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(getActivity(), R.array.spinner_array,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -137,7 +144,14 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
     }
 
     public void setProducts(List<Map<String, Object>> products) {
-        this.products = products;
+        if (products!=null)
+            this.products = products;
+    }
+
+    public void setSearchResults(List<Map<String, Object>> searchResults) {
+        this.searchResults = searchResults;
+        masterProductAdapter.setProducts(searchResults);
+        masterProductAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -150,18 +164,17 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
         List<Map<String,Object>> refinedProducts = new ArrayList<>();
         switch (setter){
             case 0:
-                if(s.length()!=0){
-                    for(Map map : products){
-                        if (((String)map.get("name")).toLowerCase().contains(s.toString().toLowerCase())){
-                            refinedProducts.add(map);
-                        }
-                    }
+                if(s.length()==2){
+                    setStructureViewModel.searchProductsByName(setStructureViewModel.getShop().getValue().getId(),s.toString());
                     masterProductAdapter.setProducts(refinedProducts);
                     masterProductAdapter.notifyDataSetChanged();
                 }
-                else {
+                else if(s.length()<2){
                     masterProductAdapter.setProducts(products);
                     masterProductAdapter.notifyDataSetChanged();
+                }
+                else{
+                    refineSearchResult(s);
                 }
                 break;
             case 1:
@@ -203,5 +216,19 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
     @Override
     public void afterTextChanged(Editable s) {
 
+    }
+
+    private void refineSearchResult(CharSequence s){
+
+        if(searchResults.size()==0)
+            return;
+
+        List<Map<String,Object>> refinedProducts = new ArrayList<>();
+        for(Map map : searchResults){
+            if(map.get("name").toString().toLowerCase().contains(s.toString().toLowerCase()))
+                refinedProducts.add(map);
+        }
+        masterProductAdapter.setProducts(refinedProducts);
+        masterProductAdapter.notifyDataSetChanged();
     }
 }
