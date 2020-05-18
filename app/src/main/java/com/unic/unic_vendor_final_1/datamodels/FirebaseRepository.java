@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -210,6 +211,11 @@ public class FirebaseRepository {
 
     public Task<Void> setInstanceId(String Uid,String token){
         return db.collection("users").document(Uid).update("vendorInstanceId",token);
+    }
+
+    public Task<Void> setOrderStatus(String orderId, int orderStatus){
+        return db.collection("orders").document(orderId).update("orderStatus",orderStatus,
+                "updateTime", FieldValue.serverTimestamp());
     }
 
     public Query getOrders(String shopId){

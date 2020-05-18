@@ -125,7 +125,7 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
                 holder.ivAccept.setVisibility(View.GONE);
                 holder.ivReject.setVisibility(View.GONE);
                 holder.loading.setVisibility(View.VISIBLE);
-                userShopsViewModel.setOrderStatus(orders.get(position),1);
+                userShopsViewModel.setOrderStatus(orders.get(position).getId(),1);
             }
         });
         holder.ivReject.setOnClickListener(new View.OnClickListener() {
@@ -134,7 +134,7 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
                 holder.ivAccept.setVisibility(View.GONE);
                 holder.ivReject.setVisibility(View.GONE);
                 holder.loading.setVisibility(View.VISIBLE);
-                userShopsViewModel.setOrderStatus(orders.get(position),-1);
+                userShopsViewModel.setOrderStatus(orders.get(position).getId(),-1);
 
             }
         });

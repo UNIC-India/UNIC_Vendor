@@ -194,7 +194,7 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         fragmentOrderItemsBinding.iv1.setEnabled(false);
-                        userShopsViewModel.setOrderStatus(order,1);
+                        userShopsViewModel.setOrderStatus(order.getId(),1);
                     }
                 });
 
@@ -215,7 +215,7 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int which) {
                         fragmentOrderItemsBinding.iv1.setEnabled(false);
                         fragmentOrderItemsBinding.iv2.setEnabled(false);
-                        userShopsViewModel.setOrderStatus(order,2);
+                        userShopsViewModel.setOrderStatus(order.getId(),2);
                     }
                 });
 
@@ -238,7 +238,7 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                         fragmentOrderItemsBinding.iv1.setEnabled(false);
                         fragmentOrderItemsBinding.iv2.setEnabled(false);
                         fragmentOrderItemsBinding.iv3.setEnabled(false);
-                        userShopsViewModel.setOrderStatus(order,3);
+                        userShopsViewModel.setOrderStatus(order.getId(),3);
                     }
                 });
 
@@ -262,7 +262,7 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                         fragmentOrderItemsBinding.iv2.setEnabled(false);
                         fragmentOrderItemsBinding.iv3.setEnabled(false);
                         fragmentOrderItemsBinding.iv4.setEnabled(false);
-                        userShopsViewModel.setOrderStatus(order,4);
+                        userShopsViewModel.setOrderStatus(order.getId(),4);
                     }
                 });
 
