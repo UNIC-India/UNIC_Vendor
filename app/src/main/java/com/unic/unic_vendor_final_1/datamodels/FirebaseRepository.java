@@ -226,6 +226,10 @@ public class FirebaseRepository {
         return  db.collection("shops").document(shopId).collection("products").whereArrayContains("nameKeywords",nameKey.toLowerCase());
     }
 
+    public Query getShopExtras(String shopId){
+        return db.collection("shops").document(shopId).collection("extraData");
+    }
+
     public UploadTask uploadSelectedImage(ByteArrayOutputStream baos){
         int time = (int) (System.currentTimeMillis());
         Timestamp tsTemp = new java.sql.Timestamp(time);

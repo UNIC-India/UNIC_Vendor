@@ -114,6 +114,8 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             }
         });
 
+        setStructureViewModel.getShopExtras(shopId);
+
         toolbar = setShopStructureBinding.setStructureToolbar;
         setSupportActionBar(toolbar);
 

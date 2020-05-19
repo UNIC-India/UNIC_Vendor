@@ -28,6 +28,9 @@ import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.datamodels.User;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,8 +115,6 @@ public class UserShopsViewModel extends ViewModel {
                 }
             });
         }
-
-
     }
 
     public void updateOrderStatus(Order order, String status) {

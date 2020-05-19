@@ -20,6 +20,7 @@ import com.unic.unic_vendor_final_1.datamodels.Structure;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,7 @@ public class SetStructureViewModel extends ViewModel {
     private MutableLiveData<Integer> status = new MutableLiveData<>();
     private MutableLiveData<Integer> productStatus = new MutableLiveData<>();
     private MutableLiveData<Integer> structureStatus = new MutableLiveData<>();
+    private MutableLiveData<Map<String,List<String>>> shopExtras = new MutableLiveData<>();
     private MutableLiveData<List<Map<String,Object>>> products = new MutableLiveData<>();
     private MutableLiveData<List<Map<String,Object>>> categories = new MutableLiveData<>();
     private MutableLiveData<List<Map<String,Object>>> searchResults = new MutableLiveData<>();
@@ -117,6 +119,27 @@ public class SetStructureViewModel extends ViewModel {
                 });
     }
 
+    public void getShopExtras(String  shopId){
+        Map<String,List<String>> extras = new HashMap<>();
+        firebaseRepository.getShopExtras(shopId).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                for(DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()){
+                    switch (doc.getId()){
+                        case "categories":
+                            List<String> categories = doc.get("namesArray")!=null?(List<String>)doc.get("namesArray"):new ArrayList<>();
+                            extras.put("categories",categories);
+                        case "companies":
+                            List<String> companies = doc.get("namesArray")!=null?(List<String>)doc.get("namesArray"):new ArrayList<>();
+                            extras.put("companies",companies);
+                    }
+                }
+                shopExtras.setValue(extras);
+            }
+        });
+    }
+
+
     public void saveShopStructure(){
         firebaseRepository.saveShopStructure(Objects.requireNonNull(structure.getValue()))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -172,6 +195,10 @@ public class SetStructureViewModel extends ViewModel {
 
     public LiveData<List<Map<String, Object>>> getProducts() {
         return products;
+    }
+
+    public LiveData<Map<String,List<String>>> getShopExtras() {
+        return shopExtras;
     }
 
     public void setStructure(Structure structure) {
