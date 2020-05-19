@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="15dp"
+    android:layout_marginTop="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginBottom="3dp"
+    app:cardCornerRadius="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/qr_shop_image"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="20dp"/>
+
+        <TextView
+            android:id="@+id/qr_shop_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/qr_shop_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="20dp"
+            android:text="Shop name"
+            android:textSize="20sp"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/black"/>
+
+        <Button
+            android:id="@+id/btn_shop_generate_qr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/StandardButton"
+            android:background="@drawable/std_button"
+            android:text="Generate QR"
+            app:layout_constraintTop_toBottomOf="@id/qr_shop_name"
+            app:layout_constraintEnd_toEndOf="@id/qr_shop_name"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="45dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"/>
+
+        <ImageButton
+            android:id="@+id/ib_qr_dialog"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/qrscannerlogo"
+            android:background="@color/white"
+            app:layout_constraintStart_toEndOf="@id/btn_shop_generate_qr"
+            app:layout_constraintTop_toTopOf="@id/btn_shop_generate_qr"
+            app:layout_constraintBottom_toBottomOf="@id/btn_shop_generate_qr"
+            android:layout_marginStart="25dp"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

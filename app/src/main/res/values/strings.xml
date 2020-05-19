@@ -20,6 +20,7 @@
 
     <string name="menu_home">HOME</string>
     <string name="menu_my_apps">MY APPS</string>
+    <string name="menu_my_orders">MY ORDERS</string>
     <string name="menu_help">HELP</string>
     <string name="menu_settings">SETTINGS</string>
     <string name="menu_qr">MY QR</string>

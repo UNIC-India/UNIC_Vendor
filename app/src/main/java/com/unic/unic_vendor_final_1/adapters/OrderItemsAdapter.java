@@ -1,17 +1,14 @@
-package com.unic.unic_vendor_final_1.adapters.shop_view_components;
+package com.unic.unic_vendor_final_1.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
 
 import java.util.List;

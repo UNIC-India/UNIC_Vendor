@@ -6,8 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="15dp"
 
+    android:layout_marginLeft="15dp"
     android:layout_marginTop="15dp"
     android:layout_marginRight="15dp"
     android:layout_marginBottom="3dp"
@@ -41,7 +41,7 @@
                 android:hint="Shop Name"
                 android:textColor="@color/darkest"
                 android:textColorHint="@color/darkest"
-                android:textSize="20dp"></TextView>
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/shop_locality"
@@ -52,7 +52,7 @@
                 android:hint="Shop Locality"
                 android:textColor="@color/darkest"
                 android:textColorHint="@color/darkest"
-                android:textSize="15dp"></TextView>
+                android:textSize="15dp" />
         </LinearLayout>
 
         <ImageView
@@ -96,7 +96,7 @@
             android:src="@drawable/ic_delete_black_24dp"
             android:tint="@color/colorPrimary"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/shop_photo"></ImageButton>
+            app:layout_constraintTop_toTopOf="@id/shop_photo" />
 
         <LinearLayout
             android:id="@+id/edit_shop"
@@ -117,7 +117,7 @@
                 android:layout_marginRight="5dp"
                 android:text="Edit"
                 android:textColor="@color/white"
-                android:textSize="16sp"></TextView>
+                android:textSize="16sp" />
 
 
             <ImageButton
@@ -125,7 +125,7 @@
                 android:layout_height="12dp"
                 android:backgroundTint="@color/white"
                 android:src="@drawable/ic_edit_black_24dp"
-                android:tint="@color/white"></ImageButton>
+                android:tint="@color/white" />
 
         </LinearLayout>
 

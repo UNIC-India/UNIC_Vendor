@@ -11,6 +11,8 @@ import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.dynamiclinks.DynamicLink;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -25,7 +27,6 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -36,6 +37,7 @@ public class FirebaseRepository {
     private FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
     private StorageReference mRef = FirebaseStorage.getInstance().getReference();
     private FirebaseFunctions mFunctions = FirebaseFunctions.getInstance("asia-east2");
+    private FirebaseDynamicLinks mDynamicLinks = FirebaseDynamicLinks.getInstance();
 
     public void startPhoneNumberVerification(String phoneNumber, PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
@@ -235,6 +237,33 @@ public class FirebaseRepository {
         Timestamp tsTemp = new java.sql.Timestamp(time);
         String ts =  tsTemp.toString();
         return mRef.child(mUser.getUid()).child("images").child(ts).putBytes(baos.toByteArray());
+    }
+
+    public DynamicLink createSubscribeLink(String shopId, String shopName){
+        String link = "https://nisarg2104.github.io/"+"?shopId="+shopId;
+        return mDynamicLinks.createDynamicLink()
+                .setLink(Uri.parse(link))
+                .setDomainUriPrefix("https://uniccustomer.page.link")
+                .setAndroidParameters(
+                        new DynamicLink.AndroidParameters.Builder("com.unic.cust_final_1")
+                        .setMinimumVersion(1)
+                        .build()
+                )
+                .setGoogleAnalyticsParameters(
+                        new DynamicLink.GoogleAnalyticsParameters.Builder()
+                        .setSource("user")
+                        .setMedium("social")
+                        .setCampaign("shop-subscription")
+                        .build()
+                )
+                .setSocialMetaTagParameters(
+                        new DynamicLink.SocialMetaTagParameters.Builder()
+                        .setTitle("Subscribe to "+shopName+" on UNIC")
+                        .setDescription("Check out my shop on UNIC, a platform where I can host my own shop at my convenience")
+                        .build()
+                )
+                .buildDynamicLink();
+
     }
 
 }

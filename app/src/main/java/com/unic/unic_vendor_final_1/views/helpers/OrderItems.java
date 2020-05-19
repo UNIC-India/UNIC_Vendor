@@ -14,10 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 
 import com.unic.unic_vendor_final_1.R;
-import com.unic.unic_vendor_final_1.adapters.shop_view_components.OrderItemsAdapter;
+import com.unic.unic_vendor_final_1.adapters.OrderItemsAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentOrderItemsBinding;
 import com.unic.unic_vendor_final_1.datamodels.Order;
 import com.unic.unic_vendor_final_1.datamodels.User;

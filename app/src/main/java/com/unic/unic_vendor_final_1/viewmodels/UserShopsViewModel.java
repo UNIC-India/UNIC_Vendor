@@ -139,6 +139,14 @@ public class UserShopsViewModel extends ViewModel {
         });
     }
 
+    public String buildSubscribeLink(String shopId,String shopName){
+        String subscribeLink = firebaseRepository.createSubscribeLink(shopId,shopName).getUri().toString();
+
+
+
+        return subscribeLink;
+    }
+
     public MutableLiveData<User> getCustomerData(String userId) {
         firebaseRepository.getCustomer(userId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override

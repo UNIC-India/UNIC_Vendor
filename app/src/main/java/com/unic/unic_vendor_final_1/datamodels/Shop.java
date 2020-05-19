@@ -5,7 +5,7 @@ import java.util.Map;
 public class Shop {
 
 
-    private String id,ownerId,name,address,locality,city,imageLink,logoLink;
+    private String id,ownerId,name,address,locality,city,imageLink,logoLink,dynSubscribeLink;
     private int noOfProducts,noOfSubscribers;
     private Map<String,Double> location;
 
@@ -19,6 +19,7 @@ public class Shop {
         this.city = city;
         this.imageLink = " ";
         this.logoLink = " ";
+        this.dynSubscribeLink = " ";
         this.noOfProducts = 0;
         this.noOfSubscribers = 0;
         this.location = location;
@@ -102,6 +103,14 @@ public class Shop {
 
     public void setNoOfSubscribers(int noOfSubscribers) {
         this.noOfSubscribers = noOfSubscribers;
+    }
+
+    public String getDynSubscribeLink() {
+        return dynSubscribeLink;
+    }
+
+    public void setDynSubscribeLink(String dynSubscribeLink) {
+        this.dynSubscribeLink = dynSubscribeLink;
     }
 
     public Map<String, Double> getLocation() {
