@@ -57,6 +57,8 @@ public class MasterCompaniesAdapter extends RecyclerView.Adapter<MasterCompanies
 
     @Override
     public int getItemCount() {
+        if(companies==null)
+            return 0;
         return companies.size();
     }
 

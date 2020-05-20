@@ -114,9 +114,9 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
         holder.tvDate.setText(orders.get(position).getTime().toString().substring(8,10)+" "+orders.get(position).getTime().toString().substring(4,7)+orders.get(position).getTime().toString().substring(29,34));
         holder.tvTime.setText(orders.get(position).getTime().toString().substring(11,16));
         holder.tvStatus.setText(orders.get(position).getStatus());
-//        holder.tvNoOfItems.setText(orders.get(position).getNo_of_items());
+        holder.tvNoOfItems.setText(orders.get(position).getNo_of_items()+" ");
 
-        holder.tvTotal.setText(orders.get(position).getTotal()+"");
+        holder.tvTotal.setText("Rs "+orders.get(position).getTotal()+"");
         holder.ivAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

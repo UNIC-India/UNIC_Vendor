@@ -7,6 +7,7 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -53,7 +54,7 @@ public class OrderItems extends Fragment implements View.OnClickListener {
         orderItemsAdapter.setProducts(order.getItems(),order.getQuantity());
         setStatus(order.getOrderStatus());
         fragmentOrderItemsBinding.tvCustomerName.setText(order.getOwnerId());
-        fragmentOrderItemsBinding.tvTotalAmount.setText(order.getTotal()+"");
+        fragmentOrderItemsBinding.tvTotalAmount.setText("Rs "+order.getTotal()+"");
         userShopsViewModel=new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
         userShopsViewModel.getCustomerData(order.getOwnerId()).observe(getActivity(), new Observer<User>() {
             @Override
@@ -72,6 +73,8 @@ public class OrderItems extends Fragment implements View.OnClickListener {
             }
         });
         fragmentOrderItemsBinding.rvOrderItems.setAdapter(orderItemsAdapter);
+        fragmentOrderItemsBinding.llDetails.setOnClickListener(this);
+        fragmentOrderItemsBinding.llDetails.setTag(R.id.ivShowMore);
         fragmentOrderItemsBinding.rvOrderItems.setLayoutManager(new LinearLayoutManager(getContext()));
         fragmentOrderItemsBinding.iv1.setOnClickListener(this);
         fragmentOrderItemsBinding.iv2.setOnClickListener(this);
@@ -293,6 +296,32 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 });
                 builder.show();
 
+                break;
+            case R.id.llDetails:
+                Fragment orderDetails=new OrderDetails(this.order);
+                if((int)fragmentOrderItemsBinding.llDetails.getTag()==R.id.ivShowMore) {
+                    fragmentOrderItemsBinding.ivShowLess.setVisibility(View.VISIBLE);
+                    fragmentOrderItemsBinding.ivShowMore.setVisibility(View.GONE);
+                    fragmentOrderItemsBinding.llDetails.setTag(R.id.ivShowLess);
+                    fragmentOrderItemsBinding.detailsFrag.setVisibility(View.VISIBLE);
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.detailsFrag,orderDetails)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .commit();
+                }
+                else if((int)fragmentOrderItemsBinding.llDetails.getTag()==R.id.ivShowLess) {
+                    fragmentOrderItemsBinding.ivShowLess.setVisibility(View.GONE);
+                    fragmentOrderItemsBinding.ivShowMore.setVisibility(View.VISIBLE);
+                    fragmentOrderItemsBinding.llDetails.setTag(R.id.ivShowMore);
+                    fragmentOrderItemsBinding.detailsFrag.setVisibility(View.GONE);
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .remove(orderDetails)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+                            .commit();
+
+                }
                 break;
         }
     }

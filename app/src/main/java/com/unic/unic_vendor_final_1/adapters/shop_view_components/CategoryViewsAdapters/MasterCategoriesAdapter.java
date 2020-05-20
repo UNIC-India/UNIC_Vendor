@@ -60,6 +60,8 @@ public class MasterCategoriesAdapter extends RecyclerView.Adapter<MasterCategori
 
     @Override
     public int getItemCount() {
+        if(categories==null)
+            return 0;
         return categories.size();
     }
 
