@@ -43,8 +43,6 @@ public class Order {
         address=" ";
         this.total=0;
         this.orgName=" ";
-
-
     }
     public static Comparator<Order> compareByDate=new Comparator<Order>() {
         @Override

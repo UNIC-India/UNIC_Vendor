@@ -216,8 +216,8 @@ public class FirebaseRepository {
     }
 
     public Task<Void> setOrderStatus(String orderId, int orderStatus){
-        return db.collection("orders").document(orderId).update("orderStatus",orderStatus,
-                "updateTime", FieldValue.serverTimestamp());
+        return db.collection("orders").document(orderId).update("updateTime", FieldValue.serverTimestamp(),
+                "orderStatus",orderStatus);
     }
 
     public Query getOrders(String shopId){
