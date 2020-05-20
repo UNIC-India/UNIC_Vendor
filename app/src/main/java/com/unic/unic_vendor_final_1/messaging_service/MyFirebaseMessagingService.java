@@ -38,7 +38,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("load","order");
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                    PendingIntent.FLAG_ONE_SHOT);
+                    PendingIntent.FLAG_UPDATE_CURRENT);
 
             String channelId = "fcm_default_channel";
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
