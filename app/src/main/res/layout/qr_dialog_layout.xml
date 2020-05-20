@@ -8,6 +8,7 @@
         android:id="@+id/qr_dialog_qr_code"
         android:layout_width="300dp"
         android:layout_height="300dp"
+        android:src="@drawable/qrcode"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
