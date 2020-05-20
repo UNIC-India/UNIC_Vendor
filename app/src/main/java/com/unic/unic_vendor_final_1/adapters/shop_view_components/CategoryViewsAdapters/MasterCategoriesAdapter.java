@@ -23,13 +23,13 @@ public class MasterCategoriesAdapter extends RecyclerView.Adapter<MasterCategori
     private Context mContext;
 
     private List<Map<String,Object>> products;
-    private List<String> categorySet;
+    private List<String> categories;
 
 
 
     public MasterCategoriesAdapter(Context context){
         this.mContext = context;
-        categorySet=new ArrayList<>();
+        categories=new ArrayList<>();
 
     }
 
@@ -55,31 +55,16 @@ public class MasterCategoriesAdapter extends RecyclerView.Adapter<MasterCategori
     @Override
     public void onBindViewHolder(@NonNull MasterCategoriesAdapter.ViewHolder holder, int position) {
 
-        holder.tvCategory.setText(categorySet.get(position));
+        holder.tvCategory.setText(categories.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return categorySet.size();
-
+        return categories.size();
     }
 
-    public void setProducts(List<Map<String,Object>> products){
-        this.products = products;
-        categorySet.clear();
-        setCategorySet(products);
-
-    }
-
-    public void setCategorySet(List<Map<String,Object>> products){
-        if(!(products==null)) {
-            for (Map<String, Object> i : products)
-                if (!this.categorySet.contains(i.get("category").toString()))
-                    this.categorySet.add(i.get("category").toString());
-            Collections.sort(this.categorySet);
-        }
-
-
+    public void setCategories(List<String> categories){
+       this.categories = categories;
     }
 
 }

@@ -1,15 +1,11 @@
 package com.unic.unic_vendor_final_1.views.nav_fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,9 +14,8 @@ import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.FragmentHomeBinding;
 import com.unic.unic_vendor_final_1.datamodels.User;
 import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
-import com.unic.unic_vendor_final_1.views.activities.UserHome;
 
-import java.util.Objects;
+import org.jetbrains.annotations.NotNull;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
@@ -32,13 +27,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater,container,false);
         fragmentHomeBinding.cardViewApps.setOnClickListener(this);
         FirestoreDataViewModel firestoreDataViewModel = new ViewModelProvider(this).get(FirestoreDataViewModel.class);
         firestoreDataViewModel.getUserData();
-        firestoreDataViewModel.getUser().observe(getActivity(), new Observer<User>() {
+        firestoreDataViewModel.getUser().observe(getViewLifecycleOwner(), new Observer<User>() {
             @Override
             public void onChanged(User user) {
                 fragmentHomeBinding.tvWorkspace.setText(user!=null?user.getFullName().split(" ")[0]+"'s"+" Workspace":"Workspace");
@@ -47,7 +42,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         fragmentHomeBinding.cardView.setOnClickListener(this);
         fragmentHomeBinding.cardView6.setOnClickListener(this);
         fragmentHomeBinding.cardView3.setOnClickListener(this);
-        fragmentHomeBinding.cardView4.setOnClickListener(this);
+        fragmentHomeBinding.cardViewQr.setOnClickListener(this);
         fragmentHomeBinding.cardView5.setOnClickListener(this);
         fragmentHomeBinding.cardView7.setOnClickListener(this);
         return fragmentHomeBinding.getRoot();
@@ -59,13 +54,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         switch(v.getId()){
             case R.id.card_view:
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.home_fragment,new MyOrders())
+                        .replace(R.id.home_fragment,new OrdersFragment())
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .commit();
                 break;
             case R.id.card_view_apps:
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.home_fragment,new MyAppsFragment())
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .commit();
+                break;
+            case R.id.card_view_qr:
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.home_fragment,new QRFragment())
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .commit();
                 break;
@@ -77,7 +78,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.card_view6:
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.home_fragment,new MyOrders())
+                        .replace(R.id.home_fragment,new OrdersFragment())
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .commit();
                 break;

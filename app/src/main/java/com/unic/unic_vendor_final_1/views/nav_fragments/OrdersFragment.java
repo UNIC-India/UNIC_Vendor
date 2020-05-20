@@ -13,19 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.unic.unic_vendor_final_1.R;
-import com.unic.unic_vendor_final_1.adapters.shop_view_components.AllOrdersAdapter;
+import com.unic.unic_vendor_final_1.adapters.AllOrdersAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentMyOrdersBinding;
-import com.unic.unic_vendor_final_1.databinding.MyOrdersBinding;
 import com.unic.unic_vendor_final_1.datamodels.Order;
-import com.unic.unic_vendor_final_1.datamodels.User;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
-public class MyOrders extends Fragment {
+public class OrdersFragment extends Fragment {
     private UserShopsViewModel userShopsViewModel;
     private FragmentMyOrdersBinding myOrdersBinding;
     private AllOrdersAdapter allOrdersAdapter;
@@ -33,7 +29,7 @@ public class MyOrders extends Fragment {
     RecyclerView rvOrders;
 
 
-    public MyOrders() {
+    public OrdersFragment() {
         // Required empty public constructor
     }
     int i=0;

@@ -11,20 +11,17 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.ActivityUserHomeBinding;
 import com.unic.unic_vendor_final_1.datamodels.User;
@@ -34,8 +31,9 @@ import com.unic.unic_vendor_final_1.views.helpers.OrderItems;
 import com.unic.unic_vendor_final_1.views.nav_fragments.ComingSoon;
 import com.unic.unic_vendor_final_1.views.nav_fragments.HomeFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyAppsFragment;
-import com.unic.unic_vendor_final_1.views.nav_fragments.MyOrders;
+import com.unic.unic_vendor_final_1.views.nav_fragments.OrdersFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyProducts;
+import com.unic.unic_vendor_final_1.views.nav_fragments.QRFragment;
 
 import java.util.Objects;
 
@@ -91,7 +89,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
             if(intent.getStringExtra("load").equals("order")){
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
-                ft.replace(R.id.home_fragment,new MyOrders());
+                ft.replace(R.id.home_fragment,new OrdersFragment());
                 ft.commit();
             }
         }
@@ -115,6 +113,8 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         int id = menuItem.getItemId();
         Fragment homeFragment = new HomeFragment();
         Fragment appsFragment = new MyAppsFragment();
+        Fragment ordersFragment = new OrdersFragment();
+        Fragment qrFragment = new QRFragment();
         Fragment productsFragment=new MyProducts();
         switch (id){
             case R.id.nav_home:
@@ -123,6 +123,9 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
             case R.id.nav_my_apps:
                 fragment = appsFragment;
                 break;
+            case R.id.mav_my_orders:
+                fragment = ordersFragment;
+                break;
             case R.id.nav_help:
                fragment=new ComingSoon();
                 break;
@@ -130,7 +133,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
                 fragment = new ComingSoon();
                 break;
             case R.id.nav_my_qr:
-                fragment = new ComingSoon();
+                fragment =qrFragment;
                 break;
             case R.id.logout:
                 String Phone = Objects.requireNonNull(mAuth.getCurrentUser()).getPhoneNumber()!=null?mAuth.getCurrentUser().getPhoneNumber():" ";

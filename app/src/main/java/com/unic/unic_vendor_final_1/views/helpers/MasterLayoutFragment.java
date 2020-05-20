@@ -2,6 +2,7 @@ package com.unic.unic_vendor_final_1.views.helpers;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -28,6 +29,7 @@ import com.unic.unic_vendor_final_1.databinding.MasterLayoutBinding;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +46,9 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
     private MasterProductAdapter masterProductAdapter;
     private List<Map<String, Object>> products = new ArrayList<>();
     private AutoCompleteTextView searchTextView;
+    private boolean isAtBottom = false;
+    private List<Map<String,Object>> searchResults = new ArrayList<>();
+    private Map<String,List<String>> extraData = new HashMap<>();
 
 
     public MasterLayoutFragment() {
@@ -66,27 +71,21 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
 
         searchTextView.addTextChangedListener(this);
 
-        setStructureViewModel.getProducts().observe(getActivity(), new Observer<List<Map<String, Object>>>() {
-            @Override
-            public void onChanged(List<Map<String, Object>> maps) {
-                setProducts(maps);
-                masterCategoriesAdapter.setProducts(maps);
-                masterProductAdapter.setProducts(maps);
-                masterCompaniesAdapter.setProducts(maps);
-                masterCompaniesAdapter.notifyDataSetChanged();
-                masterProductAdapter.notifyDataSetChanged();
-                masterCategoriesAdapter.notifyDataSetChanged();
-
-            }
+        setStructureViewModel.getProducts().observe(getActivity(), maps -> {
+            if(maps.size()>products.size())
+                isAtBottom = false;
+            setProducts(maps);
 
         });
+        setStructureViewModel.getSearchResults().observe(getViewLifecycleOwner(), this::setSearchResults);
+        setStructureViewModel.getShopExtras().observe(getViewLifecycleOwner(), this::setExtraData);
         ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(getActivity(), R.array.spinner_array,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
 
-        return  view;
+        return view;
     }
 
     @Override
@@ -105,7 +104,17 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
         switch (position){
             case 0:
                 rv.setLayoutManager(new LinearLayoutManager(getContext()));
-               rv.setAdapter(masterProductAdapter);
+                rv.setAdapter(masterProductAdapter);
+                rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                        super.onScrollStateChanged(recyclerView, newState);
+                        if(newState==RecyclerView.SCROLL_STATE_IDLE&&!isAtBottom&&!recyclerView.canScrollVertically(1)){
+                            isAtBottom = true;
+                            setStructureViewModel.getPaginatedProductData(setStructureViewModel.getShop().getValue().getId());
+                        }
+                    }
+                });
 
                 break;
             case 1:
@@ -122,61 +131,84 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
         }
     }
 
-    public void setProducts(List<Map<String, Object>> products) {
-        this.products = products;
+    private void setProducts(List<Map<String, Object>> products) {
+        if(products!=null) {
+            this.products = products;
+            masterProductAdapter.setProducts(products);
+            masterProductAdapter.notifyDataSetChanged();
+        }
     }
+
+
+
+    private void setSearchResults(List<Map<String, Object>> searchResults) {
+        this.searchResults = searchResults;
+        masterProductAdapter.setProducts(searchResults);
+        masterProductAdapter.notifyDataSetChanged();
+    }
+    private void setExtraData(Map<String, List<String>> extraData) {
+        this.extraData = extraData;
+        masterCategoriesAdapter.setCategories(extraData.get("categories"));
+        masterCompaniesAdapter.setCompanies(extraData.get("companies"));
+        masterCategoriesAdapter.notifyDataSetChanged();
+        masterCompaniesAdapter.notifyDataSetChanged();
+    }
+
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
     }
 
+
+
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        List<Map<String,Object>> refinedProducts = new ArrayList<>();
         switch (setter){
             case 0:
-                if(s.length()!=0){
-                    for(Map map : products){
-                        if (((String)map.get("name")).toLowerCase().contains(s.toString().toLowerCase())){
-                            refinedProducts.add(map);
-                        }
-                    }
-                    masterProductAdapter.setProducts(refinedProducts);
-                    masterProductAdapter.notifyDataSetChanged();
+                if(s.length()==2){
+                    setStructureViewModel.searchProductsByName(setStructureViewModel.getShop().getValue().getId(),s.toString());
                 }
-                else {
+                else if(s.length()<2){
                     masterProductAdapter.setProducts(products);
                     masterProductAdapter.notifyDataSetChanged();
                 }
+                else{
+                    refineSearchResult(s);
+                }
                 break;
             case 1:
+                List<String> refinedCategories = new ArrayList<>();
                 if(s.length()!=0){
-                    for(Map map : products){
+                    for(String category : extraData.get("categories")){
+                        if(category.toLowerCase().contains(s.toString().toLowerCase()))
+                            refinedCategories.add(category);
+                    }
+                    /*for(Map map : products){
                         if (((String)map.get("category")).toLowerCase().contains(s.toString().toLowerCase())){
                             refinedProducts.add(map);
                         }
-                    }
-                    masterCategoriesAdapter.setProducts(refinedProducts);
+                    }*/
+                    masterCategoriesAdapter.setCategories(refinedCategories);
                     masterCategoriesAdapter.notifyDataSetChanged();
                 }
                 else {
-                    masterCategoriesAdapter.setProducts(products);
+                    masterCategoriesAdapter.setCategories(extraData.get("categories"));
                     masterCategoriesAdapter.notifyDataSetChanged();
                 }
                 break;
             case 2:
+                List<String> refinedCompanies = new ArrayList<>();
                 if(s.length()!=0){
-                    for(Map map : products){
-                        if (((String)map.get("company")).toLowerCase().contains(s.toString().toLowerCase())){
-                            refinedProducts.add(map);
-                        }
+                    for(String company : extraData.get("companies")){
+                        if(company.toLowerCase().contains(s.toString().toLowerCase()))
+                            refinedCompanies.add(company);
                     }
-                    masterCompaniesAdapter.setProducts(refinedProducts);
+                    masterCompaniesAdapter.setCompanies(refinedCompanies);
                     masterCompaniesAdapter.notifyDataSetChanged();
                 }
                 else {
-                    masterCompaniesAdapter.setProducts(products);
+                    masterCompaniesAdapter.setCompanies(extraData.get("companies"));
                     masterCompaniesAdapter.notifyDataSetChanged();
                 }
                 break;
@@ -189,5 +221,19 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
     @Override
     public void afterTextChanged(Editable s) {
 
+    }
+
+    private void refineSearchResult(CharSequence s){
+
+        if(searchResults.size()==0)
+            return;
+
+        List<Map<String,Object>> refinedProducts = new ArrayList<>();
+        for(Map map : searchResults){
+            if(map.get("name").toString().toLowerCase().contains(s.toString().toLowerCase()))
+                refinedProducts.add(map);
+        }
+        masterProductAdapter.setProducts(refinedProducts);
+        masterProductAdapter.notifyDataSetChanged();
     }
 }

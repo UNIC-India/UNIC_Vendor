@@ -23,12 +23,12 @@ public class MasterCompaniesAdapter extends RecyclerView.Adapter<MasterCompanies
     private Context mContext;
 
     private List<Map<String,Object>> products;
-    private List<String> companySet;
+    private List<String> companies;
 
 
     public MasterCompaniesAdapter(Context context){
         this.mContext = context;
-        companySet=new ArrayList<>();
+        companies=new ArrayList<>();
     }
 
 
@@ -52,32 +52,15 @@ public class MasterCompaniesAdapter extends RecyclerView.Adapter<MasterCompanies
 
     @Override
     public void onBindViewHolder(@NonNull MasterCompaniesAdapter.ViewHolder holder, int position) {
-        holder.tvCategory.setText(companySet.get(position));
+        holder.tvCategory.setText(companies.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return companySet.size();
+        return companies.size();
     }
 
-    public void setProducts(List<Map<String,Object>> products){
-        this.products = products;
-        companySet.clear();
-        setCompanySet(products);
+    public void setCompanies(List<String> companies) {
+        this.companies = companies;
     }
-
-
-
-    public void setCompanySet(List<Map<String,Object>> products){
-        if(!(products==null)) {
-            for (Map<String, Object> i : products)
-                if (!this.companySet.contains(i.get("company").toString()))
-                    this.companySet.add(i.get("company").toString());
-            Collections.sort(this.companySet);
-        }
-
-
-    }
-
-
 }

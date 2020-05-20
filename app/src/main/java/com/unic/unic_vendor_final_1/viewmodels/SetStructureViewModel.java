@@ -20,6 +20,7 @@ import com.unic.unic_vendor_final_1.datamodels.Structure;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,8 +34,12 @@ public class SetStructureViewModel extends ViewModel {
     private MutableLiveData<Integer> status = new MutableLiveData<>();
     private MutableLiveData<Integer> productStatus = new MutableLiveData<>();
     private MutableLiveData<Integer> structureStatus = new MutableLiveData<>();
+    private MutableLiveData<Map<String,List<String>>> shopExtras = new MutableLiveData<>();
     private MutableLiveData<List<Map<String,Object>>> products = new MutableLiveData<>();
     private MutableLiveData<List<Map<String,Object>>> categories = new MutableLiveData<>();
+    private MutableLiveData<List<Map<String,Object>>> searchResults = new MutableLiveData<>();
+    private DocumentSnapshot lastDoc=null;
+    private boolean isFirst = true;
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
@@ -72,6 +77,28 @@ public class SetStructureViewModel extends ViewModel {
         productStatus.setValue(1);
     }
 
+    public void getPaginatedProductData(String shopId){
+        List<Map<String,Object>> productData;
+        if(isFirst)
+            productData = new ArrayList<>();
+        else
+            productData = products.getValue();
+        firebaseRepository.getPaginatedProducts(shopId,lastDoc,isFirst)
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if(queryDocumentSnapshots.getDocuments().size()==0)
+                            return;
+                        for(DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
+                            productData.add(doc.getData());
+                        lastDoc = queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size()-1);
+                        products.setValue(productData);
+                    }
+                });
+        productStatus.setValue(1);
+        isFirst=false;
+    }
+
     public void getStructureData(final String shopId){
         firebaseRepository
                 .getShopStructure(shopId).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -92,6 +119,27 @@ public class SetStructureViewModel extends ViewModel {
                 });
     }
 
+    public void getShopExtras(String  shopId){
+        Map<String,List<String>> extras = new HashMap<>();
+        firebaseRepository.getShopExtras(shopId).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                for(DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()){
+                    switch (doc.getId()){
+                        case "categories":
+                            List<String> categories = doc.get("namesArray")!=null?(List<String>)doc.get("namesArray"):new ArrayList<>();
+                            extras.put("categories",categories);
+                        case "companies":
+                            List<String> companies = doc.get("namesArray")!=null?(List<String>)doc.get("namesArray"):new ArrayList<>();
+                            extras.put("companies",companies);
+                    }
+                }
+                shopExtras.setValue(extras);
+            }
+        });
+    }
+
+
     public void saveShopStructure(){
         firebaseRepository.saveShopStructure(Objects.requireNonNull(structure.getValue()))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -106,6 +154,23 @@ public class SetStructureViewModel extends ViewModel {
                         status.setValue(-1);
                     }
                 });
+    }
+
+    public void searchProductsByName(String shopId,String nameKey){
+        List<Map<String,Object>> data = new ArrayList<>();
+        firebaseRepository.searchProductsByName(nameKey,shopId).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                for(DocumentSnapshot doc : queryDocumentSnapshots){
+                    data.add(doc.getData());
+                }
+                searchResults.setValue(data);
+            }
+        });
+
+    }
+    public void clearSearch(){
+        searchResults.setValue(null);
     }
 
     public LiveData<Shop> getShop() {
@@ -132,6 +197,10 @@ public class SetStructureViewModel extends ViewModel {
         return products;
     }
 
+    public LiveData<Map<String,List<String>>> getShopExtras() {
+        return shopExtras;
+    }
+
     public void setStructure(Structure structure) {
         this.structure.setValue(structure);
     }
@@ -146,6 +215,10 @@ public class SetStructureViewModel extends ViewModel {
 
     public MutableLiveData<Fragment> getCurrentFrag() {
         return currentFrag;
+    }
+
+    public LiveData<List<Map<String, Object>>> getSearchResults() {
+        return searchResults;
     }
 
     public void setCurrentFrag(Fragment currentFrag) {

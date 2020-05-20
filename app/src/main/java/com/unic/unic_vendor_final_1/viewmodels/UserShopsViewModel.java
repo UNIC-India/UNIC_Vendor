@@ -28,6 +28,9 @@ import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.datamodels.User;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,29 +43,29 @@ public class UserShopsViewModel extends ViewModel {
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     private MutableLiveData<List<Shop>> shops = new MutableLiveData<>();
-    private MutableLiveData<List<Order>> orders=new MutableLiveData<>();
+    private MutableLiveData<List<Order>> orders = new MutableLiveData<>();
     private MutableLiveData<User> mUser = new MutableLiveData<>();
-    private MutableLiveData<List<String>> shopids=new MutableLiveData<>();
-    private MutableLiveData<User> customer =new MutableLiveData<>();
-    private MutableLiveData<Integer> orderstatuschangestatus=new MutableLiveData<>();
-    private MutableLiveData<Order> currentOrder=new MutableLiveData<>();
+    private MutableLiveData<List<String>> shopids = new MutableLiveData<>();
+    private MutableLiveData<User> customer = new MutableLiveData<>();
+    private MutableLiveData<Integer> orderstatuschangestatus = new MutableLiveData<>();
+    private MutableLiveData<Order> currentOrder = new MutableLiveData<>();
 
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
-    public void getAllShops(){
+    public void getAllShops() {
         firebaseRepository.getAllShops(user.getUid()).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {
-                if(e!=null){
-                    Log.w("FirestoreViewModel","Listen Failed",e);
+                if (e != null) {
+                    Log.w("FirestoreViewModel", "Listen Failed", e);
                     return;
                 }
                 ArrayList<Shop> data = new ArrayList<>();
-                ArrayList<String> ids=new ArrayList<>();
+                ArrayList<String> ids = new ArrayList<>();
 
                 assert snapshots != null;
-                for(DocumentSnapshot doc : snapshots.getDocuments()) {
+                for (DocumentSnapshot doc : snapshots.getDocuments()) {
                     data.add(doc.toObject(Shop.class));
                     ids.add(doc.getId());
 
@@ -76,30 +79,30 @@ public class UserShopsViewModel extends ViewModel {
         });
     }
 
-    public void getAllOrders(){
+    public void getAllOrders() {
         List<Order> ordersList = new ArrayList<>();
 
-        for(Shop shop : shops.getValue()){
+        for (Shop shop : shops.getValue()) {
             firebaseRepository.getOrders(shop.getId()).addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
 
                     List<DocumentChange> documentChanges = queryDocumentSnapshots.getDocumentChanges();
 
-                    for(DocumentChange documentChange : documentChanges){
-                        switch (documentChange.getType()){
+                    for (DocumentChange documentChange : documentChanges) {
+                        switch (documentChange.getType()) {
                             case ADDED:
                                 ordersList.add(documentChange.getDocument().toObject(Order.class));
                                 ordersList.sort(Order.compareByDate);
                                 break;
                             case MODIFIED:
                                 Order modifiedOrder = documentChange.getDocument().toObject(Order.class);
-                                for(int i=0;i<ordersList.size();i++){
+                                for (int i = 0; i < ordersList.size(); i++) {
 
                                     Order order = ordersList.get(i);
 
-                                    if(order.getId().equals(modifiedOrder.getId())){
-                                        ordersList.set(i,modifiedOrder);
+                                    if (order.getId().equals(modifiedOrder.getId())) {
+                                        ordersList.set(i, modifiedOrder);
                                     }
                                 }
                                 break;
@@ -112,27 +115,22 @@ public class UserShopsViewModel extends ViewModel {
                 }
             });
         }
-
-
-
-
-
     }
 
-    public void updateOrderStatus(Order order,String status){
-        firebaseRepository.db.collection("shops").document(order.getShopId()).collection("orders").document(order.getId()).update("status",status).addOnSuccessListener(new OnSuccessListener<Void>() {
+    public void updateOrderStatus(Order order, String status) {
+        firebaseRepository.db.collection("shops").document(order.getShopId()).collection("orders").document(order.getId()).update("status", status).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-               getAllOrders();
+                getAllOrders();
             }
         });
     }
 
-    public void deleteShop(String shopId){
+    public void deleteShop(String shopId) {
         firebaseRepository.deleteOrders(shopId);
     }
 
-    public void getUser(){
+    public void getUser() {
         firebaseRepository.getUser().addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
@@ -141,7 +139,15 @@ public class UserShopsViewModel extends ViewModel {
         });
     }
 
-    public MutableLiveData<User> getCustomerData(String userId){
+    public String buildSubscribeLink(String shopId,String shopName){
+        String subscribeLink = firebaseRepository.createSubscribeLink(shopId,shopName).getUri().toString();
+
+
+
+        return subscribeLink;
+    }
+
+    public MutableLiveData<User> getCustomerData(String userId) {
         firebaseRepository.getCustomer(userId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
@@ -151,34 +157,34 @@ public class UserShopsViewModel extends ViewModel {
         return customer;
     }
 
-    public void setOrderStatus(Order order,int orderStatus){
+    public void setOrderStatus(String  orderId, int orderStatus) {
 
-        firebaseRepository.db.collection("shops").document(order.getShopId()).collection("orders").document(order.getId()).update("orderStatus",orderStatus,
-                "updateTime", FieldValue.serverTimestamp()).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                orderstatuschangestatus.setValue(5);
-            }
-        })
-        .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Timber.e(e, e.toString());
-            }
-        });
+        firebaseRepository.setOrderStatus(orderId, orderStatus)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        orderstatuschangestatus.setValue(5);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Timber.e(e, e.toString());
+                    }
+                });
     }
 
     public LiveData<List<Shop>> getShops() {
         return shops;
     }
 
-    public MutableLiveData<Order> listenToOrder(Order order){
+    public MutableLiveData<Order> listenToOrder(Order order) {
         currentOrder.setValue(order);
         firebaseRepository.db.collection("orders").document(order.getId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                if(currentOrder.getValue().getOrderStatus()!=documentSnapshot.toObject(Order.class).getOrderStatus())
-                currentOrder.setValue(documentSnapshot.toObject(Order.class));
+                if (currentOrder.getValue().getOrderStatus() != documentSnapshot.toObject(Order.class).getOrderStatus())
+                    currentOrder.setValue(documentSnapshot.toObject(Order.class));
             }
         });
         return currentOrder;

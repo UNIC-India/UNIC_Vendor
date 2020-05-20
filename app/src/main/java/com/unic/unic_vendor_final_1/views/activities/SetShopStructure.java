@@ -114,6 +114,8 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             }
         });
 
+        setStructureViewModel.getShopExtras(shopId);
+
         toolbar = setShopStructureBinding.setStructureToolbar;
         setSupportActionBar(toolbar);
 
@@ -242,7 +244,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 updateStatus(status);
                 break;
             case 1:
-                setStructureViewModel.getProductData(shopId);
+                setStructureViewModel.getPaginatedProductData(shopId);
                 structure = StructureTemplates.getTemplate1(shopId);
                 setStructureViewModel.getStructure().setValue(structure);
                 updateMenu();
@@ -270,7 +272,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             case 2:
                 setStructureViewModel.getStructureData(shopId);
             case 3:
-                setStructureViewModel.getProductData(shopId);
+                setStructureViewModel.getPaginatedProductData(shopId);
                 break;
             case 4:
                 Toast.makeText(this, "Structure saved successfully", Toast.LENGTH_SHORT).show();

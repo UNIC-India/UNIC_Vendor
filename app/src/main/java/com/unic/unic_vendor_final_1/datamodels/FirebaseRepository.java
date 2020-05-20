@@ -11,8 +11,11 @@ import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.dynamiclinks.DynamicLink;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -24,7 +27,6 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -35,6 +37,7 @@ public class FirebaseRepository {
     private FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
     private StorageReference mRef = FirebaseStorage.getInstance().getReference();
     private FirebaseFunctions mFunctions = FirebaseFunctions.getInstance("asia-east2");
+    private FirebaseDynamicLinks mDynamicLinks = FirebaseDynamicLinks.getInstance();
 
     public void startPhoneNumberVerification(String phoneNumber, PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
@@ -141,6 +144,14 @@ public class FirebaseRepository {
     public Task<QuerySnapshot> getProducts(String shopId) {
         return db.collection("shops").document(shopId).collection("products").get();
     }
+
+    public Task<QuerySnapshot> getPaginatedProducts(String shopId, DocumentSnapshot lastDoc, boolean isFirst){
+        if(isFirst)
+            return db.collection("shops").document(shopId).collection("products").orderBy("name", Query.Direction.ASCENDING).limit(25).get();
+        else
+            return db.collection("shops").document(shopId).collection("products").orderBy("name", Query.Direction.ASCENDING).startAfter(lastDoc).limit(25).get();
+    }
+
     public Task<String> deleteShop(String shopId){
         Map<String,Object> data = new HashMap<>();
         data.put("shopId",shopId);
@@ -204,18 +215,55 @@ public class FirebaseRepository {
         return db.collection("users").document(Uid).update("vendorInstanceId",token);
     }
 
+    public Task<Void> setOrderStatus(String orderId, int orderStatus){
+        return db.collection("orders").document(orderId).update("orderStatus",orderStatus,
+                "updateTime", FieldValue.serverTimestamp());
+    }
+
     public Query getOrders(String shopId){
         return db.collection("orders").whereEqualTo("shopId",shopId);
     }
 
+    public Query searchProductsByName(String nameKey,String shopId){
+        return  db.collection("shops").document(shopId).collection("products").whereArrayContains("nameKeywords",nameKey.toLowerCase());
+    }
 
-
+    public Query getShopExtras(String shopId){
+        return db.collection("shops").document(shopId).collection("extraData");
+    }
 
     public UploadTask uploadSelectedImage(ByteArrayOutputStream baos){
         int time = (int) (System.currentTimeMillis());
         Timestamp tsTemp = new java.sql.Timestamp(time);
         String ts =  tsTemp.toString();
         return mRef.child(mUser.getUid()).child("images").child(ts).putBytes(baos.toByteArray());
+    }
+
+    public DynamicLink createSubscribeLink(String shopId, String shopName){
+        String link = "https://nisarg2104.github.io/"+"?shopId="+shopId;
+        return mDynamicLinks.createDynamicLink()
+                .setLink(Uri.parse(link))
+                .setDomainUriPrefix("https://uniccustomer.page.link")
+                .setAndroidParameters(
+                        new DynamicLink.AndroidParameters.Builder("com.unic.cust_final_1")
+                        .setMinimumVersion(1)
+                        .build()
+                )
+                .setGoogleAnalyticsParameters(
+                        new DynamicLink.GoogleAnalyticsParameters.Builder()
+                        .setSource("user")
+                        .setMedium("social")
+                        .setCampaign("shop-subscription")
+                        .build()
+                )
+                .setSocialMetaTagParameters(
+                        new DynamicLink.SocialMetaTagParameters.Builder()
+                        .setTitle("Subscribe to "+shopName+" on UNIC")
+                        .setDescription("Check out my shop on UNIC, a platform where I can host my own shop at my convenience")
+                        .build()
+                )
+                .buildDynamicLink();
+
     }
 
 }

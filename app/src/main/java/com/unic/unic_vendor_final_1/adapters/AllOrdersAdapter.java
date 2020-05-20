@@ -1,6 +1,5 @@
-package com.unic.unic_vendor_final_1.adapters.shop_view_components;
+package com.unic.unic_vendor_final_1.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -125,7 +123,7 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
                 holder.ivAccept.setVisibility(View.GONE);
                 holder.ivReject.setVisibility(View.GONE);
                 holder.loading.setVisibility(View.VISIBLE);
-                userShopsViewModel.setOrderStatus(orders.get(position),1);
+                userShopsViewModel.setOrderStatus(orders.get(position).getId(),1);
             }
         });
         holder.ivReject.setOnClickListener(new View.OnClickListener() {
@@ -134,7 +132,7 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
                 holder.ivAccept.setVisibility(View.GONE);
                 holder.ivReject.setVisibility(View.GONE);
                 holder.loading.setVisibility(View.VISIBLE);
-                userShopsViewModel.setOrderStatus(orders.get(position),-1);
+                userShopsViewModel.setOrderStatus(orders.get(position).getId(),-1);
 
             }
         });

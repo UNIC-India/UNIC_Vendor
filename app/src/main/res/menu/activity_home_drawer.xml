@@ -12,6 +12,9 @@
             android:id="@+id/nav_my_apps"
             android:title="@string/menu_my_apps"/>
         <item
+            android:id="@+id/mav_my_orders"
+            android:title="@string/menu_my_orders"/>
+        <item
             android:id="@+id/nav_help"
             android:title="@string/menu_help"/>
         <item
