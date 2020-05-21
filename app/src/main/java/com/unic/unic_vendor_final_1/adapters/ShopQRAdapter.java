@@ -1,6 +1,9 @@
 package com.unic.unic_vendor_final_1.adapters;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +14,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.zxing.WriterException;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
+import com.unic.unic_vendor_final_1.views.nav_fragments.QRFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +34,11 @@ public class ShopQRAdapter  extends RecyclerView.Adapter<ShopQRAdapter.ViewHolde
     private List<Shop> shops = new ArrayList<>();
     private UserShopsViewModel userShopsViewModel;
     private Context context;
+    private Fragment fragment;
 
-    public ShopQRAdapter(Context context) {
+    public ShopQRAdapter(Context context, Fragment fragment) {
         this.context = context;
+        this.fragment = fragment;
         userShopsViewModel=new ViewModelProvider(((FragmentActivity)context)).get(UserShopsViewModel.class);
 
     }
@@ -77,6 +85,41 @@ public class ShopQRAdapter  extends RecyclerView.Adapter<ShopQRAdapter.ViewHolde
                 if(shops.get(position).getDynSubscribeLink()!=null){
                     Toast.makeText(context, shops.get(position).getDynSubscribeLink(), Toast.LENGTH_SHORT).show();
                 }
+
+                Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.qr_dialog_layout);
+                try {
+                    ((ImageView)dialog.findViewById(R.id.qr_dialog_qr_code)).setImageBitmap(((QRFragment)fragment).generateQRCode(shops.get(position).getDynSubscribeLink().toString(),300));
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+                ((Button)dialog.findViewById(R.id.qr_dialog_done)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                ((Button)dialog.findViewById(R.id.qr_dialog_share_link)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent sendIntent = new Intent();
+                        sendIntent.setAction(Intent.ACTION_SEND);
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+                        sendIntent.setType("text/plain");
+
+                        Intent shareIntent = Intent.createChooser(sendIntent, null);
+                        context.startActivity(shareIntent);
+                    }
+                });
+
+                ((Button)dialog.findViewById(R.id.dialog_share_qr)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
             }
         });
 

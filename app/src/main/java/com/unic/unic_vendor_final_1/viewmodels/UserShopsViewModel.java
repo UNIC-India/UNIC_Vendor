@@ -1,5 +1,6 @@
 package com.unic.unic_vendor_final_1.viewmodels;
 
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.dynamiclinks.ShortDynamicLink;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -49,6 +51,7 @@ public class UserShopsViewModel extends ViewModel {
     private MutableLiveData<User> customer = new MutableLiveData<>();
     private MutableLiveData<Integer> orderstatuschangestatus = new MutableLiveData<>();
     private MutableLiveData<Order> currentOrder = new MutableLiveData<>();
+    private MutableLiveData<Map<String,String>> qrLinks = new MutableLiveData<>();
 
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
@@ -58,7 +61,7 @@ public class UserShopsViewModel extends ViewModel {
             @Override
             public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {
                 if (e != null) {
-                    Log.w("FirestoreViewModel", "Listen Failed", e);
+                    Timber.tag("FirestoreViewModel").w(e, "Listen Failed");
                     return;
                 }
                 ArrayList<Shop> data = new ArrayList<>();
@@ -79,7 +82,7 @@ public class UserShopsViewModel extends ViewModel {
         });
     }
 
-    public void getAllOrders() {
+    private void getAllOrders() {
         List<Order> ordersList = new ArrayList<>();
 
         for (Shop shop : shops.getValue()) {
@@ -127,7 +130,7 @@ public class UserShopsViewModel extends ViewModel {
     }
 
     public void deleteShop(String shopId) {
-        firebaseRepository.deleteOrders(shopId);
+        firebaseRepository.deleteShop(shopId);
     }
 
     public void getUser() {
@@ -139,12 +142,20 @@ public class UserShopsViewModel extends ViewModel {
         });
     }
 
-    public String buildSubscribeLink(String shopId,String shopName){
-        String subscribeLink = firebaseRepository.createSubscribeLink(shopId,shopName).getUri().toString();
-
-
-
-        return subscribeLink;
+    public void buildSubscribeLink(String shopId,String shopName){
+        firebaseRepository.createSubscribeLink(shopId,shopName)
+                .addOnSuccessListener(new OnSuccessListener<ShortDynamicLink>() {
+                    @Override
+                    public void onSuccess(ShortDynamicLink shortDynamicLink) {
+                        updateSubscribeLink(shopId,shortDynamicLink.getShortLink());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
     public MutableLiveData<User> getCustomerData(String userId) {
@@ -155,6 +166,17 @@ public class UserShopsViewModel extends ViewModel {
             }
         });
         return customer;
+    }
+
+    private void updateSubscribeLink(String shopId, Uri link){
+
+        firebaseRepository.setSubscribeLink(shopId,link)
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
     public void setOrderStatus(String  orderId, int orderStatus) {
