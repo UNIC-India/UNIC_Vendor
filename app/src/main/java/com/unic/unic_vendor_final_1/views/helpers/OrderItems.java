@@ -72,6 +72,13 @@ public class OrderItems extends Fragment implements View.OnClickListener {
 
             }
         });
+        if(order.getInstructions()==null||order.getInstructions().equals(" ")){
+            fragmentOrderItemsBinding.tvInstructions.setVisibility(View.GONE);
+        }
+        else{
+            fragmentOrderItemsBinding.tvInstructions.setVisibility(View.VISIBLE);
+            fragmentOrderItemsBinding.tvInstructions.setText("Instructions: "+order.getInstructions());
+        }
         fragmentOrderItemsBinding.rvOrderItems.setAdapter(orderItemsAdapter);
         fragmentOrderItemsBinding.llDetails.setOnClickListener(this);
         fragmentOrderItemsBinding.llDetails.setTag(R.id.ivShowMore);

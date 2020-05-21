@@ -140,6 +140,11 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
                 AlertDialog dialog2  = builder2.create();
                 dialog2.show();
                 break;
+            case "51":
+                com.unic.unic_vendor_final_1.datamodels.View view51 = new com.unic.unic_vendor_final_1.datamodels.View();
+                view51.setFields("Text");
+                ((SetShopStructure) Objects.requireNonNull(getActivity())).addView(pageId, view51,51);
+                break;
 
         }
     }
