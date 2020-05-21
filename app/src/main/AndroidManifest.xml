@@ -16,7 +16,6 @@
         <activity android:name=".views.helpers.ImagePicker" />
         <activity android:name=".views.activities.AddNewShop" />
         <activity android:name=".views.helpers.ProductSelector" />
-        <activity android:name=".views.helpers.TestActivity" />
         <activity android:name=".views.helpers.LocationSelector" />
         <activity android:name=".views.activities.SetShopStructure" />
         <activity android:name=".views.activities.AddShop" />

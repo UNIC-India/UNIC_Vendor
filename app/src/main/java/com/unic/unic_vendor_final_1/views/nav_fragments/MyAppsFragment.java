@@ -50,9 +50,6 @@ public class MyAppsFragment extends Fragment implements View.OnClickListener{
         shopsViewModel.getShops().observe(getViewLifecycleOwner(), new Observer<List<Shop>>() {
             @Override
             public void onChanged(List<Shop> shops) {
-                if(shops==null||shops.size()){
-
-                }
                 adapter.setShops(shops);
                 adapter.notifyDataSetChanged();
                 if(shops==null||shops.size()==0){
