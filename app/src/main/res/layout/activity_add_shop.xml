@@ -21,12 +21,12 @@
 
     <ImageButton
         android:id="@+id/btn_add_shop_image"
-        android:layout_width="200dp"
         android:layout_height="200dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="25dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="50dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.4854" />
 
     <TextView
         android:id="@+id/tv_add_shop_name"
@@ -38,13 +38,14 @@
         android:layout_marginStart="20dp"
         android:textSize="22sp"
         android:text="Shop Name:"/>
+
     <EditText
         android:id="@+id/et_add_shop_name"
-        android:layout_width="240dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/tv_add_shop_name"
+        android:layout_marginStart="10dp"
         app:layout_constraintStart_toEndOf="@id/tv_add_shop_name"
-        android:layout_marginStart="10dp"/>
+        app:layout_constraintTop_toTopOf="@id/tv_add_shop_name"
+        app:layout_constraintWidth_percent="0.5825" />
 
     <TextView
         android:id="@+id/tv_add_shop_address"
@@ -56,19 +57,21 @@
         android:layout_marginStart="20dp"
         android:textSize="22sp"
         android:text="Address:"/>
+
     <EditText
         android:id="@+id/et_add_shop_address_line1"
-        android:layout_width="240dp"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/et_add_shop_name"
         app:layout_constraintTop_toTopOf="@id/tv_add_shop_address"
-        app:layout_constraintStart_toStartOf="@id/et_add_shop_name"/>
+        app:layout_constraintWidth_percent="0.582524" />
+
     <EditText
         android:id="@+id/et_add_shop_address_line2"
-        android:layout_width="240dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/et_add_shop_address_line1"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="@id/et_add_shop_name"
-        android:layout_marginTop="20dp"/>
+        app:layout_constraintTop_toBottomOf="@id/et_add_shop_address_line1"
+        app:layout_constraintWidth_percent="0.582524" />
     <ImageButton
         android:id="@+id/shop_location_select"
         android:layout_width="50dp"
@@ -90,41 +93,44 @@
         android:layout_marginStart="20dp"
         android:textSize="22sp"
         android:text="Locality:"/>
+
     <EditText
         android:id="@+id/et_shop_add_locality"
-        android:layout_width="240dp"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/et_add_shop_name"
         app:layout_constraintTop_toTopOf="@id/tv_shop_locality"
-        app:layout_constraintStart_toStartOf="@id/et_add_shop_name"/>
+        app:layout_constraintWidth_percent="0.582524" />
+
     <TextView
         android:id="@+id/tv_add_shop_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/et_shop_add_locality"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
-        android:textSize="22sp"
-        android:text="City:"/>
+        android:layout_marginTop="20dp"
+        android:text="City:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_shop_add_locality" />
+
     <EditText
         android:id="@+id/et_shop_add_city"
-        android:layout_width="240dp"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/et_shop_add_locality"
         app:layout_constraintTop_toTopOf="@id/tv_add_shop_city"
-        app:layout_constraintStart_toStartOf="@id/et_shop_add_locality"/>
+        app:layout_constraintWidth_percent="0.582524" />
 
     <Button
         android:id="@+id/add_shop_step_2"
+        style="@style/StandardButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tv_add_shop_city"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="50dp"
+        android:background="@drawable/std_button"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
-        style="@style/StandardButton"
-        android:background="@drawable/std_button"
-        android:text="Next Step"/>
+        android:text="Next Step"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_add_shop_city" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

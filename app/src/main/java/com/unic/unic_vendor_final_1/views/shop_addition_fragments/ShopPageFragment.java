@@ -2,6 +2,7 @@ package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 
 import android.app.Dialog;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -175,6 +177,40 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
             case 43:
                 break;
             case 44:
+                break;
+            case 51:
+                View Text_View=Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.text_view_item,parent,false);
+                Text_View.setId(view.getViewCode());
+                parent.addView(Text_View);
+                EditText etText=Text_View.findViewById(R.id.etText);
+                EditText etSize=Text_View.findViewById(R.id.etSize);
+                TextView tvBold=Text_View.findViewById(R.id.tvBold);
+                TextView tvItalics=Text_View.findViewById(R.id.tvItalic);
+                etText.setText(view.getData().get(0).get("text")==null?" ":view.getData().get(0).get("text").toString());
+                if(view.getData().get(0).containsKey("Bold")&&view.getData().get(0).get("Bold").toString().equals("True"))
+                    etText.setTypeface(null, Typeface.BOLD);
+                if(view.getData().get(0).containsKey("Italics")&&view.getData().get(0).get("Italics").toString().equals("True"))
+                    etText.setTypeface(null, Typeface.ITALIC);
+                if(view.getData().get(0).containsKey("Size"))
+                    etText.setTextSize(Integer.parseInt(view.getData().get(0).get("Size").toString()));
+                tvBold.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(etText.getTypeface().getStyle()==Typeface.BOLD)
+                            etText.setTypeface(null,Typeface.NORMAL);
+                        else
+                            etText.setTypeface(null,Typeface.BOLD);
+                    }
+                });
+                tvItalics.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(etText.getTypeface().getStyle()==Typeface.ITALIC)
+                            etText.setTypeface(null,Typeface.ITALIC);
+                        else
+                            etText.setTypeface(null,Typeface.ITALIC);
+                    }
+                });
                 break;
 
         }

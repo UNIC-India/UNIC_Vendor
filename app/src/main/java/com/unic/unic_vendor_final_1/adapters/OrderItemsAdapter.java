@@ -53,7 +53,7 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
 
         holder.tvProductName.setText(products.get(position).get("name").toString());
         holder.tvCompany.setText(products.get(position).get("company").toString());
-        holder.tvPrice.setText(products.get(position).get("price").toString()+"Rs");
+        holder.tvPrice.setText("Rs "+products.get(position).get("price").toString());
         holder.tvTotal.setText(Double.parseDouble(products.get(position).get("price").toString())*qty.get(position)+"");
         holder.tvQty.setText(""+qty.get(position));
 

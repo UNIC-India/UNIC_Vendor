@@ -90,6 +90,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder.ivProductPhoto.setImageResource(R.drawable.demo_product);
             holder.cbCheck.setVisibility(View.GONE);
 
+
         }
     }
 

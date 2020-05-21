@@ -154,6 +154,12 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
             case R.id.btnresend:
                 resendOTP();
                 break;
+            case R.id.btngoogle:
+                Toast.makeText(this, "Google sign up not available. Please use phone number!", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.btnfb:
+                Toast.makeText(this, "Facebook sign up not available. Please use phone number!", Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 

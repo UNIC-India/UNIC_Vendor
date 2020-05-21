@@ -25,6 +25,8 @@ public class Order {
     private
     Date updateTime;
     private String phoneNo;
+    private String instructions;
+    private String GSTIN;
 
 
     public Order(){}
@@ -43,6 +45,9 @@ public class Order {
         address=" ";
         this.total=0;
         this.orgName=" ";
+        this.instructions=" ";
+        this.GSTIN=" ";
+
     }
     public static Comparator<Order> compareByDate=new Comparator<Order>() {
         @Override
@@ -163,6 +168,22 @@ public class Order {
 
     public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
+    }
+
+    public String getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
+    }
+
+    public String getGSTIN() {
+        return GSTIN;
+    }
+
+    public void setGSTIN(String GSTIN) {
+        this.GSTIN = GSTIN;
     }
 }
 

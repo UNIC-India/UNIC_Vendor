@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.ShopAdapter;
+import com.unic.unic_vendor_final_1.databinding.FragmentMyAppsBinding;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 import com.unic.unic_vendor_final_1.views.activities.AddShop;
@@ -26,6 +27,7 @@ import java.util.List;
 public class MyAppsFragment extends Fragment implements View.OnClickListener{
 
     private UserShopsViewModel shopsViewModel;
+    private FragmentMyAppsBinding myAppsBinding;
 
     private ShopAdapter adapter;
     public MyAppsFragment() {
@@ -42,13 +44,25 @@ public class MyAppsFragment extends Fragment implements View.OnClickListener{
         LinearLayoutManager layoutManager =new LinearLayoutManager(getContext());
         RecyclerView recyclerView =view.findViewById(R.id.my_shops);
         recyclerView.setLayoutManager(layoutManager);
+        myAppsBinding=FragmentMyAppsBinding.inflate(getLayoutInflater());
         adapter = new ShopAdapter(getContext(),0);
         shopsViewModel = new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
         shopsViewModel.getShops().observe(getViewLifecycleOwner(), new Observer<List<Shop>>() {
             @Override
             public void onChanged(List<Shop> shops) {
+                if(shops==null||shops.size()){
+
+                }
                 adapter.setShops(shops);
                 adapter.notifyDataSetChanged();
+                if(shops==null||shops.size()==0){
+                    myAppsBinding.noshops.setVisibility(View.VISIBLE);
+                    myAppsBinding.tvnoshops.setVisibility(View.VISIBLE);
+                }
+                else{
+                    myAppsBinding.noshops.setVisibility(View.GONE);
+                    myAppsBinding.tvnoshops.setVisibility(View.GONE);
+                }
             }
         });
 

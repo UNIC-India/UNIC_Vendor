@@ -38,7 +38,6 @@
         android:layout_width="320dp"
         android:layout_height="11dp"
         android:layout_marginLeft="24dp"
-        android:layout_marginTop="9dp"
         android:gravity="center"
         android:text="@string/company_full_name"
         android:textSize="9sp"
