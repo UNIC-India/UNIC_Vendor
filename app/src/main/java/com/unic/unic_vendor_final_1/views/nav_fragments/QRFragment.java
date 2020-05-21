@@ -1,5 +1,7 @@
 package com.unic.unic_vendor_final_1.views.nav_fragments;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,11 +11,16 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.ShopQRAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentQrBinding;
@@ -43,7 +50,7 @@ public class QRFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         shopsViewModel = new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
-        qrAdapter = new ShopQRAdapter(getContext());
+        qrAdapter = new ShopQRAdapter(getContext(),this);
         shopsViewModel.getShops().observe(getViewLifecycleOwner(), new Observer<List<Shop>>() {
             @Override
             public void onChanged(List<Shop> shops) {
@@ -69,10 +76,38 @@ public class QRFragment extends Fragment {
     }
 
     private void makeDynamicLink(String shopId,String shopName){
-        String subscribeLink = shopsViewModel.buildSubscribeLink(shopId,shopName);
-        Toast.makeText(getActivity(), subscribeLink, Toast.LENGTH_SHORT).show();
-        Timber.w("Got link %s", subscribeLink);
+        shopsViewModel.buildSubscribeLink(shopId,shopName);
     }
 
+    public Bitmap generateQRCode(String str, int len) throws WriterException {
+
+        len = (int)dpToPx(len);
+
+        BitMatrix result;
+        try {
+            result = new MultiFormatWriter().encode(str, BarcodeFormat.QR_CODE,len,len,null);
+            int w = result.getWidth();
+            int h = result.getHeight();
+
+            Bitmap bitmap = Bitmap.createBitmap(w,h,Bitmap.Config.ARGB_4444);
+            for(int i=0;i<h;i++){
+                for(int j=0;j<w;j++)
+                    bitmap.setPixel(i,j,result.get(i,j)? Color.BLACK:Color.WHITE);
+            }
+            return bitmap;
+        }
+        catch (IllegalArgumentException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private float dpToPx(int dp){
+        return TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                getResources().getDisplayMetrics()
+        );
+    }
 
 }

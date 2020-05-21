@@ -13,12 +13,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.dynamiclinks.DynamicLink;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.ShortDynamicLink;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.HttpsCallableResult;
 import com.google.firebase.storage.FirebaseStorage;
@@ -211,6 +213,12 @@ public class FirebaseRepository {
         return db.collection("structures").document(shopId).get();
     }
 
+    public Task<Void> setSubscribeLink(String shopId,Uri link){
+        Map<String,Object> data = new HashMap<>();
+        data.put("subscribeLink",link.toString());
+        return db.collection("shops").document(shopId).set(data, SetOptions.merge());
+    }
+
     public Task<Void> setInstanceId(String Uid,String token){
         return db.collection("users").document(Uid).update("vendorInstanceId",token);
     }
@@ -239,7 +247,7 @@ public class FirebaseRepository {
         return mRef.child(mUser.getUid()).child("images").child(ts).putBytes(baos.toByteArray());
     }
 
-    public DynamicLink createSubscribeLink(String shopId, String shopName){
+    public Task<ShortDynamicLink> createSubscribeLink(String shopId, String shopName){
         String link = "https://nisarg2104.github.io/"+"?shopId="+shopId;
         return mDynamicLinks.createDynamicLink()
                 .setLink(Uri.parse(link))
@@ -262,7 +270,7 @@ public class FirebaseRepository {
                         .setDescription("Check out my shop on UNIC, a platform where I can host my own shop at my convenience")
                         .build()
                 )
-                .buildDynamicLink();
+                .buildShortDynamicLink();
 
     }
 

@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.TypedValue;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.view.Window;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.ActivityAddShopBinding;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
@@ -28,9 +30,11 @@ import com.unic.unic_vendor_final_1.viewmodels.AddShopViewModel;
 import com.unic.unic_vendor_final_1.views.helpers.LocationSelector;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static com.unic.unic_vendor_final_1.commons.Helpers.enableDisableViewGroup;
 
@@ -42,7 +46,8 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
     private View coverView;
 
     private static final int GALLERY_INTENT = 1001;
-    private static final int LOCATION_SELECTOR = 1002;
+    private static final int CROP_IMAGE = 1002;
+    private static final int LOCATION_SELECTOR = 2001;
 
     private Shop shop;
     private Bitmap imageBitmap;
@@ -50,6 +55,9 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
 
     private boolean userWantsImage = true;
     private boolean imageSelectSuccessful = false;
+
+    private Uri imageurl,outputFileUri;
+
 
     private Map<String,Double> location = new HashMap<>();
 
@@ -63,18 +71,8 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
         addShopBinding.addShopStep2.setOnClickListener(this);
         addShopBinding.shopLocationSelect.setOnClickListener(this);
         addShopViewModel = new ViewModelProvider(this).get(AddShopViewModel.class);
-        addShopViewModel.getShopAddStatus().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                statusUpdate(integer);
-            }
-        });
-        addShopViewModel.getShop().observe(this, new Observer<Shop>() {
-            @Override
-            public void onChanged(Shop shop) {
-                updateShop(shop);
-            }
-        });
+        addShopViewModel.getShopAddStatus().observe(this, this::statusUpdate);
+        addShopViewModel.getShop().observe(this, this::updateShop);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
@@ -86,21 +84,13 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
                 if(imageBitmap==null){
                     AlertDialog.Builder builder = new AlertDialog.Builder(this)
                             .setMessage("No shop Image selected. Do you want to select one?")
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    userWantsImage = true;
-                                    Intent intent = new Intent(Intent.ACTION_PICK);
-                                    intent.setType("image/*");
-                                    startActivityForResult(intent,GALLERY_INTENT);
-                                }
+                            .setPositiveButton("Yes", (dialog, which) -> {
+                                userWantsImage = true;
+                                Intent intent = new Intent(Intent.ACTION_PICK);
+                                intent.setType("image/*");
+                                startActivityForResult(intent,GALLERY_INTENT);
                             })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    userWantsImage = false;
-                                }
-                            });
+                            .setNegativeButton("No", (dialog, which) -> userWantsImage = false);
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 }
@@ -212,24 +202,42 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
             switch (requestCode){
                 case GALLERY_INTENT:
                     Uri uri = data.getData();
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                        addShopBinding.btnAddShopImage.setImageBitmap(bitmap);
-                        imageSelectSuccessful = true;
-                        imageBitmap = bitmap;
-
-                        // Log.d(TAG, String.valueOf(bitmap));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    cropImage(uri);
                     break;
                 case LOCATION_SELECTOR:
                     location.put("latitude",data.getDoubleExtra("latitude",0.0));
                     location.put("longitude",data.getDoubleExtra("longitude",0.0));
                     break;
+                case CROP_IMAGE:
+                    Bitmap bitmap;
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),outputFileUri);
+
+                        imageBitmap = bitmap;
+                        addShopBinding.btnAddShopImage.setImageBitmap(imageBitmap);
+                        imageSelectSuccessful = true;
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
             }
 
         }
+    }
+
+    private void cropImage(Uri uri){
+        Intent cropIntent = new Intent("com.android.camera.action.CROP");
+        cropIntent.setDataAndType(uri, "image/*");
+        cropIntent.putExtra("crop", "true");
+        cropIntent.putExtra("aspectX", 1);
+        cropIntent.putExtra("aspectY", 1);
+        cropIntent.putExtra("return-data", true);
+        File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "new-shop-image-" + ".jpg");
+        outputFileUri = Uri.fromFile(file);
+        cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+        cropIntent.putExtra("output",outputFileUri);
+        startActivityForResult(cropIntent, CROP_IMAGE);
+        Toast.makeText(this, "Cropping image", Toast.LENGTH_SHORT).show();
     }
 
    /* private float dpToPx(int dp){

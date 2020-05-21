@@ -1,6 +1,7 @@
 package com.unic.unic_vendor_final_1.adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -117,7 +119,25 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
         holder.ibDeleteShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((UserHome)context).deleteShop(shops.get(position).getId());
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                        .setTitle("CONFIRM YOUR ACTIONS")
+                        .setMessage("Are you sure you want to delete " + shops.get(position).getName())
+                        .setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ((UserHome)context).deleteShop(shops.get(position).getId());
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 
