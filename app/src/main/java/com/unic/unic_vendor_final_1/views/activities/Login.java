@@ -63,6 +63,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         loginBinding.btnlogin.setOnClickListener(this);
         loginBinding.btnres.setOnClickListener(this);
         loginBinding.signupLink.setOnClickListener(this);
+        loginBinding.btnfb.setOnClickListener(this);
+        loginBinding.btngoogle.setOnClickListener(this);
     }
 
 
@@ -143,6 +145,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 break;
             case R.id.signupLink:
                 startActivity(new Intent(this,SignUp.class));
+                break;
+            case R.id.btnfb:
+                Toast.makeText(this, "Facebook login not available. Please use phone number!", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.btngoogle:
+                Toast.makeText(this, "Google login not available. Please use phone number!", Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 
