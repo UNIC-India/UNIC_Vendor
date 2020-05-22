@@ -2,6 +2,7 @@ package com.unic.unic_vendor_final_1.viewmodels;
 
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,12 +24,16 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.unic.unic_vendor_final_1.datamodels.FirebaseRepository;
+import com.unic.unic_vendor_final_1.datamodels.Notification;
 import com.unic.unic_vendor_final_1.datamodels.Order;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.datamodels.User;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -54,7 +59,12 @@ public class UserShopsViewModel extends ViewModel {
     private MutableLiveData<Map<String,String>> qrLinks = new MutableLiveData<>();
     private boolean isFirst = true;
     private DocumentSnapshot lastDoc;
-
+    private MutableLiveData<String> selectedShopId= new MutableLiveData<>();
+    public MutableLiveData<Integer> notificationStatus=new MutableLiveData<>();
+    public MutableLiveData<List<Notification>> notifications=new MutableLiveData<>();
+    public MutableLiveData<List<Map<String,Object>>> members=new MutableLiveData<>();
+    public MutableLiveData<Integer> memberAddStatus=new MutableLiveData<>();
+    
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
@@ -221,6 +231,70 @@ public class UserShopsViewModel extends ViewModel {
                     }
                 });
     }
+    public void addMember(String phone, String role, String shopId){
+        List<String> phones=new ArrayList<>();
+        phones.add(phone);
+
+        firebaseRepository.db.collection("shops").document(shopId).collection("extraData").document("team").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.getData().get(role)==null) {
+                    firebaseRepository.db.collection("shops").document(shopId).collection("extraData").document("team").update(role,phones).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            memberAddStatus.setValue(1);
+                        }
+                    });
+                }
+                else
+                    firebaseRepository.db.collection("shops").document(shopId).collection("extraData")
+                    .document("team").update(role, FieldValue.arrayUnion(phone)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            memberAddStatus.setValue(1);
+                        }
+                    });
+
+
+            }
+        });
+    }
+    public void sendNotification(Notification notification){
+        notificationStatus.setValue(0);
+        firebaseRepository.db.collection("notifications").add(notification).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                notificationStatus.setValue(1);
+            }
+        });
+
+    }
+    public MutableLiveData<List<Notification>> getNotificaions(){
+        firebaseRepository.db.collection("notifications").whereIn("shopId",shopids.getValue()).orderBy("time", Query.Direction.DESCENDING).limit(30).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            List<Notification> notificationsData=new ArrayList<>();
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                List<DocumentChange> documentChanges=new ArrayList<>();
+                if(queryDocumentSnapshots!=null)
+                    documentChanges = queryDocumentSnapshots.getDocumentChanges();
+
+                for (DocumentChange documentChange : documentChanges) {
+                    switch (documentChange.getType()) {
+                        case ADDED:
+                            notificationsData.add(documentChange.getDocument().toObject(Notification.class));
+
+                            break;
+                        case MODIFIED:
+                            break;
+                        case REMOVED:
+                            notificationsData.remove(documentChange.getDocument().toObject(Order.class));
+                    }
+                }
+                notifications.setValue(notificationsData);
+            }
+        });
+        return notifications;
+    }
 
     public LiveData<List<Shop>> getShops() {
         return shops;
@@ -236,6 +310,15 @@ public class UserShopsViewModel extends ViewModel {
             }
         });
         return currentOrder;
+    }
+
+
+    public MutableLiveData<String> getSelectedShopId() {
+        return selectedShopId;
+    }
+
+    public void setSelectedShopId(MutableLiveData<String> selectedShopId) {
+        this.selectedShopId = selectedShopId;
     }
 
     public LiveData<List<Order>> getOrders() {

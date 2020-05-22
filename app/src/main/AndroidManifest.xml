@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".views.activities.AddNewProduct"/>
-        <activity android:name=".views.activities.SetNotification" />
         <activity android:name=".views.helpers.ImagePicker" />
         <activity android:name=".views.activities.AddNewShop" />
         <activity android:name=".views.helpers.ProductSelector" />
