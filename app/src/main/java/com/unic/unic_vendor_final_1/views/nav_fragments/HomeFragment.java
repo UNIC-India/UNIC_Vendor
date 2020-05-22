@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.card_view6:
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.home_fragment,new OrdersFragment())
+                        .replace(R.id.home_fragment,new MyProducts())
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .commit();
                 break;

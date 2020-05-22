@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.ShopAdapter;
+import com.unic.unic_vendor_final_1.adapters.ShopListAdapter;
+import com.unic.unic_vendor_final_1.databinding.FragmentMyProductsBinding;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 import com.unic.unic_vendor_final_1.views.activities.AddShop;
@@ -29,7 +31,8 @@ import java.util.List;
 public class MyProducts extends Fragment {
     private UserShopsViewModel shopsViewModel;
 
-    private ShopAdapter adapter;
+    private ShopListAdapter adapter;
+    FragmentMyProductsBinding myProductsBinding;
 
     public MyProducts() {
         // Required empty public constructor
@@ -40,13 +43,14 @@ public class MyProducts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_my_products, container, false);
+        myProductsBinding= FragmentMyProductsBinding.inflate( getLayoutInflater(),container, false);
 
-        LinearLayoutManager layoutManager =new LinearLayoutManager(getContext());
-        RecyclerView rvShops =view.findViewById(R.id.rvShops);
-        rvShops.setLayoutManager(layoutManager);
-        adapter = new ShopAdapter(getContext(),1);
-        shopsViewModel = new ViewModelProvider(this).get(UserShopsViewModel.class);
+
+
+
+        adapter = new ShopListAdapter(getContext());
+        shopsViewModel = new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
+        adapter.setShops(shopsViewModel.getShops().getValue());
         shopsViewModel.getShops().observe(getViewLifecycleOwner(), new Observer<List<Shop>>() {
             @Override
             public void onChanged(List<Shop> shops) {
@@ -54,11 +58,12 @@ public class MyProducts extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         });
+        myProductsBinding.rvShops.setAdapter(adapter);
+        myProductsBinding.rvShops.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        rvShops.setAdapter(adapter);
 
 
-        return view;
+        return myProductsBinding.getRoot();
     }
 
     @Override
