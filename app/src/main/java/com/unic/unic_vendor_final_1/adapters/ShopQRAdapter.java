@@ -82,43 +82,46 @@ public class ShopQRAdapter  extends RecyclerView.Adapter<ShopQRAdapter.ViewHolde
         holder.ibShopQR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(shops.get(position).getDynSubscribeLink()!=null){
+                if(shops.get(position).getDynSubscribeLink()!=null) {
                     Toast.makeText(context, shops.get(position).getDynSubscribeLink(), Toast.LENGTH_SHORT).show();
+
+
+                    Dialog dialog = new Dialog(context);
+                    dialog.setContentView(R.layout.qr_dialog_layout);
+                    try {
+                        ((ImageView) dialog.findViewById(R.id.qr_dialog_qr_code)).setImageBitmap(((QRFragment) fragment).generateQRCode(shops.get(position).getDynSubscribeLink().toString(), 300));
+                    } catch (WriterException e) {
+                        e.printStackTrace();
+                    }
+                    ((Button) dialog.findViewById(R.id.qr_dialog_done)).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    ((Button) dialog.findViewById(R.id.qr_dialog_share_link)).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent sendIntent = new Intent();
+                            sendIntent.setAction(Intent.ACTION_SEND);
+                            sendIntent.putExtra(Intent.EXTRA_TEXT, shops.get(position).getDynSubscribeLink());
+                            sendIntent.setType("text/plain");
+
+                            Intent shareIntent = Intent.createChooser(sendIntent, null);
+                            context.startActivity(shareIntent);
+                        }
+                    });
+
+                    ((Button) dialog.findViewById(R.id.dialog_share_qr)).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    dialog.show();
                 }
-
-                Dialog dialog = new Dialog(context);
-                dialog.setContentView(R.layout.qr_dialog_layout);
-                try {
-                    ((ImageView)dialog.findViewById(R.id.qr_dialog_qr_code)).setImageBitmap(((QRFragment)fragment).generateQRCode(shops.get(position).getDynSubscribeLink().toString(),300));
-                } catch (WriterException e) {
-                    e.printStackTrace();
-                }
-                ((Button)dialog.findViewById(R.id.qr_dialog_done)).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
-                ((Button)dialog.findViewById(R.id.qr_dialog_share_link)).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent sendIntent = new Intent();
-                        sendIntent.setAction(Intent.ACTION_SEND);
-                        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
-                        sendIntent.setType("text/plain");
-
-                        Intent shareIntent = Intent.createChooser(sendIntent, null);
-                        context.startActivity(shareIntent);
-                    }
-                });
-
-                ((Button)dialog.findViewById(R.id.dialog_share_qr)).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
 
             }
         });

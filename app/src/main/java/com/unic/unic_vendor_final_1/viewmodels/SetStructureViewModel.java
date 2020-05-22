@@ -93,10 +93,11 @@ public class SetStructureViewModel extends ViewModel {
                             productData.add(doc.getData());
                         lastDoc = queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size()-1);
                         products.setValue(productData);
+                        productStatus.setValue(1);
+                        isFirst=false;
                     }
                 });
-        productStatus.setValue(1);
-        isFirst=false;
+
     }
 
     public void getStructureData(final String shopId){

@@ -244,7 +244,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 updateStatus(status);
                 break;
             case 1:
-                setStructureViewModel.getPaginatedProductData(shopId);
                 structure = StructureTemplates.getTemplate1(shopId);
                 setStructureViewModel.getStructure().setValue(structure);
                 updateMenu();

@@ -22,6 +22,7 @@
     <ImageButton
         android:id="@+id/btn_add_shop_image"
         android:layout_height="200dp"
+        android:layout_width="0dp"
         android:layout_marginTop="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,6 +43,7 @@
     <EditText
         android:id="@+id/et_add_shop_name"
         android:layout_height="wrap_content"
+        android:layout_width="0dp"
         android:layout_marginStart="10dp"
         app:layout_constraintStart_toEndOf="@id/tv_add_shop_name"
         app:layout_constraintTop_toTopOf="@id/tv_add_shop_name"
@@ -61,6 +63,7 @@
     <EditText
         android:id="@+id/et_add_shop_address_line1"
         android:layout_height="wrap_content"
+        android:layout_width="0dp"
         app:layout_constraintStart_toStartOf="@id/et_add_shop_name"
         app:layout_constraintTop_toTopOf="@id/tv_add_shop_address"
         app:layout_constraintWidth_percent="0.582524" />
@@ -68,6 +71,7 @@
     <EditText
         android:id="@+id/et_add_shop_address_line2"
         android:layout_height="wrap_content"
+        android:layout_width="0dp"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="@id/et_add_shop_name"
         app:layout_constraintTop_toBottomOf="@id/et_add_shop_address_line1"
@@ -97,6 +101,7 @@
     <EditText
         android:id="@+id/et_shop_add_locality"
         android:layout_height="wrap_content"
+        android:layout_width="0dp"
         app:layout_constraintStart_toStartOf="@id/et_add_shop_name"
         app:layout_constraintTop_toTopOf="@id/tv_shop_locality"
         app:layout_constraintWidth_percent="0.582524" />
@@ -115,6 +120,7 @@
     <EditText
         android:id="@+id/et_shop_add_city"
         android:layout_height="wrap_content"
+        android:layout_width="0dp"
         app:layout_constraintStart_toStartOf="@id/et_shop_add_locality"
         app:layout_constraintTop_toTopOf="@id/tv_add_shop_city"
         app:layout_constraintWidth_percent="0.582524" />
