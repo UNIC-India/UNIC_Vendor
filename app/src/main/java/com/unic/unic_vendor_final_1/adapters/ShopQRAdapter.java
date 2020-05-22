@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -26,6 +29,9 @@ import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 import com.unic.unic_vendor_final_1.views.nav_fragments.QRFragment;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +41,7 @@ public class ShopQRAdapter  extends RecyclerView.Adapter<ShopQRAdapter.ViewHolde
     private UserShopsViewModel userShopsViewModel;
     private Context context;
     private Fragment fragment;
+    private File file;
 
     public ShopQRAdapter(Context context, Fragment fragment) {
         this.context = context;
@@ -116,7 +123,11 @@ public class ShopQRAdapter  extends RecyclerView.Adapter<ShopQRAdapter.ViewHolde
                     ((Button) dialog.findViewById(R.id.dialog_share_qr)).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            dialog.dismiss();
+                            try {
+                                shareBitmap(((QRFragment) fragment).generateQRCode(shops.get(position).getDynSubscribeLink().toString(), 300),shops.get(position).getId());
+                            } catch (WriterException e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
 
@@ -134,5 +145,55 @@ public class ShopQRAdapter  extends RecyclerView.Adapter<ShopQRAdapter.ViewHolde
 
     public void setShops(List<Shop> shops) {
         this.shops = shops;
+    }
+
+    private void shareBitmap (Bitmap bitmap,String shopId) {
+
+        try{
+            try {
+
+                File cachePath = new File(context.getCacheDir(), "images");
+                cachePath.mkdirs(); // don't forget to make the directory
+                FileOutputStream stream = new FileOutputStream(cachePath + "/" + shopId + ".png"); // overwrites this image every time
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                stream.close();
+
+                File newFile = new File(cachePath, shopId + ".png");
+                Uri contentUri = FileProvider.getUriForFile(context, "com.unic.unic_vendor_final_1.fileprovider", newFile);
+
+                if (contentUri != null) {
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
+                    shareIntent.setDataAndType(contentUri, context.getContentResolver().getType(contentUri));
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+                    context.startActivity(Intent.createChooser(shareIntent, "Choose an app"));
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        /*try {
+            file = new File(context.getCacheDir(), "qr/"+ shopId + ".png");
+            FileOutputStream fOut = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+            fOut.flush();
+            fOut.close();
+            file.setReadable(true, false);
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+            intent.setType("image/png");
+            Intent shareIntent = Intent.createChooser(intent,null);
+            context.startActivity(shareIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+
     }
 }

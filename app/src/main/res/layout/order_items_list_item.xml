@@ -46,7 +46,7 @@
 
                 android:visibility="gone"
                 app:layout_constraintLeft_toRightOf="@id/product_checkbox"
-                app:layout_constraintTop_toTopOf="parent"></ImageView>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/product_name"
@@ -62,7 +62,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toRightOf="@id/product_image"
-                app:layout_constraintTop_toTopOf="@id/product_image"></TextView>
+                app:layout_constraintTop_toTopOf="@id/product_image" />
 
 
             <TextView
@@ -76,7 +76,7 @@
                 android:textColorHint="@color/grey4"
                 android:textSize="14sp"
                 app:layout_constraintLeft_toRightOf="@id/product_image"
-                app:layout_constraintTop_toBottomOf="@+id/product_name"></TextView>
+                app:layout_constraintTop_toBottomOf="@+id/product_name" />
 
             <TextView
                 android:id="@+id/product_price"
@@ -90,12 +90,13 @@
 
                 android:textSize="15dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/product_company_name"></TextView>
+                app:layout_constraintTop_toBottomOf="@id/product_company_name" />
 
             <TextView
                 android:id="@+id/tvExtraInfo2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Extrainfo2"
                 app:layout_constraintBottom_toTopOf="@+id/tvExtraInfo1"
                 app:layout_constraintEnd_toEndOf="@+id/tvExtraInfo1" />
 
