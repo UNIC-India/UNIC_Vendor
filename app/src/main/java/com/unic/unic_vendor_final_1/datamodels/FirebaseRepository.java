@@ -30,6 +30,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -147,11 +148,21 @@ public class FirebaseRepository {
         return db.collection("shops").document(shopId).collection("products").get();
     }
 
+    public Task<QuerySnapshot> checkUser(String phoneNo){
+        return db.collection("users").whereEqualTo("phoneNo",phoneNo).get();
+    }
+
     public Task<QuerySnapshot> getPaginatedProducts(String shopId, DocumentSnapshot lastDoc, boolean isFirst){
         if(isFirst)
             return db.collection("shops").document(shopId).collection("products").orderBy("name", Query.Direction.ASCENDING).limit(25).get();
         else
             return db.collection("shops").document(shopId).collection("products").orderBy("name", Query.Direction.ASCENDING).startAfter(lastDoc).limit(25).get();
+    }
+
+    public Task<QuerySnapshot> getPaginatedOrders(List<String> shopIds,DocumentSnapshot lastDoc,boolean isFirst){
+        if(isFirst)
+            return db.collection("orders").whereIn("shopId",shopIds).orderBy("time", Query.Direction.DESCENDING).limit(25).get();
+        return db.collection("orders").whereIn("shopId",shopIds).orderBy("time", Query.Direction.DESCENDING).limit(25).startAfter(lastDoc).get();
     }
 
     public Task<String> deleteShop(String shopId){

@@ -95,6 +95,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder.imageView2.setVisibility(View.VISIBLE);
 
 
+
         }
     }
 

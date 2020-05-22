@@ -38,11 +38,11 @@ public class MyAppsFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_my_apps, container, false);
+        myAppsBinding=FragmentMyAppsBinding.inflate(inflater,container,false);
 
+        // Inflate the layout for this fragment
         LinearLayoutManager layoutManager =new LinearLayoutManager(getContext());
-        RecyclerView recyclerView =view.findViewById(R.id.my_shops);
+        RecyclerView recyclerView =myAppsBinding.myShops;
         recyclerView.setLayoutManager(layoutManager);
         myAppsBinding=FragmentMyAppsBinding.inflate(getLayoutInflater());
         adapter = new ShopAdapter(getContext(),0);
@@ -65,8 +65,8 @@ public class MyAppsFragment extends Fragment implements View.OnClickListener{
 
         recyclerView.setAdapter(adapter);
 
-        view.findViewById(R.id.btn_add_shop).setOnClickListener(this);
-        return view;
+        myAppsBinding.btnAddShop.setOnClickListener(this);
+        return myAppsBinding.getRoot();
     }
 
     @Override

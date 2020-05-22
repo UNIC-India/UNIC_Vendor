@@ -109,6 +109,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 startActivity(new Intent(this,UserHome.class));
                 finish();
                 break;
+            case 5:
+                startAuth();
+                break;
             case -1:
                 enableDisableViewGroup((ViewGroup)loginBinding.getRoot(),true);
                 if(coverView.getParent()!=null)
@@ -118,6 +121,16 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 loginBinding.loginOTP.setVisibility(View.GONE);
                 Toast.makeText(this, "OOPS! Something went wrong", Toast.LENGTH_SHORT).show();
                 break;
+            case -2:
+                enableDisableViewGroup((ViewGroup)loginBinding.getRoot(),true);
+                if(coverView.getParent()!=null)
+                    ((ViewGroup)loginBinding.loginConstraintLayout).removeView(coverView);
+                loginBinding.loginProgressBar.setVisibility(View.GONE);
+                loginBinding.details.setVisibility(View.VISIBLE);
+                loginBinding.loginOTP.setVisibility(View.GONE);
+                Toast.makeText(this, "User doesn't exist\n Redirecting to sign up", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this,SignUp.class));
+
         }
     }
 
@@ -130,7 +143,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 loginBinding.loginProgressBar.setVisibility(View.VISIBLE);
                 loginBinding.loginProgressBar.bringToFront();
                 enableDisableViewGroup((ViewGroup)loginBinding.getRoot(),false);
-                startAuth();
+                checkForUser();
                 break;
             case R.id.btnconf:
                 if(coverView.getParent()==null)
@@ -172,5 +185,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     private void resendOTP(){
         loginViewModel.resendOTP("+91"+loginBinding.etphone.getText().toString().trim());
+    }
+
+    private void checkForUser(){
+        if(loginBinding.etphone.getText().toString().trim().length()==0) {
+            loginBinding.etphone.setError("Enter phone number");
+            return;
+        }
+        loginViewModel.checkUserExists(loginBinding.etphone.getText().toString());
     }
 }

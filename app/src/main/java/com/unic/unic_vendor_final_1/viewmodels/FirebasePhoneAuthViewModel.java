@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.unic.unic_vendor_final_1.datamodels.FirebaseRepository;
@@ -124,6 +125,25 @@ public class FirebasePhoneAuthViewModel extends ViewModel {
             public void onSuccess(InstanceIdResult instanceIdResult) {
                 String token = instanceIdResult.getToken();
                 firebaseRepository.setInstanceId(mAuth.getUid(),token);
+            }
+        });
+    }
+
+    public void checkUserExists(String phoneNo){
+        firebaseRepository.checkUser(phoneNo)
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots.getDocuments().size()!=0){
+                    status.setValue(5);
+                }
+                else status.setValue(-2);
+            }
+        })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                status.setValue(-2);
             }
         });
     }

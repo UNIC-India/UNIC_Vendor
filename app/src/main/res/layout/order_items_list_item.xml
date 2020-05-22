@@ -96,6 +96,10 @@
                 android:id="@+id/tvExtraInfo2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+<<<<<<< HEAD
+                android:text="Extrainfo2"
+=======
+>>>>>>> ea39218e9cb4a091c90533ff1cefc1fe200c4b0c
                 app:layout_constraintBottom_toTopOf="@+id/tvExtraInfo1"
                 app:layout_constraintEnd_toEndOf="@+id/tvExtraInfo1" />
 
