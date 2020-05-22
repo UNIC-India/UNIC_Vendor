@@ -10,9 +10,8 @@
         android:id="@+id/icon3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:src="@drawable/logonotext"
-        app:layout_constraintBottom_toTopOf="@+id/lottieAnimationView"
         app:layout_constraintHeight_percent="0.14"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -62,13 +61,14 @@
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:text="Be a UNIC Vendor. Manage Everything at one place."
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="Be a UNIC Vendor. Manage your Business at one place."
         android:textColor="#000000"
-        android:textSize="16sp"
+        android:textSize="15sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnSignUp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

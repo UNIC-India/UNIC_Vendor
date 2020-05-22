@@ -44,7 +44,6 @@ public class MyAppsFragment extends Fragment implements View.OnClickListener{
         LinearLayoutManager layoutManager =new LinearLayoutManager(getContext());
         RecyclerView recyclerView =myAppsBinding.myShops;
         recyclerView.setLayoutManager(layoutManager);
-        myAppsBinding=FragmentMyAppsBinding.inflate(getLayoutInflater());
         adapter = new ShopAdapter(getContext(),0);
         shopsViewModel = new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
         shopsViewModel.getShops().observe(getViewLifecycleOwner(), new Observer<List<Shop>>() {
