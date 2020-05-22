@@ -83,6 +83,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         signUpBinding.btnconfirm.setOnClickListener(this);
         signUpBinding.btncontinue.setOnClickListener(this);
         signUpBinding.btnresend.setOnClickListener(this);
+        signUpBinding.btnfb.setOnClickListener(this);
+        signUpBinding.btngoogle.setOnClickListener(this);
     }
 
     private void updateUI(int code) {

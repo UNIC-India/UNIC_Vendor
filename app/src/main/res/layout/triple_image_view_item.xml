@@ -6,7 +6,8 @@
     android:layout_marginLeft="4dp"
     android:layout_marginRight="4dp"
     android:layout_marginBottom="3dp"
-    app:cardElevation="5dp">
+    app:cardElevation="5dp"
+    app:layout_constraintWidth_percent="0.5">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
@@ -19,6 +20,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.45"
             app:srcCompat="@drawable/black_border" />
 
         <TextView

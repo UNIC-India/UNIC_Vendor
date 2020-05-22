@@ -34,7 +34,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvProductName,tvCompany,tvPrice,tvCategory;;
-        ImageView ivProductPhoto;
+        ImageView ivProductPhoto,imageView2;
         CheckBox cbCheck;
 
 
@@ -46,6 +46,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             tvCompany=itemView.findViewById(R.id.product_company_name);
             tvPrice=itemView.findViewById(R.id.product_price);
             tvCategory=itemView.findViewById(R.id.tvCategory);
+            imageView2=itemView.findViewById(R.id.imageView2);
+
         }
     }
 
@@ -64,6 +66,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder.tvPrice.setText(products.get(position).get("price").toString());
             holder.tvCompany.setText(products.get(position).get("category").toString());
             holder.tvCategory.setText(products.get(position).get("company").toString());
+            holder.imageView2.setVisibility(View.GONE);
             Glide
                     .with(mContext)
                     .load(products.get(position).get("imageid").toString())
@@ -89,6 +92,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder.tvProductName.setText("Demo Product");
             holder.ivProductPhoto.setImageResource(R.drawable.demo_product);
             holder.cbCheck.setVisibility(View.GONE);
+            holder.imageView2.setVisibility(View.VISIBLE);
 
 
         }
