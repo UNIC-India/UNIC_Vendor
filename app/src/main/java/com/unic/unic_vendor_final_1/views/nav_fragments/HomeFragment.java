@@ -82,6 +82,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .commit();
                 break;
+            case R.id.card_view3:
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.home_fragment,new SettingsFragment())
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .commit();
+                break;
             default:
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.home_fragment, new ComingSoon())

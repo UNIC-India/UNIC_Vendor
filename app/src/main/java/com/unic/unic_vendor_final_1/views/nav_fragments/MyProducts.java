@@ -33,9 +33,13 @@ public class MyProducts extends Fragment {
 
     private ShopListAdapter adapter;
     FragmentMyProductsBinding myProductsBinding;
+    int from=0;
 
     public MyProducts() {
         // Required empty public constructor
+    }
+    public MyProducts(int from){
+        this.from=from;
     }
 
 
@@ -48,7 +52,7 @@ public class MyProducts extends Fragment {
 
 
 
-        adapter = new ShopListAdapter(getContext());
+        adapter = new ShopListAdapter(getContext(),from);
         shopsViewModel = new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
         adapter.setShops(shopsViewModel.getShops().getValue());
         shopsViewModel.getShops().observe(getViewLifecycleOwner(), new Observer<List<Shop>>() {
