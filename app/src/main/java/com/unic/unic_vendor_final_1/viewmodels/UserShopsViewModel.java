@@ -52,6 +52,8 @@ public class UserShopsViewModel extends ViewModel {
     private MutableLiveData<Integer> orderstatuschangestatus = new MutableLiveData<>();
     private MutableLiveData<Order> currentOrder = new MutableLiveData<>();
     private MutableLiveData<Map<String,String>> qrLinks = new MutableLiveData<>();
+    private boolean isFirst = true;
+    private DocumentSnapshot lastDoc;
 
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
@@ -118,6 +120,30 @@ public class UserShopsViewModel extends ViewModel {
                 }
             });
         }
+    }
+
+    public void getPaginatedOrders(){
+        List<Order> orderList ;
+
+        if(isFirst)
+            orderList = new ArrayList<>();
+        else
+            orderList = orders.getValue();
+
+        firebaseRepository.getPaginatedOrders(shopids.getValue(),lastDoc,isFirst)
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (queryDocumentSnapshots.getDocuments().size()==0)
+                            return;
+                        for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()){
+                            orderList.add(doc.toObject(Order.class));
+                        }
+                        isFirst = false;
+                        lastDoc = queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.getDocumentChanges().size()-1);
+                    }
+                });
+
     }
 
     public void updateOrderStatus(Order order, String status) {

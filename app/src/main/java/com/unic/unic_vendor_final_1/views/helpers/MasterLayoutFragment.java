@@ -1,5 +1,6 @@
 package com.unic.unic_vendor_final_1.views.helpers;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,7 +9,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -36,7 +39,7 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MasterLayoutFragment extends Fragment implements AdapterView.OnItemSelectedListener, TextWatcher {
+public class MasterLayoutFragment extends Fragment implements AdapterView.OnItemSelectedListener, TextWatcher, SwipeRefreshLayout.OnRefreshListener {
     private RecyclerView rv;
     private Spinner spinner;
     private SetStructureViewModel setStructureViewModel;
@@ -49,6 +52,7 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
     private boolean isAtBottom = false;
     private List<Map<String,Object>> searchResults = new ArrayList<>();
     private Map<String,List<String>> extraData = new HashMap<>();
+    private MasterLayoutBinding masterLayoutBinding;
 
 
     public MasterLayoutFragment() {
@@ -59,11 +63,12 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.master_layout, container, false);
+        masterLayoutBinding = MasterLayoutBinding.inflate(inflater,container,false);
+
         setStructureViewModel= new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
-        rv=view.findViewById(R.id.rv);
-        spinner=view.findViewById(R.id.spinner);
-        searchTextView = view.findViewById(R.id.autoCompleteTextView);
+        rv=masterLayoutBinding.rv;
+        spinner=masterLayoutBinding.spinner;
+        searchTextView = masterLayoutBinding.autoCompleteTextView;
         masterProductAdapter=new MasterProductAdapter(getContext());
         masterCompaniesAdapter=new MasterCompaniesAdapter(getContext());
         masterCategoriesAdapter= new MasterCategoriesAdapter(getContext());
@@ -84,8 +89,11 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
+        masterLayoutBinding.masterLayoutRefresh.setOnRefreshListener(this);
+        masterLayoutBinding.masterLayoutRefresh.setColorSchemeColors(getContext().getColor(R.color.colorPrimary),getContext().getColor(R.color.colorSecondary),getContext().getColor(R.color.colorTertiary),getContext().getColor(R.color.colourQuaternary));
 
-        return view;
+
+        return masterLayoutBinding.getRoot();
     }
 
     @Override
@@ -235,5 +243,22 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
         }
         masterProductAdapter.setProducts(refinedProducts);
         masterProductAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onRefresh() {
+
+        new Handler().postDelayed(new Runnable() {
+            @Override public void run() {
+                masterLayoutBinding.masterLayoutRefresh.setRefreshing(false);
+                if(getFragmentManager()!=null) {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .detach(MasterLayoutFragment.this)
+                            .attach(MasterLayoutFragment.this)
+                            .commit();
+                }
+            }
+        }, 5000);
     }
 }
