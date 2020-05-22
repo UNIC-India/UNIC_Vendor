@@ -95,7 +95,7 @@
                 app:layout_constraintTop_toBottomOf="@id/product_company_name"></TextView>
 
             <TextView
-                android:id="@+id/extrainfo1"
+                android:id="@+id/tvExtrainfo1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ExtraIfo1"
@@ -121,6 +121,15 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/addtocart" />
+
+            <TextView
+                android:id="@+id/tvExtrainfo2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Extrainfo2"
+                app:layout_constraintEnd_toStartOf="@+id/product_price"
+                app:layout_constraintStart_toEndOf="@+id/tvCategory"
+                app:layout_constraintTop_toBottomOf="@+id/tvExtrainfo1" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

@@ -122,7 +122,6 @@ public class ShopQRAdapter  extends RecyclerView.Adapter<ShopQRAdapter.ViewHolde
 
                     dialog.show();
                 }
-
             }
         });
 

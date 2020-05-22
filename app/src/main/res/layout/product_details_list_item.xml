@@ -86,10 +86,9 @@
                 app:layout_constraintTop_toBottomOf="@id/product_company_name"></TextView>
 
             <TextView
-                android:id="@+id/extrainfo1"
+                android:id="@+id/tvExtrainfo1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ExtraIfo1"
                 app:layout_constraintBottom_toBottomOf="@+id/product_company_name"
                 app:layout_constraintEnd_toStartOf="@+id/imageView2"
                 app:layout_constraintStart_toEndOf="@+id/product_company_name" />

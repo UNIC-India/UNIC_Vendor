@@ -42,8 +42,8 @@
 
     <EditText
         android:id="@+id/et_add_shop_name"
-        android:layout_height="wrap_content"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         app:layout_constraintStart_toEndOf="@id/tv_add_shop_name"
         app:layout_constraintTop_toTopOf="@id/tv_add_shop_name"
@@ -70,8 +70,8 @@
 
     <EditText
         android:id="@+id/et_add_shop_address_line2"
-        android:layout_height="wrap_content"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="@id/et_add_shop_name"
         app:layout_constraintTop_toBottomOf="@id/et_add_shop_address_line1"

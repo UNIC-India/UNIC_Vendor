@@ -35,6 +35,7 @@
                 <ImageView
                     android:id="@+id/double_product_view"
                     android:layout_width="125.4dp"
+                    android:layout_height="0dp"
                     android:layout_gravity="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHeight_percent="0.6"
@@ -72,6 +73,7 @@
                 <Button
                     android:id="@+id/double_product_cart"
                     android:layout_width="93dp"
+                    android:layout_height="0dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
                     android:background="@color/green"
