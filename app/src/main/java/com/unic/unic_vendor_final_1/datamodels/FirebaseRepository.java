@@ -282,7 +282,5 @@ public class FirebaseRepository {
                         .build()
                 )
                 .buildShortDynamicLink();
-
     }
-
 }

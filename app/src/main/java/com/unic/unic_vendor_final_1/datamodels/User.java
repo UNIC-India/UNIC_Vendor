@@ -6,8 +6,7 @@ import java.util.List;
 public class User {
     private String id,fullName,email,phoneNo,instanceId;
 
-    public User(){
-    }
+    public User(){}
 
     public User(String id,String fullName,String email,String phoneNo){
         this.id  = id;
