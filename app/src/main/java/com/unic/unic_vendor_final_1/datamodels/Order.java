@@ -186,5 +186,3 @@ public class Order {
         this.GSTIN = GSTIN;
     }
 }
-
-

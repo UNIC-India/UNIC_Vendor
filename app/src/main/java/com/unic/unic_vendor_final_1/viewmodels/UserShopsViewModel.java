@@ -64,7 +64,7 @@ public class UserShopsViewModel extends ViewModel {
     public MutableLiveData<List<Notification>> notifications=new MutableLiveData<>();
     public MutableLiveData<List<Map<String,Object>>> members=new MutableLiveData<>();
     public MutableLiveData<Integer> memberAddStatus=new MutableLiveData<>();
-    
+
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
