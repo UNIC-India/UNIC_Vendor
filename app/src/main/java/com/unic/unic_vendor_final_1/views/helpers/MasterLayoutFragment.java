@@ -39,7 +39,7 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MasterLayoutFragment extends Fragment implements AdapterView.OnItemSelectedListener, TextWatcher, SwipeRefreshLayout.OnRefreshListener {
+public class MasterLayoutFragment extends Fragment implements AdapterView.OnItemSelectedListener, TextWatcher {
     private RecyclerView rv;
     private Spinner spinner;
     private SetStructureViewModel setStructureViewModel;
@@ -88,10 +88,6 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-
-        masterLayoutBinding.masterLayoutRefresh.setOnRefreshListener(this);
-        masterLayoutBinding.masterLayoutRefresh.setColorSchemeColors(getContext().getColor(R.color.colorPrimary),getContext().getColor(R.color.colorSecondary),getContext().getColor(R.color.colorTertiary),getContext().getColor(R.color.colourQuaternary));
-
 
         return masterLayoutBinding.getRoot();
     }
@@ -245,20 +241,4 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
         masterProductAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onRefresh() {
-
-        new Handler().postDelayed(new Runnable() {
-            @Override public void run() {
-                masterLayoutBinding.masterLayoutRefresh.setRefreshing(false);
-                if(getFragmentManager()!=null) {
-                    getFragmentManager()
-                            .beginTransaction()
-                            .detach(MasterLayoutFragment.this)
-                            .attach(MasterLayoutFragment.this)
-                            .commit();
-                }
-            }
-        }, 5000);
-    }
 }
