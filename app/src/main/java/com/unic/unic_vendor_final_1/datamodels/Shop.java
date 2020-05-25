@@ -1,11 +1,14 @@
 package com.unic.unic_vendor_final_1.datamodels;
 
+import com.google.firebase.firestore.DocumentId;
+
 import java.util.Map;
 
 public class Shop {
 
 
-    private String id,ownerId,name,address,locality,city,imageLink,logoLink,dynSubscribeLink;
+    private String id;
+    private String ownerId,name,address,locality,city,imageLink,logoLink,dynSubscribeLink;
     private int noOfProducts,noOfSubscribers;
     private Map<String,Double> location;
 

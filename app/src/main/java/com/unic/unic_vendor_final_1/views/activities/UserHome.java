@@ -179,6 +179,9 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     public void deleteShop(String shopId){
         userShopsViewModel.deleteShop(shopId);
     }
+    public void deleteMember(String phone,String role, String shopId){
+        userShopsViewModel.delelteMember(phone, role, shopId);
+    }
 
     @Override
     public void onBackPressed() {

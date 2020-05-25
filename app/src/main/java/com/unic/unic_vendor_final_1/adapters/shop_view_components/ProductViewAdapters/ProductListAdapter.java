@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,9 +28,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     public ProductListAdapter(Context context){
         this.mContext = context;
+        checkedProducts=new ArrayList<>();
     }
     public ProductListAdapter(int demo){
         this.demo=demo;
+        checkedProducts=new ArrayList<>();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -72,7 +75,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                     .load(products.get(position).get("imageid").toString())
                     .into(holder.ivProductPhoto);
 
-            if(checkedProducts.contains(products.get(position)))
+            if(checkedProducts!=null&&checkedProducts.contains(products.get(position)))
                 holder.cbCheck.setChecked(true);
 
             else
@@ -81,7 +84,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder.cbCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                    if(isChecked)
+                    if( isChecked)
                         checkedProducts.add(products.get(position));
                     else
                         checkedProducts.remove(products.get(position));
@@ -102,7 +105,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @Override
     public int getItemCount() {
         if(demo==0)
-        return products.size();
+            if(products!=null)
+                return products.size();
+            else
+                return 0;
         else
             return 3;
     }
@@ -117,6 +123,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
 
     public void  setSelectedProducts(List<Map<String,Object>> productIDs){
-        this.checkedProducts = productIDs;
+        if(productIDs!=null)
+            this.checkedProducts = productIDs;
     }
 }
