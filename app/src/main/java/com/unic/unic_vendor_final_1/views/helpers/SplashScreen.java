@@ -50,8 +50,52 @@ public class SplashScreen extends AppCompatActivity {
 
         final FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
+        file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/splashimage.jpg");
+
         final boolean isUserOnline = mAuth.getCurrentUser() != null && !mAuth.getCurrentUser().isAnonymous();
 
+        if (isUserOnline) {
+
+            try {
+                splashScreenBinding.icon.setImageBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            vm.getUserSplashStatus(mAuth.getUid()).observe(this, new Observer<Integer>() {
+                @Override
+                public void onChanged(Integer integer) {
+                    //    if(integer==null)
+                    //        return;
+                    if (!file.exists() || integer == 1) {
+                        boolean bool = file.delete();
+                        //deleteFile(getExternalFilesDir(Environment.DIRECTORY_PICTURES)+"/splashimage.jpg");
+                        FirebaseStorage.getInstance().getReference().child("splashimage.jpg").getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                Toast.makeText(SplashScreen.this, "New image received", Toast.LENGTH_SHORT).show();
+                                try {
+                                    splashScreenBinding.icon.setImageBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file)));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
+                        vm.setUserSplashStatus(mAuth.getUid(), 0, false);
+                    } else if (integer == 0) {
+                        try {
+                            splashScreenBinding.icon.setImageBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file)));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else
+                        splashScreenBinding.icon.setImageResource(R.drawable.logonotext);
+                }
+            });
+        } else {
+            splashScreenBinding.icon.setImageResource(R.drawable.logonotext);
+        }
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

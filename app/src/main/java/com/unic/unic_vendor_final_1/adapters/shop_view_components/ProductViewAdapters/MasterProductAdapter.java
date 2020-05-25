@@ -85,6 +85,4 @@ public class MasterProductAdapter extends RecyclerView.Adapter<MasterProductAdap
         this.products = products;
     }
 
-
 }
-

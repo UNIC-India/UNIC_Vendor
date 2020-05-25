@@ -18,6 +18,8 @@ import com.unic.unic_vendor_final_1.databinding.FragmentNotificationsBinding;
 import com.unic.unic_vendor_final_1.datamodels.Notification;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 /**
@@ -33,9 +35,9 @@ public class NotificationsFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        notificationsBinding=FragmentNotificationsBinding.inflate(getLayoutInflater(),container,false);
+        notificationsBinding=FragmentNotificationsBinding.inflate(inflater,container,false);
         userShopsViewModel=new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
         userShopsViewModel.notificationStatus.setValue(2);
         notificationsAdapter=new NotificationsAdapter(getContext());

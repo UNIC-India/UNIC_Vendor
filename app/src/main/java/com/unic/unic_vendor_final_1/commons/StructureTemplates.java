@@ -15,5 +15,4 @@ public class StructureTemplates {
 
         return structure;
     }
-
 }
