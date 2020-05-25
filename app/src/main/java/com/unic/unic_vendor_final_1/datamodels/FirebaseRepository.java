@@ -226,7 +226,7 @@ public class FirebaseRepository {
 
     public Task<Void> setSubscribeLink(String shopId,Uri link){
         Map<String,Object> data = new HashMap<>();
-        data.put("subscribeLink",link.toString());
+        data.put("dynSubscribeLink",link.toString());
         return db.collection("shops").document(shopId).set(data, SetOptions.merge());
     }
 
@@ -265,8 +265,9 @@ public class FirebaseRepository {
                 .setDomainUriPrefix("https://uniccustomer.page.link")
                 .setAndroidParameters(
                         new DynamicLink.AndroidParameters.Builder("com.unic.cust_final_1")
-                        .setMinimumVersion(1)
-                        .build()
+                                .setMinimumVersion(1)
+                                .setFallbackUrl(Uri.parse("https://uniccustomer.page.link"))
+                                .build()
                 )
                 .setGoogleAnalyticsParameters(
                         new DynamicLink.GoogleAnalyticsParameters.Builder()
