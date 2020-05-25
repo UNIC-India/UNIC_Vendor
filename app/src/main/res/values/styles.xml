@@ -19,6 +19,7 @@
         <item name="android:inputType">textCapSentences</item>
         <item name="singleLine">true</item>
         <item name="android:focusableInTouchMode">true</item>
+        <item name="colorAccent">@color/colorSecondary</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

@@ -70,28 +70,25 @@ public class UserShopsViewModel extends ViewModel {
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
     public void getAllShops() {
-        firebaseRepository.getAllShops(user.getUid()).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Timber.tag("FirestoreViewModel").w(e, "Listen Failed");
-                    return;
-                }
-                ArrayList<Shop> data = new ArrayList<>();
-                ArrayList<String> ids = new ArrayList<>();
+        firebaseRepository.getAllShops(user.getUid()).addSnapshotListener((snapshots, e) -> {
+            if (e != null) {
+                Timber.tag("FirestoreViewModel").w(e, "Listen Failed");
+                return;
+            }
+            ArrayList<Shop> data = new ArrayList<>();
+            ArrayList<String> ids = new ArrayList<>();
 
-                assert snapshots != null;
-                for (DocumentSnapshot doc : snapshots.getDocuments()) {
-                    data.add(doc.toObject(Shop.class));
-                    ids.add(doc.getId());
-
-                }
-
-                shops.setValue(data);
-                shopids.setValue(ids);
-                getAllOrders();
+            assert snapshots != null;
+            for (DocumentSnapshot doc : snapshots.getDocuments()) {
+                data.add(doc.toObject(Shop.class));
+                ids.add(doc.getId());
 
             }
+
+            shops.setValue(data);
+            shopids.setValue(ids);
+            getAllOrders();
+
         });
     }
 
@@ -99,36 +96,33 @@ public class UserShopsViewModel extends ViewModel {
         List<Order> ordersList = new ArrayList<>();
 
         for (Shop shop : shops.getValue()) {
-            firebaseRepository.getOrders(shop.getId()).addSnapshotListener(new EventListener<QuerySnapshot>() {
-                @Override
-                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+            firebaseRepository.getOrders(shop.getId()).addSnapshotListener((queryDocumentSnapshots, e) -> {
 
-                    List<DocumentChange> documentChanges = queryDocumentSnapshots.getDocumentChanges();
+                List<DocumentChange> documentChanges = queryDocumentSnapshots.getDocumentChanges();
 
-                    for (DocumentChange documentChange : documentChanges) {
-                        switch (documentChange.getType()) {
-                            case ADDED:
-                                ordersList.add(documentChange.getDocument().toObject(Order.class));
-                                ordersList.sort(Order.compareByDate);
-                                break;
-                            case MODIFIED:
-                                Order modifiedOrder = documentChange.getDocument().toObject(Order.class);
-                                for (int i = 0; i < ordersList.size(); i++) {
+                for (DocumentChange documentChange : documentChanges) {
+                    switch (documentChange.getType()) {
+                        case ADDED:
+                            ordersList.add(documentChange.getDocument().toObject(Order.class));
+                            ordersList.sort(Order.compareByDate);
+                            break;
+                        case MODIFIED:
+                            Order modifiedOrder = documentChange.getDocument().toObject(Order.class);
+                            for (int i = 0; i < ordersList.size(); i++) {
 
-                                    Order order = ordersList.get(i);
+                                Order order = ordersList.get(i);
 
-                                    if (order.getId().equals(modifiedOrder.getId())) {
-                                        ordersList.set(i, modifiedOrder);
-                                    }
+                                if (order.getId().equals(modifiedOrder.getId())) {
+                                    ordersList.set(i, modifiedOrder);
                                 }
-                                break;
-                            case REMOVED:
-                                ordersList.remove(documentChange.getDocument().toObject(Order.class));
-                        }
+                            }
+                            break;
+                        case REMOVED:
+                            ordersList.remove(documentChange.getDocument().toObject(Order.class));
                     }
-                    orders.setValue(ordersList);
-
                 }
+                orders.setValue(ordersList);
+
             });
         }
     }
@@ -142,17 +136,14 @@ public class UserShopsViewModel extends ViewModel {
             orderList = orders.getValue();
 
         firebaseRepository.getPaginatedOrders(shopids.getValue(),lastDoc,isFirst)
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if (queryDocumentSnapshots.getDocuments().size()==0)
-                            return;
-                        for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()){
-                            orderList.add(doc.toObject(Order.class));
-                        }
-                        isFirst = false;
-                        lastDoc = queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.getDocumentChanges().size()-1);
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (queryDocumentSnapshots.getDocuments().size()==0)
+                        return;
+                    for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()){
+                        orderList.add(doc.toObject(Order.class));
                     }
+                    isFirst = false;
+                    lastDoc = queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.getDocumentChanges().size()-1);
                 });
 
     }
@@ -181,18 +172,8 @@ public class UserShopsViewModel extends ViewModel {
 
     public void buildSubscribeLink(String shopId,String shopName){
         firebaseRepository.createSubscribeLink(shopId,shopName)
-                .addOnSuccessListener(new OnSuccessListener<ShortDynamicLink>() {
-                    @Override
-                    public void onSuccess(ShortDynamicLink shortDynamicLink) {
-                        updateSubscribeLink(shopId,shortDynamicLink.getShortLink());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        e.printStackTrace();
-                    }
-                });
+                .addOnSuccessListener(shortDynamicLink -> updateSubscribeLink(shopId,shortDynamicLink.getShortLink()))
+                .addOnFailureListener(e -> e.printStackTrace());
     }
 
     public MutableLiveData<User> getCustomerData(String userId) {
