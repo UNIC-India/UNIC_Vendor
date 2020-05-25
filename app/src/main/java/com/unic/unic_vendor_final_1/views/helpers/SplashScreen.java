@@ -56,7 +56,7 @@ public class SplashScreen extends AppCompatActivity {
 
         final boolean isUserOnline = mAuth.getCurrentUser() != null && !mAuth.getCurrentUser().isAnonymous();
 
-        
+
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
