@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.unic.unic_vendor_final_1.R;
@@ -100,10 +101,10 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    public void inflateView(com.unic.unic_vendor_final_1.datamodels.View view){
+    private void inflateView(com.unic.unic_vendor_final_1.datamodels.View view){
         int viewType = view.getViewCode()/100;
         switch (viewType){
-            case 00:
+            case 0:
                 View frame=new FrameLayout(getContext());
                 frame.setId(view.getViewCode());
                 FragmentManager fm=getActivity().getSupportFragmentManager();
@@ -142,7 +143,10 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
             case 41:
                 View doubleProductView = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.double_product_view,parent,false);
                 doubleProductView.setId(view.getViewCode());
-                parent.addView(doubleProductView);
+                parent.addView(doubleProductView,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
+                RelativeLayout.LayoutParams DoubleProductLayoutParams = (RelativeLayout.LayoutParams) doubleProductView.getLayoutParams();
+                DoubleProductLayoutParams.topMargin = view.getHeight();
+                doubleProductView.setLayoutParams(DoubleProductLayoutParams);
                 TextView tvHeader = doubleProductView.findViewById(R.id.double_product_header);
                 tvHeader.setText(view.getHeader());
                 doubleProductView.findViewById(R.id.btn_add_products).setOnClickListener(this);
@@ -159,7 +163,10 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
             case 42:
                 View TripleProductView = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.triple_image_view,parent,false);
                 TripleProductView.setId(view.getViewCode());
-                parent.addView(TripleProductView);
+                parent.addView(TripleProductView,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
+                RelativeLayout.LayoutParams tripleProductLayoutParams = (RelativeLayout.LayoutParams) TripleProductView.getLayoutParams();
+                tripleProductLayoutParams.topMargin = (int)dpToPx(view.getyPos());
+                TripleProductView.setLayoutParams(tripleProductLayoutParams);
 
                 TextView tvHeader2 = TripleProductView.findViewById(R.id.triple_image_header);
                 tvHeader2.setText(view.getHeader());

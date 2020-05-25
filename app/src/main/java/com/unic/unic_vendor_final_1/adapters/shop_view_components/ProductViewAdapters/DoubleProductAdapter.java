@@ -61,7 +61,7 @@ public class DoubleProductAdapter extends RecyclerView.Adapter<DoubleProductAdap
 
            Glide
                    .with(mContext)
-                   .load(products.get(position).get("imageId"))
+                   .load(products.get(position).get("imageid"))
                    .into(holder.ivProductImage);
        }
        else{

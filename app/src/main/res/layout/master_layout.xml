@@ -7,25 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".views.helpers.MasterLayoutFragment">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/master_layout_refresh"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/autoCompleteTextView">
+        app:layout_constraintTop_toBottomOf="@id/autoCompleteTextView"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#ff00ff"/>
-
-        </LinearLayout>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <Spinner
         android:id="@+id/spinner"
