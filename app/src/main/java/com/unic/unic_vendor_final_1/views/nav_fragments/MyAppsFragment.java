@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -21,6 +22,7 @@ import com.unic.unic_vendor_final_1.databinding.FragmentMyAppsBinding;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 import com.unic.unic_vendor_final_1.views.activities.AddShop;
+import com.unic.unic_vendor_final_1.views.helpers.AddShopFrag;
 
 import java.util.List;
 
@@ -77,7 +79,13 @@ public class MyAppsFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_add_shop:
-                startActivity(new Intent(getContext(), AddShop.class));
+                //startActivity(new Intent(getContext(), AddShop.class));
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .addToBackStack(null)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .replace(R.id.home_fragment,new AddShopFrag())
+                        .commit();
         }
     }
 

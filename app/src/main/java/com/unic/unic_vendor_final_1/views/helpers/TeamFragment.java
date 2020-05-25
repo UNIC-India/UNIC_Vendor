@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,22 +13,29 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.adapters.TeamAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentTeamBinding;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
+
+import java.util.List;
+import java.util.Map;
 
 public class TeamFragment extends Fragment implements View.OnClickListener {
     FragmentTeamBinding teamBinding;
     UserShopsViewModel userShopsViewModel;
+    TeamAdapter teamAdapter;
     String shopName;
     String shopId;
     int setter;
-    String role="SalesMan";
+    String role="salesMan";
 
     public TeamFragment() {
         // Required empty public constructor
@@ -46,6 +54,17 @@ public class TeamFragment extends Fragment implements View.OnClickListener {
         teamBinding=FragmentTeamBinding.inflate(getLayoutInflater(),container,false);
         userShopsViewModel=new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
         teamBinding.btnAddTeamMember.setOnClickListener(this);
+        teamAdapter=new TeamAdapter(getContext(),shopId);
+        userShopsViewModel.getAllMembers(shopId).observe(getViewLifecycleOwner(), new Observer<List<Map<String, String>>>() {
+            @Override
+            public void onChanged(List<Map<String, String>> maps) {
+                teamAdapter.setData(maps);
+                teamAdapter.notifyDataSetChanged();
+            }
+        });
+        teamBinding.rvTeam.setAdapter(teamAdapter);
+        teamBinding.rvTeam.setLayoutManager(new LinearLayoutManager(getContext()));
+
 
 
         return teamBinding.getRoot();
@@ -65,13 +84,13 @@ public class TeamFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         setter=position;
-                        setAdapters(setter,role);
+                        setAdapters(setter);
                     }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
                         setter=0;
-                        setAdapters(setter,role);
+                        setAdapters(setter);
 
                     }
                 });
@@ -89,22 +108,24 @@ public class TeamFragment extends Fragment implements View.OnClickListener {
                     }
                 });
                 dialog.show();
+                Window window= dialog.getWindow();
+                window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
                 break;
         }
     }
-    public void setAdapters(int position,String role){
+    public void setAdapters(int position){
         switch (position){
             case 0:
-                role="SalesMan";
+                this.role="salesMan";
                 break;
             case 1:
-                role="Delivery Man";
+                this.role="deliveryMan";
                 break;
             case 2:
-                role="Dispatcher";
+                this.role="dispatcher";
                 break;
             case 3:
-                role="Preparer";
+                this.role="preparer";
                 break;
         }
     }

@@ -51,9 +51,11 @@
 
             <EditText
                 android:id="@+id/etphone"
-                android:layout_width="345dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
                 android:layout_marginTop="105dp"
+                android:layout_marginRight="32dp"
                 android:drawableStart="@drawable/ic_phone_black_24dp"
                 android:drawablePadding="10dp"
                 android:drawableTint="#EC4156"

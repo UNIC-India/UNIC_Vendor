@@ -77,7 +77,10 @@ public class DoubleProductAdapter extends RecyclerView.Adapter<DoubleProductAdap
     @Override
     public int getItemCount() {
         if(demo==0)
-        return products.size();
+            if(products!=null)
+                return products.size();
+            else
+                return 0;
         else
             return 4;
     }

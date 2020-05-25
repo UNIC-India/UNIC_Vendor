@@ -1,46 +1,46 @@
-package com.unic.unic_vendor_final_1.views.activities;
+package com.unic.unic_vendor_final_1.views.helpers;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.ActivityAddShopBinding;
+import com.unic.unic_vendor_final_1.databinding.FragmentAddShopBinding;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.viewmodels.AddShopViewModel;
-import com.unic.unic_vendor_final_1.views.helpers.LocationSelector;
+import com.unic.unic_vendor_final_1.views.activities.AddShop;
+import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
+import static android.app.Activity.RESULT_OK;
 import static com.unic.unic_vendor_final_1.commons.Helpers.enableDisableViewGroup;
 
-public class AddShop extends AppCompatActivity implements View.OnClickListener {
-
-    private ActivityAddShopBinding addShopBinding;
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class AddShopFrag extends Fragment implements View.OnClickListener {
+    private FragmentAddShopBinding addShopBinding;
     private AddShopViewModel addShopViewModel;
 
     private View coverView;
@@ -61,20 +61,25 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
 
     private Map<String,Double> location = new HashMap<>();
 
+    public AddShopFrag() {
+        // Required empty public constructor
+    }
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addShopBinding = ActivityAddShopBinding.inflate(getLayoutInflater());
-        setContentView(addShopBinding.getRoot());
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        addShopBinding = FragmentAddShopBinding.inflate(getLayoutInflater());
+
         addShopBinding.btnAddShopImage.setOnClickListener(this);
         addShopBinding.addShopStep2.setOnClickListener(this);
         addShopBinding.shopLocationSelect.setOnClickListener(this);
-        addShopViewModel = new ViewModelProvider(this).get(AddShopViewModel.class);
-        addShopViewModel.getShopAddStatus().observe(this, this::statusUpdate);
-        addShopViewModel.getShop().observe(this, this::updateShop);
+        addShopViewModel = new ViewModelProvider(getActivity()).get(AddShopViewModel.class);
+        addShopViewModel.getShopAddStatus().observe(getViewLifecycleOwner(), this::statusUpdate);
+        addShopViewModel.getShop().observe(getViewLifecycleOwner(), this::updateShop);
+        return addShopBinding.getRoot();
     }
-
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void onClick(View view) {
@@ -82,7 +87,7 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
             case R.id.add_shop_step_2:
 
                 if(imageBitmap==null){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
                             .setMessage("No shop Image selected. Do you want to select one?")
                             .setPositiveButton("Yes", (dialog, which) -> {
                                 userWantsImage = true;
@@ -97,15 +102,15 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
                 if(userWantsImage) {
 
                     if (addShopBinding.etAddShopName.getText().toString().trim().length()==0 || (addShopBinding.etAddShopAddressLine1.getText().toString().trim().length()==0 && addShopBinding.etAddShopAddressLine2.getText().toString().trim().length()==0) || addShopBinding.etShopAddLocality.getText().toString().trim().length()==0||addShopBinding.etShopAddCity.getText().toString().trim().length()==0) {
-                        Toast.makeText(AddShop.this, "Please enter all fields", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Please enter all fields", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     if(location.size()==0){
-                        Toast.makeText(AddShop.this, "Please select location on map", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Please select location on map", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
-                    coverView = new View(this);
+                    coverView = new View(getActivity());
                     coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                     coverView.setBackgroundResource(R.color.gray_1);
                     coverView.setAlpha(0.5f);
@@ -131,7 +136,7 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
                 startActivityForResult(intent,GALLERY_INTENT);
                 break;
             case R.id.shop_location_select:
-                Intent locationIntent = new Intent(AddShop.this, LocationSelector.class);
+                Intent locationIntent = new Intent(getActivity(), LocationSelector.class);
                 if(addShopBinding.etShopAddCity.getText().toString().trim().length()>0){
                     locationIntent.putExtra("type",Integer.valueOf(1));
                     if (addShopBinding.etShopAddLocality.getText().toString().trim().length()>0)
@@ -149,12 +154,13 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
     private void statusUpdate(int i){
         switch(i){
             case 1:
-                Toast.makeText(this, "Shop saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Shop saved", Toast.LENGTH_SHORT).show();
+                addShopViewModel.setShopId();
                 break;
 
             case 2:
                 if(!userWantsImage){
-                    Intent intent = new Intent(this,SetShopStructure.class);
+                    Intent intent = new Intent(getActivity(), SetShopStructure.class);
                     intent.putExtra("shopId",shop.getId());
                     startActivity(intent);
                 }
@@ -173,7 +179,7 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
                 enableDisableViewGroup((ViewGroup)addShopBinding.getRoot(),true);
                 ((ViewGroup)addShopBinding.getRoot()).removeView(coverView);
                 addShopBinding.addShopProgressBar.setVisibility(View.GONE);
-                Intent intent = new Intent(this, SetShopStructure.class);
+                Intent intent = new Intent(getActivity(), SetShopStructure.class);
                 intent.putExtra("shopId",shop.getId());
                 intent.putExtra("template",Integer.valueOf(1));
                 startActivity(intent);
@@ -191,9 +197,8 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
     private void updateShop(Shop shop){
         this.shop = shop;
     }
-
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == RESULT_OK && data!=null) {
@@ -210,7 +215,7 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
                 case CROP_IMAGE:
                     Bitmap bitmap;
                     try {
-                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),outputFileUri);
+                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),outputFileUri);
 
                         imageBitmap = bitmap;
                         addShopBinding.btnAddShopImage.setImageBitmap(imageBitmap);
@@ -231,20 +236,12 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener {
         cropIntent.putExtra("aspectX", 1);
         cropIntent.putExtra("aspectY", 1);
         cropIntent.putExtra("return-data", true);
-        File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "new-shop-image-" + ".jpg");
+        File file = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "new-shop-image-" + ".jpg");
         outputFileUri = Uri.fromFile(file);
         cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
         cropIntent.putExtra("output",outputFileUri);
         startActivityForResult(cropIntent, CROP_IMAGE);
-        Toast.makeText(this, "Cropping image", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Cropping image", Toast.LENGTH_SHORT).show();
     }
-
-   /* private float dpToPx(int dp){
-        return TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                dp,
-                getResources().getDisplayMetrics()
-        );
-    }*/
 
 }
