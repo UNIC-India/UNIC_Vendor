@@ -41,7 +41,7 @@ public class NotificationsFragment extends Fragment {
         userShopsViewModel=new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
         userShopsViewModel.notificationStatus.setValue(2);
         notificationsAdapter=new NotificationsAdapter(getContext());
-        userShopsViewModel.getNotificaions().observe(getViewLifecycleOwner(), new Observer<List<Notification>>() {
+        userShopsViewModel.getNotifications().observe(getViewLifecycleOwner(), new Observer<List<Notification>>() {
             @Override
             public void onChanged(List<Notification> notifications) {
                 notificationsAdapter.setNotifications(notifications);

@@ -10,11 +10,15 @@
         <item name="colorAccent">@color/colorSecondary</item>
 
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="android:editTextStyle">@style/CustomEditTextTheme</item>
     </style>
 
     <style name="CustomEditTextTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorControlNormal">@color/colorSecondary</item>
         <item name="colorControlActivated">@color/colorSecondary</item>
+        <item name="android:inputType">textCapSentences</item>
+        <item name="singleLine">true</item>
+        <item name="android:focusableInTouchMode">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
