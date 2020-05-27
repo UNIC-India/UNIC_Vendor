@@ -52,7 +52,7 @@ public class FirestoreDataViewModel extends ViewModel {
         });
     }
 
-    public void setUserSplashStatus(String Uid, final int status,boolean isNewUser){
+    private void setUserSplashStatus(String Uid, final int status, boolean isNewUser){
         firebaseRepository.setUserSplashStatus(Uid,status,isNewUser).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
