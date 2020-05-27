@@ -88,7 +88,7 @@ public class UserShopsViewModel extends ViewModel {
             shops.setValue(data);
             shopids.setValue(ids);
             getAllOrders();
-
+            getAllNotifications();
         });
     }
 
@@ -295,7 +295,7 @@ public class UserShopsViewModel extends ViewModel {
         return members;
     }
 
-    public void delelteMember(String phone, String role, String shopId){
+    public void deleteMember(String phone, String role, String shopId){
         firebaseRepository.db.collection("shops").document(shopId).collection("extraData")
                 .document("team").update(role, FieldValue.arrayRemove(phone)).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -309,31 +309,19 @@ public class UserShopsViewModel extends ViewModel {
         firebaseRepository.db.collection("notifications").add(notification).addOnSuccessListener(documentReference -> notificationStatus.setValue(1));
 
     }
-    public MutableLiveData<List<Notification>> getNotifications(){
+    private void getAllNotifications(){
         firebaseRepository.db.collection("notifications").whereIn("shopId",shopids.getValue()).orderBy("time", Query.Direction.DESCENDING).limit(30).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            List<Notification> notificationsData=new ArrayList<>();
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                List<DocumentChange> documentChanges=new ArrayList<>();
-                if(queryDocumentSnapshots!=null)
-                    documentChanges = queryDocumentSnapshots.getDocumentChanges();
+                if(queryDocumentSnapshots==null)
+                    return;
+                List<Notification> notificationsData=new ArrayList<>();
+                for(DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
+                    notificationsData.add(doc.toObject(Notification.class));
 
-                for (DocumentChange documentChange : documentChanges) {
-                    switch (documentChange.getType()) {
-                        case ADDED:
-                            notificationsData.add(documentChange.getDocument().toObject(Notification.class));
-
-                            break;
-                        case MODIFIED:
-                            break;
-                        case REMOVED:
-                            notificationsData.remove(documentChange.getDocument().toObject(Order.class));
-                    }
-                }
                 notifications.setValue(notificationsData);
             }
         });
-        return notifications;
     }
 
     public LiveData<List<Shop>> getShops() {
@@ -354,8 +342,13 @@ public class UserShopsViewModel extends ViewModel {
         return selectedShopId;
     }
 
+
     public void setSelectedShopId(MutableLiveData<String> selectedShopId) {
         this.selectedShopId = selectedShopId;
+    }
+
+    public LiveData<List<Notification>> getNotifications() {
+        return notifications;
     }
 
     public LiveData<List<Order>> getOrders() {

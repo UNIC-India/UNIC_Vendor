@@ -180,7 +180,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         userShopsViewModel.deleteShop(shopId);
     }
     public void deleteMember(String phone,String role, String shopId){
-        userShopsViewModel.delelteMember(phone, role, shopId);
+        userShopsViewModel.deleteMember(phone, role, shopId);
     }
 
     @Override
