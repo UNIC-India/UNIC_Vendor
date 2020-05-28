@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,28 +61,8 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
     void loadViews(int code){
         adapter_setViews=new Adapter_setViews(getContext());
         adapter_setViews.setCode(code+1);
-        switch (code){
-            case 0:
-                viewSelectorBinding.rvDemo1.setAdapter(adapter_setViews);
-                viewSelectorBinding.rvDemo1.setLayoutManager(new LinearLayoutManager(getContext()));
-                break;
-            case 1:
-                viewSelectorBinding.rvDemo1.setAdapter(adapter_setViews);
-                viewSelectorBinding.rvDemo1.setLayoutManager(new LinearLayoutManager(getContext()));
-                break;
-            case 2:
-                viewSelectorBinding.rvDemo1.setAdapter(adapter_setViews);
-                viewSelectorBinding.rvDemo1.setLayoutManager(new LinearLayoutManager(getContext()));
-                break;
-            case 3:
-                viewSelectorBinding.rvDemo1.setAdapter(adapter_setViews);
-                viewSelectorBinding.rvDemo1.setLayoutManager(new LinearLayoutManager(getContext()));
-                break;
-            case 4:
-                viewSelectorBinding.rvDemo1.setAdapter(adapter_setViews);
-                viewSelectorBinding.rvDemo1.setLayoutManager(new LinearLayoutManager(getContext()));
-                break;
-        }
+        viewSelectorBinding.rvDemo1.setAdapter(adapter_setViews);
+        viewSelectorBinding.rvDemo1.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
@@ -95,9 +76,16 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
 
     public void viewAdder(String code){
         switch (code){
+
+            case "00":
+                com.unic.unic_vendor_final_1.datamodels.View view00 = new com.unic.unic_vendor_final_1.datamodels.View();
+                view00.setHeight(650);
+
             case "21":
                 com.unic.unic_vendor_final_1.datamodels.View view21 = new com.unic.unic_vendor_final_1.datamodels.View();
                 view21.setFields("cname");
+                view21.setHeader("Categories");
+                view21.setHeight(50);
                 ((SetShopStructure) Objects.requireNonNull(getActivity())).addView(pageId, view21,21);
                 break;
             case "41":
@@ -109,7 +97,7 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
                 builder.setPositiveButton("DONE", (dialog, which) -> {
                     if (etViewHeader.getText().toString().trim().length()>0) {
                         com.unic.unic_vendor_final_1.datamodels.View view = new com.unic.unic_vendor_final_1.datamodels.View();
-                        view.setHeight(260);
+                        view.setHeight(265);
                         view.setFields("name,imageId,price");
                         view.setHeader(etViewHeader.getText().toString().trim());
                         ((SetShopStructure) Objects.requireNonNull(getActivity())).addView(pageId, view,41);
@@ -129,7 +117,7 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
                 builder2.setPositiveButton("DONE", (dialog2, which) -> {
                     if (etViewHeader2.getText().toString().trim().length()>0) {
                         com.unic.unic_vendor_final_1.datamodels.View view = new com.unic.unic_vendor_final_1.datamodels.View();
-                        view.setHeight(260);
+                        view.setHeight(290);
                         view.setFields("name,imageId,price");
                         view.setHeader(etViewHeader2.getText().toString().trim());
                         ((SetShopStructure) Objects.requireNonNull(getActivity())).addView(pageId, view,42);
@@ -147,5 +135,13 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
                 break;
 
         }
+    }
+
+    private float dpToPx(int dp){
+        return TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                getResources().getDisplayMetrics()
+        );
     }
 }

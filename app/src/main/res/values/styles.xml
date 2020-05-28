@@ -10,7 +10,6 @@
         <item name="colorAccent">@color/colorSecondary</item>
 
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-        <item name="android:editTextStyle">@style/CustomEditTextTheme</item>
     </style>
 
     <style name="CustomEditTextTheme" parent="Theme.AppCompat.Light.NoActionBar">
