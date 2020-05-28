@@ -110,6 +110,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
                 FragmentManager fm=getActivity().getSupportFragmentManager();
                 fm.beginTransaction().replace(frame.getId(),new MasterLayoutFragment()).commit();
                 parent.addView(frame,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(650)));
+
                 break;
             case 11:
                 //TODO
