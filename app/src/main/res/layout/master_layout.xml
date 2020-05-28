@@ -26,7 +26,7 @@
         android:id="@+id/autoCompleteTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_search_black_24dp"
+        android:drawableStart="@drawable/ic_search_black_24dp"
         android:drawableTint="#D3D3D3"
         android:hint="Search "
         app:layout_constraintEnd_toStartOf="@+id/spinner"

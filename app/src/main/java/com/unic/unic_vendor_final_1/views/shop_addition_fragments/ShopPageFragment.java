@@ -108,8 +108,9 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
                 View frame=new FrameLayout(getContext());
                 frame.setId(view.getViewCode());
                 FragmentManager fm=getActivity().getSupportFragmentManager();
-                fm.beginTransaction().replace(frame.getId(),new MasterLayoutFragment(view)).commit();
-                parent.addView(frame);
+                fm.beginTransaction().replace(frame.getId(),new MasterLayoutFragment()).commit();
+                parent.addView(frame,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(650)));
+
                 break;
             case 11:
                 //TODO
@@ -120,7 +121,10 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
             case 21:
                 View categoriesView=Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.categories_view,parent,false);
                 categoriesView.setId(view.getViewCode());
-                parent.addView(categoriesView);
+                parent.addView(categoriesView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
+                RelativeLayout.LayoutParams categoriesLayoutParams = (RelativeLayout.LayoutParams) categoriesView.getLayoutParams();
+                categoriesLayoutParams.topMargin = (int)dpToPx(view.getyPos());
+                categoriesView.setLayoutParams(categoriesLayoutParams);
                 CategoriesAdapter categoriesAdapter=new CategoriesAdapter(getContext());
                 categoriesAdapter.setCategories(view.getData());
                 LinearLayoutManager categoriesLayoutManager=new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL,false);
@@ -143,9 +147,9 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
             case 41:
                 View doubleProductView = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.double_product_view,parent,false);
                 doubleProductView.setId(view.getViewCode());
-                parent.addView(doubleProductView,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
+                parent.addView(doubleProductView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
                 RelativeLayout.LayoutParams DoubleProductLayoutParams = (RelativeLayout.LayoutParams) doubleProductView.getLayoutParams();
-                DoubleProductLayoutParams.topMargin = view.getHeight();
+                DoubleProductLayoutParams.topMargin = (int) dpToPx(view.getyPos());
                 doubleProductView.setLayoutParams(DoubleProductLayoutParams);
                 TextView tvHeader = doubleProductView.findViewById(R.id.double_product_header);
                 tvHeader.setText(view.getHeader());
@@ -163,7 +167,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
             case 42:
                 View TripleProductView = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.triple_image_view,parent,false);
                 TripleProductView.setId(view.getViewCode());
-                parent.addView(TripleProductView,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
+                parent.addView(TripleProductView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
                 RelativeLayout.LayoutParams tripleProductLayoutParams = (RelativeLayout.LayoutParams) TripleProductView.getLayoutParams();
                 tripleProductLayoutParams.topMargin = (int)dpToPx(view.getyPos());
                 TripleProductView.setLayoutParams(tripleProductLayoutParams);
@@ -254,27 +258,6 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
                 });
                 dialog.show();
                 break;
-
-
-
-                /*final EditText etViewHeader = new EditText(getContext());
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Enter View Title");
-                builder.setMessage("");
-                builder.setView(etViewHeader);
-                builder.setPositiveButton("DONE", (dialog, which) -> {
-                    if (etViewHeader.getText().toString().trim().length()>0) {
-                        com.unic.unic_vendor_final_1.datamodels.View view = new com.unic.unic_vendor_final_1.datamodels.View();
-                        view.setHeight(260);
-                        view.setFields("name,imageId,price");
-                        view.setHeader(etViewHeader.getText().toString().trim());
-                        ((SetShopStructure) Objects.requireNonNull(getActivity())).addView(page.getPageId(), view,41);
-                    }
-                });
-                builder.setNegativeButton("CANCEL", (dialog, which) -> {
-                });
-                AlertDialog dialog  = builder.create();
-                dialog.show();*/
 
         }
     }

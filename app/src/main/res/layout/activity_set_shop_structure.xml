@@ -91,10 +91,8 @@
             android:id="@+id/shop_pages_loader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#F2F2F2"
-            app:layout_constraintTop_toBottomOf="@+id/set_structure_app_bar">
-
-        </FrameLayout>
+            android:background="@color/offWhite"
+            app:layout_constraintTop_toBottomOf="@+id/set_structure_app_bar"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
