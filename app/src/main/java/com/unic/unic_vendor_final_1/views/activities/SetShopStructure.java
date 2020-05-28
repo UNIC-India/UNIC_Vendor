@@ -34,6 +34,8 @@ import com.unic.unic_vendor_final_1.views.helpers.ProductSelector;
 import com.unic.unic_vendor_final_1.views.helpers.ViewSelector;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ShopPageFragment;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -406,7 +408,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         selectProducts(pageId,view.getViewCode());
         else if(code/10==2)
             selectCategories(pageId,view.getViewCode());
-
     }
 
     public void returnToPage(int pageId){

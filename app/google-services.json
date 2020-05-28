@@ -68,6 +68,30 @@
       },
       "oauth_client": [
         {
+          "client_id": "436737072568-gi5jo3fpjv353uahqp4ufia3bblpndkf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unic.cust_final_1",
+            "certificate_hash": "b4abd2825d809df51bec31b7d79cc169a10ffbd7"
+          }
+        },
+        {
+          "client_id": "436737072568-q0q37b9ds921pvtm9arvqjesgujojaq4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unic.cust_final_1",
+            "certificate_hash": "06c7848e741952079e1913016a89c1df806b321f"
+          }
+        },
+        {
+          "client_id": "436737072568-en7t040p667994qmeoe9ufupfihvbi25.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unic.cust_final_1",
+            "certificate_hash": "3fdca41463541141bb18eb975070f48a404e8351"
+          }
+        },
+        {
           "client_id": "436737072568-f0iu1kp5rv1u8dvit5ikrbv86mbp5uot.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -149,6 +173,22 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "436737072568-nsjvdnkelodqtv8pg4t38td385mdj924.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unic.unic_vendor_final_1",
+            "certificate_hash": "73561ead58ddb995dd2529fb69488a61515a0d83"
+          }
+        },
+        {
+          "client_id": "436737072568-5lggqb9glqa3rvak6jcuamfs12a9kgvu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unic.unic_vendor_final_1",
+            "certificate_hash": "3cca0b86f56c28f64dbc51c14e5959f586f5a1b9"
+          }
+        },
         {
           "client_id": "436737072568-5nb4mo53eudcts0esjmj752ar6vs4laj.apps.googleusercontent.com",
           "client_type": 1,

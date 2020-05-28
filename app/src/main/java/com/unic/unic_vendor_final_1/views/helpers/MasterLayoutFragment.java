@@ -41,6 +41,7 @@ import java.util.Map;
  */
 public class MasterLayoutFragment extends Fragment implements AdapterView.OnItemSelectedListener, TextWatcher {
     private RecyclerView rv;
+    private com.unic.unic_vendor_final_1.datamodels.View view;
     private Spinner spinner;
     private SetStructureViewModel setStructureViewModel;
     private int setter=0;
@@ -58,6 +59,9 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
     public MasterLayoutFragment() {
         // Required empty public constructor
     }
+    public MasterLayoutFragment(com.unic.unic_vendor_final_1.datamodels.View view){
+        this.view=view;
+    }
 
 
     @Override
@@ -72,7 +76,6 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
         masterProductAdapter=new MasterProductAdapter(getContext());
         masterCompaniesAdapter=new MasterCompaniesAdapter(getContext());
         masterCategoriesAdapter= new MasterCategoriesAdapter(getContext());
-        setAdapter(setter);
 
         searchTextView.addTextChangedListener(this);
 
@@ -88,6 +91,19 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
+        if(view!=null){
+            if(view.getData()!=null||view.getData().size()==0){
+                if(view.getData().get(0).get("default")!=null){
+                    spinner.setSelection(Integer.parseInt(view.getData().get(0).get("default").toString()));
+                }
+                else
+                    spinner.setSelection(0);
+            }
+            else
+                spinner.setSelection(0);
+        }
+        else
+            spinner.setSelection(0);
 
         return masterLayoutBinding.getRoot();
     }
@@ -100,11 +116,12 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        setter=0;
-        setAdapter(setter);
+      //  setter=0;
+        // setAdapter(setter);
     }
 
     private void setAdapter(int position){
+
         switch (position){
             case 0:
                 rv.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -120,11 +137,15 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
                     }
                 });
 
+
+
+
                 break;
             case 1:
                 rv.setLayoutManager(new LinearLayoutManager(getContext()));
                 masterCategoriesAdapter.notifyDataSetChanged();
                 rv.setAdapter(masterCategoriesAdapter);
+
 
                 break;
             case 2:
@@ -133,6 +154,17 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
                 rv.setAdapter(masterCompaniesAdapter);
                 break;
         }
+
+            List<Map<String, Object>> temp = new ArrayList<>();
+            Map<String, Object> d = new HashMap<>();    //Both these variables are used for setting the default view in the MasterLayout.
+            d.put("default", position);
+            if (view.getData() == null || view.getData().size() == 0) {
+                temp.add(d);
+                view.setData(temp);
+            } else {
+                view.getData().get(0).put("default", position);
+            }
+
     }
 
     private void setProducts(List<Map<String, Object>> products) {

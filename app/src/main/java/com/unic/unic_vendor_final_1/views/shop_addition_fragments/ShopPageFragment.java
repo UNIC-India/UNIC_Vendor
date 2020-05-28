@@ -108,7 +108,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
                 View frame=new FrameLayout(getContext());
                 frame.setId(view.getViewCode());
                 FragmentManager fm=getActivity().getSupportFragmentManager();
-                fm.beginTransaction().replace(frame.getId(),new MasterLayoutFragment()).commit();
+                fm.beginTransaction().replace(frame.getId(),new MasterLayoutFragment(view)).commit();
                 parent.addView(frame);
                 break;
             case 11:
