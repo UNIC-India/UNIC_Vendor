@@ -55,10 +55,6 @@ public class UserShopsViewModel extends ViewModel {
     private MutableLiveData<Map<String,String>> qrLinks = new MutableLiveData<>();
     private boolean isFirst = true;
     private DocumentSnapshot lastDoc;
-    private MutableLiveData<String> selectedShopId= new MutableLiveData<>();
-
-
-
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
@@ -124,19 +120,6 @@ public class UserShopsViewModel extends ViewModel {
         return shops;
     }
 
-    public MutableLiveData<String> getSelectedShopId() {
-        return selectedShopId;
-    }
-
-    public void setSelectedShopId(MutableLiveData<String> selectedShopId) {
-        this.selectedShopId = selectedShopId;
-    }
-
-
-
-
-
-
     //==============For Orders==============//
 
     private MutableLiveData<List<Order>> orders = new MutableLiveData<>();
@@ -196,15 +179,6 @@ public class UserShopsViewModel extends ViewModel {
                     lastDoc = queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.getDocumentChanges().size()-1);
                 });
 
-    }
-
-    public void updateOrderStatus(Order order, String status) {
-        firebaseRepository.db.collection("shops").document(order.getShopId()).collection("orders").document(order.getId()).update("status", status).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                getAllOrders();
-            }
-        });
     }
 
     public void setOrderStatus(String  orderId, int orderStatus) {
