@@ -197,7 +197,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 return true;
             }
         }
-
         return false;
     }
 
@@ -425,6 +424,4 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         super.onBackPressed();
         getSupportFragmentManager().popBackStack();
     }
-
-
 }

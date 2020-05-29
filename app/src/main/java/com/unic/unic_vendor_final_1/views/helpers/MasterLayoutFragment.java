@@ -91,17 +91,8 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-        if(view!=null){
-            if(view.getData()!=null||view.getData().size()==0){
-                if(view.getData().get(0).get("default")!=null){
-                    spinner.setSelection(Integer.parseInt(view.getData().get(0).get("default").toString()));
-                }
-                else
-                    spinner.setSelection(0);
-            }
-            else
-                spinner.setSelection(0);
-        }
+        if(view!=null&&view.getData()!=null&&view.getData().size()!=0&&view.getData().get(0).get("default")!=null)
+            spinner.setSelection(Integer.parseInt(view.getData().get(0).get("default").toString()));
         else
             spinner.setSelection(0);
 

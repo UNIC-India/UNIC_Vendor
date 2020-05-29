@@ -7,6 +7,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,6 +26,7 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategoriesAdapter;
@@ -30,18 +34,28 @@ import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAda
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.TripleImageAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentShopPageBinding;
 import com.unic.unic_vendor_final_1.datamodels.Page;
+import com.unic.unic_vendor_final_1.datamodels.Structure;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 import com.unic.unic_vendor_final_1.views.helpers.MasterLayoutFragment;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShopPageFragment extends Fragment implements View.OnClickListener {
+public class ShopPageFragment extends Fragment implements View.OnClickListener , View.OnTouchListener {
+
+    int prevY;
+    ArrayList<View> views = new ArrayList<>();
+
+    SetStructureViewModel setStructureViewModel;
 
     static class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
@@ -67,8 +81,6 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
     private ViewGroup parent;
     public Dialog dialog;
 
-
-
     public ShopPageFragment() {
         // Required empty public constructor
     }
@@ -80,9 +92,12 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        com.unic.unic_vendor_final_1.databinding.FragmentShopPageBinding shopPageBinding = FragmentShopPageBinding.inflate(inflater, container, false);
+        FragmentShopPageBinding shopPageBinding = FragmentShopPageBinding.inflate(inflater, container, false);
         parent = shopPageBinding.shopViewParent;
-        SetStructureViewModel setStructureViewModel=new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
+        ViewGroup.LayoutParams parentLayoutParams = parent.getLayoutParams();
+        parentLayoutParams.height = (int)dpToPx(page.getSize());
+        parent.setLayoutParams(parentLayoutParams);
+        setStructureViewModel=new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
         setStructureViewModel.setCurrentFrag(getActivity().getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader));
         return shopPageBinding.getRoot();
     }
@@ -95,6 +110,9 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
 
     private void inflateViews(){
 
+        parent.removeAllViews();
+        views.clear();
+
         for(com.unic.unic_vendor_final_1.datamodels.View view : page.getViews()){
             inflateView(view);
         }
@@ -103,13 +121,29 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
 
     private void inflateView(com.unic.unic_vendor_final_1.datamodels.View view){
         int viewType = view.getViewCode()/100;
+        int viewPos = view.getViewCode()%100-1;
         switch (viewType){
             case 0:
-                View frame=new FrameLayout(getContext());
-                frame.setId(view.getViewCode());
+                FrameLayout frameLayout =new FrameLayout(getContext());
+                frameLayout.setId(view.getViewCode()*10+1);
                 FragmentManager fm=getActivity().getSupportFragmentManager();
-                fm.beginTransaction().replace(frame.getId(),new MasterLayoutFragment()).commit();
-                parent.addView(frame,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(650)));
+                fm.beginTransaction().replace(frameLayout.getId(),new MasterLayoutFragment(view)).commit();
+
+                ViewGroup frame = new RelativeLayout(getContext());
+                frame.addView(frameLayout,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
+
+                View view00 = getLayoutInflater().inflate(R.layout.view_bounding,parent,false);
+                view00.setId(view.getViewCode());
+                parent.addView(view00,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
+                RelativeLayout.LayoutParams frameLayoutParams = (RelativeLayout.LayoutParams) view00.getLayoutParams();
+                frameLayoutParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+                view00.setLayoutParams(frameLayoutParams);
+                ((ViewGroup)view00.findViewById(R.id.view_loader)).addView(frame,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
+
+                view00.findViewById(R.id.view_dragger).setOnTouchListener(this::onTouch);
+
+                views.add(view00);
+
 
                 break;
             case 11:
@@ -120,11 +154,22 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
                 //TODO
             case 21:
                 View categoriesView=Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.categories_view,parent,false);
-                categoriesView.setId(view.getViewCode());
-                parent.addView(categoriesView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
-                RelativeLayout.LayoutParams categoriesLayoutParams = (RelativeLayout.LayoutParams) categoriesView.getLayoutParams();
-                categoriesLayoutParams.topMargin = (int)dpToPx(view.getyPos());
-                categoriesView.setLayoutParams(categoriesLayoutParams);
+
+                View view21 = getLayoutInflater().inflate(R.layout.view_bounding,parent,false);
+                view21.setId(view.getViewCode());
+                parent.addView(view21,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
+                RelativeLayout.LayoutParams categoriesViewParams = (RelativeLayout.LayoutParams) view21.getLayoutParams();
+                categoriesViewParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+                view21.setLayoutParams(categoriesViewParams);
+
+                ((ViewGroup)view21.findViewById(R.id.view_loader)).addView(categoriesView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
+
+                RelativeLayout.LayoutParams categoriesParams = (RelativeLayout.LayoutParams) categoriesView.getLayoutParams();
+                categoriesParams.topMargin = (int)dpToPx(30);
+                categoriesView.setLayoutParams(categoriesParams);
+
+                views.add(view21);
+
                 CategoriesAdapter categoriesAdapter=new CategoriesAdapter(getContext());
                 categoriesAdapter.setCategories(view.getData());
                 LinearLayoutManager categoriesLayoutManager=new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL,false);
@@ -145,15 +190,23 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
             case 32:
                 //TODO
             case 41:
-                View doubleProductView = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.double_product_view,parent,false);
-                doubleProductView.setId(view.getViewCode());
-                parent.addView(doubleProductView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
-                RelativeLayout.LayoutParams DoubleProductLayoutParams = (RelativeLayout.LayoutParams) doubleProductView.getLayoutParams();
-                DoubleProductLayoutParams.topMargin = (int) dpToPx(view.getyPos());
-                doubleProductView.setLayoutParams(DoubleProductLayoutParams);
+                View doubleProductView = getLayoutInflater().inflate(R.layout.double_product_view,parent,false);
+
+                View view41 = getLayoutInflater().inflate(R.layout.view_bounding,parent,false);
+                view41.setId(view.getViewCode());
+
+                parent.addView(view41,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
+                RelativeLayout.LayoutParams doubleProductViewParams = (RelativeLayout.LayoutParams) view41.getLayoutParams();
+                doubleProductViewParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+                view41.setLayoutParams(doubleProductViewParams);
+
+                ((ViewGroup)view41.findViewById(R.id.view_loader)).addView(doubleProductView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
+
                 TextView tvHeader = doubleProductView.findViewById(R.id.double_product_header);
                 tvHeader.setText(view.getHeader());
                 doubleProductView.findViewById(R.id.btn_add_products).setOnClickListener(this);
+
+                view41.findViewById(R.id.view_dragger).setOnTouchListener(this::onTouch);
 
                 DoubleProductAdapter doubleProductAdapter = new DoubleProductAdapter(getContext());
                 doubleProductAdapter.setProducts(view.getData());
@@ -163,27 +216,36 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
                 doubleProductRecyclerView.setNestedScrollingEnabled(false);
                 doubleProductRecyclerView.setAdapter(doubleProductAdapter);
                 doubleProductRecyclerView.addItemDecoration(new SpacesItemDecoration(10));
+
+                views.add(view41);
                 break;
             case 42:
-                View TripleProductView = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.triple_image_view,parent,false);
-                TripleProductView.setId(view.getViewCode());
-                parent.addView(TripleProductView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
-                RelativeLayout.LayoutParams tripleProductLayoutParams = (RelativeLayout.LayoutParams) TripleProductView.getLayoutParams();
-                tripleProductLayoutParams.topMargin = (int)dpToPx(view.getyPos());
-                TripleProductView.setLayoutParams(tripleProductLayoutParams);
+                View tripleProductView = getLayoutInflater().inflate(R.layout.triple_image_view,parent,false);
 
-                TextView tvHeader2 = TripleProductView.findViewById(R.id.triple_image_header);
+                View view42 = getLayoutInflater().inflate(R.layout.view_bounding,parent,false);
+                view42.setId(view.getViewCode());
+                parent.addView(view42,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
+                RelativeLayout.LayoutParams tripleProductViewParams = (RelativeLayout.LayoutParams) view42.getLayoutParams();
+                tripleProductViewParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+
+                ((ViewGroup)view42.findViewById(R.id.view_loader)).addView(tripleProductView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
+
+                view42.findViewById(R.id.view_dragger).setOnTouchListener(this::onTouch);
+
+
+                TextView tvHeader2 = tripleProductView.findViewById(R.id.triple_image_header);
                 tvHeader2.setText(view.getHeader());
-                TripleProductView.findViewById(R.id.btn_add_products).setOnClickListener(this);
+                tripleProductView.findViewById(R.id.btn_add_products).setOnClickListener(this);
 
                 TripleImageAdapter tripleImageAdapter = new TripleImageAdapter(getContext());
                 tripleImageAdapter.setProducts(view.getData());
                 LinearLayoutManager TripleProductLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL,false);
-                RecyclerView tripleProductRecyclerView = TripleProductView.findViewById(R.id.triple_image_recycler_view);
+                RecyclerView tripleProductRecyclerView = tripleProductView.findViewById(R.id.triple_image_recycler_view);
                 tripleProductRecyclerView.setLayoutManager(TripleProductLayoutManager);
                 tripleProductRecyclerView.setNestedScrollingEnabled(false);
                 tripleProductRecyclerView.setAdapter(tripleImageAdapter);
                 tripleProductRecyclerView.addItemDecoration(new SpacesItemDecoration(5));
+                views.add(view42);
                 break;
             case 43:
                 break;
@@ -235,8 +297,41 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
         );
     }
 
+    private void updateViews(int v1,int v2){
+
+        View view2 = parent.findViewById(v2);
+
+        RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams) view2.getLayoutParams();
+
+        params2.topMargin = (int) dpToPx(page.getView(v1).getyPos());
+
+        view2.setLayoutParams(params2);
+
+        Collections.swap(page.getViews(),v1%100-1,v2%100-1);
 
 
+    }
+
+    private void refreshViews(){
+
+        ArrayList<com.unic.unic_vendor_final_1.datamodels.View> oldViews = page.getViews();
+        page.setViews(new ArrayList<>());
+        page.setSize(0);
+
+        for(int i=0;i<views.size();i++){
+            int viewCode = views.get(i).getId();
+
+            com.unic.unic_vendor_final_1.datamodels.View view = oldViews.get(viewCode%100-1);
+
+            List<Map<String,Object>> data = view.getData();
+            page.addView(view,viewCode/100);
+            page.updateView(viewCode-viewCode%100+page.getViews().size(),data);
+
+        }
+
+        inflateViews();
+
+    }
 
     @Override
     public void onClick(View v) {
@@ -261,4 +356,78 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener {
 
         }
     }
+
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+
+        View parentView = (View)view.getParent();
+        int currView = views.indexOf(parentView);
+
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)parentView.getLayoutParams();
+
+
+
+
+        switch(motionEvent.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                prevY = (int)motionEvent.getRawY();
+                parent.requestDisallowInterceptTouchEvent(true);
+                return true;
+            case MotionEvent.ACTION_MOVE:
+
+                if((currView!=views.size()-1)&&params.topMargin>((RelativeLayout.LayoutParams)views.get(currView+1).getLayoutParams()).topMargin){
+                    RelativeLayout.LayoutParams lowerViewParams = (RelativeLayout.LayoutParams)views.get(currView+1).getLayoutParams();
+                    lowerViewParams.topMargin-=params.height;
+                    views.get(currView+1).setLayoutParams(lowerViewParams);
+                    swapViews(views,currView,currView+1);
+                    currView++;
+                    break;
+                }
+                else if((currView!=0)&&params.topMargin<((RelativeLayout.LayoutParams)views.get(currView-1).getLayoutParams()).topMargin){
+                    RelativeLayout.LayoutParams lowerViewParams = (RelativeLayout.LayoutParams)views.get(currView-1).getLayoutParams();
+                    lowerViewParams.topMargin+=params.height;
+                    views.get(currView-1).setLayoutParams(lowerViewParams);
+                    swapViews(views,currView,currView-1);
+                    currView++;
+                    break;
+                }
+                else{
+                    params.topMargin+=((int)motionEvent.getRawY()-prevY);
+                    parentView.setLayoutParams(params);
+                    prevY = (int) motionEvent.getRawY();
+                }
+
+                return true;
+            case MotionEvent.ACTION_UP:
+                parent.requestDisallowInterceptTouchEvent(false);
+                if((currView!=views.size()-1)&&params.topMargin+params.height>((RelativeLayout.LayoutParams)views.get(currView+1).getLayoutParams()).topMargin){
+                    params.topMargin = ((RelativeLayout.LayoutParams)views.get(currView+1).getLayoutParams()).topMargin-params.height;
+                }
+                else if (currView!=0&&params.topMargin<((RelativeLayout.LayoutParams)views.get(currView-1).getLayoutParams()).topMargin + ((RelativeLayout.LayoutParams)views.get(currView-1).getLayoutParams()).height){
+                    params.topMargin = ((RelativeLayout.LayoutParams)views.get(currView-1).getLayoutParams()).topMargin + ((RelativeLayout.LayoutParams)views.get(currView-1).getLayoutParams()).height;
+                }
+                else if(params.topMargin < 0){
+                    params.topMargin = 0;
+                }
+                else if(params.topMargin+params.height>parent.getLayoutParams().height){
+                    params.topMargin = parent.getLayoutParams().height - params.topMargin;
+                }
+
+                parentView.setLayoutParams(params);
+                refreshViews();
+                return true;
+        }
+
+
+        return false;
+    }
+
+    private ArrayList<View> swapViews(ArrayList<View> views,int v1, int v2){
+        View v = views.get(v1);
+        views.set(v1,views.get(v2));
+        views.set(v2,v);
+        return views;
+    }
+
 }
