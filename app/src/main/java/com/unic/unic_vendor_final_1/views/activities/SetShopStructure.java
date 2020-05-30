@@ -30,6 +30,7 @@ import com.unic.unic_vendor_final_1.datamodels.Structure;
 import com.unic.unic_vendor_final_1.commons.StructureTemplates;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 import com.unic.unic_vendor_final_1.views.helpers.CategorySelector;
+import com.unic.unic_vendor_final_1.views.helpers.NoProductsFragment;
 import com.unic.unic_vendor_final_1.views.helpers.ProductSelector;
 import com.unic.unic_vendor_final_1.views.helpers.ViewSelector;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ShopPageFragment;
@@ -45,6 +46,8 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     public Structure structure;
     private Shop shop;
     Toolbar toolbar;
+    int noOfProducts;
+    String shopName;
     public int currentPage=1001;
     private List<Map<String,Object>> products;
 
@@ -67,45 +70,14 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
         shopId = getIntent().getStringExtra("shopId");
         assert shopId != null;
-
         setStructureViewModel.getShop().observe(this, new Observer<Shop>() {
             @Override
             public void onChanged(Shop shop) {
                 setShop(shop);
-            }
-        });
+                shopName=shop.getName();
+                setButtonsAndToolBar(currentFragment);
 
-        setStructureViewModel.getStructure().observe(this, new Observer<Structure>() {
-            @Override
-            public void onChanged(Structure structure) {
-                setStructure(structure);
-            }
-        });
-        setStructureViewModel.getProducts().observe(this, new Observer<List<Map<String, Object>>>() {
-            @Override
-            public void onChanged(List<Map<String, Object>> maps) {
-                setProducts(maps);
-            }
-        });
 
-        setStructureViewModel.getStructureStatus().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                setStructureStatus(integer);
-            }
-        });
-
-        setStructureViewModel.getStatus().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                setStatus(integer);
-            }
-        });
-
-        setStructureViewModel.getProductStatus().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                setProductStatus(integer);
             }
         });
         setStructureViewModel.getCurrentFrag().observe(this, new Observer<Fragment>() {
@@ -116,23 +88,70 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             }
         });
 
-        setStructureViewModel.getShopExtras(shopId);
 
-        toolbar = setShopStructureBinding.setStructureToolbar;
-        setSupportActionBar(toolbar);
+        noOfProducts=getIntent().getIntExtra("NoOfProducts",0);
+        if(noOfProducts==0){
+            setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
+            getSupportFragmentManager().beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .add(R.id.shop_pages_loader,new NoProductsFragment())
+                    .commit();
+        }
+        else {
 
 
-        DrawerLayout drawer = setShopStructureBinding.drawerLayout;
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-        setShopStructureBinding.setStructureNavView.setNavigationItemSelectedListener(this);
-        setShopStructureBinding.btnleft.setOnClickListener(this);
-        setShopStructureBinding.btnRight.setOnClickListener(this);
-        setShopStructureBinding.confirmShopStructure.setOnClickListener(this);
+            setStructureViewModel.getStructure().observe(this, new Observer<Structure>() {
+                @Override
+                public void onChanged(Structure structure) {
+                    setStructure(structure);
+                }
+            });
+            setStructureViewModel.getProducts().observe(this, new Observer<List<Map<String, Object>>>() {
+                @Override
+                public void onChanged(List<Map<String, Object>> maps) {
+                    setProducts(maps);
+                }
+            });
 
-        option = getIntent().getIntExtra("template",0);
+            setStructureViewModel.getStructureStatus().observe(this, new Observer<Integer>() {
+                @Override
+                public void onChanged(Integer integer) {
+                    setStructureStatus(integer);
+                }
+            });
+
+            setStructureViewModel.getStatus().observe(this, new Observer<Integer>() {
+                @Override
+                public void onChanged(Integer integer) {
+                    setStatus(integer);
+                }
+            });
+
+            setStructureViewModel.getProductStatus().observe(this, new Observer<Integer>() {
+                @Override
+                public void onChanged(Integer integer) {
+                    setProductStatus(integer);
+                }
+            });
+
+            setStructureViewModel.getShopExtras(shopId);
+
+            toolbar = setShopStructureBinding.setStructureToolbar;
+            setSupportActionBar(toolbar);
+
+
+            DrawerLayout drawer = setShopStructureBinding.drawerLayout;
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.addDrawerListener(toggle);
+            toggle.syncState();
+            setShopStructureBinding.setStructureNavView.setNavigationItemSelectedListener(this);
+            setShopStructureBinding.btnleft.setOnClickListener(this);
+            setShopStructureBinding.btnRight.setOnClickListener(this);
+            setShopStructureBinding.confirmShopStructure.setOnClickListener(this);
+
+            option = getIntent().getIntExtra("template", 0);
+        }
 
     }
 
@@ -212,8 +231,16 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     }
 
     public void setButtonsAndToolBar(Fragment currentFragment){
-        if(currentFragment.getClass()==ShopPageFragment.class){
+        if(currentFragment!=null){
+        if(currentFragment.getClass()==NoProductsFragment.class){
+            if(shop!=null)
             setShopStructureBinding.tvTitle.setText(shop.getName());
+            setShopStructureBinding.btnleft.setVisibility(View.GONE);
+            setShopStructureBinding.btnRight.setVisibility(View.GONE);
+        }
+        if(currentFragment.getClass()==ShopPageFragment.class){
+            if(shop!=null)
+                setShopStructureBinding.tvTitle.setText(shop.getName());
             setShopStructureBinding.confirmShopStructure.setVisibility(View.VISIBLE);
             setShopStructureBinding.btnRight.setText("Add View");
             setShopStructureBinding.btnleft.setText("Add Page");
@@ -242,6 +269,8 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             setShopStructureBinding.btnleft.setText("Cancel");
             setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
         }
+        }
+        
     }
 
     void populateHeader(){

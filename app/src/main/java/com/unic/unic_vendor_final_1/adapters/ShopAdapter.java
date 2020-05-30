@@ -100,6 +100,18 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
                     Intent intent = new Intent(context,SetShopStructure.class);
                     intent.putExtra("shopId",shops.get(position).getId());
                     intent.putExtra("template",Integer.valueOf(0));
+                    intent.putExtra("shopName",shops.get(position).getName());
+                    intent.putExtra("NoOfProducts",Integer.valueOf(shops.get(position).getNoOfProducts()));
+                    context.startActivity(intent);
+                }
+            });
+            holder.cdShop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context,SetShopStructure.class);
+                    intent.putExtra("shopId",shops.get(position).getId());
+                    intent.putExtra("template",Integer.valueOf(0));
+                    intent.putExtra("NoOfProducts",Integer.valueOf(shops.get(position).getNoOfProducts()));
                     context.startActivity(intent);
                 }
             });
