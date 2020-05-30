@@ -16,16 +16,16 @@ import com.unic.unic_vendor_final_1.R;
 import java.util.List;
 import java.util.Map;
 
-public class TripleImageAdapter extends RecyclerView.Adapter<TripleImageAdapter.ViewHolder> {
+public class TripleProductAdapter extends RecyclerView.Adapter<TripleProductAdapter.ViewHolder> {
 
     private Context mContext;
     private List<Map<String,Object>> products;
     int demo=0;
 
-    public TripleImageAdapter(Context context){
+    public TripleProductAdapter(Context context){
         this.mContext = context;
     }
-    public TripleImageAdapter(int demo){
+    public TripleProductAdapter(int demo){
         this.demo=demo;
     }
 
@@ -50,7 +50,7 @@ public class TripleImageAdapter extends RecyclerView.Adapter<TripleImageAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.triple_image_view_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.triple_product_view_item,parent,false);
         return new ViewHolder(view);
     }
 
@@ -61,7 +61,7 @@ public class TripleImageAdapter extends RecyclerView.Adapter<TripleImageAdapter.
             holder.tvProductPrice.setText(products.get(position).get("price").toString());
             Glide
                     .with(mContext)
-                    .load(products.get(position).get("imageid").toString())
+                    .load(products.get(position).get("imageId").toString())
                     .into(holder.ivProductImage);
         }
         else{

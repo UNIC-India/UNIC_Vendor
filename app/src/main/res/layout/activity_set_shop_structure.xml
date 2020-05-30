@@ -13,7 +13,8 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/linearLayout4"
+            android:id="@+id/structure_buttons"
+
             android:layout_width="match_parent"
             android:layout_height="62dp"
             android:elevation="6dp"
@@ -92,10 +93,10 @@
         <FrameLayout
             android:id="@+id/shop_pages_loader"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
+            android:layout_height="0dp"
             android:background="@color/offWhite"
-            app:layout_constraintTop_toBottomOf="@+id/set_structure_app_bar" />
+            app:layout_constraintTop_toBottomOf="@+id/set_structure_app_bar"
+            app:layout_constraintBottom_toTopOf="@id/structure_buttons"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

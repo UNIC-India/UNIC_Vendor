@@ -5,7 +5,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -19,7 +18,7 @@ import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsA
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListWithoutImagesAdapter;
-import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.TripleImageAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.TripleProductAdapter;
 
 public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.ViewHolder> {
 
@@ -95,10 +94,10 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
                     holder.tvViewTitle.setText("Triple Products");
                 }
                 if(position==1){
-                    TripleImageAdapter tripleImageAdapter=new TripleImageAdapter(1);
+                    TripleProductAdapter tripleProductAdapter =new TripleProductAdapter(1);
                     LinearLayoutManager tripleProductLayoutManager=new LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false);
                     holder.rv.setLayoutManager(tripleProductLayoutManager);
-                    holder.rv.setAdapter(tripleImageAdapter);
+                    holder.rv.setAdapter(tripleProductAdapter);
                     holder.rv.setNestedScrollingEnabled(false);
                     holder.rdbtn.setChecked(position==lastchecked);
                     holder.tvViewTitle.setText("Double Products");
