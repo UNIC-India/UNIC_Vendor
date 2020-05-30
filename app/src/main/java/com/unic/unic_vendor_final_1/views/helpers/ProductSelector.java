@@ -56,21 +56,15 @@ public class ProductSelector extends Fragment implements View.OnClickListener{
 
         setStructureViewModel.setCurrentFrag(getActivity().getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader));
 
-        setStructureViewModel.getProducts().observe(getViewLifecycleOwner(), new Observer<List<Map<String, Object>>>() {
-            @Override
-            public void onChanged(List<Map<String, Object>> maps) {
-                adapter.setProducts(maps);
-                adapter.notifyDataSetChanged();
-            }
+        setStructureViewModel.getProducts().observe(getViewLifecycleOwner(), maps -> {
+            adapter.setProducts(maps);
+            adapter.notifyDataSetChanged();
         });
 
-        setStructureViewModel.getProductStatus().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                if(integer==1) {
-                    adapter.setSelectedProducts(data);
-                    adapter.notifyDataSetChanged();
-                }
+        setStructureViewModel.getProductStatus().observe(getViewLifecycleOwner(), integer -> {
+            if(integer==1) {
+                adapter.setSelectedProducts(data);
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -94,6 +88,12 @@ public class ProductSelector extends Fragment implements View.OnClickListener{
             structure.updateProductList(pageId,viewCode,data);
             setStructureViewModel.setStructure(structure);
             ((SetShopStructure) Objects.requireNonNull(getActivity())).returnToPage(pageId);
+        }
+
+        else if(v.getId()==R.id.btnleft){
+            Structure structure = setStructureViewModel.getStructure().getValue();
+            structure.deleteView(pageId,viewCode);
+            setStructureViewModel.setStructure(structure);
         }
     }
 }

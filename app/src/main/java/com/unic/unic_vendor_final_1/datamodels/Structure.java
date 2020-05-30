@@ -59,4 +59,11 @@ public class Structure {
         }
         return null;
     }
+
+    public void deleteView(int pageId, int viewCode){
+        for(int i=0;i<pages.size();i++){
+            if(pages.get(i).getPageId()==pageId)
+                pages.get(i).deleteView(viewCode);
+        }
+    }
 }

@@ -72,7 +72,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder.imageView2.setVisibility(View.GONE);
             Glide
                     .with(mContext)
-                    .load(products.get(position).get("imageid").toString())
+                    .load(products.get(position).get("imageId").toString())
                     .into(holder.ivProductPhoto);
 
             if(checkedProducts!=null&&checkedProducts.contains(products.get(position)))

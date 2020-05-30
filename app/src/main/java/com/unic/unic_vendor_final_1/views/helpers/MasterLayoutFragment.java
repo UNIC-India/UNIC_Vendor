@@ -199,6 +199,7 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
                 else if(s.length()<2){
                     masterProductAdapter.setProducts(products);
                     masterProductAdapter.notifyDataSetChanged();
+                    setStructureViewModel.clearSearch();
                 }
                 else{
                     refineSearchResult(s);
