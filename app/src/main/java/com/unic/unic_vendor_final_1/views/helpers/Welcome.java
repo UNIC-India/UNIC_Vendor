@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.commons.Helpers;
 import com.unic.unic_vendor_final_1.views.activities.Login;
 import com.unic.unic_vendor_final_1.views.activities.SignUp;
 
@@ -24,9 +25,11 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
 
         Button btnSignUp = findViewById(R.id.btnSignUp);
         btnSignUp.setOnClickListener(this);
+        Helpers.buttonEffect(btnSignUp);
 
         Button btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(this);
+        Helpers.buttonEffect(btnLogin);
     }
 
     @Override

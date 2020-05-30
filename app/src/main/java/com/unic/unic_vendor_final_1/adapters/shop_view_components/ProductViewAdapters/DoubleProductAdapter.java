@@ -57,7 +57,7 @@ public class DoubleProductAdapter extends RecyclerView.Adapter<DoubleProductAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if(demo==0){
           holder.tvProductName.setText(products.get(position).get("name").toString());
-          holder.tvProductPrice.setText(products.get(position).get("price").toString());
+          holder.tvProductPrice.setText("Rs "+products.get(position).get("price").toString());
 
            Glide
                    .with(mContext)

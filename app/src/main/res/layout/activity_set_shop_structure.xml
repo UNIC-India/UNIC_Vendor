@@ -14,11 +14,12 @@
 
         <LinearLayout
             android:id="@+id/structure_buttons"
+
             android:layout_width="match_parent"
             android:layout_height="62dp"
             android:elevation="6dp"
-            android:orientation="horizontal"
 
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -88,6 +89,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
+
         <FrameLayout
             android:id="@+id/shop_pages_loader"
             android:layout_width="match_parent"

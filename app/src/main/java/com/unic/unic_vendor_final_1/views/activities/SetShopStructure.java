@@ -222,7 +222,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
         }
         }
-        
+
     }
 
     void populateHeader(){

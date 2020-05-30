@@ -59,7 +59,7 @@ public class MasterProductAdapter extends RecyclerView.Adapter<MasterProductAdap
 
 
             holder.tvProductName.setText(products.get(position).get("name").toString());
-            holder.tvPrice.setText(products.get(position).get("price").toString());
+            holder.tvPrice.setText("Rs "+products.get(position).get("price").toString());
             holder.tvCompany.setText(products.get(position).get("category").toString());
             holder.tvCategory.setText(products.get(position).get("company").toString());
 
