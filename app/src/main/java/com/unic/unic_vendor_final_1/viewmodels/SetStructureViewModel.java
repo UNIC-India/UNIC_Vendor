@@ -9,18 +9,15 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseException;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.unic.unic_vendor_final_1.datamodels.FirebaseRepository;
+import com.unic.unic_vendor_final_1.commons.FirebaseRepository;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.datamodels.Structure;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -174,16 +171,82 @@ public class SetStructureViewModel extends ViewModel {
 
     public void searchProductsByName(String shopId,String nameKey){
         List<Map<String,Object>> data = new ArrayList<>();
-        firebaseRepository.searchProductsByName(nameKey,shopId).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        firebaseRepository.searchProductsByName(shopId,nameKey).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                for(DocumentSnapshot doc : queryDocumentSnapshots){
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots==null)
+                    return;
+                for (DocumentSnapshot doc : queryDocumentSnapshots){
                     data.add(doc.getData());
                 }
                 searchResults.setValue(data);
             }
         });
 
+    }
+
+    public void searchProductsByNameRefineByCompany(String nameKey,String company){
+        List<Map<String,Object>> data = new ArrayList<>();
+        firebaseRepository.searchProductByNameRefineCompany(shop.getValue().getId(),nameKey,company).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots==null)
+                    return;
+                for (DocumentSnapshot doc : queryDocumentSnapshots){
+                    data.add(doc.getData());
+                }
+                searchResults.setValue(data);
+            }
+        });
+    }
+
+    public void searchProductsByNameRefineCategory(String nameKey,String category){
+        List<Map<String,Object>> data = new ArrayList<>();
+        firebaseRepository.searchProductByNameRefineCategory(shop.getValue().getId(),nameKey,category).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots==null)
+                    return;
+                for(DocumentSnapshot doc : queryDocumentSnapshots){
+                    data.add(doc.getData());
+                }
+                searchResults.setValue(data);
+            }
+        });
+    }
+
+    public void searchProductsByCategoryList(List<String> categories){
+
+        List<Map<String,Object>> data = new ArrayList<>();
+
+        firebaseRepository.getProductsFromCategories(shop.getValue().getId(), categories).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots==null)
+                    return;
+                for (DocumentSnapshot doc : queryDocumentSnapshots){
+                    data.add(doc.getData());
+                }
+                searchResults.setValue(data);
+            }
+        });
+    }
+
+    public void searchProductsByCompanyList(List<String> companies){
+
+        List<Map<String,Object>> data = new ArrayList<>();
+
+        firebaseRepository.getProductsFromCompanies(shop.getValue().getId(),companies).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots==null)
+                    return;
+                for (DocumentSnapshot doc : queryDocumentSnapshots){
+                    data.add(doc.getData());
+                }
+                searchResults.setValue(data);
+            }
+        });
     }
     public void clearSearch(){
         searchResults.setValue(null);

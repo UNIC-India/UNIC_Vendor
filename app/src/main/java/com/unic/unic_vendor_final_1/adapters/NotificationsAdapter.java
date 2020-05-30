@@ -1,25 +1,19 @@
 package com.unic.unic_vendor_final_1.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.unic.unic_vendor_final_1.R;
-import com.unic.unic_vendor_final_1.datamodels.FirebaseRepository;
+import com.unic.unic_vendor_final_1.commons.FirebaseRepository;
 import com.unic.unic_vendor_final_1.datamodels.Notification;
-import com.unic.unic_vendor_final_1.datamodels.Shop;
-import com.unic.unic_vendor_final_1.views.activities.AddNewProduct;
-import com.unic.unic_vendor_final_1.views.helpers.WriteNofication;
 
 import java.util.List;
 
