@@ -170,6 +170,8 @@
                 android:layout_marginTop="76dp"
                 android:layout_marginRight="25dp"
                 android:gravity="center_horizontal"
+                android:digits="0123456789"
+                android:inputType="number"
                 android:hint="Enter OTP"
                 android:padding="5dp"
                 app:layout_constraintLeft_toLeftOf="parent"
