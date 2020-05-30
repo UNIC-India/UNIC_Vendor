@@ -37,6 +37,7 @@ public class SetStructureViewModel extends ViewModel {
     private MutableLiveData<Map<String,List<String>>> shopExtras = new MutableLiveData<>();
     private MutableLiveData<List<Map<String,Object>>> products = new MutableLiveData<>();
     private MutableLiveData<List<Map<String,Object>>> categories = new MutableLiveData<>();
+    private MutableLiveData<List<Map<String,Object>>> companies = new MutableLiveData<>();
     private MutableLiveData<List<Map<String,Object>>> searchResults = new MutableLiveData<>();
     private DocumentSnapshot lastDoc=null;
     private boolean isFirst = true;
@@ -53,7 +54,7 @@ public class SetStructureViewModel extends ViewModel {
         });
     }
 
-    public void getProductData(String  shopId){
+   /* public void getProductData(String  shopId){
         final List<Map<String,Object>> productData = new ArrayList<>();
         final List<Map<String,Object>> categoryData = new ArrayList<>();
         List<Map<String,Object>> tempCat=new ArrayList<>();
@@ -73,9 +74,8 @@ public class SetStructureViewModel extends ViewModel {
 
 
         products.setValue(productData);
-        categories.setValue(categoryData);
         productStatus.setValue(1);
-    }
+    }*/
 
     public void getPaginatedProductData(String shopId){
         List<Map<String,Object>> productData;
@@ -125,11 +125,26 @@ public class SetStructureViewModel extends ViewModel {
         firebaseRepository.getShopExtras(shopId).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+
+                if (queryDocumentSnapshots==null)
+                    return;
+
                 for(DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()){
                     switch (doc.getId()){
                         case "categories":
-                            List<String> categories = doc.get("namesArray")!=null?(List<String>)doc.get("namesArray"):new ArrayList<>();
-                            extras.put("categories",categories);
+                            List<String> categoriesList = doc.get("namesArray")!=null?(List<String>)doc.get("namesArray"):new ArrayList<>();
+                            extras.put("categories",categoriesList);
+
+                            List<Map<String,Object>> categoryData = new ArrayList<>();
+
+                            for(String category : categoriesList){
+                                Map<String,Object> data = new HashMap<>();
+                                data.put("cname",category);
+                                categoryData.add(data);
+                            }
+
+                            categories.setValue(categoryData);
+
                         case "companies":
                             List<String> companies = doc.get("namesArray")!=null?(List<String>)doc.get("namesArray"):new ArrayList<>();
                             extras.put("companies",companies);
@@ -194,6 +209,10 @@ public class SetStructureViewModel extends ViewModel {
         return structure;
     }
 
+    public MutableLiveData<List<Map<String, Object>>> getCategories() {
+        return categories;
+    }
+
     public LiveData<List<Map<String, Object>>> getProducts() {
         return products;
     }
@@ -204,14 +223,6 @@ public class SetStructureViewModel extends ViewModel {
 
     public void setStructure(Structure structure) {
         this.structure.setValue(structure);
-    }
-
-    public MutableLiveData<List<Map<String, Object>>> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(MutableLiveData<List<Map<String, Object>>> categories) {
-        this.categories = categories;
     }
 
     public MutableLiveData<Fragment> getCurrentFrag() {

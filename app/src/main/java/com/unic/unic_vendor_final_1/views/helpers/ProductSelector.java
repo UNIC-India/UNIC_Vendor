@@ -95,5 +95,11 @@ public class ProductSelector extends Fragment implements View.OnClickListener{
             setStructureViewModel.setStructure(structure);
             ((SetShopStructure) Objects.requireNonNull(getActivity())).returnToPage(pageId);
         }
+
+        else if(v.getId()==R.id.btnleft){
+            Structure structure = setStructureViewModel.getStructure().getValue();
+            structure.deleteView(pageId,viewCode);
+            setStructureViewModel.setStructure(structure);
+        }
     }
 }

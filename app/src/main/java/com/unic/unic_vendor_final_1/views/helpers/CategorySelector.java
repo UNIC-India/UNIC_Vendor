@@ -59,7 +59,6 @@ public class CategorySelector extends Fragment implements  View.OnClickListener 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         categorySelectorBinding.productsSelectorRecyclerView.setLayoutManager(layoutManager);
         categorySelectorBinding.productsSelectorRecyclerView.setAdapter(categorySelectionAdapter);
-        categorySelectorBinding.btnConfirmProducts.setOnClickListener(this);
         setStructureViewModel.getCategories().observe(getViewLifecycleOwner(), new Observer<List<Map<String, Object>>>() {
             @Override
             public void onChanged(List<Map<String, Object>> maps) {
@@ -78,6 +77,8 @@ public class CategorySelector extends Fragment implements  View.OnClickListener 
             }
         });
 
+        setStructureViewModel.setCurrentFrag(getActivity().getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader));
+
         return categorySelectorBinding.getRoot();
     }
 
@@ -94,6 +95,12 @@ public class CategorySelector extends Fragment implements  View.OnClickListener 
             structure.updateProductList(pageId,viewCode,prevData);
             setStructureViewModel.setStructure(structure);
             ((SetShopStructure) Objects.requireNonNull(getActivity())).returnToPage(pageId);
+        }
+
+        else if(v.getId()==R.id.btnleft){
+            Structure structure = setStructureViewModel.getStructure().getValue();
+            structure.deleteView(pageId,viewCode);
+            setStructureViewModel.setStructure(structure);
         }
     }
 }

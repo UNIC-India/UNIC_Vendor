@@ -50,7 +50,7 @@ public class TripleImageAdapter extends RecyclerView.Adapter<TripleImageAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.triple_image_view_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.triple_product_view_item,parent,false);
         return new ViewHolder(view);
     }
 

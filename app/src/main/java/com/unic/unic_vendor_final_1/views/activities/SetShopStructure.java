@@ -149,6 +149,16 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         switch (v.getId()){
             case R.id.btnleft:
                 addPage();
+                if(currentFragment.getClass()==ShopPageFragment.class){
+                    ((ShopPageFragment)currentFragment).onClick(v);
+                }
+                else if(currentFragment.getClass()==com.unic.unic_vendor_final_1.views.helpers.ProductSelector.class){
+                    ((com.unic.unic_vendor_final_1.views.helpers.ProductSelector)currentFragment).onClick(v);
+
+                }
+                else if(currentFragment.getClass()==com.unic.unic_vendor_final_1.views.helpers.CategorySelector.class){
+                    ((com.unic.unic_vendor_final_1.views.helpers.CategorySelector)currentFragment).onClick(v);
+                }
                 break;
             case R.id.confirm_shop_structure:
                 setStructureViewModel.saveShopStructure();
@@ -197,6 +207,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 return true;
             }
         }
+
         return false;
     }
 
@@ -424,4 +435,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         super.onBackPressed();
         getSupportFragmentManager().popBackStack();
     }
+
+
 }

@@ -88,4 +88,13 @@ public class Page {
             }
         }
     }
+
+    public void deleteView(int viewCode){
+        for(int i=0;i<views.size();i++){
+            if(views.get(i).getViewCode()==viewCode){
+                views.remove(i);
+                break;
+            }
+        }
+    }
 }
