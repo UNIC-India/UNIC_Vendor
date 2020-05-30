@@ -117,7 +117,7 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
         holder.tvTime.setText(orders.get(position).getTime().toString().substring(11,16));
         holder.tvStatus.setText(orders.get(position).getStatus());
         holder.tvNoOfItems.setText(orders.get(position).getNo_of_items()+" ");
-        holder.tvCustomer.setText((orders.get(position).getOrgName()==null||orders.get(position).toString().equals(" "))?"Personal":orders.get(position).getOrgName().toString());
+        holder.tvCustomer.setText((orders.get(position).getOrgName()==null||orders.get(position).toString().equals(" "))||orders.get(position).getOrgName().toString().length()==0?"Personal":orders.get(position).getOrgName().toString());
         holder.tvGST.setText((orders.get(position).getGSTIN()==null||orders.get(position).getGSTIN().toString().equals(" "))?"GSTIN:"+"Not Specified":"GSTIN: "+orders.get(position).getGSTIN().toString());
 
         holder.tvTotal.setText("Rs "+orders.get(position).getTotal()+"");
