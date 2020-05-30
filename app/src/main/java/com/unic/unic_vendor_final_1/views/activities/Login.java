@@ -7,14 +7,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.commons.Helpers;
 import com.unic.unic_vendor_final_1.databinding.ActivityLoginBinding;
 import com.unic.unic_vendor_final_1.viewmodels.FirebasePhoneAuthViewModel;
 
+import static com.unic.unic_vendor_final_1.commons.Helpers.buttonEffect;
 import static com.unic.unic_vendor_final_1.commons.Helpers.enableDisableViewGroup;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
@@ -60,11 +63,16 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         });
 
         loginBinding.btnconf.setOnClickListener(this);
+        buttonEffect(loginBinding.btnconf);
         loginBinding.btnlogin.setOnClickListener(this);
+        buttonEffect(loginBinding.btnlogin);
         loginBinding.btnres.setOnClickListener(this);
+        buttonEffect(loginBinding.btnres);
         loginBinding.signupLink.setOnClickListener(this);
         loginBinding.btnfb.setOnClickListener(this);
+        buttonEffect(loginBinding.btnfb);
         loginBinding.btngoogle.setOnClickListener(this);
+        buttonEffect(loginBinding.btngoogle);
     }
 
 
@@ -178,6 +186,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private void authWithOTP(){
         if(loginBinding.etOTP.getText().toString().trim().length()!=6){
             loginBinding.etOTP.setError("Incorrect OTP entered");
+            enableDisableViewGroup((ViewGroup)loginBinding.getRoot(),true);
+            if(coverView.getParent()!=null)
+                ((ViewGroup)loginBinding.loginConstraintLayout).removeView(coverView);
+            loginBinding.loginProgressBar.setVisibility(View.GONE);
             return;
         }
         loginViewModel.verifyWithOTP(loginBinding.etOTP.getText().toString().trim());
@@ -190,6 +202,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private void checkForUser(){
         if(loginBinding.etphone.getText().toString().trim().length()==0) {
             loginBinding.etphone.setError("Enter phone number");
+            loginBinding.loginProgressBar.setVisibility(View.GONE);
+            enableDisableViewGroup((ViewGroup)loginBinding.getRoot(),true);
+            if(coverView.getParent()!=null)
+                ((ViewGroup)loginBinding.loginConstraintLayout).removeView(coverView);
             return;
         }
         loginViewModel.checkUserExists(loginBinding.etphone.getText().toString());
