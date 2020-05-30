@@ -20,7 +20,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.unic.unic_vendor_final_1.R;
-import com.unic.unic_vendor_final_1.datamodels.FirebaseRepository;
+import com.unic.unic_vendor_final_1.commons.FirebaseRepository;
 import com.unic.unic_vendor_final_1.datamodels.Order;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 import com.unic.unic_vendor_final_1.views.helpers.OrderItems;

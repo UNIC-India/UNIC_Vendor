@@ -1,9 +1,7 @@
 package com.unic.unic_vendor_final_1.viewmodels;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.provider.MediaStore;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -13,7 +11,7 @@ import androidx.lifecycle.ViewModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.UploadTask;
-import com.unic.unic_vendor_final_1.datamodels.FirebaseRepository;
+import com.unic.unic_vendor_final_1.commons.FirebaseRepository;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;

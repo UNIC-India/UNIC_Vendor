@@ -1,7 +1,7 @@
 package com.unic.unic_vendor_final_1.datamodels;
 
 public class Product {
-    private String category, company, name, id, imageid, tags, shopid, subcategory,firestoreId;
+    private String category, company, name, id, imageId, tags, shopId, subcategory,firestoreId;
     private double price;
 
     public Product() {
@@ -12,29 +12,29 @@ public class Product {
         this.price = price;
     }
 
-    public Product(String category, String company, String name, String shopid, double price) {
+    public Product(String category, String company, String name, String shopId, double price) {
         this.category = category;
         this.company = company;
         this.name = name;
-        this.shopid = shopid;
+        this.shopId = shopId;
         this.price = price;
         this.id=" ";
         this.firestoreId=" ";
-        this.imageid=" ";
+        this.imageId=" ";
         this.tags=" ";
         this.subcategory=" ";
     }
 
-    public String getShopid() {
-        return shopid;
+    public String getShopId() {
+        return shopId;
     }
 
     public String getId() {
         return id;
     }
 
-    public String getImageid() {
-        return imageid;
+    public String getImageId() {
+        return imageId;
     }
 
     public void setCategory(String category) {
@@ -53,16 +53,16 @@ public class Product {
         this.id = id;
     }
 
-    public void setImageid(String imageid) {
-        this.imageid = imageid;
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
     }
 
     public void setTags(String tags) {
         this.tags = tags;
     }
 
-    public void setShopid(String shopid) {
-        this.shopid = shopid;
+    public void setShopId(String shopId) {
+        this.shopId = shopId;
     }
 
     public void setSubcategory(String subcategory) {

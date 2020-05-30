@@ -1,4 +1,4 @@
-package com.unic.unic_vendor_final_1.datamodels;
+package com.unic.unic_vendor_final_1.commons;
 
 
 import android.net.Uri;
@@ -19,6 +19,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.functions.FirebaseFunctions;
@@ -26,6 +27,10 @@ import com.google.firebase.functions.HttpsCallableResult;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.unic.unic_vendor_final_1.datamodels.Product;
+import com.unic.unic_vendor_final_1.datamodels.Shop;
+import com.unic.unic_vendor_final_1.datamodels.Structure;
+import com.unic.unic_vendor_final_1.datamodels.User;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Timestamp;
@@ -85,13 +90,13 @@ public class FirebaseRepository {
         return db.collection("shops").add(shop);
     }
 
-    public Task<DocumentReference> saveProduct(String shopId,Product product){
+    public Task<DocumentReference> saveProduct(String shopId, Product product){
         Map<String,Object> productMap=new HashMap<>();
         productMap.put("firestoreId",product.getFirestoreId());
         productMap.put("subcategory",product.getSubcategory());
-        productMap.put("shopid",product.getShopid());
+        productMap.put("shopId",product.getShopId());
         productMap.put("tags",product.getTags());
-        productMap.put("imageid",product.getImageid());
+        productMap.put("imageId",product.getImageId());
         productMap.put("id",product.getId());
         productMap.put("name",product.getName());
         productMap.put("company",product.getCompany());
@@ -243,8 +248,16 @@ public class FirebaseRepository {
         return db.collection("orders").whereEqualTo("shopId",shopId);
     }
 
-    public Query searchProductsByName(String nameKey,String shopId){
-        return  db.collection("shops").document(shopId).collection("products").whereArrayContains("nameKeywords",nameKey.toLowerCase());
+    public Task<QuerySnapshot> searchProductsByName(String shopId, String nameKey){
+        return  db.collection("shops").document(shopId).collection("products").whereArrayContains("nameKeywords",nameKey.toLowerCase()).get();
+    }
+
+    public Task<QuerySnapshot> searchProductByNameRefineCompany(String shopId,String nameKey,String company){
+        return db.collection("shops").document(shopId).collection("products").whereEqualTo("company",company).whereArrayContains("nameKeywords",nameKey.toLowerCase()).get();
+    }
+
+    public Task<QuerySnapshot> searchProductByNameRefineCategory(String shopId, String nameKey, String  category){
+        return db.collection("shops").document(shopId).collection("products").whereEqualTo("category",category).whereArrayContains("nameKeywords",nameKey).get();
     }
 
     public Query getShopExtras(String shopId){
@@ -256,6 +269,14 @@ public class FirebaseRepository {
         Timestamp tsTemp = new java.sql.Timestamp(time);
         String ts =  tsTemp.toString();
         return mRef.child(mUser.getUid()).child("images").child(ts).putBytes(baos.toByteArray());
+    }
+
+    public Task<QuerySnapshot> getProductsFromCategories(String shopId, List<String> categories){
+        return db.collection("shops").document(shopId).collection("products").whereIn("category",categories).get();
+    }
+
+    public Task<QuerySnapshot> getProductsFromCompanies(String shopId, List<String> companies){
+        return db.collection("shops").document(shopId).collection("products").whereIn("company",companies).get();
     }
 
     public Task<ShortDynamicLink> createSubscribeLink(String shopId, String shopName){

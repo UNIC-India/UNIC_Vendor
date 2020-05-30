@@ -1,7 +1,6 @@
 package com.unic.unic_vendor_final_1.viewmodels;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -20,7 +19,7 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
-import com.unic.unic_vendor_final_1.datamodels.FirebaseRepository;
+import com.unic.unic_vendor_final_1.commons.FirebaseRepository;
 
 public class FirebasePhoneAuthViewModel extends ViewModel {
 
