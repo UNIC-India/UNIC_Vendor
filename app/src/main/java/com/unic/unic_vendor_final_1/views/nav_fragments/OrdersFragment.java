@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,8 +41,8 @@ public class OrdersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view=inflater.inflate(R.layout.fragment_my_orders, container, false);
-        rvOrders=view.findViewById(R.id.rvAllOrders);
+        myOrdersBinding=FragmentMyOrdersBinding.inflate(getLayoutInflater(),container,false);
+        rvOrders=myOrdersBinding.rvAllOrders;
         userShopsViewModel=new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
         allOrdersAdapter=new AllOrdersAdapter(getActivity());
         rvOrders.setAdapter(allOrdersAdapter);
@@ -56,11 +57,18 @@ public class OrdersFragment extends Fragment {
 
             }
         });
+        myOrdersBinding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //Update here.
+            }
+        });
+
 
 
 
         // Inflate the layout for this fragment
-        return view;
+        return myOrdersBinding.getRoot();
     }
 
 

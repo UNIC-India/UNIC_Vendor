@@ -77,8 +77,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center|center_horizontal"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="75dp"
+                    android:layout_marginEnd="5dp"
                     android:elevation="2dp"
                     android:text="@string/view_orders"
                     android:textColor="#222222"
@@ -134,8 +136,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center|center_horizontal"
+                    android:layout_marginLeft="5dp"
                     android:layout_marginTop="75dp"
+                    android:layout_marginRight="5dp"
                     android:elevation="2dp"
                     android:text="@string/see_apps"
                     android:textColor="#222222"
