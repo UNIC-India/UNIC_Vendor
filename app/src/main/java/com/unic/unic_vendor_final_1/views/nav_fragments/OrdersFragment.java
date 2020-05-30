@@ -2,6 +2,7 @@ package com.unic.unic_vendor_final_1.views.nav_fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -9,10 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.AllOrdersAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentMyOrdersBinding;
@@ -26,6 +29,9 @@ public class OrdersFragment extends Fragment {
     private UserShopsViewModel userShopsViewModel;
     private FragmentMyOrdersBinding myOrdersBinding;
     private AllOrdersAdapter allOrdersAdapter;
+    private boolean isFirst = true;
+    private boolean isAtBottom = false;
+    private DocumentSnapshot lastDoc;
 
     RecyclerView rvOrders;
 
@@ -48,28 +54,60 @@ public class OrdersFragment extends Fragment {
         rvOrders.setAdapter(allOrdersAdapter);
         rvOrders.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        userShopsViewModel.getOrders().observe(getViewLifecycleOwner(), new Observer<List<Order>>() {
+        myOrdersBinding.orderRefresh.setColorScheme(R.color.colorPrimary,R.color.colorSecondary,R.color.colorTertiary);
+
+        userShopsViewModel.getPaginatedOrders(isFirst,lastDoc);
+
+        userShopsViewModel.getOrders().observe(getViewLifecycleOwner(), orders -> {
+            if (orders==null)
+                return;
+            setOrders(orders);
+        });
+        myOrdersBinding.orderRefresh.setOnRefreshListener(() -> {
+
+            isFirst = true;
+            lastDoc = null;
+            userShopsViewModel.getIsFirstOrder().setValue(Boolean.TRUE);
+            userShopsViewModel.getLastOrderDoc().setValue(null);
+            userShopsViewModel.getOrders().setValue(null);
+            userShopsViewModel.getPaginatedOrders(isFirst,lastDoc);
+
+            Handler handler = new Handler();
+
+            handler.postDelayed(() -> myOrdersBinding.orderRefresh.setRefreshing(false),5000);
+        });
+
+        myOrdersBinding.rvAllOrders.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onChanged(List<Order> orders) {
-
-                        allOrdersAdapter.setShops(orders);
-
-
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(newState == RecyclerView.SCROLL_STATE_IDLE&&!isAtBottom&&recyclerView.canScrollVertically(-1)&&!recyclerView.canScrollVertically(1)){
+                    userShopsViewModel.getPaginatedOrders(isFirst,lastDoc);
+                    isAtBottom = true;
+                }
+                else
+                    isAtBottom = false;
             }
         });
-        myOrdersBinding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                //Update here.
-            }
-        });
 
+        userShopsViewModel.getLastOrderDoc().observe(getViewLifecycleOwner(), this::setLastDoc);
 
-
+        userShopsViewModel.getIsFirstOrder().observe(getViewLifecycleOwner(),this::setFirst);
 
         // Inflate the layout for this fragment
         return myOrdersBinding.getRoot();
     }
 
+    private void setOrders(List<Order> orders){
+        allOrdersAdapter.setOrders(orders);
+        allOrdersAdapter.notifyDataSetChanged();
+    }
 
+    private void setFirst(boolean first) {
+        isFirst = first;
+    }
+
+    private void setLastDoc(DocumentSnapshot lastDoc) {
+        this.lastDoc = lastDoc;
+    }
 }

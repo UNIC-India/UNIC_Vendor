@@ -51,14 +51,14 @@ public class AddNewProductViewModel extends ViewModel {
         firebaseRepository.getProductImageLink(shopId,product.getValue().getFirestoreId()).addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                product.getValue().setImageid(uri.toString());
+                product.getValue().setImageId(uri.toString());
                 setProductImageLinkonFirebase();
             }
         });
     }
 
     public void setProductImageLinkonFirebase(){
-        firebaseRepository.setProductImage(shopId,product.getValue().getFirestoreId(),product.getValue().getImageid()).addOnSuccessListener(new OnSuccessListener<Void>() {
+        firebaseRepository.setProductImage(shopId,product.getValue().getFirestoreId(),product.getValue().getImageId()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 productStatus.setValue(4);

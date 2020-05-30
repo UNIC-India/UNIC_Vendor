@@ -42,8 +42,8 @@ public class UserShopsViewModel extends ViewModel {
     private MutableLiveData<List<String>> shopids = new MutableLiveData<>();
     private MutableLiveData<User> customer = new MutableLiveData<>();
     private MutableLiveData<Map<String,String>> qrLinks = new MutableLiveData<>();
-    private boolean isFirst = true;
-    private DocumentSnapshot lastDoc;
+    private MutableLiveData<Boolean> isFirstOrder = new MutableLiveData<>();
+    private MutableLiveData<DocumentSnapshot> lastOrderDoc = new MutableLiveData<>();
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
@@ -67,7 +67,7 @@ public class UserShopsViewModel extends ViewModel {
             shopids.setValue(ids);
 
             if(ids.size()>0) {
-                getAllOrders();
+                //getAllOrders();
                 getAllNotifications();
             }
         });
@@ -152,7 +152,10 @@ public class UserShopsViewModel extends ViewModel {
         }
     }
 
-    public void getPaginatedOrders(){
+    public void getPaginatedOrders(boolean isFirst,DocumentSnapshot lastDoc){
+
+        if (shopids.getValue()==null||shopids.getValue().size()==0)
+            return;
         List<Order> orderList ;
 
         if(isFirst)
@@ -160,15 +163,27 @@ public class UserShopsViewModel extends ViewModel {
         else
             orderList = orders.getValue();
 
+        if(!isFirst &&lastDoc==null)
+            return;
+
         firebaseRepository.getPaginatedOrders(shopids.getValue(),lastDoc,isFirst)
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if (queryDocumentSnapshots.getDocuments().size()==0)
+                    if (queryDocumentSnapshots==null||queryDocumentSnapshots.getDocuments().size()==0) {
+                        lastOrderDoc.setValue(null);
                         return;
+                    }
                     for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()){
                         orderList.add(doc.toObject(Order.class));
                     }
-                    isFirst = false;
-                    lastDoc = queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.getDocumentChanges().size()-1);
+                    isFirstOrder.setValue(Boolean.FALSE);
+                    lastOrderDoc.setValue(queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.getDocumentChanges().size()-1));
+                    orders.setValue(orderList);
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        e.printStackTrace();
+                    }
                 });
 
     }
@@ -189,12 +204,17 @@ public class UserShopsViewModel extends ViewModel {
         return currentOrder;
     }
 
-    public LiveData<List<Order>> getOrders() {
+    public MutableLiveData<List<Order>> getOrders() {
         return orders;
     }
 
+    public MutableLiveData<Boolean> getIsFirstOrder() {
+        return isFirstOrder;
+    }
 
-
+    public MutableLiveData<DocumentSnapshot> getLastOrderDoc() {
+        return lastOrderDoc;
+    }
 
     //==============For Notifications==============//
     public MutableLiveData<Integer> notificationStatus=new MutableLiveData<>();

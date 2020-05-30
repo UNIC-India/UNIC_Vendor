@@ -195,8 +195,8 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
         return orders==null?0:orders.size();
     }
 
-    public void setShops(List<Order> shops) {
-        this.orders=shops;
+    public void setOrders(List<Order> orders) {
+        this.orders=orders;
         notifyDataSetChanged();
     }
 }

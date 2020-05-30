@@ -306,9 +306,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             Toast.makeText(SetShopStructure.this, "Page Added!", Toast.LENGTH_SHORT).show();
             updateMenu();
         });
-        builder.setNegativeButton("CANCEL", (dialog, which) -> {
-            dialog.dismiss();
-        });
+        builder.setNegativeButton("CANCEL", (dialog, which) -> dialog.dismiss());
         AlertDialog dialog = builder.create();
         dialog.show();
     }
