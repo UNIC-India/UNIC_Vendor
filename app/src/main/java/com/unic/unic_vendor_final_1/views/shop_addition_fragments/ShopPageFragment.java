@@ -28,7 +28,7 @@ import android.widget.TextView;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategoriesAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductAdapter;
-import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.TripleImageAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.TripleProductAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentShopPageBinding;
 import com.unic.unic_vendor_final_1.datamodels.Page;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
@@ -235,13 +235,13 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 tvHeader2.setText(view.getHeader());
                 tripleProductView.findViewById(R.id.btn_add_products).setOnClickListener(this);
 
-                TripleImageAdapter tripleImageAdapter = new TripleImageAdapter(getContext());
-                tripleImageAdapter.setProducts(view.getData());
+                TripleProductAdapter tripleProductAdapter = new TripleProductAdapter(getContext());
+                tripleProductAdapter.setProducts(view.getData());
                 LinearLayoutManager TripleProductLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL,false);
                 RecyclerView tripleProductRecyclerView = tripleProductView.findViewById(R.id.triple_image_recycler_view);
                 tripleProductRecyclerView.setLayoutManager(TripleProductLayoutManager);
                 tripleProductRecyclerView.setNestedScrollingEnabled(false);
-                tripleProductRecyclerView.setAdapter(tripleImageAdapter);
+                tripleProductRecyclerView.setAdapter(tripleProductAdapter);
                 tripleProductRecyclerView.addItemDecoration(new SpacesItemDecoration(5));
                 views.add(view42);
                 break;

@@ -63,11 +63,11 @@ public class MasterProductAdapter extends RecyclerView.Adapter<MasterProductAdap
             holder.tvCompany.setText(products.get(position).get("category").toString());
             holder.tvCategory.setText(products.get(position).get("company").toString());
 
-            if(((products.get(position).get("imageid").toString().length())!=1)) {
+            if(((products.get(position).get("imageId").toString().length())!=1)) {
                 holder.ivProductPhoto.setVisibility(View.VISIBLE);
                 Glide
                         .with(mContext)
-                        .load(products.get(position).get("imageid").toString())
+                        .load(products.get(position).get("imageId").toString())
                         .into(holder.ivProductPhoto);
             }
             else

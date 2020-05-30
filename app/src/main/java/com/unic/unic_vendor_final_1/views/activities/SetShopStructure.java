@@ -46,8 +46,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     public Structure structure;
     private Shop shop;
     Toolbar toolbar;
-    int noOfProducts;
-    String shopName;
     public int currentPage=1001;
     private List<Map<String,Object>> products;
 
@@ -69,89 +67,43 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         setContentView(setShopStructureBinding.getRoot());
 
         shopId = getIntent().getStringExtra("shopId");
-        assert shopId != null;
-        setStructureViewModel.getShop().observe(this, new Observer<Shop>() {
-            @Override
-            public void onChanged(Shop shop) {
-                setShop(shop);
-                shopName=shop.getName();
-                setButtonsAndToolBar(currentFragment);
+        setStructureViewModel.getShop().observe(this, shop -> {
+            setShop(shop);
+            setButtonsAndToolBar(currentFragment);
 
 
-            }
         });
-        setStructureViewModel.getCurrentFrag().observe(this, new Observer<Fragment>() {
-            @Override
-            public void onChanged(Fragment fragment) {
-                setButtonsAndToolBar(fragment);
-                setCurrentFragment(fragment);
-            }
+        setStructureViewModel.getCurrentFrag().observe(this, fragment -> {
+            setButtonsAndToolBar(fragment);
+            setCurrentFragment(fragment);
         });
 
+        setStructureViewModel.getStructure().observe(this, this::setStructure);
+        setStructureViewModel.getProducts().observe(this, this::setProducts);
 
-        noOfProducts=getIntent().getIntExtra("NoOfProducts",0);
-        if(noOfProducts==0){
-            setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
-            getSupportFragmentManager().beginTransaction()
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .add(R.id.shop_pages_loader,new NoProductsFragment())
-                    .commit();
-        }
-        else {
+        setStructureViewModel.getStructureStatus().observe(this, this::setStructureStatus);
 
+        setStructureViewModel.getStatus().observe(this, this::setStatus);
 
-            setStructureViewModel.getStructure().observe(this, new Observer<Structure>() {
-                @Override
-                public void onChanged(Structure structure) {
-                    setStructure(structure);
-                }
-            });
-            setStructureViewModel.getProducts().observe(this, new Observer<List<Map<String, Object>>>() {
-                @Override
-                public void onChanged(List<Map<String, Object>> maps) {
-                    setProducts(maps);
-                }
-            });
+        setStructureViewModel.getProductStatus().observe(this, this::setProductStatus);
 
-            setStructureViewModel.getStructureStatus().observe(this, new Observer<Integer>() {
-                @Override
-                public void onChanged(Integer integer) {
-                    setStructureStatus(integer);
-                }
-            });
+        setStructureViewModel.getShopExtras(shopId);
 
-            setStructureViewModel.getStatus().observe(this, new Observer<Integer>() {
-                @Override
-                public void onChanged(Integer integer) {
-                    setStatus(integer);
-                }
-            });
-
-            setStructureViewModel.getProductStatus().observe(this, new Observer<Integer>() {
-                @Override
-                public void onChanged(Integer integer) {
-                    setProductStatus(integer);
-                }
-            });
-
-            setStructureViewModel.getShopExtras(shopId);
-
-            toolbar = setShopStructureBinding.setStructureToolbar;
-            setSupportActionBar(toolbar);
+        toolbar = setShopStructureBinding.setStructureToolbar;
+        setSupportActionBar(toolbar);
 
 
-            DrawerLayout drawer = setShopStructureBinding.drawerLayout;
-            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-            drawer.addDrawerListener(toggle);
-            toggle.syncState();
-            setShopStructureBinding.setStructureNavView.setNavigationItemSelectedListener(this);
-            setShopStructureBinding.btnleft.setOnClickListener(this);
-            setShopStructureBinding.btnRight.setOnClickListener(this);
-            setShopStructureBinding.confirmShopStructure.setOnClickListener(this);
+        DrawerLayout drawer = setShopStructureBinding.drawerLayout;
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        setShopStructureBinding.setStructureNavView.setNavigationItemSelectedListener(this);
+        setShopStructureBinding.btnleft.setOnClickListener(this);
+        setShopStructureBinding.btnRight.setOnClickListener(this);
+        setShopStructureBinding.confirmShopStructure.setOnClickListener(this);
 
-            option = getIntent().getIntExtra("template", 0);
-        }
+        option = getIntent().getIntExtra("template", 0);
 
     }
 
@@ -285,16 +237,27 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 updateStatus(status);
                 break;
             case 1:
-                structure = StructureTemplates.getTemplate1(shopId);
-                setStructureViewModel.getStructure().setValue(structure);
-                updateMenu();
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .replace(R.id.shop_pages_loader,new ShopPageFragment(structure.getPage(1001)),structure.getPage(1001).getPageName())
-                        .commit();
-                status = 3;
-                updateStatus(status);
+
+                if(shop.getNoOfProducts()==0){
+                    setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
+                    getSupportFragmentManager().beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .add(R.id.shop_pages_loader,new NoProductsFragment())
+                            .commit();
+                }
+
+                else {
+                    structure = StructureTemplates.getTemplate1(shopId);
+                    setStructureViewModel.getStructure().setValue(structure);
+                    updateMenu();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .replace(R.id.shop_pages_loader, new ShopPageFragment(structure.getPage(1001)), structure.getPage(1001).getPageName())
+                            .commit();
+                    status = 3;
+                    updateStatus(status);
+                }
                 break;
         }
     }
@@ -337,20 +300,14 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         builder.setTitle("Enter Page Name");
         builder.setMessage("");
         builder.setView(etPageName);
-        builder.setPositiveButton("DONE", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                structure.addPage(etPageName.getText().toString());
-                setStructureViewModel.setStructure(structure);
-                Toast.makeText(SetShopStructure.this, "Page Added!", Toast.LENGTH_SHORT).show();
-                updateMenu();
-            }
+        builder.setPositiveButton("DONE", (dialog, which) -> {
+            structure.addPage(etPageName.getText().toString());
+            setStructureViewModel.setStructure(structure);
+            Toast.makeText(SetShopStructure.this, "Page Added!", Toast.LENGTH_SHORT).show();
+            updateMenu();
         });
-        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
+        builder.setNegativeButton("CANCEL", (dialog, which) -> {
+            dialog.dismiss();
         });
         AlertDialog dialog = builder.create();
         dialog.show();
