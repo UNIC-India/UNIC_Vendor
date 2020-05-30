@@ -83,8 +83,12 @@ public class CategorySelectionAdapter extends RecyclerView.Adapter<com.unic.unic
 
     @Override
     public int getItemCount() {
-        if(demo==0)
+        if(demo==0){
+            if(categories==null)
+                return 0;
             return categories.size();
+        }
+
         else
             return 6;
     }
