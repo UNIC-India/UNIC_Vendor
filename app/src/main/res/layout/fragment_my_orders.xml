@@ -15,6 +15,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvAllOrders"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/order_items_list_item"/>
     </FrameLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

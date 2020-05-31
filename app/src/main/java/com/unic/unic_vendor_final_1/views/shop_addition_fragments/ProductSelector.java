@@ -1,4 +1,4 @@
-package com.unic.unic_vendor_final_1.views.helpers;
+package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,14 +8,16 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListAdapter;
-import com.unic.unic_vendor_final_1.databinding.ActivityProductSelectorBinding;
+import com.unic.unic_vendor_final_1.databinding.FragmentProductSelectorBinding;
 import com.unic.unic_vendor_final_1.datamodels.Structure;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
@@ -31,11 +33,19 @@ public class ProductSelector extends Fragment implements View.OnClickListener{
     private int pageId;
 
     private SetStructureViewModel setStructureViewModel;
-    private ActivityProductSelectorBinding productSelectorBinding;
+    private FragmentProductSelectorBinding productSelectorBinding;
 
     private ProductListAdapter adapter;
 
     private List<Map<String,Object>> data = new ArrayList<>();
+    private List<Map<String,Object>> extraData = new ArrayList<>();
+
+    private boolean isFirst = true;
+    private DocumentSnapshot lastDoc;
+
+    private boolean isAtBottom = false;
+
+    private int queryType = 0;
 
     public ProductSelector(){}
 
@@ -49,10 +59,14 @@ public class ProductSelector extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        productSelectorBinding = ActivityProductSelectorBinding.inflate(inflater,container,false);
+        productSelectorBinding = FragmentProductSelectorBinding.inflate(inflater,container,false);
         setStructureViewModel = new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
         data = setStructureViewModel.getStructure().getValue().getPage(pageId).getView(viewCode).getData();
         adapter = new ProductListAdapter(getContext());
+
+        setStructureViewModel.clearSearch();
+
+        setStructureViewModel.getPaginatedProductData(isFirst,lastDoc,1);
 
         setStructureViewModel.setCurrentFrag(getActivity().getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader));
 
@@ -61,12 +75,47 @@ public class ProductSelector extends Fragment implements View.OnClickListener{
             adapter.notifyDataSetChanged();
         });
 
-        setStructureViewModel.getProductStatus().observe(getViewLifecycleOwner(), integer -> {
-            if(integer==1) {
-                adapter.setSelectedProducts(data);
+        setStructureViewModel.getStructure().observe(getViewLifecycleOwner(), structure -> {
+            data = structure.getPage(pageId).getView(viewCode).getData();
+            adapter.setSelectedProducts(data);
+            adapter.notifyDataSetChanged();
+        });
+
+        setStructureViewModel.getSearchResults().observe(getViewLifecycleOwner(), maps ->{
+            if(maps!=null) {
+                adapter.setProducts(maps);
                 adapter.notifyDataSetChanged();
             }
         });
+
+        productSelectorBinding.productSelectionSwipe.setColorScheme(R.color.colorPrimary,R.color.colorSecondary,R.color.colorTertiary);
+
+        productSelectorBinding.productSelectionSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                setStructureViewModel.getLastProductSelectionDoc().setValue(null);
+                setStructureViewModel.getIsFirstProductSelection().setValue(Boolean.TRUE);
+                setStructureViewModel.clearSearch();
+                setStructureViewModel.getPaginatedProductData(true,null,1);
+            }
+        });
+
+        productSelectorBinding.productsSelectorRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(newState == RecyclerView.SCROLL_STATE_IDLE&&recyclerView.canScrollVertically(-1)&&!recyclerView.canScrollVertically(1)&&!isAtBottom){
+                    setStructureViewModel.getPaginatedProductData(isFirst,lastDoc,1);
+                    isAtBottom = true;
+                }
+                else
+                    isAtBottom = false;
+            }
+        });
+
+        setStructureViewModel.getIsFirstProductSelection().observe(getViewLifecycleOwner(),this::setFirst);
+
+        setStructureViewModel.getLastProductSelectionDoc().observe(getViewLifecycleOwner(),this::setLastDoc);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         productSelectorBinding.productsSelectorRecyclerView.setLayoutManager(layoutManager);
@@ -96,4 +145,13 @@ public class ProductSelector extends Fragment implements View.OnClickListener{
             setStructureViewModel.setStructure(structure);
         }
     }
+
+    private void setFirst(boolean first) {
+        isFirst = first;
+    }
+
+    private void setLastDoc(DocumentSnapshot lastDoc) {
+        this.lastDoc = lastDoc;
+    }
+
 }

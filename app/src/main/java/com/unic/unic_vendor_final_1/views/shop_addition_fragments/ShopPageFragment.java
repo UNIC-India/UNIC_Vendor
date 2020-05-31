@@ -24,7 +24,6 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategoriesAdapter;
@@ -34,12 +33,10 @@ import com.unic.unic_vendor_final_1.databinding.FragmentShopPageBinding;
 import com.unic.unic_vendor_final_1.datamodels.Page;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
-import com.unic.unic_vendor_final_1.views.helpers.MasterLayoutFragment;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;

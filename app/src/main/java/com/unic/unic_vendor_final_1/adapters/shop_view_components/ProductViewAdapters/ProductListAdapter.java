@@ -81,14 +81,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             else
                 holder.cbCheck.setChecked(false);
 
-            holder.cbCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                    if( isChecked)
-                        checkedProducts.add(products.get(position));
-                    else
-                        checkedProducts.remove(products.get(position));
-                }
+            holder.cbCheck.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+                if( isChecked)
+                    checkedProducts.add(products.get(position));
+                else
+                    checkedProducts.remove(products.get(position));
             });
         }
         else{

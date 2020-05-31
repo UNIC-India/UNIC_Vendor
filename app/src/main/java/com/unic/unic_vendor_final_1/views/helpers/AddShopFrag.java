@@ -20,12 +20,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.unic.unic_vendor_final_1.R;
-import com.unic.unic_vendor_final_1.databinding.ActivityAddShopBinding;
 import com.unic.unic_vendor_final_1.databinding.FragmentAddShopBinding;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.viewmodels.AddShopViewModel;
-import com.unic.unic_vendor_final_1.views.activities.AddShop;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
+import com.unic.unic_vendor_final_1.views.shop_addition_fragments.LocationSelector;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
