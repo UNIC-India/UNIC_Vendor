@@ -59,17 +59,14 @@ public class SplashScreen extends AppCompatActivity {
 
 
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent;
-                if (isUserOnline)
-                    intent = new Intent(SplashScreen.this, UserHome.class);
-                else
-                    intent = new Intent(SplashScreen.this, Welcome.class);
-                startActivity(intent);
-                finish();
-            }
+        handler.postDelayed(() -> {
+            Intent intent;
+            if (isUserOnline)
+                intent = new Intent(SplashScreen.this, UserHome.class);
+            else
+                intent = new Intent(SplashScreen.this, Welcome.class);
+            startActivity(intent);
+            finish();
         }, 1500);
     }
 }

@@ -1,20 +1,16 @@
 package com.unic.unic_vendor_final_1.viewmodels;
 
 import android.net.Uri;
-import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.UploadTask;
-import com.unic.unic_vendor_final_1.datamodels.FirebaseRepository;
+import com.unic.unic_vendor_final_1.commons.FirebaseRepository;
 import com.unic.unic_vendor_final_1.datamodels.Product;
-import com.unic.unic_vendor_final_1.datamodels.Shop;
 
 public class AddNewProductViewModel extends ViewModel {
     private FirebaseRepository firebaseRepository=new FirebaseRepository();
@@ -55,14 +51,14 @@ public class AddNewProductViewModel extends ViewModel {
         firebaseRepository.getProductImageLink(shopId,product.getValue().getFirestoreId()).addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                product.getValue().setImageid(uri.toString());
+                product.getValue().setImageId(uri.toString());
                 setProductImageLinkonFirebase();
             }
         });
     }
 
     public void setProductImageLinkonFirebase(){
-        firebaseRepository.setProductImage(shopId,product.getValue().getFirestoreId(),product.getValue().getImageid()).addOnSuccessListener(new OnSuccessListener<Void>() {
+        firebaseRepository.setProductImage(shopId,product.getValue().getFirestoreId(),product.getValue().getImageId()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 productStatus.setValue(4);

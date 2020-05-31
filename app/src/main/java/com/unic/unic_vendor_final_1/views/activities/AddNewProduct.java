@@ -21,10 +21,7 @@ import android.widget.Toast;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.ActivityAddNewProductBinding;
 import com.unic.unic_vendor_final_1.datamodels.Product;
-import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.viewmodels.AddNewProductViewModel;
-import com.unic.unic_vendor_final_1.viewmodels.AddShopViewModel;
-import com.unic.unic_vendor_final_1.views.helpers.LocationSelector;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.helpers.CategorySelector">
+    tools:context=".views.shop_addition_fragments.CategorySelector">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/products_selector_recycler_view"
         android:layout_width="match_parent"

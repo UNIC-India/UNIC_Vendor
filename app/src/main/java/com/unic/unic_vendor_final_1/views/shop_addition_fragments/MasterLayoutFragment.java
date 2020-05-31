@@ -1,4 +1,4 @@
-package com.unic.unic_vendor_final_1.views.helpers;
+package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,6 +24,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.MasterCategoriesAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.MasterCompaniesAdapter;
@@ -55,6 +56,9 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
     private Map<String,List<String>> extraData = new HashMap<>();
     private MasterLayoutBinding masterLayoutBinding;
 
+    private boolean isFirst = true;
+    private DocumentSnapshot lastDoc;
+
 
     public MasterLayoutFragment() {
         // Required empty public constructor
@@ -85,8 +89,17 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
             setProducts(maps);
 
         });
+
+        setStructureViewModel.getIsFirstProduct().observe(getViewLifecycleOwner(), this::setFirst);
+
         setStructureViewModel.getSearchResults().observe(getViewLifecycleOwner(), this::setSearchResults);
+
         setStructureViewModel.getShopExtras().observe(getViewLifecycleOwner(), this::setExtraData);
+
+        setStructureViewModel.getLastProductDoc().observe(getViewLifecycleOwner(),this::setLastDoc);
+
+        setStructureViewModel.getPaginatedProductData(true,null,2);
+
         ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(getActivity(), R.array.spinner_array,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -121,15 +134,12 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
                     @Override
                     public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                         super.onScrollStateChanged(recyclerView, newState);
-                        if(newState==RecyclerView.SCROLL_STATE_IDLE&&!isAtBottom&&!recyclerView.canScrollVertically(1)){
+                        if(newState==RecyclerView.SCROLL_STATE_IDLE&&!isAtBottom&&recyclerView.canScrollVertically(-1)&&!recyclerView.canScrollVertically(1)){
                             isAtBottom = true;
-                            setStructureViewModel.getPaginatedProductData(setStructureViewModel.getShop().getValue().getId());
+                            setStructureViewModel.getPaginatedProductData(isFirst,lastDoc,2);
                         }
                     }
                 });
-
-
-
 
                 break;
             case 1:
@@ -194,7 +204,7 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
         switch (setter){
             case 0:
                 if(s.length()==2){
-                    setStructureViewModel.searchProductsByName(setStructureViewModel.getShop().getValue().getId(),s.toString());
+                    setStructureViewModel.searchProductsByName(s.toString());
                 }
                 else if(s.length()<2){
                     masterProductAdapter.setProducts(products);
@@ -265,4 +275,11 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
         masterProductAdapter.notifyDataSetChanged();
     }
 
+    public void setFirst(boolean first) {
+        isFirst = first;
+    }
+
+    public void setLastDoc(DocumentSnapshot lastDoc) {
+        this.lastDoc = lastDoc;
+    }
 }

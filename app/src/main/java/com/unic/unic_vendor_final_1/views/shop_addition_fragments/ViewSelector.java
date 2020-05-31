@@ -1,4 +1,4 @@
-package com.unic.unic_vendor_final_1.views.helpers;
+package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -35,7 +35,7 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
     private int pageId,code;
     private SetStructureViewModel setStructureViewModel;
     private FragmentViewSelectorBinding viewSelectorBinding;
-    Adapter_setViews adapter_setViews;
+    private Adapter_setViews adapter_setViews;
     public ViewSelector() {
         // Required empty public constructor
     }
