@@ -71,7 +71,7 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
         productSelectorBinding = FragmentProductSelectorBinding.inflate(inflater,container,false);
         setStructureViewModel = new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
         data = setStructureViewModel.getStructure().getValue().getPage(pageId).getView(viewCode).getData();
-        adapter = new ProductListAdapter(getContext(),1);
+        adapter = new ProductListAdapter(getContext());
         adapter.setSelectedProducts(data);
 
         ArrayAdapter<CharSequence> selectionAdapter=ArrayAdapter.createFromResource(getActivity(), R.array.spinner_array,android.R.layout.simple_spinner_item);
@@ -81,7 +81,7 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
         productSelectorBinding.productSelectionSpinner.setOnItemSelectedListener(this);
 
 
-        productSelectorBinding.productSelectionSearch.addTextChangedListener(new TextWatcher() {
+        productSelectorBinding.productSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
