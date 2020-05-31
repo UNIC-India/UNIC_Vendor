@@ -36,14 +36,15 @@ public class SetStructureViewModel extends ViewModel {
     private MutableLiveData<List<Map<String,Object>>> categories = new MutableLiveData<>();
     private MutableLiveData<List<Map<String,Object>>> companies = new MutableLiveData<>();
     private MutableLiveData<List<Map<String,Object>>> searchResults = new MutableLiveData<>();
-    private DocumentSnapshot lastDoc=null;
-    private boolean isFirst = true;
 
     private MutableLiveData<Boolean> isFirstProductSelection = new MutableLiveData<>();
     private MutableLiveData<DocumentSnapshot> lastProductSelectionDoc = new MutableLiveData<>();
 
     private MutableLiveData<Boolean> isFirstProduct = new MutableLiveData<>();
     private MutableLiveData<DocumentSnapshot> lastProductDoc = new MutableLiveData<>();
+
+    private MutableLiveData<Boolean> isFirstMyProduct = new MutableLiveData<>();
+    private MutableLiveData<DocumentSnapshot> lastMyProductDoc = new MutableLiveData<>();
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
@@ -73,6 +74,8 @@ public class SetStructureViewModel extends ViewModel {
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         if(queryDocumentSnapshots==null||queryDocumentSnapshots.size()==0) {
                             lastProductSelectionDoc.setValue(null);
+                            lastProductDoc.setValue(null);
+                            lastMyProductDoc.setValue(null);
                             return;
                         }
                         for(DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
@@ -90,6 +93,9 @@ public class SetStructureViewModel extends ViewModel {
                                 lastProductDoc.setValue(queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size()-1));
                                 isFirstProduct.setValue(Boolean.FALSE);
                                 break;
+                            case 3:
+                                lastMyProductDoc.setValue(queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size()-1));
+                                isFirstMyProduct.setValue(Boolean.FALSE);
 
                         }
                     }
@@ -324,5 +330,13 @@ public class SetStructureViewModel extends ViewModel {
 
     public MutableLiveData<DocumentSnapshot> getLastProductDoc() {
         return lastProductDoc;
+    }
+
+    public MutableLiveData<DocumentSnapshot> getLastMyProductDoc() {
+        return lastMyProductDoc;
+    }
+
+    public MutableLiveData<Boolean> getIsFirstMyProduct() {
+        return isFirstMyProduct;
     }
 }

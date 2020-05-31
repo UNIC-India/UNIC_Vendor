@@ -26,6 +26,7 @@ import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.views.activities.AddNewProduct;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 import com.unic.unic_vendor_final_1.views.activities.UserHome;
+import com.unic.unic_vendor_final_1.views.helpers.ProductViewFragment;
 import com.unic.unic_vendor_final_1.views.helpers.TeamFragment;
 import com.unic.unic_vendor_final_1.views.helpers.WriteNofication;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyAppsFragment;
@@ -73,9 +74,12 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ViewHo
                 holder.tvShopName2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent =new Intent(context, AddNewProduct.class);
-                        intent.putExtra("shopId",shops.get(position).getId());
-                        context.startActivity(intent);
+                        ((AppCompatActivity)context).getSupportFragmentManager()
+                                .beginTransaction()
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .replace(R.id.home_fragment,new ProductViewFragment(shops.get(position).getId()))
+                                .addToBackStack(null)
+                                .commit();
                     }
                 });
             }
