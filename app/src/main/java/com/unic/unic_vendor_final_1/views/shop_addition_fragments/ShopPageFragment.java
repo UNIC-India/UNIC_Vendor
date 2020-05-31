@@ -24,6 +24,7 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategoriesAdapter;
@@ -136,7 +137,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 frameLayoutParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
                 view00.setLayoutParams(frameLayoutParams);
                 ((ViewGroup)view00.findViewById(R.id.view_loader)).addView(frame,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
-
+                view00.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
                 view00.findViewById(R.id.view_dragger).setOnTouchListener(this::onTouch);
 
                 views.add(view00);
@@ -161,7 +162,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 view21.setLayoutParams(categoriesViewParams);
 
                 ((ViewGroup)view21.findViewById(R.id.view_loader)).addView(categoriesView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
-
+                view21.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
                 view21.findViewById(R.id.view_dragger).setOnTouchListener(this::onTouch);
 
                 views.add(view21);
@@ -198,7 +199,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 view41.setLayoutParams(doubleProductViewParams);
 
                 ((ViewGroup)view41.findViewById(R.id.view_loader)).addView(doubleProductView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
-
+                view41.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
                 TextView tvHeader = doubleProductView.findViewById(R.id.double_product_header);
                 tvHeader.setText(view.getHeader());
                 doubleProductView.findViewById(R.id.btn_add_products).setOnClickListener(this);
@@ -227,7 +228,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 tripleProductViewParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
 
                 ((ViewGroup)view42.findViewById(R.id.view_loader)).addView(tripleProductView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
-
+                view42.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
                 view42.findViewById(R.id.view_dragger).setOnTouchListener(this::onTouch);
 
 
@@ -295,19 +296,13 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
         );
     }
 
-    private void updateViews(int v1,int v2){
-
-        View view2 = parent.findViewById(v2);
-
-        RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams) view2.getLayoutParams();
-
-        params2.topMargin = (int) dpToPx(page.getView(v1).getyPos());
-
-        view2.setLayoutParams(params2);
-
-        Collections.swap(page.getViews(),v1%100-1,v2%100-1);
-
-
+    private void deleteView(int viewCode){
+        for(int i=0;i<views.size();i++)
+            if(viewCode==views.get(i).getId()){
+                views.remove(i);
+                break;
+            }
+        refreshViews();
     }
 
     private void refreshViews(){
@@ -350,6 +345,11 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                     }
                 });
                 dialog.show();
+                break;
+            case R.id.view_deleter:
+
+                int pId = ((View)v.getParent()).getId();
+                deleteView(pId);
                 break;
 
         }
@@ -421,11 +421,10 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
         return false;
     }
 
-    private ArrayList<View> swapViews(ArrayList<View> views,int v1, int v2){
+    private void swapViews(ArrayList<View> views, int v1, int v2){
         View v = views.get(v1);
         views.set(v1,views.get(v2));
         views.set(v2,v);
-        return views;
     }
 
 }
