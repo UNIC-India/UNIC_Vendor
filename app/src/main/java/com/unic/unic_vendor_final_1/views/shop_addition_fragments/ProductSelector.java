@@ -72,6 +72,7 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
         setStructureViewModel = new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
         data = setStructureViewModel.getStructure().getValue().getPage(pageId).getView(viewCode).getData();
         adapter = new ProductListAdapter(getContext());
+        adapter.setSelectedProducts(data);
 
         ArrayAdapter<CharSequence> selectionAdapter=ArrayAdapter.createFromResource(getActivity(), R.array.spinner_array,android.R.layout.simple_spinner_item);
         selectionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -146,12 +147,6 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
 
         setStructureViewModel.getProducts().observe(getViewLifecycleOwner(), maps -> {
             adapter.setProducts(maps);
-            adapter.notifyDataSetChanged();
-        });
-
-        setStructureViewModel.getStructure().observe(getViewLifecycleOwner(), structure -> {
-            data = structure.getPage(pageId).getView(viewCode).getData();
-            adapter.setSelectedProducts(data);
             adapter.notifyDataSetChanged();
         });
 

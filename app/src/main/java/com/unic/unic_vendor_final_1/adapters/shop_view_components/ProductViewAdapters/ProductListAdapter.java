@@ -22,17 +22,39 @@ import java.util.Map;
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder>{
 
     private Context mContext;
-    private List<Map<String,Object>> products;
-    private List<Map<String,Object>> checkedProducts;
+    private List<Map<String,Object>> products = new ArrayList<>();
+    private List<Map<String,Object>> checkedProducts = new ArrayList<>();
     int demo=0;
 
     public ProductListAdapter(Context context){
         this.mContext = context;
-        checkedProducts=new ArrayList<>();
+        demo=0;
     }
     public ProductListAdapter(int demo){
         this.demo=demo;
-        checkedProducts=new ArrayList<>();
+    }
+
+    class CheckBoxListener implements View.OnClickListener {
+
+        int position;
+
+        CheckBoxListener(int position) {
+            this.position = position;
+        }
+
+        public void onClick(View v) {
+
+
+
+            if (((CheckBox) v).isChecked()) {
+                checkedProducts.add(products.get(position));
+            } else {
+                if(checkedProducts.contains(products.get(position)))
+                    checkedProducts.remove(products.get(position));            }
+            notifyDataSetChanged();
+        }
+
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -50,6 +72,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             tvPrice=itemView.findViewById(R.id.product_price);
             tvCategory=itemView.findViewById(R.id.tvCategory);
             imageView2=itemView.findViewById(R.id.imageView2);
+            cbCheck.setChecked(false);
 
         }
     }
@@ -75,18 +98,14 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                     .load(products.get(position).get("imageId").toString())
                     .into(holder.ivProductPhoto);
 
+
             if(checkedProducts!=null&&checkedProducts.contains(products.get(position)))
                 holder.cbCheck.setChecked(true);
-
             else
                 holder.cbCheck.setChecked(false);
 
-            holder.cbCheck.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-                if( isChecked)
-                    checkedProducts.add(products.get(position));
-                else
-                    checkedProducts.remove(products.get(position));
-            });
+            holder.cbCheck.setOnClickListener(new CheckBoxListener(position));
+
         }
         else{
             holder.tvProductName.setText("Demo Product");
