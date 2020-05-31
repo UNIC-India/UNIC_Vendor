@@ -1,9 +1,14 @@
 package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,11 +28,12 @@ import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class ProductSelector extends Fragment implements View.OnClickListener{
+public class ProductSelector extends Fragment implements View.OnClickListener,AdapterView.OnItemSelectedListener{
 
     private int viewCode;
     private int pageId;
@@ -38,7 +44,10 @@ public class ProductSelector extends Fragment implements View.OnClickListener{
     private ProductListAdapter adapter;
 
     private List<Map<String,Object>> data = new ArrayList<>();
-    private List<Map<String,Object>> extraData = new ArrayList<>();
+
+    private List<Map<String,Object>> searchResults = new ArrayList<>();
+
+    private Map<String,List<String>> extraData = new HashMap<>();
 
     private boolean isFirst = true;
     private DocumentSnapshot lastDoc;
@@ -64,11 +73,76 @@ public class ProductSelector extends Fragment implements View.OnClickListener{
         data = setStructureViewModel.getStructure().getValue().getPage(pageId).getView(viewCode).getData();
         adapter = new ProductListAdapter(getContext());
 
+        ArrayAdapter<CharSequence> selectionAdapter=ArrayAdapter.createFromResource(getActivity(), R.array.spinner_array,android.R.layout.simple_spinner_item);
+        selectionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        productSelectorBinding.productSelectionSpinner.setAdapter(selectionAdapter);
+        productSelectorBinding.productSelectionSpinner.setOnItemSelectedListener(this);
+
+
+        productSelectorBinding.productSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if(s.length()==0){
+                    setStructureViewModel.getPaginatedProductData(true,null,1);
+                    return;
+                }
+
+                switch (queryType) {
+                    case 0:
+                        if(s.length()==2) {
+                            setStructureViewModel.searchProductsByName(s.toString());
+                        }
+                        else if(s.length()<2){
+                            setStructureViewModel.clearSearch();
+                            setStructureViewModel.getPaginatedProductData(true,null,1);
+                        }
+                        else{
+                            //TODO Refine product search in product selector
+                        }
+                        break;
+                    case 1:
+
+                        List<String> refinedCategories = new ArrayList<>();
+
+                        for(String category : extraData.get("categories")){
+                            if(category.toLowerCase().contains(s.toString().toLowerCase()))
+                                refinedCategories.add(category);
+                        }
+
+                        setStructureViewModel.searchProductsByCategoryList(refinedCategories);
+                        break;
+                    case 2:
+                        List<String> refinedCompanies = new ArrayList<>();
+                        for(String company : extraData.get("companies")){
+                            if (company.toLowerCase().contains(s.toString().toLowerCase()))
+                                refinedCompanies.add(company);
+                        }
+                        setStructureViewModel.searchProductsByCompanyList(refinedCompanies);
+                }
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         setStructureViewModel.clearSearch();
 
         setStructureViewModel.getPaginatedProductData(isFirst,lastDoc,1);
 
         setStructureViewModel.setCurrentFrag(getActivity().getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader));
+
+        setStructureViewModel.getShopExtras().observe(getViewLifecycleOwner(),this::setExtraData);
 
         setStructureViewModel.getProducts().observe(getViewLifecycleOwner(), maps -> {
             adapter.setProducts(maps);
@@ -97,6 +171,8 @@ public class ProductSelector extends Fragment implements View.OnClickListener{
                 setStructureViewModel.getIsFirstProductSelection().setValue(Boolean.TRUE);
                 setStructureViewModel.clearSearch();
                 setStructureViewModel.getPaginatedProductData(true,null,1);
+                Handler handler = new Handler();
+                handler.postDelayed(() -> productSelectorBinding.productSelectionSwipe.setRefreshing(false),5000);
             }
         });
 
@@ -154,4 +230,26 @@ public class ProductSelector extends Fragment implements View.OnClickListener{
         this.lastDoc = lastDoc;
     }
 
+    public void setExtraData(Map<String, List<String>> extraData) {
+        this.extraData = extraData;
+    }
+
+    public void setQueryType(int queryType) {
+
+        if(this.queryType!=queryType){
+            setStructureViewModel.getPaginatedProductData(true,null,1);
+        }
+
+        this.queryType = queryType;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        setQueryType(position);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        setQueryType(0);
+    }
 }

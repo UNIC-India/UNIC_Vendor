@@ -8,43 +8,38 @@
     android:layout_height="match_parent"
     tools:context=".views.shop_addition_fragments.ProductSelector">
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <Spinner
+            android:id="@+id/product_selection_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <AutoCompleteTextView
+            android:id="@+id/product_search"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:drawableStart="@drawable/ic_search_black_24dp"
+            android:drawableTint="#D3D3D3"
+            android:hint="Search "
+            app:layout_constraintEnd_toStartOf="@+id/product_selection_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/products_selector_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            tools:listitem="@layout/product_details_list_item"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/product_search"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <Spinner
-                android:id="@+id/product_selection_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <AutoCompleteTextView
-                android:id="@+id/product_search"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:drawableStart="@drawable/ic_search_black_24dp"
-                android:drawableTint="#D3D3D3"
-                android:hint="Search "
-                app:layout_constraintEnd_toStartOf="@+id/product_selection_spinner"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/products_selector_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:listitem="@layout/product_details_list_item"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/product_search" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

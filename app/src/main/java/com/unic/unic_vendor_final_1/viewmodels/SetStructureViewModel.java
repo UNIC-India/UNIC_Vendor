@@ -63,6 +63,10 @@ public class SetStructureViewModel extends ViewModel {
             productData = new ArrayList<>();
         else
             productData = products.getValue();
+
+        if(!isFirst&&lastDoc==null)
+            return;
+
         firebaseRepository.getPaginatedProducts(shop.getValue().getId(),lastDoc,isFirst)
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -164,9 +168,9 @@ public class SetStructureViewModel extends ViewModel {
                 });
     }
 
-    public void searchProductsByName(String shopId,String nameKey){
+    public void searchProductsByName(String nameKey){
         List<Map<String,Object>> data = new ArrayList<>();
-        firebaseRepository.searchProductsByName(shopId,nameKey).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        firebaseRepository.searchProductsByName(shop.getValue().getId(),nameKey).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if (queryDocumentSnapshots==null)
