@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-    android:id="@+id/product_selection_swipe"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.shop_addition_fragments.ProductSelector">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".views.helpers.ProductViewFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
 
         <Spinner
-            android:id="@+id/product_selection_spinner"
+            android:id="@+id/product_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -26,19 +24,17 @@
             android:drawableStart="@drawable/ic_search_black_24dp"
             android:drawableTint="#D3D3D3"
             android:hint="Search "
-            app:layout_constraintEnd_toStartOf="@+id/product_selection_spinner"
+            app:layout_constraintEnd_toStartOf="@+id/product_spinner"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/products_selector_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            tools:listitem="@layout/product_details_list_item"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/my_products_recycler_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/product_selection_search"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            tools:listitem="@layout/product_details_list_item"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
