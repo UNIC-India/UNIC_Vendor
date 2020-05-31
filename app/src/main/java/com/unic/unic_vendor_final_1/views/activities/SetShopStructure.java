@@ -163,7 +163,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                         .beginTransaction()
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .replace(R.id.shop_pages_loader,new ShopPageFragment(page),page.getPageName())
-                        .addToBackStack(null)
                         .commit();
                 setShopStructureBinding.setStructureNavView.setCheckedItem(item);
                 setShopStructureBinding.drawerLayout.closeDrawers();
@@ -356,7 +355,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     }
 
     public void selectProducts(int pageId, int viewCode){
-        Toast.makeText(this, Integer.valueOf(pageId).toString()+","+Integer.valueOf(viewCode).toString(), Toast.LENGTH_SHORT).show();
         getSupportFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.shop_pages_loader,new ProductSelector(pageId,viewCode))
@@ -396,8 +394,9 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         getSupportFragmentManager()
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .replace(R.id.shop_pages_loader,new ShopPageFragment(setStructureViewModel.getStructure().getValue().getPage(pageId)),structure.getPage(pageId).getPageName())
+                .replace(R.id.shop_pages_loader,new ShopPageFragment(structure.getPage(pageId)),structure.getPage(pageId).getPageName())
                 .commit();
+        getSupportFragmentManager().popBackStack();
         setShopStructureBinding.setStructureNavView.setCheckedItem(pageId);
     }
 
