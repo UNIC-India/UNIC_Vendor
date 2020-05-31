@@ -87,22 +87,18 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FragmentShopPageBinding shopPageBinding = FragmentShopPageBinding.inflate(inflater, container, false);
+
+        setStructureViewModel=new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
+        setStructureViewModel.setCurrentFrag(getActivity().getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader));
         parent = shopPageBinding.shopViewParent;
         ViewGroup.LayoutParams parentLayoutParams = parent.getLayoutParams();
         parentLayoutParams.height = (int)dpToPx(page.getSize());
         parent.setLayoutParams(parentLayoutParams);
-        setStructureViewModel=new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
-        setStructureViewModel.setCurrentFrag(getActivity().getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader));
+        inflateViews(page);
         return shopPageBinding.getRoot();
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        inflateViews();
-    }
-
-    private void inflateViews(){
+    private void inflateViews(Page page){
 
         parent.removeAllViews();
         views.clear();
@@ -319,7 +315,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
 
         }
 
-        inflateViews();
+        inflateViews(page);
 
     }
 
