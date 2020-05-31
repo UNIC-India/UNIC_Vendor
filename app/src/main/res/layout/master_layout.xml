@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="650dp"
-    tools:context=".views.helpers.MasterLayoutFragment">
+    tools:context=".views.shop_addition_fragments.MasterLayoutFragment">
 
     <FrameLayout
         android:layout_width="match_parent"

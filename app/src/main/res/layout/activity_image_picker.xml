@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.helpers.ImagePicker">
+    tools:context=".views.shop_addition_fragments.ImagePicker">
 
    <com.google.android.material.appbar.AppBarLayout
        android:id="@+id/image_picker_app_bar"

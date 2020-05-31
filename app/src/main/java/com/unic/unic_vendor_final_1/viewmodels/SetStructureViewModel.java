@@ -39,6 +39,12 @@ public class SetStructureViewModel extends ViewModel {
     private DocumentSnapshot lastDoc=null;
     private boolean isFirst = true;
 
+    private MutableLiveData<Boolean> isFirstProductSelection = new MutableLiveData<>();
+    private MutableLiveData<DocumentSnapshot> lastProductSelectionDoc = new MutableLiveData<>();
+
+    private MutableLiveData<Boolean> isFirstProduct = new MutableLiveData<>();
+    private MutableLiveData<DocumentSnapshot> lastProductDoc = new MutableLiveData<>();
+
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
     public void getShopData(String shopId){
@@ -51,50 +57,43 @@ public class SetStructureViewModel extends ViewModel {
         });
     }
 
-   /* public void getProductData(String  shopId){
-        final List<Map<String,Object>> productData = new ArrayList<>();
-        final List<Map<String,Object>> categoryData = new ArrayList<>();
-        List<Map<String,Object>> tempCat=new ArrayList<>();
-        int i=0;
-        firebaseRepository.getProducts(shopId).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for(DocumentSnapshot doc:queryDocumentSnapshots) {
-                    productData.add(doc.getData());
-                    Map<String,Object> hp=new HashMap<>();
-                    hp.put("cname",Objects.requireNonNull(doc.get("category")).toString());
-                    if (!categoryData.contains(hp))
-                        categoryData.add(hp);
-                }
-            }
-        });
-
-
-        products.setValue(productData);
-        productStatus.setValue(1);
-    }*/
-
-    public void getPaginatedProductData(String shopId){
+    public void getPaginatedProductData(boolean isFirst,DocumentSnapshot lastDoc,int where){
         List<Map<String,Object>> productData;
         if(isFirst)
             productData = new ArrayList<>();
         else
             productData = products.getValue();
-        firebaseRepository.getPaginatedProducts(shopId,lastDoc,isFirst)
+
+        if(!isFirst&&lastDoc==null)
+            return;
+
+        firebaseRepository.getPaginatedProducts(shop.getValue().getId(),lastDoc,isFirst)
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if(queryDocumentSnapshots.getDocuments().size()==0)
+                        if(queryDocumentSnapshots==null||queryDocumentSnapshots.size()==0) {
+                            lastProductSelectionDoc.setValue(null);
                             return;
+                        }
                         for(DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
                             productData.add(doc.getData());
-                        lastDoc = queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size()-1);
+
                         products.setValue(productData);
                         productStatus.setValue(1);
-                        isFirst=false;
+
+                        switch (where){
+                            case 1:
+                                lastProductSelectionDoc.setValue(queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size()-1));;
+                                isFirstProductSelection.setValue(Boolean.FALSE);
+                                break;
+                            case 2:
+                                lastProductDoc.setValue(queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size()-1));
+                                isFirstProduct.setValue(Boolean.FALSE);
+                                break;
+
+                        }
                     }
                 });
-
     }
 
     public void getStructureData(final String shopId){
@@ -169,9 +168,9 @@ public class SetStructureViewModel extends ViewModel {
                 });
     }
 
-    public void searchProductsByName(String shopId,String nameKey){
+    public void searchProductsByName(String nameKey){
         List<Map<String,Object>> data = new ArrayList<>();
-        firebaseRepository.searchProductsByName(shopId,nameKey).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        firebaseRepository.searchProductsByName(shop.getValue().getId(),nameKey).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if (queryDocumentSnapshots==null)
@@ -202,6 +201,7 @@ public class SetStructureViewModel extends ViewModel {
 
     public void searchProductsByNameRefineCategory(String nameKey,String category){
         List<Map<String,Object>> data = new ArrayList<>();
+
         firebaseRepository.searchProductByNameRefineCategory(shop.getValue().getId(),nameKey,category).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -219,6 +219,11 @@ public class SetStructureViewModel extends ViewModel {
 
         List<Map<String,Object>> data = new ArrayList<>();
 
+        if (categories.size()==0){
+            searchResults.setValue(null);
+            return;
+        }
+
         firebaseRepository.getProductsFromCategories(shop.getValue().getId(), categories).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -235,6 +240,11 @@ public class SetStructureViewModel extends ViewModel {
     public void searchProductsByCompanyList(List<String> companies){
 
         List<Map<String,Object>> data = new ArrayList<>();
+
+        if (companies.size()==0){
+            searchResults.setValue(null);
+            return;
+        }
 
         firebaseRepository.getProductsFromCompanies(shop.getValue().getId(),companies).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -298,5 +308,21 @@ public class SetStructureViewModel extends ViewModel {
 
     public void setCurrentFrag(Fragment currentFrag) {
         this.currentFrag.setValue(currentFrag);
+    }
+
+    public MutableLiveData<Boolean> getIsFirstProductSelection() {
+        return isFirstProductSelection;
+    }
+
+    public MutableLiveData<DocumentSnapshot> getLastProductSelectionDoc() {
+        return lastProductSelectionDoc;
+    }
+
+    public MutableLiveData<Boolean> getIsFirstProduct() {
+        return isFirstProduct;
+    }
+
+    public MutableLiveData<DocumentSnapshot> getLastProductDoc() {
+        return lastProductDoc;
     }
 }

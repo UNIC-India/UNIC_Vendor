@@ -7,16 +7,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,14 +26,12 @@ import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.datamodels.Structure;
 import com.unic.unic_vendor_final_1.commons.StructureTemplates;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
-import com.unic.unic_vendor_final_1.views.helpers.CategorySelector;
-import com.unic.unic_vendor_final_1.views.helpers.NoProductsFragment;
-import com.unic.unic_vendor_final_1.views.helpers.ProductSelector;
-import com.unic.unic_vendor_final_1.views.helpers.ViewSelector;
+import com.unic.unic_vendor_final_1.views.shop_addition_fragments.CategorySelector;
+import com.unic.unic_vendor_final_1.views.shop_addition_fragments.NoProductsFragment;
+import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ProductSelector;
+import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ViewSelector;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ShopPageFragment;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +44,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     public int currentPage=1001;
     private List<Map<String,Object>> products;
 
-    private int status,productStatus,structureStatus;
+    private int status,structureStatus;
 
     private String shopId;
     private int option;
@@ -84,8 +79,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         setStructureViewModel.getStructureStatus().observe(this, this::setStructureStatus);
 
         setStructureViewModel.getStatus().observe(this, this::setStatus);
-
-        setStructureViewModel.getProductStatus().observe(this, this::setProductStatus);
 
         setStructureViewModel.getShopExtras(shopId);
 
@@ -123,12 +116,12 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 if(currentFragment.getClass()==ShopPageFragment.class){
                     ((ShopPageFragment)currentFragment).onClick(v);
                 }
-                else if(currentFragment.getClass()==com.unic.unic_vendor_final_1.views.helpers.ProductSelector.class){
-                    ((com.unic.unic_vendor_final_1.views.helpers.ProductSelector)currentFragment).onClick(v);
+                else if(currentFragment.getClass()== ProductSelector.class){
+                    ((ProductSelector)currentFragment).onClick(v);
 
                 }
-                else if(currentFragment.getClass()==com.unic.unic_vendor_final_1.views.helpers.CategorySelector.class){
-                    ((com.unic.unic_vendor_final_1.views.helpers.CategorySelector)currentFragment).onClick(v);
+                else if(currentFragment.getClass()== CategorySelector.class){
+                    ((CategorySelector)currentFragment).onClick(v);
                 }
                 break;
             case R.id.confirm_shop_structure:
@@ -138,15 +131,15 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 if(currentFragment.getClass()==ShopPageFragment.class){
                     ((ShopPageFragment)currentFragment).onClick(v);
                 }
-                else if(currentFragment.getClass()==com.unic.unic_vendor_final_1.views.helpers.ViewSelector.class){
-                    ((com.unic.unic_vendor_final_1.views.helpers.ViewSelector)currentFragment).onClick(v);
+                else if(currentFragment.getClass()== ViewSelector.class){
+                    ((ViewSelector)currentFragment).onClick(v);
                 }
-                else if(currentFragment.getClass()==com.unic.unic_vendor_final_1.views.helpers.ProductSelector.class){
-                    ((com.unic.unic_vendor_final_1.views.helpers.ProductSelector)currentFragment).onClick(v);
+                else if(currentFragment.getClass()== ProductSelector.class){
+                    ((ProductSelector)currentFragment).onClick(v);
 
                 }
-                else if(currentFragment.getClass()==com.unic.unic_vendor_final_1.views.helpers.CategorySelector.class){
-                    ((com.unic.unic_vendor_final_1.views.helpers.CategorySelector)currentFragment).onClick(v);
+                else if(currentFragment.getClass()== CategorySelector.class){
+                    ((CategorySelector)currentFragment).onClick(v);
                 }
                 break;
 
@@ -199,14 +192,14 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
 
         }
-        else if(currentFragment.getClass()==com.unic.unic_vendor_final_1.views.helpers.ViewSelector.class){
+        else if(currentFragment.getClass()== ViewSelector.class){
             setShopStructureBinding.tvTitle.setText("Select a View");
             setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
             setShopStructureBinding.btnRight.setText("Confirm");
             setShopStructureBinding.btnleft.setText("Cancel");
             setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
         }
-        else if(currentFragment.getClass()==com.unic.unic_vendor_final_1.views.helpers.ProductSelector.class){
+        else if(currentFragment.getClass()== ProductSelector.class){
             setShopStructureBinding.tvTitle.setText("Select Products");
            setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
             setShopStructureBinding.btnRight.setText("Confirm");
@@ -214,7 +207,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
 
         }
-        else if(currentFragment.getClass()==com.unic.unic_vendor_final_1.views.helpers.CategorySelector.class){
+        else if(currentFragment.getClass()== CategorySelector.class){
             setShopStructureBinding.tvTitle.setText("Select Categories");
             setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
             setShopStructureBinding.btnRight.setText("Confirm");
@@ -275,7 +268,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             case 2:
                 setStructureViewModel.getStructureData(shopId);
             case 3:
-                setStructureViewModel.getPaginatedProductData(shopId);
                 break;
             case 4:
                 Toast.makeText(this, "Structure saved successfully", Toast.LENGTH_SHORT).show();
@@ -326,10 +318,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     void setStatus(int status) {
         this.status = status;
         updateStatus(status);
-    }
-
-    void setProductStatus(int productStatus) {
-        this.productStatus = productStatus;
     }
 
     public Fragment getCurrentFragment() {
@@ -408,7 +396,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         getSupportFragmentManager()
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .replace(R.id.shop_pages_loader,new ShopPageFragment(structure.getPage(pageId)),structure.getPage(pageId).getPageName())
+                .replace(R.id.shop_pages_loader,new ShopPageFragment(setStructureViewModel.getStructure().getValue().getPage(pageId)),structure.getPage(pageId).getPageName())
                 .commit();
         setShopStructureBinding.setStructureNavView.setCheckedItem(pageId);
     }

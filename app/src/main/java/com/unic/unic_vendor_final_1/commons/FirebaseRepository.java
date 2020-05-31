@@ -272,11 +272,11 @@ public class FirebaseRepository {
     }
 
     public Task<QuerySnapshot> getProductsFromCategories(String shopId, List<String> categories){
-        return db.collection("shops").document(shopId).collection("products").whereIn("category",categories).get();
+        return db.collection("shops").document(shopId).collection("products").whereIn("category",categories).orderBy("name", Query.Direction.ASCENDING).get();
     }
 
     public Task<QuerySnapshot> getProductsFromCompanies(String shopId, List<String> companies){
-        return db.collection("shops").document(shopId).collection("products").whereIn("company",companies).get();
+        return db.collection("shops").document(shopId).collection("products").whereIn("company",companies).orderBy("name", Query.Direction.ASCENDING).get();
     }
 
     public Task<ShortDynamicLink> createSubscribeLink(String shopId, String shopName){
