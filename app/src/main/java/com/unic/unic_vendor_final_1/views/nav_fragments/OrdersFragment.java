@@ -32,6 +32,9 @@ public class OrdersFragment extends Fragment {
     private boolean isFirst = true;
     private boolean isAtBottom = false;
     private DocumentSnapshot lastDoc;
+    private Boolean isUpdating=false;
+    int updatingPosition=-1;
+    int newStatus=0;
 
     RecyclerView rvOrders;
 
@@ -50,13 +53,19 @@ public class OrdersFragment extends Fragment {
         myOrdersBinding=FragmentMyOrdersBinding.inflate(getLayoutInflater(),container,false);
         rvOrders=myOrdersBinding.rvAllOrders;
         userShopsViewModel=new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
-        allOrdersAdapter=new AllOrdersAdapter(getActivity());
+        allOrdersAdapter=new AllOrdersAdapter(getActivity(),this);
         rvOrders.setAdapter(allOrdersAdapter);
         rvOrders.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         myOrdersBinding.orderRefresh.setColorScheme(R.color.colorPrimary,R.color.colorSecondary,R.color.colorTertiary);
 
         userShopsViewModel.getPaginatedOrders(isFirst,lastDoc);
+
+        userShopsViewModel.isOrderUpdating.observe(getViewLifecycleOwner(),aBoolean -> {
+            isUpdating=aBoolean;
+        if(updatingPosition>=0&&isUpdating==false)
+            allOrdersAdapter.updateOrder(updatingPosition,newStatus);
+        });
 
         userShopsViewModel.getOrders().observe(getViewLifecycleOwner(), orders -> {
             if (orders==null)
@@ -109,5 +118,12 @@ public class OrdersFragment extends Fragment {
 
     private void setLastDoc(DocumentSnapshot lastDoc) {
         this.lastDoc = lastDoc;
+    }
+
+    public void setOrderStatus(int position,String orderId, int status){
+        newStatus=status;
+        updatingPosition=position;
+        userShopsViewModel.isOrderUpdating.setValue(Boolean.TRUE);
+        userShopsViewModel.setOrderStatus(orderId,status);
     }
 }

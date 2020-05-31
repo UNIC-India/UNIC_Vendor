@@ -3,6 +3,7 @@ package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 import android.app.AlertDialog;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
@@ -70,6 +71,10 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
         switch (v.getId()){
             case R.id.btnRight:
                 viewAdder((code+1)+""+(adapter_setViews.lastchecked+1));
+                break;
+            case R.id.btnleft:
+                getActivity().getSupportFragmentManager().popBackStack();
+                break;
 
         }
     }

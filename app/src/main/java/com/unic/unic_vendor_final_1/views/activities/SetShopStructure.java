@@ -112,16 +112,19 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
         switch (v.getId()){
             case R.id.btnleft:
-                addPage();
+
                 if(currentFragment.getClass()==ShopPageFragment.class){
-                    ((ShopPageFragment)currentFragment).onClick(v);
+                    addPage();
                 }
                 else if(currentFragment.getClass()== ProductSelector.class){
-                    ((ProductSelector)currentFragment).onClick(v);
+                    getSupportFragmentManager().popBackStack();
 
                 }
                 else if(currentFragment.getClass()== CategorySelector.class){
-                    ((CategorySelector)currentFragment).onClick(v);
+                    getSupportFragmentManager().popBackStack();
+                }
+                else if(currentFragment.getClass()== ViewSelector.class){
+                    ((ViewSelector)currentFragment).onClick(v);
                 }
                 break;
             case R.id.confirm_shop_structure:
@@ -396,7 +399,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.shop_pages_loader,new ShopPageFragment(structure.getPage(pageId)),structure.getPage(pageId).getPageName())
                 .commit();
-        getSupportFragmentManager().popBackStack();
         setShopStructureBinding.setStructureNavView.setCheckedItem(pageId);
     }
 

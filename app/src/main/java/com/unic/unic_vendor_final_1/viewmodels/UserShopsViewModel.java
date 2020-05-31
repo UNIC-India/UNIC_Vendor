@@ -44,6 +44,7 @@ public class UserShopsViewModel extends ViewModel {
     private MutableLiveData<Map<String,String>> qrLinks = new MutableLiveData<>();
     private MutableLiveData<Boolean> isFirstOrder = new MutableLiveData<>();
     private MutableLiveData<DocumentSnapshot> lastOrderDoc = new MutableLiveData<>();
+    public MutableLiveData<Boolean> isOrderUpdating =new MutableLiveData<>();
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
@@ -191,7 +192,12 @@ public class UserShopsViewModel extends ViewModel {
     public void setOrderStatus(String  orderId, int orderStatus) {
 
         firebaseRepository.setOrderStatus(orderId, orderStatus)
-                .addOnSuccessListener(aVoid -> orderstatuschangestatus.setValue(5))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        isOrderUpdating.setValue(Boolean.FALSE);
+                    }
+                })
                 .addOnFailureListener(e -> Timber.e(e, e.toString()));
     }
 

@@ -12,7 +12,7 @@ public class Order {
 
     @DocumentId
     private String id;
-    private String ownerId, shopId,status,address,orgName;
+    private String ownerId, shopId,address,orgName;
     private double total;
     private List<Map<String,Object>> items;
     private List<Integer> quantity;
@@ -40,7 +40,6 @@ public class Order {
         this.address=" ";
         this.orgName=" ";
         this.id=" ";
-        this.status=" ";
         this.orderStatus=0;
         address=" ";
         this.total=0;
@@ -81,13 +80,7 @@ public class Order {
         this.shopId = shopId;
     }
 
-    public String getStatus() {
-        return status;
-    }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     public List<Map<String, Object>> getItems() {
         return items;
