@@ -159,16 +159,13 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
 
         productSelectorBinding.productSelectionSwipe.setColorScheme(R.color.colorPrimary,R.color.colorSecondary,R.color.colorTertiary);
 
-        productSelectorBinding.productSelectionSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                setStructureViewModel.getLastProductSelectionDoc().setValue(null);
-                setStructureViewModel.getIsFirstProductSelection().setValue(Boolean.TRUE);
-                setStructureViewModel.clearSearch();
-                setStructureViewModel.getPaginatedProductData(true,null,1);
-                Handler handler = new Handler();
-                handler.postDelayed(() -> productSelectorBinding.productSelectionSwipe.setRefreshing(false),5000);
-            }
+        productSelectorBinding.productSelectionSwipe.setOnRefreshListener(() -> {
+            setStructureViewModel.getLastProductSelectionDoc().setValue(null);
+            setStructureViewModel.getIsFirstProductSelection().setValue(Boolean.TRUE);
+            setStructureViewModel.clearSearch();
+            setStructureViewModel.getPaginatedProductData(true,null,1);
+            Handler handler = new Handler();
+            handler.postDelayed(() -> productSelectorBinding.productSelectionSwipe.setRefreshing(false),2000);
         });
 
         productSelectorBinding.productsSelectorRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

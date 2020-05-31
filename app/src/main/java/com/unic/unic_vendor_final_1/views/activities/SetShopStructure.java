@@ -396,7 +396,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.shop_pages_loader,new ShopPageFragment(structure.getPage(pageId)),structure.getPage(pageId).getPageName())
                 .commit();
-        getSupportFragmentManager().popBackStack();
         setShopStructureBinding.setStructureNavView.setCheckedItem(pageId);
     }
 

@@ -24,8 +24,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private Context mContext;
     private List<Map<String,Object>> products = new ArrayList<>();
     private List<Map<String,Object>> checkedProducts = new ArrayList<>();
-    int demo=0;
-    int which = 0;
+    int demo;
+    int which;
 
     public ProductListAdapter(Context context,int which){
         this.mContext = context;

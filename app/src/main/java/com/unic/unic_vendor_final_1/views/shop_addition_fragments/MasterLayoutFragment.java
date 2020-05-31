@@ -109,6 +109,8 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
         else
             spinner.setSelection(0);
 
+        masterLayoutBinding.getRoot().setEnabled(false);
+
         return masterLayoutBinding.getRoot();
     }
 
@@ -138,6 +140,17 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
                             isAtBottom = true;
                             setStructureViewModel.getPaginatedProductData(isFirst,lastDoc,2);
                         }
+                    }
+                });
+
+                masterLayoutBinding.getRoot().setEnabled(true);
+
+                masterLayoutBinding.getRoot().setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        setStructureViewModel.getPaginatedProductData(true,null,2);
+                        Handler handler = new Handler();
+                        handler.postDelayed(() -> masterLayoutBinding.getRoot().setRefreshing(false),2000);
                     }
                 });
 

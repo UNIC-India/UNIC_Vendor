@@ -230,17 +230,24 @@ public class SetStructureViewModel extends ViewModel {
             return;
         }
 
-        firebaseRepository.getProductsFromCategories(shop.getValue().getId(), categories).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if (queryDocumentSnapshots==null)
-                    return;
-                for (DocumentSnapshot doc : queryDocumentSnapshots){
-                    data.add(doc.getData());
-                }
-                searchResults.setValue(data);
-            }
-        });
+        firebaseRepository.getProductsFromCategories(shop.getValue().getId(), categories)
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (queryDocumentSnapshots==null)
+                            return;
+                        for (DocumentSnapshot doc : queryDocumentSnapshots){
+                            data.add(doc.getData());
+                        }
+                        searchResults.setValue(data);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
     public void searchProductsByCompanyList(List<String> companies){
