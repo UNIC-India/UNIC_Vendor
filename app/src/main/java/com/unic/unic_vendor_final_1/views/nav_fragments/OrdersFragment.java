@@ -59,12 +59,14 @@ public class OrdersFragment extends Fragment {
 
         myOrdersBinding.orderRefresh.setColorScheme(R.color.colorPrimary,R.color.colorSecondary,R.color.colorTertiary);
 
-        userShopsViewModel.getPaginatedOrders(isFirst,lastDoc);
+        userShopsViewModel.getPaginatedOrders(true,null);
 
         userShopsViewModel.isOrderUpdating.observe(getViewLifecycleOwner(),aBoolean -> {
             isUpdating=aBoolean;
-        if(updatingPosition>=0&&isUpdating==false)
-            allOrdersAdapter.updateOrder(updatingPosition,newStatus);
+        if(updatingPosition>=0&&isUpdating==false) {
+            allOrdersAdapter.updateOrder(updatingPosition, newStatus);
+            updatingPosition = -1;
+        }
         });
 
         userShopsViewModel.getOrders().observe(getViewLifecycleOwner(), orders -> {
