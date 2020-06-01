@@ -130,7 +130,7 @@ public class FirebaseRepository {
     }
 
     public Task<Uri> getImageLink(String shopId) {
-        return mRef.child("shops").child(shopId).child("shopimage").getDownloadUrl();
+        return mRef.child("shops").child(shopId).child("shopimage_200x200").getDownloadUrl();
     }
 
     public Task<Uri> getProductImageLink(String shopId,String productId){

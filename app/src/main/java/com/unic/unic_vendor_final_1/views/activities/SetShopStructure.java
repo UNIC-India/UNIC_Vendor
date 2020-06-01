@@ -448,6 +448,8 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onRestart() {
 
+        super.onRestart();
+
         if(currentPageId==0||currentViewCode==0)
             return;
 
@@ -457,7 +459,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 .addToBackStack(null)
                 .commit();
 
-        super.onRestart();
 
     }
 
