@@ -45,7 +45,7 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvName,tvPhone,tvDate,tvOrderId,tvStatus,tvshopname,tvNoOfItems,tvRetailer,tvTime,tvCreatedBy,tvTotal,tvGST,tvCustomer;
+        TextView tvPhone,tvDate,tvOrderId,tvStatus,tvShopName,tvNoOfItems,tvTime,tvCreatedBy,tvTotal,tvGST,tvCustomer;
         CardView cdOrder;
         View line;
         ImageView ivAccept,ivReject;
@@ -54,19 +54,17 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvName=itemView.findViewById(R.id.tvShopName);
             tvDate=itemView.findViewById(R.id.tvDate);
             tvPhone=itemView.findViewById(R.id.tvPhoneNo);
             tvOrderId=itemView.findViewById(R.id.tvOrderId);
             tvStatus=itemView.findViewById(R.id.tvStatus);
             cdOrder=itemView.findViewById(R.id.cdOrder);
-            tvshopname=itemView.findViewById(R.id.tvShopName);
+            tvShopName=itemView.findViewById(R.id.tvShopName);
             tvTime=itemView.findViewById(R.id.tvTime);
             line=itemView.findViewById(R.id.view2);
             ivAccept=itemView.findViewById(R.id.ivAccept);
             ivReject=itemView.findViewById(R.id.ivReject);
             loading=itemView.findViewById(R.id.loading);
-            tvRetailer=itemView.findViewById(R.id.tvCustomer);
             tvNoOfItems=itemView.findViewById(R.id.tvNoOfItems);
             tvCreatedBy=itemView.findViewById(R.id.textView9);
             tvTotal=itemView.findViewById(R.id.tvAmount);
@@ -95,13 +93,18 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 holder.tvCreatedBy.setText(documentSnapshot.getString("fullName"));
+                if(orders.get(position).getOrgName().length()<=1){
+                    holder.tvCustomer.setText(holder.tvCreatedBy.getText());
+                }
+                else
+                    holder.tvCustomer.setText(orders.get(position).getOrgName());
             }
         });
 
         new FirebaseRepository().db.collection("shops").document(orders.get(position).getShopId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                holder.tvshopname.setText(documentSnapshot.getString("name"));
+                holder.tvShopName.setText(documentSnapshot.getString("name"));
             }
         });
         holder.ivAccept.setVisibility(View.GONE);
@@ -114,14 +117,15 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
             }
         });
 
-
-        holder.tvDate.setText(orders.get(position).getTime().toString().substring(8,10)+" "+orders.get(position).getTime().toString().substring(4,7)+orders.get(position).getTime().toString().substring(29,34));
+        String date = orders.get(position).getTime().toString().substring(8,10)+" "+orders.get(position).getTime().toString().substring(4,7)+orders.get(position).getTime().toString().substring(29,34);
+        holder.tvDate.setText(date);
         holder.tvTime.setText(orders.get(position).getTime().toString().substring(11,16));
-        holder.tvNoOfItems.setText(orders.get(position).getNo_of_items()+" ");
+        holder.tvNoOfItems.setText(Integer.valueOf(orders.get(position).getNo_of_items()).toString());
         holder.tvCustomer.setText((orders.get(position).getOrgName()==null||orders.get(position).toString().equals(" "))||orders.get(position).getOrgName().toString().length()==0?"Personal":orders.get(position).getOrgName().toString());
         holder.tvGST.setText((orders.get(position).getGSTIN()==null||orders.get(position).getGSTIN().toString().equals(" "))?"GSTIN:"+"Not Specified":"GSTIN: "+orders.get(position).getGSTIN().toString());
 
-        holder.tvTotal.setText("Rs "+orders.get(position).getTotal()+"");
+        String total = "Rs "+Double.valueOf(orders.get(position).getTotal()).toString();
+        holder.tvTotal.setText(total);
         holder.ivAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

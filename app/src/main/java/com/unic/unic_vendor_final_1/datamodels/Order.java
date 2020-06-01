@@ -43,7 +43,6 @@ public class Order {
         this.orderStatus=0;
         address=" ";
         this.total=0;
-        this.orgName=" ";
         this.instructions=" ";
         this.GSTIN=" ";
 
