@@ -34,6 +34,7 @@ import com.unic.unic_vendor_final_1.views.nav_fragments.MyAppsFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.OrdersFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyProducts;
 import com.unic.unic_vendor_final_1.views.nav_fragments.QRFragment;
+import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ProductDescriptionFragment;
 
 import java.util.Objects;
 
@@ -202,7 +203,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
                 }
             }, 2000);
         }
-        else if(fg.getClass()== OrderItems.class){
+        else if(fg.getClass()== OrderItems.class||fg.getClass()== ProductDescriptionFragment.class){
             getSupportFragmentManager().popBackStack();
         }
         else{

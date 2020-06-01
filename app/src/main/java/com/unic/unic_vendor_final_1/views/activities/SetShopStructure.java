@@ -24,6 +24,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.ActivitySetShopStructureBinding;
 import com.unic.unic_vendor_final_1.datamodels.Page;
+import com.unic.unic_vendor_final_1.datamodels.Product;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.datamodels.Structure;
 import com.unic.unic_vendor_final_1.commons.StructureTemplates;
@@ -437,7 +438,12 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        returnToPage(1001);
+        Fragment fg=getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader);
+        fg.getClass();
+        if(fg.getClass()== ProductSelector.class||fg.getClass()==CategorySelector.class||fg.getClass()==ProductDescriptionFragment.class)
+            getSupportFragmentManager().popBackStack();
+        else
+            returnToPage(1001);
     }
 
     @Override
