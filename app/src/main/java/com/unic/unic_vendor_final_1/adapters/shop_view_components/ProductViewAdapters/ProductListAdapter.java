@@ -24,14 +24,17 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private Context mContext;
     private List<Map<String,Object>> products = new ArrayList<>();
     private List<Map<String,Object>> checkedProducts = new ArrayList<>();
-    int demo=0;
+    int demo;
+    int which;
 
-    public ProductListAdapter(Context context){
+    public ProductListAdapter(Context context,int which){
         this.mContext = context;
         demo=0;
+        this.which = which;
     }
     public ProductListAdapter(int demo){
         this.demo=demo;
+        which = 1;
     }
 
     class CheckBoxListener implements View.OnClickListener {
@@ -98,13 +101,20 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                     .load(products.get(position).get("imageId").toString())
                     .into(holder.ivProductPhoto);
 
+            switch (which){
+                case 1:
+                    if(checkedProducts!=null&&checkedProducts.contains(products.get(position)))
+                        holder.cbCheck.setChecked(true);
+                    else
+                        holder.cbCheck.setChecked(false);
 
-            if(checkedProducts!=null&&checkedProducts.contains(products.get(position)))
-                holder.cbCheck.setChecked(true);
-            else
-                holder.cbCheck.setChecked(false);
-
-            holder.cbCheck.setOnClickListener(new CheckBoxListener(position));
+                    holder.cbCheck.setOnClickListener(new CheckBoxListener(position));
+                    break;
+                case 2:
+                    holder.cbCheck.setVisibility(View.GONE);
+                    holder.imageView2.setVisibility(View.GONE);
+                    break;
+            }
 
         }
         else{

@@ -1,6 +1,13 @@
-package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
+package com.unic.unic_vendor_final_1.views.helpers;
 
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,78 +17,59 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListAdapter;
-import com.unic.unic_vendor_final_1.databinding.FragmentProductSelectorBinding;
-import com.unic.unic_vendor_final_1.datamodels.Structure;
+import com.unic.unic_vendor_final_1.databinding.FragmentProductViewBinding;
+import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
-import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-public class ProductSelector extends Fragment implements View.OnClickListener,AdapterView.OnItemSelectedListener{
+public class ProductViewFragment extends Fragment implements AdapterView.OnItemSelectedListener{
 
-    private int viewCode;
-    private int pageId;
-
+    private FragmentProductViewBinding productViewBinding;
+    private ProductListAdapter productListAdapter;
+    private String shopId;
     private SetStructureViewModel setStructureViewModel;
-    private FragmentProductSelectorBinding productSelectorBinding;
 
-    private ProductListAdapter adapter;
-
-    private List<Map<String,Object>> data = new ArrayList<>();
-
-    private List<Map<String,Object>> searchResults = new ArrayList<>();
-
-    private Map<String,List<String>> extraData = new HashMap<>();
-
-    private boolean isFirst = true;
+    private boolean isFirst;
     private DocumentSnapshot lastDoc;
 
     private boolean isAtBottom = false;
 
-    private int queryType = 0;
+    private Map<String,List<String>> extraData = new HashMap<>();
 
-    public ProductSelector(){}
+    private int queryType;
 
-    public ProductSelector(int pageId,int viewCode){
-        this.viewCode = viewCode;
-        this.pageId = pageId;
-
+    public ProductViewFragment() {
+        // Required empty public constructor
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public ProductViewFragment(String shopId){
+        this.shopId = shopId;
+    }
 
-        productSelectorBinding = FragmentProductSelectorBinding.inflate(inflater,container,false);
-        setStructureViewModel = new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
-        data = setStructureViewModel.getStructure().getValue().getPage(pageId).getView(viewCode).getData();
-        adapter = new ProductListAdapter(getContext(),1);
-        adapter.setSelectedProducts(data);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        productViewBinding = FragmentProductViewBinding.inflate(inflater,container,false);
+        productListAdapter = new ProductListAdapter(getContext(),2);
 
         ArrayAdapter<CharSequence> selectionAdapter=ArrayAdapter.createFromResource(getActivity(), R.array.spinner_array,android.R.layout.simple_spinner_item);
         selectionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        productSelectorBinding.productSelectionSpinner.setAdapter(selectionAdapter);
-        productSelectorBinding.productSelectionSpinner.setOnItemSelectedListener(this);
+        productViewBinding.productSpinner.setAdapter(selectionAdapter);
+        productViewBinding.productSpinner.setOnItemSelectedListener(this);
 
+        setStructureViewModel = new ViewModelProvider(this).get(SetStructureViewModel.class);
+        setStructureViewModel.getShopData(shopId);
 
-        productSelectorBinding.productSearch.addTextChangedListener(new TextWatcher() {
+        productViewBinding.productSelectionSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -137,38 +125,40 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
             }
         });
 
-        setStructureViewModel.clearSearch();
+        productViewBinding.myProductsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        productViewBinding.myProductsRecyclerView.setAdapter(productListAdapter);
 
-        setStructureViewModel.getPaginatedProductData(isFirst,lastDoc,1);
-
-        setStructureViewModel.setCurrentFrag(getActivity().getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader));
-
-        setStructureViewModel.getShopExtras().observe(getViewLifecycleOwner(),this::setExtraData);
-
+        setStructureViewModel.getShop().observe(getViewLifecycleOwner(),this::setShop);
+        setStructureViewModel.getIsFirstMyProduct().observe(getViewLifecycleOwner(),this::setFirst);
+        setStructureViewModel.getLastMyProductDoc().observe(getViewLifecycleOwner(),this::setLastDoc);
         setStructureViewModel.getProducts().observe(getViewLifecycleOwner(), maps -> {
-            adapter.setProducts(maps);
-            adapter.notifyDataSetChanged();
+            productListAdapter.setProducts(maps);
+            productListAdapter.notifyDataSetChanged();
         });
 
         setStructureViewModel.getSearchResults().observe(getViewLifecycleOwner(), maps ->{
             if(maps!=null) {
-                adapter.setProducts(maps);
-                adapter.notifyDataSetChanged();
+                productListAdapter.setProducts(maps);
+                productListAdapter.notifyDataSetChanged();
             }
         });
 
-        productSelectorBinding.productSelectionSwipe.setColorScheme(R.color.colorPrimary,R.color.colorSecondary,R.color.colorTertiary);
+        productViewBinding.myProductsSwipe.setColorScheme(R.color.colorPrimary,R.color.colorSecondary,R.color.colorTertiary);
 
-        productSelectorBinding.productSelectionSwipe.setOnRefreshListener(() -> {
+        productViewBinding.myProductsSwipe.setOnRefreshListener(() -> {
             setStructureViewModel.getLastProductSelectionDoc().setValue(null);
             setStructureViewModel.getIsFirstProductSelection().setValue(Boolean.TRUE);
             setStructureViewModel.clearSearch();
             setStructureViewModel.getPaginatedProductData(true,null,1);
             Handler handler = new Handler();
-            handler.postDelayed(() -> productSelectorBinding.productSelectionSwipe.setRefreshing(false),2000);
+            handler.postDelayed(() -> productViewBinding.myProductsSwipe.setRefreshing(false),2000);
         });
 
-        productSelectorBinding.productsSelectorRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        setStructureViewModel.getIsFirstProductSelection().observe(getViewLifecycleOwner(),this::setFirst);
+
+        setStructureViewModel.getLastProductSelectionDoc().observe(getViewLifecycleOwner(),this::setLastDoc);
+
+        productViewBinding.myProductsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -181,52 +171,31 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
             }
         });
 
-        setStructureViewModel.getIsFirstProductSelection().observe(getViewLifecycleOwner(),this::setFirst);
-
-        setStructureViewModel.getLastProductSelectionDoc().observe(getViewLifecycleOwner(),this::setLastDoc);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        productSelectorBinding.productsSelectorRecyclerView.setLayoutManager(layoutManager);
-        productSelectorBinding.productsSelectorRecyclerView.setAdapter(adapter);
-
-        return productSelectorBinding.getRoot();
+        // Inflate the layout for this fragment
+        return productViewBinding.getRoot();
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void setShop(Shop shop) {
+
+        if (shop==null)
+            return;
+        setStructureViewModel.getPaginatedProductData(true,null,3);
     }
 
-    @Override
-    public void onClick(View v) {
-        if(v.getId()==R.id.btnRight){
-            data = adapter.returnSelectedProducts();
-            Structure structure = setStructureViewModel.getStructure().getValue();
-            structure.updateProductList(pageId,viewCode,data);
-            setStructureViewModel.setStructure(structure);
-            ((SetShopStructure) Objects.requireNonNull(getActivity())).returnToPage(pageId);
-        }
 
-        else if(v.getId()==R.id.btnleft){
-           getActivity().getSupportFragmentManager().popBackStack();
-        }
-    }
 
-    private void setFirst(boolean first) {
+    public void setFirst(boolean first) {
         isFirst = first;
     }
 
-    private void setLastDoc(DocumentSnapshot lastDoc) {
+    public void setLastDoc(DocumentSnapshot lastDoc) {
         this.lastDoc = lastDoc;
-    }
-
-    public void setExtraData(Map<String, List<String>> extraData) {
-        this.extraData = extraData;
     }
 
     public void setQueryType(int queryType) {
 
         if(this.queryType!=queryType){
+            setStructureViewModel.clearSearch();
             setStructureViewModel.getPaginatedProductData(true,null,1);
         }
 
