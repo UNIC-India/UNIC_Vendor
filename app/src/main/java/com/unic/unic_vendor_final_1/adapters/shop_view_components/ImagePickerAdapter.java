@@ -1,9 +1,12 @@
 package com.unic.unic_vendor_final_1.adapters.shop_view_components;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,7 +22,7 @@ import java.util.Map;
 
 public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.ViewHolder> {
 
-    private List<Map<String,String>> data;
+    private List<Map<String,Object>> data;
     private Context context;
 
     public ImagePickerAdapter(Context context){
@@ -31,14 +34,15 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
 
         ImageView ivDisplayImage;
         TextView tvDisplayTitle;
+        ImageButton ibDeleteImage;
 
 
         ViewHolder(View itemView){
             super(itemView);
 
-            ivDisplayImage = itemView.findViewById(R.id.double_image_view);
-            tvDisplayTitle = itemView.findViewById(R.id.double_image_view_name);
-
+            ivDisplayImage = itemView.findViewById(R.id.picked_image_view);
+            tvDisplayTitle = itemView.findViewById(R.id.picked_image_tag);
+            ibDeleteImage = itemView.findViewById(R.id.picked_image_delete);
 
         }
 
@@ -47,17 +51,42 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view  = LayoutInflater.from(parent.getContext()).inflate(R.layout.double_image_view_item,parent,false);
+        View view  = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_picker_view_item,parent,false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tvDisplayTitle.setText(data.get(position).get("TAG"));
+        if(data.get(position).get("tag")!=null)
+            holder.tvDisplayTitle.setText(data.get(position).get("tag").toString());
         Glide
                 .with(context)
-                .load(data.get(position).get("imageId"))
+                .load(data.get(position).get("imageUri"))
                 .into(holder.ivDisplayImage);
+        holder.ibDeleteImage.setOnClickListener(v -> {
+            data.remove(position);
+            notifyDataSetChanged();
+        });
+        holder.tvDisplayTitle.setOnClickListener(v -> {
+            final EditText etTagHeader = new EditText(context);
+            if(data.get(position).get("tag")!=null)
+                etTagHeader.setText(data.get(position).get("tag").toString());
+            final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Enter Image Tag");
+            builder.setMessage("");
+            builder.setView(etTagHeader);
+            builder.setPositiveButton("DONE",((dialog, which) -> {
+                if(etTagHeader.getText().toString().length()>0) {
+                    data.get(position).put("tag", etTagHeader.getText().toString());
+                    notifyItemChanged(position);
+                }
+
+            }));
+            builder.setNegativeButton("CANCEL",((dialog, which) -> dialog.dismiss()));
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
     }
 
     @Override
@@ -65,7 +94,11 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
         return data.size();
     }
 
-    public void setData(List<Map<String, String>> data) {
+    public void setData(List<Map<String, Object>> data) {
         this.data = data;
+    }
+
+    public List<Map<String, Object>> getData() {
+        return data;
     }
 }

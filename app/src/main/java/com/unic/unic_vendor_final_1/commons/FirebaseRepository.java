@@ -121,6 +121,14 @@ public class FirebaseRepository {
         return mRef.child("shops").child(shopId).child("products").child(productId).child("productimage").putBytes(data);
     }
 
+    public UploadTask saveViewImage(String shopId, int pageId, int viewCode,int position, Uri uri){
+        return mRef.child("shops").child(shopId).child("view images").child(Integer.valueOf(pageId).toString()+Integer.valueOf(viewCode).toString()+Integer.valueOf(position).toString()).putFile(uri);
+    }
+
+    public Task<Uri> getViewImageLink(String shopId, int pageId, int viewCode,int position){
+        return mRef.child("shops").child(shopId).child("view images").child(Integer.valueOf(pageId).toString()+Integer.valueOf(viewCode).toString()+Integer.valueOf(position).toString()).getDownloadUrl();
+    }
+
     public Task<Uri> getImageLink(String shopId) {
         return mRef.child("shops").child(shopId).child("shopimage").getDownloadUrl();
     }

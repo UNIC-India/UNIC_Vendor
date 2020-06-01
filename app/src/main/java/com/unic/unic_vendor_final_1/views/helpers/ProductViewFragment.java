@@ -80,28 +80,30 @@ public class ProductViewFragment extends Fragment implements AdapterView.OnItemS
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                if (s.length() == 0) {
-                    setStructureViewModel.getPaginatedProductData(true, null, 1);
+                if(s.length()==0){
+                    setStructureViewModel.getPaginatedProductData(true,null,3);
                     return;
                 }
 
                 switch (queryType) {
                     case 0:
-                        if (s.length() == 2) {
+                        if(s.length()==2) {
                             setStructureViewModel.searchProductsByName(s.toString());
-                        } else if (s.length() < 2) {
+                        }
+                        else if(s.length()<2){
                             setStructureViewModel.clearSearch();
-                            setStructureViewModel.getPaginatedProductData(true, null, 1);
-                        } else {
-                            //TODO Refine product search in product selector
+                            setStructureViewModel.getPaginatedProductData(true,null,3);
+                        }
+                        else{
+                            refineSearch(s);
                         }
                         break;
                     case 1:
 
                         List<String> refinedCategories = new ArrayList<>();
-                        if (extraData.get("categories")!=null)
-                        for (String category : extraData.get("categories")) {
-                            if (category.toLowerCase().contains(s.toString().toLowerCase()))
+
+                        for(String category : extraData.get("categories")){
+                            if(category.toLowerCase().contains(s.toString().toLowerCase()))
                                 refinedCategories.add(category);
                         }
 
@@ -109,7 +111,7 @@ public class ProductViewFragment extends Fragment implements AdapterView.OnItemS
                         break;
                     case 2:
                         List<String> refinedCompanies = new ArrayList<>();
-                        for (String company : extraData.get("companies")) {
+                        for(String company : extraData.get("companies")){
                             if (company.toLowerCase().contains(s.toString().toLowerCase()))
                                 refinedCompanies.add(company);
                         }
@@ -149,7 +151,7 @@ public class ProductViewFragment extends Fragment implements AdapterView.OnItemS
             setStructureViewModel.getLastProductSelectionDoc().setValue(null);
             setStructureViewModel.getIsFirstProductSelection().setValue(Boolean.TRUE);
             setStructureViewModel.clearSearch();
-            setStructureViewModel.getPaginatedProductData(true, null, 1);
+            setStructureViewModel.getPaginatedProductData(true, null, 3);
             Handler handler = new Handler();
             handler.postDelayed(() -> productViewBinding.myProductsSwipe.setRefreshing(false), 2000);
         });
@@ -158,26 +160,28 @@ public class ProductViewFragment extends Fragment implements AdapterView.OnItemS
 
         setStructureViewModel.getLastProductSelectionDoc().observe(getViewLifecycleOwner(), this::setLastDoc);
 
+        setStructureViewModel.getShopExtras().observe(getViewLifecycleOwner(),this::setExtraData);
+
         productViewBinding.myProductsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && recyclerView.canScrollVertically(-1) && !recyclerView.canScrollVertically(1) && !isAtBottom) {
-                    setStructureViewModel.getPaginatedProductData(isFirst, lastDoc, 1);
+                    setStructureViewModel.getPaginatedProductData(isFirst, lastDoc, 3);
                     isAtBottom = true;
                 } else
                     isAtBottom = false;
             }
         });
 
-        productViewBinding.btnAddProduct.setOnClickListener(new View.OnClickListener() {
+        /*productViewBinding.btnAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), AddNewProduct.class);
                 intent.putExtra("shopId", shopId);
                 getContext().startActivity(intent);
             }
-        });
+        });*/
 
         // Inflate the layout for this fragment
         return productViewBinding.getRoot();
@@ -203,10 +207,14 @@ public class ProductViewFragment extends Fragment implements AdapterView.OnItemS
 
         if (this.queryType != queryType) {
             setStructureViewModel.clearSearch();
-            setStructureViewModel.getPaginatedProductData(true, null, 1);
+            setStructureViewModel.getPaginatedProductData(true, null, 3);
         }
 
         this.queryType = queryType;
+    }
+
+    public void setExtraData(Map<String, List<String>> extraData) {
+        this.extraData = extraData;
     }
 
     @Override
@@ -217,6 +225,22 @@ public class ProductViewFragment extends Fragment implements AdapterView.OnItemS
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         setQueryType(0);
+    }
+
+    public void refineSearch(CharSequence s){
+
+        List<Map<String,Object>> searchResults = setStructureViewModel.getSearchResults().getValue();
+
+        List<Map<String,Object>> refinedSearchResults = new ArrayList<>();
+
+        for(Map map : searchResults){
+            if(map.get("name").toString().toLowerCase().contains(s.toString().toLowerCase()))
+                refinedSearchResults.add(map);
+        }
+
+        productListAdapter.setProducts(refinedSearchResults);
+        productListAdapter.notifyDataSetChanged();
+
     }
 
 }

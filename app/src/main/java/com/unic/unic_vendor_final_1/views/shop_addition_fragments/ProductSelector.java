@@ -1,5 +1,6 @@
 package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -105,7 +106,8 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
                             setStructureViewModel.getPaginatedProductData(true,null,1);
                         }
                         else{
-                            //TODO Refine product search in product selector
+                            refineSearch(s);
+
                         }
                         break;
                     case 1:
@@ -127,8 +129,6 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
                         }
                         setStructureViewModel.searchProductsByCompanyList(refinedCompanies);
                 }
-
-
             }
 
             @Override
@@ -241,5 +241,21 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         setQueryType(0);
+    }
+
+    public void refineSearch(CharSequence s){
+
+        List<Map<String,Object>> searchResults = setStructureViewModel.getSearchResults().getValue();
+
+        List<Map<String,Object>> refinedSearchResults = new ArrayList<>();
+
+        for(Map map : searchResults){
+            if(map.get("name").toString().toLowerCase().contains(s.toString().toLowerCase()))
+                refinedSearchResults.add(map);
+        }
+
+        adapter.setProducts(refinedSearchResults);
+        adapter.notifyDataSetChanged();
+
     }
 }

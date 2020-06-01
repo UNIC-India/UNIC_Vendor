@@ -10,13 +10,25 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent">
+        <Button
+            android:id="@+id/btn_add_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ADD PRODUCT"
+            style="@style/StandardButton"
+            android:background="@drawable/std_button"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"/>
 
         <Spinner
             android:id="@+id/product_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/btn_add_product"
+            android:layout_marginTop="10dp"/>
 
         <AutoCompleteTextView
             android:id="@+id/product_selection_search"
@@ -27,27 +39,19 @@
             android:hint="Search "
             app:layout_constraintEnd_toStartOf="@+id/product_spinner"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/btn_add_product"
+            android:layout_marginTop="10dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/my_products_recycler_view"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/product_selection_search"
-            app:layout_constraintBottom_toTopOf="@+id/btn_add_product"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/product_details_list_item"/>
 
-        <Button
-            android:id="@+id/btn_add_product"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ADD PRODUCT"
-            style="@style/StandardButton"
-            android:background="@drawable/std_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

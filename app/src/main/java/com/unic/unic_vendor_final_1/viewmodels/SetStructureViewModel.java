@@ -1,5 +1,7 @@
 package com.unic.unic_vendor_final_1.viewmodels;
 
+import android.net.Uri;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -13,6 +15,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.UploadTask;
 import com.unic.unic_vendor_final_1.commons.FirebaseRepository;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.datamodels.Structure;
@@ -54,6 +57,8 @@ public class SetStructureViewModel extends ViewModel {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 shop.setValue(documentSnapshot.toObject(Shop.class));
                 status.setValue(1);
+
+                getShopExtras(shopId);
             }
         });
     }
@@ -120,6 +125,25 @@ public class SetStructureViewModel extends ViewModel {
                         structureStatus.setValue(0);
                     }
                 });
+    }
+
+    public void uploadViewImage(int pageId, int viewCode, int position,String tag, Uri uri){
+        firebaseRepository.saveViewImage(shop.getValue().getId(),pageId,viewCode,position,uri)
+                .addOnSuccessListener(taskSnapshot -> getViewImageLink(pageId, viewCode, position,tag))
+                .addOnFailureListener(Throwable::printStackTrace);
+    }
+
+    public void getViewImageLink(int pageId, int viewCode, int position,String tag){
+        firebaseRepository.getViewImageLink(shop.getValue().getId(),pageId,viewCode,position)
+                .addOnSuccessListener(uri -> {
+                    List<Map<String,Object>> data = structure.getValue().getPage(pageId).getView(viewCode).getData();
+                    Map<String,Object> imageData = new HashMap<>();
+                    imageData.put("tag",tag);
+                    imageData.put("imageLink",uri.toString());
+                    data.add(imageData);
+                    structure.getValue().updateProductList(pageId,viewCode,data);
+                })
+                .addOnFailureListener(Throwable::printStackTrace);
     }
 
     public void getShopExtras(String  shopId){
