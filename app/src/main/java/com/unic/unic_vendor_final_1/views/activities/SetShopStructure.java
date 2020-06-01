@@ -31,6 +31,7 @@ import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.CategorySelector;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ImagePicker;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.NoProductsFragment;
+import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ProductDescriptionFragment;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ProductSelector;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ViewSelector;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ShopPageFragment;
@@ -227,6 +228,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 setShopStructureBinding.btnleft.setText("Cancel");
                 setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
             }
+
         }
 
     }

@@ -2,12 +2,14 @@ package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.DialogInterface;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
@@ -34,6 +36,7 @@ import com.unic.unic_vendor_final_1.databinding.FragmentShopPageBinding;
 import com.unic.unic_vendor_final_1.datamodels.Page;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
+import com.unic.unic_vendor_final_1.views.activities.UserHome;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -344,7 +347,24 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
             case R.id.view_deleter:
 
                 int pId = ((View)v.getParent()).getId();
-                deleteView(pId);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
+                        .setTitle("CONFIRM YOUR ACTIONS")
+                        .setMessage("Are you sure you want to delete this view?" )
+                        .setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                deleteView(pId);
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
                 break;
 
         }

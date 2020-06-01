@@ -107,7 +107,7 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
                         }
                         else{
                             refineSearch(s);
-                            
+
                         }
                         break;
                     case 1:
