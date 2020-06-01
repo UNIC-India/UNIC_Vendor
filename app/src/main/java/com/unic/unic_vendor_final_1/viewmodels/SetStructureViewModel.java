@@ -105,15 +105,15 @@ public class SetStructureViewModel extends ViewModel {
     public void getStructureData(final String shopId){
         firebaseRepository
                 .getShopStructure(shopId).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists()) {
-                            structure.setValue(documentSnapshot.toObject(Structure.class));
-                            structureStatus.setValue(1);
-                        }
-                        else structureStatus.setValue(0);
-                    }
-                })
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    structure.setValue(documentSnapshot.toObject(Structure.class));
+                    structureStatus.setValue(1);
+                }
+                else structureStatus.setValue(0);
+            }
+        })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {

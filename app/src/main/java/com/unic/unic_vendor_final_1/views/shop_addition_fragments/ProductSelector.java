@@ -81,7 +81,7 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
         productSelectorBinding.productSelectionSpinner.setOnItemSelectedListener(this);
 
 
-        productSelectorBinding.productSelectionSearch.addTextChangedListener(new TextWatcher() {
+        productSelectorBinding.productSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -208,9 +208,7 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
         }
 
         else if(v.getId()==R.id.btnleft){
-            Structure structure = setStructureViewModel.getStructure().getValue();
-            structure.deleteView(pageId,viewCode);
-            setStructureViewModel.setStructure(structure);
+           getActivity().getSupportFragmentManager().popBackStack();
         }
     }
 

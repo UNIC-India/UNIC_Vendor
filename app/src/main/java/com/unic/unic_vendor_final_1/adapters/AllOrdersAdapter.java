@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -24,6 +25,7 @@ import com.unic.unic_vendor_final_1.commons.FirebaseRepository;
 import com.unic.unic_vendor_final_1.datamodels.Order;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 import com.unic.unic_vendor_final_1.views.helpers.OrderItems;
+import com.unic.unic_vendor_final_1.views.nav_fragments.OrdersFragment;
 
 import java.util.List;
 
@@ -31,13 +33,13 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
 
     private List<Order> orders;
     private  Context context;
-    UserShopsViewModel userShopsViewModel;
+    private Fragment fragment;
 
 
 
-    public AllOrdersAdapter(Context context){
+    public AllOrdersAdapter(Context context, Fragment fragment){
         this.context = context;
-        userShopsViewModel=new ViewModelProvider(((FragmentActivity)context)).get(UserShopsViewModel.class);
+        this.fragment=fragment;
 
     }
 
@@ -115,7 +117,6 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
 
         holder.tvDate.setText(orders.get(position).getTime().toString().substring(8,10)+" "+orders.get(position).getTime().toString().substring(4,7)+orders.get(position).getTime().toString().substring(29,34));
         holder.tvTime.setText(orders.get(position).getTime().toString().substring(11,16));
-        holder.tvStatus.setText(orders.get(position).getStatus());
         holder.tvNoOfItems.setText(orders.get(position).getNo_of_items()+" ");
         holder.tvCustomer.setText((orders.get(position).getOrgName()==null||orders.get(position).toString().equals(" "))||orders.get(position).getOrgName().toString().length()==0?"Personal":orders.get(position).getOrgName().toString());
         holder.tvGST.setText((orders.get(position).getGSTIN()==null||orders.get(position).getGSTIN().toString().equals(" "))?"GSTIN:"+"Not Specified":"GSTIN: "+orders.get(position).getGSTIN().toString());
@@ -127,7 +128,7 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
                 holder.ivAccept.setVisibility(View.GONE);
                 holder.ivReject.setVisibility(View.GONE);
                 holder.loading.setVisibility(View.VISIBLE);
-                userShopsViewModel.setOrderStatus(orders.get(position).getId(),1);
+                ((OrdersFragment)fragment).setOrderStatus(position,orders.get(position).getId(),1);
             }
         });
         holder.ivReject.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +137,7 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
                 holder.ivAccept.setVisibility(View.GONE);
                 holder.ivReject.setVisibility(View.GONE);
                 holder.loading.setVisibility(View.VISIBLE);
-                userShopsViewModel.setOrderStatus(orders.get(position).getId(),-1);
+                ((OrdersFragment)fragment).setOrderStatus(position,orders.get(position).getId(),-1);
 
             }
         });
@@ -199,4 +200,10 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
         this.orders=orders;
         notifyDataSetChanged();
     }
+
+    public void updateOrder(int position, int status){
+        orders.get(position).setOrderStatus(status);
+        notifyItemChanged(position);
+    }
+
 }

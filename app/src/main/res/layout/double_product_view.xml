@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="243dp"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginBottom="5dp">
 
     <ImageButton
@@ -34,9 +33,6 @@
         android:layout_marginTop="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/double_product_view_item"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/double_product_header" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -34,7 +34,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     }
     public ProductListAdapter(int demo){
         this.demo=demo;
-        which = 0;
+        which = 1;
     }
 
     class CheckBoxListener implements View.OnClickListener {
