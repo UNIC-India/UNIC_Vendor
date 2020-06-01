@@ -32,7 +32,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Map<String,String> data = remoteMessage.getData();
 
-        if(data.get("load").equals("order")){
+        if(data.get("load")!=null&&data.get("load").equals("order")){
 
             Intent intent = new Intent(this, UserHome.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
