@@ -111,20 +111,16 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                     holder.cbCheck.setOnClickListener(new CheckBoxListener(position));
                     break;
                 case 2:
-                    holder.cbCheck.setVisibility(View.GONE);
-                    holder.imageView2.setVisibility(View.GONE);
+                    holder.cbCheck.setVisibility(View.INVISIBLE);
+                    holder.imageView2.setVisibility(View.INVISIBLE);
                     break;
             }
-
         }
         else{
             holder.tvProductName.setText("Demo Product");
             holder.ivProductPhoto.setImageResource(R.drawable.demo_product);
             holder.cbCheck.setVisibility(View.GONE);
             holder.imageView2.setVisibility(View.VISIBLE);
-
-
-
         }
     }
 

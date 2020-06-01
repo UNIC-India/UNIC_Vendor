@@ -17,7 +17,8 @@
             tools:ignore="LockedOrientationActivity"/>
         <activity android:name=".views.activities.AddNewShop" />
         <activity android:name=".views.shop_addition_fragments.LocationSelector" />
-        <activity android:name=".views.activities.SetShopStructure" />
+        <activity android:name=".views.activities.SetShopStructure"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
         <activity android:name=".views.activities.AddShop" />
         <activity android:name=".views.activities.Login" />
         <activity android:name=".views.activities.SignUp" />

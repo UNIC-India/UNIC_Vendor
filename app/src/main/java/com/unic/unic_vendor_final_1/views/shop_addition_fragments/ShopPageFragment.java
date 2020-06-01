@@ -1,6 +1,7 @@
 package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -141,6 +142,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 //TODO
             case 12:
                 //TODO
+                break;
             case 13:
                 //TODO
             case 21:
@@ -419,5 +421,4 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
         views.set(v1,views.get(v2));
         views.set(v2,v);
     }
-
 }
