@@ -13,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text='""'
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
 
     <TextView
@@ -21,6 +22,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:textColor="#000000"
+        android:maxLines="1"
+        android:ellipsize="end"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -67,6 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
                 android:text="Details"
+
                 android:textColor="#000000" />
 
             <ImageView
@@ -118,6 +122,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/abeezee"
                     android:text="Customer Name"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:textColor="#000000"
                     android:textSize="22sp" />
 

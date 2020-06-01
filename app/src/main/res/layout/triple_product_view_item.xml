@@ -31,12 +31,16 @@
             android:text="Price"
             android:textColor="#000000"
             android:textSize="18sp"
+            android:maxLines="1"
+            android:ellipsize="end"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvProductName" />
 
         <TextView
             android:id="@+id/tvCompany"
             android:layout_width="0dp"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_regular"
             android:text="Company "

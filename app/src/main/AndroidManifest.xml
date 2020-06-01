@@ -22,7 +22,8 @@
         <activity android:name=".views.activities.AddShop" />
         <activity android:name=".views.activities.Login" />
         <activity android:name=".views.activities.SignUp" />
-        <activity android:name=".views.activities.UserHome" />
+        <activity android:name=".views.activities.UserHome"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
         <activity
             android:name=".views.helpers.Welcome"
             android:screenOrientation="portrait"

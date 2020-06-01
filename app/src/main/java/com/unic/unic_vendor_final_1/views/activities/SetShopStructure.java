@@ -437,7 +437,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        getSupportFragmentManager().popBackStack();
+        returnToPage(1001);
     }
 
     @Override

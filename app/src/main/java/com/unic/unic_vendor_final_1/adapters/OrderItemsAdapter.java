@@ -7,9 +7,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ProductDescriptionFragment;
 
 import java.util.List;
 import java.util.Map;
@@ -28,6 +32,7 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView tvProductName,tvCompany,tvPrice, tvTotal,tvQty;
+        CardView cdProduct;
 
 
         public ViewHolder(@NonNull View itemView){
@@ -37,6 +42,7 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
             tvPrice=itemView.findViewById(R.id.product_price);
             tvTotal=itemView.findViewById(R.id.tvTotal);
             tvQty=itemView.findViewById(R.id.tvQty);
+            cdProduct=itemView.findViewById(R.id.cdProduct);
 
         }
     }
@@ -56,6 +62,18 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
         holder.tvPrice.setText("Rs "+products.get(position).get("price").toString());
         holder.tvTotal.setText(Double.parseDouble(products.get(position).get("price").toString())*qty.get(position)+"");
         holder.tvQty.setText(""+qty.get(position));
+        holder.cdProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((AppCompatActivity)mContext).getSupportFragmentManager()
+                        .beginTransaction()
+                        .addToBackStack(null)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .replace(R.id.home_fragment,new ProductDescriptionFragment(products.get(position)))
+                        .commit();
+            }
+        });
+
 
 
 

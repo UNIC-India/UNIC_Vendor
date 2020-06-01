@@ -46,6 +46,8 @@
                 android:layout_height="70dp"
                 android:layout_marginLeft="7dp"
                 android:elevation="2dp"
+                android:maxLines="1"
+                android:ellipsize="end"
 
                 android:src="@color/colourQuaternary"
                 android:visibility="gone"
@@ -61,6 +63,8 @@
                 android:hint="MASTI DAHI"
                 android:padding="2dp"
                 android:textAllCaps="true"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="#000000"
                 android:textColorHint="#000000"
                 android:textSize="16sp"
@@ -91,6 +95,8 @@
                 android:textColor="@color/colorPrimary"
                 android:textColorHint="@color/colorPrimary"
                 android:textSize="15dp"
+                android:maxLines="1"
+                android:ellipsize="end"
 
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/product_company_name"></TextView>
@@ -100,6 +106,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ExtraIfo1"
+                android:maxLines="1"
+                android:ellipsize="end"
                 app:layout_constraintBottom_toBottomOf="@+id/product_company_name"
                 app:layout_constraintEnd_toStartOf="@+id/imageView2"
                 app:layout_constraintStart_toEndOf="@+id/product_company_name" />
@@ -110,6 +118,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="Category"
+                android:maxLines="1"
+                android:ellipsize="end"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/product_image"
                 app:layout_constraintTop_toBottomOf="@+id/product_company_name" />
@@ -128,6 +138,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Extrainfo2"
+                android:maxLines="1"
+                android:ellipsize="end"
                 app:layout_constraintEnd_toStartOf="@+id/product_price"
                 app:layout_constraintStart_toEndOf="@+id/tvCategory"
                 app:layout_constraintTop_toBottomOf="@+id/tvExtrainfo1" />
