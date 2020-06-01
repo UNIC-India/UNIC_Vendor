@@ -9,10 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ProductDescriptionFragment;
 
 import java.util.List;
 import java.util.Map;
@@ -58,11 +61,40 @@ public class DoubleProductAdapter extends RecyclerView.Adapter<DoubleProductAdap
         if(demo==0){
           holder.tvProductName.setText(products.get(position).get("name").toString());
           holder.tvProductPrice.setText("Rs "+products.get(position).get("price").toString());
-
            Glide
                    .with(mContext)
                    .load(products.get(position).get("imageId"))
                    .into(holder.ivProductImage);
+           holder.tvProductName.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   ((AppCompatActivity)mContext).getSupportFragmentManager()
+                           .beginTransaction().replace(R.id.shop_pages_loader,new ProductDescriptionFragment(products.get(position)))
+                           .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                           .addToBackStack(null)
+                           .commit();
+               }
+           });
+           holder.ivProductImage.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   ((AppCompatActivity)mContext).getSupportFragmentManager()
+                           .beginTransaction().replace(R.id.shop_pages_loader,new ProductDescriptionFragment(products.get(position)))
+                           .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                           .addToBackStack(null)
+                           .commit();
+               }
+           });
+           holder.tvProductPrice.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   ((AppCompatActivity)mContext).getSupportFragmentManager()
+                           .beginTransaction().replace(R.id.shop_pages_loader,new ProductDescriptionFragment(products.get(position)))
+                           .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                           .addToBackStack(null)
+                           .commit();
+               }
+           });
        }
        else{
            holder.tvProductName.setText("Product Name"+position);

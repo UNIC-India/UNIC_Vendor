@@ -28,6 +28,7 @@ import com.unic.unic_vendor_final_1.commons.StructureTemplates;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.CategorySelector;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.NoProductsFragment;
+import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ProductDescriptionFragment;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ProductSelector;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ViewSelector;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ShopPageFragment;
@@ -180,12 +181,16 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     public void setButtonsAndToolBar(Fragment currentFragment){
         if(currentFragment!=null){
         if(currentFragment.getClass()==NoProductsFragment.class){
+            setShopStructureBinding.structureButtons.setVisibility(View.VISIBLE);
+
             if(shop!=null)
             setShopStructureBinding.tvTitle.setText(shop.getName());
             setShopStructureBinding.btnleft.setVisibility(View.GONE);
             setShopStructureBinding.btnRight.setVisibility(View.GONE);
         }
         if(currentFragment.getClass()==ShopPageFragment.class){
+            setShopStructureBinding.structureButtons.setVisibility(View.VISIBLE);
+
             if(shop!=null)
                 setShopStructureBinding.tvTitle.setText(shop.getName());
             setShopStructureBinding.confirmShopStructure.setVisibility(View.VISIBLE);
@@ -194,7 +199,10 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
 
         }
+
         else if(currentFragment.getClass()== ViewSelector.class){
+            setShopStructureBinding.structureButtons.setVisibility(View.VISIBLE);
+
             setShopStructureBinding.tvTitle.setText("Select a View");
             setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
             setShopStructureBinding.btnRight.setText("Confirm");
@@ -202,6 +210,8 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
         }
         else if(currentFragment.getClass()== ProductSelector.class){
+            setShopStructureBinding.structureButtons.setVisibility(View.VISIBLE);
+
             setShopStructureBinding.tvTitle.setText("Select Products");
            setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
             setShopStructureBinding.btnRight.setText("Confirm");
@@ -210,11 +220,16 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
         }
         else if(currentFragment.getClass()== CategorySelector.class){
+            setShopStructureBinding.structureButtons.setVisibility(View.VISIBLE);
+
             setShopStructureBinding.tvTitle.setText("Select Categories");
             setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
             setShopStructureBinding.btnRight.setText("Confirm");
             setShopStructureBinding.btnleft.setText("Cancel");
             setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
+        }
+        else if(currentFragment.getClass()==ProductDescriptionFragment.class){
+            setShopStructureBinding.structureButtons.setVisibility(View.GONE);
         }
         }
 
