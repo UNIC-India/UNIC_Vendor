@@ -71,7 +71,7 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
         productSelectorBinding = FragmentProductSelectorBinding.inflate(inflater,container,false);
         setStructureViewModel = new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
         data = setStructureViewModel.getStructure().getValue().getPage(pageId).getView(viewCode).getData();
-        adapter = new ProductListAdapter(getContext());
+        adapter = new ProductListAdapter(getContext(),1);
         adapter.setSelectedProducts(data);
 
         ArrayAdapter<CharSequence> selectionAdapter=ArrayAdapter.createFromResource(getActivity(), R.array.spinner_array,android.R.layout.simple_spinner_item);
@@ -159,16 +159,13 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
 
         productSelectorBinding.productSelectionSwipe.setColorScheme(R.color.colorPrimary,R.color.colorSecondary,R.color.colorTertiary);
 
-        productSelectorBinding.productSelectionSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                setStructureViewModel.getLastProductSelectionDoc().setValue(null);
-                setStructureViewModel.getIsFirstProductSelection().setValue(Boolean.TRUE);
-                setStructureViewModel.clearSearch();
-                setStructureViewModel.getPaginatedProductData(true,null,1);
-                Handler handler = new Handler();
-                handler.postDelayed(() -> productSelectorBinding.productSelectionSwipe.setRefreshing(false),5000);
-            }
+        productSelectorBinding.productSelectionSwipe.setOnRefreshListener(() -> {
+            setStructureViewModel.getLastProductSelectionDoc().setValue(null);
+            setStructureViewModel.getIsFirstProductSelection().setValue(Boolean.TRUE);
+            setStructureViewModel.clearSearch();
+            setStructureViewModel.getPaginatedProductData(true,null,1);
+            Handler handler = new Handler();
+            handler.postDelayed(() -> productSelectorBinding.productSelectionSwipe.setRefreshing(false),2000);
         });
 
         productSelectorBinding.productsSelectorRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
