@@ -1,8 +1,10 @@
 package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -70,6 +72,12 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnRight:
+
+                if(code==0){
+                    viewAdder("12");
+                    return;
+                }
+
                 viewAdder((code+1)+""+(adapter_setViews.lastchecked+1));
                 break;
             case R.id.btnleft:
@@ -85,6 +93,14 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
             case "00":
                 com.unic.unic_vendor_final_1.datamodels.View view00 = new com.unic.unic_vendor_final_1.datamodels.View();
                 view00.setHeight(650);
+                break;
+
+            case "12":
+                com.unic.unic_vendor_final_1.datamodels.View view12 = new com.unic.unic_vendor_final_1.datamodels.View();
+                view12.setHeight(210);
+                view12.setFields("imageLink,tag");
+                ((SetShopStructure)getActivity()).addView(pageId,view12,12);
+                break;
 
             case "21":
                 com.unic.unic_vendor_final_1.datamodels.View view21 = new com.unic.unic_vendor_final_1.datamodels.View();
