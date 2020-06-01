@@ -16,6 +16,7 @@ import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.android.play.core.tasks.OnFailureListener;
 import com.google.android.play.core.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.unic.unic_vendor_final_1.R;
@@ -84,6 +85,19 @@ public class SplashScreen extends AppCompatActivity {
                             });
                 }
                 else {
+                    Intent intent;
+                    if (isUserOnline)
+                        intent = new Intent(SplashScreen.this, UserHome.class);
+                    else
+                        intent = new Intent(SplashScreen.this, Welcome.class);
+                    startActivity(intent);
+                    finish();
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(Exception e) {
+                    e.printStackTrace();
                     Intent intent;
                     if (isUserOnline)
                         intent = new Intent(SplashScreen.this, UserHome.class);
