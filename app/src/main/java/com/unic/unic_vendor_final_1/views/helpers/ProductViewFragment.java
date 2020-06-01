@@ -99,7 +99,7 @@ public class ProductViewFragment extends Fragment implements AdapterView.OnItemS
                     case 1:
 
                         List<String> refinedCategories = new ArrayList<>();
-
+                        if (extraData.get("categories")!=null)
                         for (String category : extraData.get("categories")) {
                             if (category.toLowerCase().contains(s.toString().toLowerCase()))
                                 refinedCategories.add(category);
