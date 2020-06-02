@@ -48,7 +48,7 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
 
     private static final int GALLERY_INTENT = 1001;
     private static final int CROP_IMAGE = 1002;
-    private static final int LOCATION_SELECTOR = 2001;
+    private static final int LOCATION_SELECTOR = 2001; 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
