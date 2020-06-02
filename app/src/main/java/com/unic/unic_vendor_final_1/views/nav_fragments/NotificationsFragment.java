@@ -44,9 +44,18 @@ public class NotificationsFragment extends Fragment {
         userShopsViewModel.getNotifications().observe(getViewLifecycleOwner(), new Observer<List<Notification>>() {
             @Override
             public void onChanged(List<Notification> notifications) {
+                if(notifications==null||notifications.size()==0){
+                    notificationsBinding.ivNoNotifications.setVisibility(View.VISIBLE);
+                    notificationsBinding.tvNoNotifications.setVisibility(View.VISIBLE);
+                }
+                else{
+                    notificationsBinding.ivNoNotifications.setVisibility(View.GONE);
+                    notificationsBinding.tvNoNotifications.setVisibility(View.GONE);
+                }
                 if(notifications!=null) {
                     notificationsAdapter.setNotifications(notifications);
                     notificationsAdapter.notifyDataSetChanged();
+
                 }
             }
         });

@@ -112,6 +112,9 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ViewHo
                     }
                 });
             }
+            else if(from==3){
+
+            }
 
     }
 

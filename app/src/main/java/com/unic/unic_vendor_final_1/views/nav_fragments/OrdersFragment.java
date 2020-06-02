@@ -70,8 +70,13 @@ public class OrdersFragment extends Fragment {
         });
 
         userShopsViewModel.getOrders().observe(getViewLifecycleOwner(), orders -> {
-            if (orders==null)
+            if (orders==null||orders.size()==0){
+                myOrdersBinding.ivNoOrder.setVisibility(View.VISIBLE);
+                myOrdersBinding.tvNoOrders.setVisibility(View.VISIBLE);
                 return;
+            }
+            myOrdersBinding.ivNoOrder.setVisibility(View.GONE);
+            myOrdersBinding.tvNoOrders.setVisibility(View.GONE);
             setOrders(orders);
         });
         myOrdersBinding.orderRefresh.setOnRefreshListener(() -> {
