@@ -3,20 +3,25 @@ package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.unic.unic_vendor_final_1.R;
@@ -25,6 +30,8 @@ import com.unic.unic_vendor_final_1.databinding.FragmentImagePickerBinding;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +54,10 @@ public class ImagePicker extends Fragment implements View.OnClickListener{
     private SetStructureViewModel setStructureViewModel;
 
     private boolean uploading = false;
+    private int currentUpload = -1;
+    View coverView;
+
+
 
     private static final int PICK_IMAGE_MULTIPLE = 6001;
 
@@ -77,6 +88,23 @@ public class ImagePicker extends Fragment implements View.OnClickListener{
 
         setStructureViewModel.setCurrentFrag(this);
 
+        setStructureViewModel.getCurrentImageUpload().observe(getViewLifecycleOwner(),integer -> currentUpload = integer);
+
+        setStructureViewModel.getIsImagePickerUploading().observe(getViewLifecycleOwner(),aBoolean -> {
+            uploading = aBoolean;
+            if(!uploading) {
+
+                if(currentUpload==data.size()) {
+
+                    ((ViewGroup) imagePickerBinding.getRoot()).removeView(coverView);
+                    imagePickerBinding.imagePickProgressBar.setVisibility(View.GONE);
+                    ((SetShopStructure) getActivity()).returnToPage(pageId);
+                }
+                else
+                    uploadImageToFirebase(currentUpload);
+            }
+        });
+
         imagePickerBinding.imagePickerRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),2, RecyclerView.VERTICAL,false));
         imagePickerBinding.imagePickerRecyclerView.setAdapter(adapter);
 
@@ -99,7 +127,7 @@ public class ImagePicker extends Fragment implements View.OnClickListener{
         return imagePickerBinding.getRoot();
     }
 
-    public void savePickedImages(ClipData clipData){
+     void savePickedImages(ClipData clipData){
 
         data = adapter.getData();
 
@@ -108,6 +136,16 @@ public class ImagePicker extends Fragment implements View.OnClickListener{
             imageData.put("imageUri",clipData.getItemAt(i).getUri());
             data.add(imageData);
         }
+
+        adapter.setData(data);
+        adapter.notifyDataSetChanged();
+    }
+
+    void saveSingleImage(Uri uri){
+        data = adapter.getData();
+        Map<String,Object> imageData = new HashMap<>();
+        imageData.put("imageUri",uri);
+        data.add(imageData);
 
         adapter.setData(data);
         adapter.notifyDataSetChanged();
@@ -130,30 +168,41 @@ public class ImagePicker extends Fragment implements View.OnClickListener{
         }
     }
 
-    public void addImages(ClipData clipData){
-
-        for(int i=0;i<clipData.getItemCount();i++){
-            Map<String,Object> imageData = new HashMap<>();
-            imageData.put("imageUri",clipData.getItemAt(i).getUri());
-            data.add(imageData);
-        }
-
-        adapter.setData(data);
-        adapter.notifyDataSetChanged();
-
-    }
-
     public void uploadImagesToFirebase(){
         data = adapter.getData();
+        coverView = new View(getContext());
+        coverView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        coverView.setBackgroundResource(R.color.gray_1);
+        coverView.setAlpha(0.5f);
 
-        for(int i=0;i<data.size();i++){
-            Uri uri = (Uri)data.get(i).get("imageUri");
-            String tag = data.get(i).get("tag").toString();
+        ((ViewGroup)imagePickerBinding.getRoot()).addView(coverView);
 
-            setStructureViewModel.uploadViewImage(pageId,viewCode,i,tag,uri);
+        imagePickerBinding.imagePickProgressBar.setVisibility(View.VISIBLE);
 
-            if (i==data.size()-1)
-                ((SetShopStructure) Objects.requireNonNull(getActivity())).returnToPage(pageId);
+        uploadImageToFirebase(0);
+    }
+
+    void uploadImageToFirebase(int position){
+
+        try {
+            uploading = true;
+            currentUpload = position + 1;
+            setStructureViewModel.getIsImagePickerUploading().setValue(Boolean.TRUE);
+
+            Uri uri = (Uri) data.get(position).get("imageUri");
+
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,20,baos);
+
+            byte[] stream = baos.toByteArray();
+
+            String tag = data.get(position).get("tag") != null ? data.get(position).get("tag").toString() : null;
+            setStructureViewModel.uploadViewImage(pageId, viewCode, position, tag, stream);
+        }
+        catch (IOException e){
+            e.printStackTrace();
         }
     }
 
@@ -162,12 +211,18 @@ public class ImagePicker extends Fragment implements View.OnClickListener{
 
         try {
             if (requestCode == PICK_IMAGE_MULTIPLE && resultCode == RESULT_OK
-                    && null != data && null != data.getClipData()) {
+                    && data!=null) {
 
-                ClipData mClipData = data.getClipData();
+                if(data.getData()!=null){
+                    saveSingleImage(data.getData());
+                }
+                else if(data.getClipData()!=null) {
 
-                if(mClipData.getItemCount()>0)
-                    addImages(mClipData);
+                    ClipData mClipData = data.getClipData();
+
+                    if (mClipData.getItemCount() > 0)
+                        savePickedImages(mClipData);
+                }
 
             } else {
                 Toast.makeText(getActivity(), "You haven't picked any Image",

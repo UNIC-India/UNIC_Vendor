@@ -50,8 +50,6 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
                 public void onClick(View v) {
                     lastchecked=getAdapterPosition();
                     notifyDataSetChanged();
-
-
                 }
             });
 

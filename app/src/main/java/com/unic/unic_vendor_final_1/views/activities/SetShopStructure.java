@@ -290,6 +290,9 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 startActivity(new Intent(this,UserHome.class));
                 finish();
                 break;
+            case 8:
+                returnToPage(currentPageId);
+                break;
         }
     }
 
@@ -454,6 +457,8 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onRestart() {
 
+        super.onRestart();
+
         if(currentPageId==0||currentViewCode==0)
             return;
 
@@ -463,7 +468,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 .addToBackStack(null)
                 .commit();
 
-        super.onRestart();
 
     }
 

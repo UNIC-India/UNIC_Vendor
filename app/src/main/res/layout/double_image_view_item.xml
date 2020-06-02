@@ -26,10 +26,9 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textColor="@color/darkest"
-            android:textColorHint="@color/darkest"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/double_image_view"
-            android:hint="Lorem Ipsum"
+            android:hint="TAG"
             android:gravity="center"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
