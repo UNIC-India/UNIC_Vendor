@@ -158,6 +158,13 @@ public class SetStructureViewModel extends ViewModel {
                 .addOnFailureListener(e -> e.printStackTrace());
     }
 
+    public void deleteViewPics(int pageId,int viewCode){
+        int nos = structure.getValue().getPage(pageId).getView(viewCode).getData().size();
+        for(int i=0;i<nos;i++){
+            firebaseRepository.deleteViewImages(shop.getValue().getId(),pageId,viewCode,i);
+        }
+    }
+
     public void getShopExtras(String  shopId){
         Map<String,List<String>> extras = new HashMap<>();
         firebaseRepository.getShopExtras(shopId).addSnapshotListener(new EventListener<QuerySnapshot>() {
