@@ -21,6 +21,7 @@ import com.unic.unic_vendor_final_1.adapters.ShopAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentMyAppsBinding;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
+import com.unic.unic_vendor_final_1.views.activities.AddNewShop;
 import com.unic.unic_vendor_final_1.views.activities.AddShop;
 import com.unic.unic_vendor_final_1.views.helpers.AddShopFrag;
 
@@ -79,13 +80,13 @@ public class MyAppsFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_add_shop:
-                //startActivity(new Intent(getContext(), AddShop.class));
-                getActivity().getSupportFragmentManager()
+                startActivity(new Intent(getContext(), AddNewShop.class));
+                /*getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .addToBackStack(null)
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .replace(R.id.home_fragment,new AddShopFrag())
-                        .commit();
+                        .commit();*/
         }
     }
 
