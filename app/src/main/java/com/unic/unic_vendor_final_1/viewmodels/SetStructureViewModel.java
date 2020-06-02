@@ -1,9 +1,11 @@
 package com.unic.unic_vendor_final_1.viewmodels;
 
 import android.net.Uri;
+import android.os.Handler;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -25,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.LogRecord;
 
 public class SetStructureViewModel extends ViewModel {
 
@@ -48,6 +51,9 @@ public class SetStructureViewModel extends ViewModel {
 
     private MutableLiveData<Boolean> isFirstMyProduct = new MutableLiveData<>();
     private MutableLiveData<DocumentSnapshot> lastMyProductDoc = new MutableLiveData<>();
+
+    private MutableLiveData<Boolean> isImagePickerUploading = new MutableLiveData<>();
+    private MutableLiveData<Integer> currentImageUpload = new MutableLiveData<>();
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
@@ -127,10 +133,11 @@ public class SetStructureViewModel extends ViewModel {
                 });
     }
 
-    public void uploadViewImage(int pageId, int viewCode, int position,String tag, Uri uri){
-        firebaseRepository.saveViewImage(shop.getValue().getId(),pageId,viewCode,position,uri)
-                .addOnSuccessListener(taskSnapshot -> getViewImageLink(pageId, viewCode, position,tag))
-                .addOnFailureListener(Throwable::printStackTrace);
+    public void uploadViewImage(int pageId, int viewCode, int position,String tag, byte[] data){
+        firebaseRepository.saveViewImage(shop.getValue().getId(),pageId,viewCode,position,data)
+                .addOnSuccessListener(taskSnapshot -> getViewImageLink(pageId, viewCode, position, tag))
+                .addOnFailureListener(e -> e.printStackTrace());
+
     }
 
     public void getViewImageLink(int pageId, int viewCode, int position,String tag){
@@ -138,12 +145,17 @@ public class SetStructureViewModel extends ViewModel {
                 .addOnSuccessListener(uri -> {
                     List<Map<String,Object>> data = structure.getValue().getPage(pageId).getView(viewCode).getData();
                     Map<String,Object> imageData = new HashMap<>();
-                    imageData.put("tag",tag);
+                    if (tag!=null)
+                        imageData.put("tag",tag);
                     imageData.put("imageLink",uri.toString());
                     data.add(imageData);
                     structure.getValue().updateProductList(pageId,viewCode,data);
+
+                    currentImageUpload.setValue(position + 1);
+                    isImagePickerUploading.setValue(Boolean.FALSE);
+
                 })
-                .addOnFailureListener(Throwable::printStackTrace);
+                .addOnFailureListener(e -> e.printStackTrace());
     }
 
     public void getShopExtras(String  shopId){
@@ -369,5 +381,13 @@ public class SetStructureViewModel extends ViewModel {
 
     public MutableLiveData<Boolean> getIsFirstMyProduct() {
         return isFirstMyProduct;
+    }
+
+    public MutableLiveData<Boolean> getIsImagePickerUploading() {
+        return isImagePickerUploading;
+    }
+
+    public MutableLiveData<Integer> getCurrentImageUpload() {
+        return currentImageUpload;
     }
 }
