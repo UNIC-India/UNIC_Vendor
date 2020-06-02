@@ -30,7 +30,6 @@
                 android:text="No Notifications sent yet."
                 android:textColor="#000000"
                 android:textSize="18sp"
-                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -39,8 +38,7 @@
                 android:id="@+id/ivNoNotifications"
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
-                android:src="@drawable/no_notification"
-                android:visibility="gone"/>
+                android:src="@drawable/no_notification" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvNotifications"
@@ -57,7 +55,7 @@
         android:text="Create New Notification"
         android:textColor="@color/white"
         android:textSize="18sp"
-
+        
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

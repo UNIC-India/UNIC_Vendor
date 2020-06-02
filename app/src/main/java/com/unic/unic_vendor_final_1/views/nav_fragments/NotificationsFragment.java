@@ -47,14 +47,16 @@ public class NotificationsFragment extends Fragment {
                 if(notifications==null||notifications.size()==0){
                     notificationsBinding.ivNoNotifications.setVisibility(View.VISIBLE);
                     notificationsBinding.tvNoNotifications.setVisibility(View.VISIBLE);
-                    return;
                 }
+                else{
+                    notificationsBinding.ivNoNotifications.setVisibility(View.GONE);
+                    notificationsBinding.tvNoNotifications.setVisibility(View.GONE);
+                }
+                if(notifications!=null) {
+                    notificationsAdapter.setNotifications(notifications);
+                    notificationsAdapter.notifyDataSetChanged();
 
-                notificationsBinding.ivNoNotifications.setVisibility(View.GONE);
-                notificationsBinding.tvNoNotifications.setVisibility(View.GONE);
-                notificationsAdapter.setNotifications(notifications);
-                notificationsAdapter.notifyDataSetChanged();
-
+                }
             }
         });
         notificationsBinding.rvNotifications.setLayoutManager(new LinearLayoutManager(getContext()));

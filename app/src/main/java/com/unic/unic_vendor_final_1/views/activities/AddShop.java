@@ -1,15 +1,15 @@
 package com.unic.unic_vendor_final_1.views.activities;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -17,11 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.ActivityAddShopBinding;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
-import com.unic.unic_vendor_final_1.viewmodels.AddNewShopViewModel;
+import com.unic.unic_vendor_final_1.viewmodels.AddShopViewModel;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.LocationSelector;
 
 import java.io.ByteArrayOutputStream;
@@ -32,180 +31,162 @@ import java.util.Map;
 
 import static com.unic.unic_vendor_final_1.commons.Helpers.enableDisableViewGroup;
 
-public class AddShop extends AppCompatActivity implements View.OnClickListener{
+public class AddShop extends AppCompatActivity implements View.OnClickListener {
 
-    private AddNewShopViewModel addNewShopViewModel;
     private ActivityAddShopBinding addShopBinding;
-    private Shop shop;
-
-    private Uri imageUri,addressUri;
-
-    private boolean userWantsImage = true;
+    private AddShopViewModel addShopViewModel;
 
     private View coverView;
-
-    private int status;
 
     private static final int GALLERY_INTENT = 1001;
     private static final int CROP_IMAGE = 1002;
     private static final int LOCATION_SELECTOR = 2001;
 
+    private Shop shop;
+    private Bitmap imageBitmap;
+    private AlertDialog dialog;
+
+    private boolean userWantsImage = true;
+    private boolean imageSelectSuccessful = false;
+
+    private Uri imageurl,outputFileUri;
+
+
+    private Map<String,Double> location = new HashMap<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         addShopBinding = ActivityAddShopBinding.inflate(getLayoutInflater());
-
         setContentView(addShopBinding.getRoot());
-
-        shop = new Shop();
-
-        addNewShopViewModel = new ViewModelProvider(this).get(AddNewShopViewModel.class);
-
-        addNewShopViewModel.getShop().setValue(shop);
-
-        addNewShopViewModel.getStatus().observe(this, this::setStatus);
-        addNewShopViewModel.getShop().observe(this,this::setShop);
-
-        addShopBinding.addShopStep2.setOnClickListener(this);
-        addShopBinding.addShopStep3.setOnClickListener(this);
         addShopBinding.btnAddShopImage.setOnClickListener(this);
-        addShopBinding.addressView.setOnClickListener(this);
-        addShopBinding.tvSelectAddress.setOnClickListener(this);
-
-        addShopBinding.addShopPage1.setVisibility(View.VISIBLE);
-        addShopBinding.addShopPage2.setVisibility(View.GONE);
-
+        addShopBinding.addShopStep2.setOnClickListener(this);
+        addShopBinding.shopLocationSelect.setOnClickListener(this);
+        addShopViewModel = new ViewModelProvider(this).get(AddShopViewModel.class);
+        addShopViewModel.getShopAddStatus().observe(this, this::statusUpdate);
+        addShopViewModel.getShop().observe(this, this::updateShop);
     }
 
-    public void nextStep(){
-        shop.setName(addShopBinding.etAddShopName.getText().toString());
-        addShopBinding.addShopPage1.setVisibility(View.GONE);
-        addShopBinding.addShopPage2.setVisibility(View.VISIBLE);
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-
-        if(status==2){
-
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
-                byte[] data = baos.toByteArray();
-
-                addNewShopViewModel.uploadShopImage(data);
-            }
-            catch (IOException e){
-                e.printStackTrace();
-            }
-        }
-        else if (status==5){
-            enableDisableViewGroup((ViewGroup)addShopBinding.getRoot(),true);
-            ((ViewGroup)addShopBinding.getRoot()).removeView(coverView);
-            addShopBinding.addShopProgressBar.setVisibility(View.GONE);
-            Intent intent = new Intent(this, SetShopStructure.class);
-            intent.putExtra("shopId",shop.getId());
-            intent.putExtra("template",Integer.valueOf(1));
-            startActivity(intent);
-        }
-        else if(status==-1){
-            enableDisableViewGroup((ViewGroup)addShopBinding.getRoot(),true);
-            ((ViewGroup)addShopBinding.getRoot()).removeView(coverView);
-            addShopBinding.addShopProgressBar.setVisibility(View.GONE);
-        }
-    }
-
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
-    public void onClick(View v) {
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.add_shop_step_2:
 
-        if(v.getId()==addShopBinding.addShopStep2.getId()){
-            if(addShopBinding.etAddShopName.getText().length()==0){
-                addShopBinding.etAddShopName.setError("This field is mandatory");
-            }
-            else if(imageUri==null&&userWantsImage){
-                AlertDialog.Builder builder = new AlertDialog.Builder(AddShop.this);
-                builder.setMessage("Are you sure you don't want to set a shop image?")
-                        .setPositiveButton("YES",(dialog, which) -> {
-                            userWantsImage = false;
-                            nextStep();
-                        })
-                        .setNegativeButton("GO BACK",(dialog, which) -> dialog.dismiss());
-                Dialog dialog = builder.create();
-                dialog.show();
-            }
-            else{
-                addNewShopViewModel.getShopImageUri().setValue(imageUri);
-                nextStep();
-            }
-        }
-        else if(v.getId()==addShopBinding.btnAddShopImage.getId()){
-            Intent intent = new Intent(Intent.ACTION_PICK);
-            intent.setType("image/*");
-            startActivityForResult(intent,GALLERY_INTENT);
-        }
-        else if(v.getId()==addShopBinding.addressView.getId()||v.getId()==addShopBinding.tvAddShopAddress.getId()){
+                if(imageBitmap==null){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                            .setMessage("No shop Image selected. Do you want to select one?")
+                            .setPositiveButton("Yes", (dialog, which) -> {
+                                userWantsImage = true;
+                                Intent intent = new Intent(Intent.ACTION_PICK);
+                                intent.setType("image/*");
+                                startActivityForResult(intent,GALLERY_INTENT);
+                            })
+                            .setNegativeButton("No", (dialog, which) -> userWantsImage = false);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+                if(userWantsImage) {
 
-            Intent locationIntent = new Intent(AddShop.this, LocationSelector.class);
-            if(addShopBinding.etShopAddCity.getText().toString().trim().length()>0){
-                locationIntent.putExtra("type",Integer.valueOf(1));
-                if (addShopBinding.etShopAddLocality.getText().toString().trim().length()>0)
-                    locationIntent.putExtra("address",addShopBinding.etShopAddLocality.getText().toString().trim()+" "+addShopBinding.etShopAddCity.getText().toString().trim());
+                    if (addShopBinding.etAddShopName.getText().toString().trim().length()==0 || (addShopBinding.etAddShopAddressLine1.getText().toString().trim().length()==0 && addShopBinding.etAddShopAddressLine2.getText().toString().trim().length()==0) || addShopBinding.etShopAddLocality.getText().toString().trim().length()==0||addShopBinding.etShopAddCity.getText().toString().trim().length()==0) {
+                        Toast.makeText(AddShop.this, "Please enter all fields", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if(location.size()==0){
+                        Toast.makeText(AddShop.this, "Please select location on map", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    coverView = new View(this);
+                    coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    coverView.setBackgroundResource(R.color.gray_1);
+                    coverView.setAlpha(0.5f);
+                    ((ViewGroup)addShopBinding.getRoot()).addView(coverView);
+                    addShopBinding.addShopProgressBar.setVisibility(View.VISIBLE);
+                    addShopBinding.addShopProgressBar.bringToFront();
+                    enableDisableViewGroup((ViewGroup)addShopBinding.getRoot(),false);
+
+                    shop = new Shop(addShopBinding.etAddShopName.getText().toString().trim(),
+                            addShopBinding.etAddShopAddressLine1.getText().toString().trim() + " " +
+                                    addShopBinding.etAddShopAddressLine2.getText().toString().trim(),
+                            addShopBinding.etShopAddLocality.getText().toString().trim(),
+                            addShopBinding.etShopAddCity.getText().toString().trim(),location);
+
+                    addShopViewModel.getShop().setValue(shop);
+
+                    addShopViewModel.saveShop();
+                }
+                break;
+            case R.id.btn_add_shop_image:
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent,GALLERY_INTENT);
+                break;
+            case R.id.shop_location_select:
+                Intent locationIntent = new Intent(AddShop.this, LocationSelector.class);
+                if(addShopBinding.etShopAddCity.getText().toString().trim().length()>0){
+                    locationIntent.putExtra("type",Integer.valueOf(1));
+                    if (addShopBinding.etShopAddLocality.getText().toString().trim().length()>0)
+                        locationIntent.putExtra("address",addShopBinding.etShopAddLocality.getText().toString().trim()+" "+addShopBinding.etShopAddCity.getText().toString().trim());
+                    else
+                        locationIntent.putExtra("address",addShopBinding.etShopAddCity.getText().toString().trim());
+                }
                 else
-                    locationIntent.putExtra("address",addShopBinding.etShopAddCity.getText().toString().trim());
-            }
-            else
-                locationIntent.putExtra("type",Integer.valueOf(0));
-            startActivityForResult(locationIntent,LOCATION_SELECTOR);
+                    locationIntent.putExtra("type",Integer.valueOf(0));
+                startActivityForResult(locationIntent,LOCATION_SELECTOR);
+                break;
         }
-        else if (v.getId()==addShopBinding.addShopStep3.getId()){
-            boolean done = true;
+    }
 
-            if(addShopBinding.etShopAddCity.getText().length()==0){
-                addShopBinding.etShopAddCity.setError("This field is mandatory");
-                done = false;
-            }
-            else
-                shop.setCity(addShopBinding.etShopAddCity.getText().toString());
+    private void statusUpdate(int i){
+        switch(i){
+            case 1:
+                Toast.makeText(this, "Shop saved", Toast.LENGTH_SHORT).show();
+                break;
 
-            if (addShopBinding.etShopAddLocality.getText().length()==0){
-                addShopBinding.etShopAddLocality.setError("This field is mandatory");
-                done = false;
-            }
-            else
-                shop.setLocality(addShopBinding.etShopAddLocality.getText().toString());
+            case 2:
+                if(!userWantsImage){
+                    Intent intent = new Intent(this,SetShopStructure.class);
+                    intent.putExtra("shopId",shop.getId());
+                    startActivity(intent);
+                }
+                else{
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    imageBitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
+                    byte[] data = baos.toByteArray();
+                    addShopViewModel.saveShopImage(data);
+                }
+                break;
+            case 3:
+                addShopViewModel.setShopImageLink();
+                break;
 
-            if(addShopBinding.etAddShopAddressLine1.getText().length()==0&&addShopBinding.etAddShopAddressLine2.getText().length()==0){
-                addShopBinding.etAddShopAddressLine1.setError("This filed is mandatory");
-                done = false;
-            }
-            else
-                shop.setAddress(addShopBinding.etAddShopAddressLine1.getText().toString()+", "+addShopBinding.etAddShopAddressLine2.getText().toString());
-
-            if(addressUri==null){
-                done = false;
-                Toast.makeText(this, "Please select an address", Toast.LENGTH_SHORT).show();
-            }
-
-            if(done){
-                addNewShopViewModel.getShop().setValue(shop);
-                enableDisableViewGroup((ViewGroup)addShopBinding.getRoot(),false);
-                coverView = new View(this);
-                coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                coverView.setBackgroundResource(R.color.gray_1);
-                coverView.setAlpha(0.5f);
-                ((ViewGroup)addShopBinding.getRoot()).addView(coverView);
-                addShopBinding.addShopProgressBar.setVisibility(View.VISIBLE);
-                addShopBinding.addShopProgressBar.bringToFront();
-                addNewShopViewModel.uploadShopData();
-            }
+            case 4:
+                enableDisableViewGroup((ViewGroup)addShopBinding.getRoot(),true);
+                ((ViewGroup)addShopBinding.getRoot()).removeView(coverView);
+                addShopBinding.addShopProgressBar.setVisibility(View.GONE);
+                Intent intent = new Intent(this, SetShopStructure.class);
+                intent.putExtra("shopId",shop.getId());
+                intent.putExtra("template",Integer.valueOf(1));
+                startActivity(intent);
+                break;
+            case -1:
+            case -2:
+            case -3:
+            case -4:
+                enableDisableViewGroup((ViewGroup)addShopBinding.getRoot(),true);
+                ((ViewGroup)addShopBinding.getRoot()).removeView(coverView);
+                addShopBinding.addShopProgressBar.setVisibility(View.GONE);
         }
+    }
 
+    private void updateShop(Shop shop){
+        this.shop = shop;
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == RESULT_OK && data!=null) {
@@ -216,27 +197,21 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
                     cropImage(uri);
                     break;
                 case LOCATION_SELECTOR:
-                    Map<String,Double> location = new HashMap<>();
                     location.put("latitude",data.getDoubleExtra("latitude",0.0));
                     location.put("longitude",data.getDoubleExtra("longitude",0.0));
-                    shop.setLocation(location);
-                    addNewShopViewModel.getShop().setValue(shop);
-                    addressUri = data.getData();
-                    addNewShopViewModel.getAddressImageUri().setValue(addressUri);
-                    addShopBinding.addressView.setAlpha(1f);
-                    Glide
-                            .with(this)
-                            .load(addressUri)
-                            .into(addShopBinding.addressView);
-                    addShopBinding.tvSelectAddress.setVisibility(View.GONE);
                     break;
                 case CROP_IMAGE:
-                    Glide
-                            .with(this)
-                            .load(imageUri)
-                            .into(addShopBinding.btnAddShopImage);
+                    Bitmap bitmap;
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),outputFileUri);
 
-                    addNewShopViewModel.getShopImageUri().setValue(imageUri);
+                        imageBitmap = bitmap;
+                        addShopBinding.btnAddShopImage.setImageBitmap(imageBitmap);
+                        imageSelectSuccessful = true;
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
             }
 
         }
@@ -250,14 +225,19 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
         cropIntent.putExtra("aspectY", 1);
         cropIntent.putExtra("return-data", true);
         File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "new-shop-image-" + ".jpg");
-        imageUri = Uri.fromFile(file);
-        cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-        cropIntent.putExtra("output",imageUri);
+        outputFileUri = Uri.fromFile(file);
+        cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+        cropIntent.putExtra("output",outputFileUri);
         startActivityForResult(cropIntent, CROP_IMAGE);
         Toast.makeText(this, "Cropping image", Toast.LENGTH_SHORT).show();
     }
 
-    public void setShop(Shop shop) {
-        this.shop = shop;
-    }
+   /* private float dpToPx(int dp){
+        return TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                getResources().getDisplayMetrics()
+        );
+    }*/
+
 }
