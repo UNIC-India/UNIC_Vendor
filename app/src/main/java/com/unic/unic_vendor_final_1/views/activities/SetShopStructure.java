@@ -289,6 +289,9 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 startActivity(new Intent(this,UserHome.class));
                 finish();
                 break;
+            case 8:
+                returnToPage(currentPageId);
+                break;
         }
     }
 

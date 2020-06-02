@@ -30,6 +30,7 @@ import android.widget.TextView;
 
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategoriesAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.ImageViewAdapters.DoubleImageAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.TripleProductAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentShopPageBinding;
@@ -144,12 +145,36 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
             case 11:
                 //TODO
             case 12:
-                //TODO
+                View doubleImageView = getLayoutInflater().inflate(R.layout.double_images_view,parent,false);
+                doubleImageView.setId(view.getViewCode());
+
+                View view12 = getLayoutInflater().inflate(R.layout.view_bounding,parent,false);
+                view12.setId(view.getViewCode());
+                parent.addView(view12,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
+                RelativeLayout.LayoutParams doubleImageParams = (RelativeLayout.LayoutParams) view12.getLayoutParams();
+                doubleImageParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+                view12.setLayoutParams(doubleImageParams);
+
+                ((ViewGroup)view12.findViewById(R.id.view_loader)).addView(doubleImageView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
+
+                view12.findViewById(R.id.view_dragger).setOnTouchListener(this::onTouch);
+                view12.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
+
+                DoubleImageAdapter doubleImageAdapter = new DoubleImageAdapter(getContext());
+                doubleImageAdapter.setData(view.getData());
+                RecyclerView doubleImageRecyclerView = doubleImageView.findViewById(R.id.double_image_recycler_view);
+                LinearLayoutManager doubleImageLayoutManager = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
+                doubleImageRecyclerView.setLayoutManager(doubleImageLayoutManager);
+                doubleImageRecyclerView.setAdapter(doubleImageAdapter);
+                doubleImageRecyclerView.setNestedScrollingEnabled(false);
+                doubleImageRecyclerView.addItemDecoration(new SpacesItemDecoration(10));
+
+                views.add(view12);
                 break;
             case 13:
                 //TODO
             case 21:
-                View categoriesView=Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.categories_view,parent,false);
+                View categoriesView=getLayoutInflater().inflate(R.layout.categories_view,parent,false);
                 categoriesView.setId(view.getViewCode());
 
                 View view21 = getLayoutInflater().inflate(R.layout.view_bounding,parent,false);
