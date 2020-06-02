@@ -60,6 +60,14 @@ public class MyProducts extends Fragment {
             public void onChanged(List<Shop> shops) {
                 adapter.setShops(shops);
                 adapter.notifyDataSetChanged();
+                if(shops==null||shops.size()==0){
+                    myProductsBinding.noshops.setVisibility(View.VISIBLE);
+                    myProductsBinding.tvnoshops.setVisibility(View.VISIBLE);
+                }
+                else{
+                    myProductsBinding.noshops.setVisibility(View.GONE);
+                    myProductsBinding.tvnoshops.setVisibility(View.GONE);
+                }
             }
         });
         myProductsBinding.rvShops.setAdapter(adapter);

@@ -56,6 +56,14 @@ public class QRFragment extends Fragment {
             public void onChanged(List<Shop> shops) {
                 qrAdapter.setShops(shops);
                 qrAdapter.notifyDataSetChanged();
+                if(shops==null||shops.size()==0){
+                    fragmentQrBinding.noshops.setVisibility(View.VISIBLE);
+                    fragmentQrBinding.tvnoshops.setVisibility(View.VISIBLE);
+                }
+                else{
+                    fragmentQrBinding.noshops.setVisibility(View.GONE);
+                    fragmentQrBinding.tvnoshops.setVisibility(View.GONE);
+                }
             }
         });
         fragmentQrBinding = FragmentQrBinding.inflate(inflater,container,false);
