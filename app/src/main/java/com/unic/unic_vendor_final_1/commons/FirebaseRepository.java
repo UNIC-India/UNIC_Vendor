@@ -87,6 +87,9 @@ public class FirebaseRepository {
     }
 
     public Task<DocumentReference> saveShop(Shop shop) {
+
+        shop.setOwnerId(mUser.getUid());
+
         return db.collection("shops").add(shop);
     }
 

@@ -1,6 +1,5 @@
 package com.unic.unic_vendor_final_1.views.nav_fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,19 +8,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.unic.unic_vendor_final_1.R;
-import com.unic.unic_vendor_final_1.adapters.ShopAdapter;
 import com.unic.unic_vendor_final_1.adapters.ShopListAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentMyProductsBinding;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
-import com.unic.unic_vendor_final_1.views.activities.AddShop;
 
 import java.util.List;
 

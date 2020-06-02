@@ -417,7 +417,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 return true;
             case MotionEvent.ACTION_MOVE:
 
-                if((currView!=views.size()-1)&&params.topMargin>((RelativeLayout.LayoutParams)views.get(currView+1).getLayoutParams()).topMargin){
+                if((currView!=views.size()-1)&&params.topMargin>((RelativeLayout.LayoutParams)views.get(currView+1).getLayoutParams()).topMargin+((RelativeLayout.LayoutParams)views.get(currView+1).getLayoutParams()).height/2){
                     RelativeLayout.LayoutParams lowerViewParams = (RelativeLayout.LayoutParams)views.get(currView+1).getLayoutParams();
                     lowerViewParams.topMargin-=params.height;
                     views.get(currView+1).setLayoutParams(lowerViewParams);
@@ -425,12 +425,12 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                     currView++;
                     break;
                 }
-                else if((currView!=0)&&params.topMargin<((RelativeLayout.LayoutParams)views.get(currView-1).getLayoutParams()).topMargin){
+                else if((currView!=0)&&params.topMargin<((RelativeLayout.LayoutParams)views.get(currView-1).getLayoutParams()).topMargin+((RelativeLayout.LayoutParams)views.get(currView-1).getLayoutParams()).height/2){
                     RelativeLayout.LayoutParams lowerViewParams = (RelativeLayout.LayoutParams)views.get(currView-1).getLayoutParams();
                     lowerViewParams.topMargin+=params.height;
                     views.get(currView-1).setLayoutParams(lowerViewParams);
                     swapViews(views,currView,currView-1);
-                    currView++;
+                    currView--;
                     break;
                 }
                 else{

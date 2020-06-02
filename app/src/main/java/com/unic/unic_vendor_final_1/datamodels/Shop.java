@@ -12,7 +12,12 @@ public class Shop {
     private int noOfProducts,noOfSubscribers;
     private Map<String,Double> location;
 
-    public Shop(){}
+    public Shop(){
+        this.id = " ";
+        this.imageLink = " ";
+        this.logoLink = " ";
+        this.dynSubscribeLink = " ";
+    }
 
     public Shop(String name,String address,String locality,String city,Map<String,Double> location){
         this.id = " ";
