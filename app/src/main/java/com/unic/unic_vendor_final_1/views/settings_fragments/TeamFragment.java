@@ -1,4 +1,4 @@
-package com.unic.unic_vendor_final_1.views.helpers;
+package com.unic.unic_vendor_final_1.views.settings_fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;

@@ -37,6 +37,16 @@ public class SettingsFragment extends Fragment {
                         .commit();
             }
         });
+        fragmentSettingsBinding.cdAddLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.home_fragment,new MyProducts(3))
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
         return fragmentSettingsBinding.getRoot();
 
     }

@@ -20,6 +20,7 @@ public class AddShopViewModel extends ViewModel {
     private MutableLiveData<Shop> shop = new MutableLiveData<>();
 
     private MutableLiveData<Integer> shopAddStatus = new MutableLiveData<>();
+    public MutableLiveData<Integer> logoStatus=new MutableLiveData<>();
 
     private FirebaseRepository firebaseRepository=new FirebaseRepository();
 
@@ -101,7 +102,52 @@ public class AddShopViewModel extends ViewModel {
             }
         });
     }
+    public void saveShopLogo(String shopId,byte[] data){
+        firebaseRepository.saveShopLogo(shopId,data)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        logoStatus.setValue(3);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        logoStatus.setValue(-2);
+                    }
+                });
+    }
 
+    public void setShopLogoLink(String shopId){
+        firebaseRepository.getLogoLink(shopId).addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+
+                setLogoLink(shopId,uri.toString());
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        logoStatus.setValue(-3);
+                    }
+                });
+    }
+
+    private void setLogoLink(String shopId, String logoLink){
+        firebaseRepository.setShopLogo(shopId,logoLink).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                logoStatus.setValue(4);
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        logoStatus.setValue(-4);
+                    }
+                });
+    }
     public LiveData<Integer> getShopAddStatus(){
         return shopAddStatus;
     }
