@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
+
 import com.unic.unic_vendor_final_1.databinding.ActivityAddShopBinding;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.viewmodels.AddNewShopViewModel;
@@ -35,7 +36,7 @@ import static com.unic.unic_vendor_final_1.commons.Helpers.enableDisableViewGrou
 public class AddShop extends AppCompatActivity implements View.OnClickListener{
 
     private AddNewShopViewModel addNewShopViewModel;
-    private ActivityAddShopBinding addShopBinding;
+    private ActivityAddShopBinding addNewShopBinding;
     private Shop shop;
 
     private Uri imageUri,addressUri;
@@ -54,9 +55,9 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        addShopBinding = ActivityAddShopBinding.inflate(getLayoutInflater());
+        addNewShopBinding = ActivityAddShopBinding.inflate(getLayoutInflater());
 
-        setContentView(addShopBinding.getRoot());
+        setContentView(addNewShopBinding.getRoot());
 
         shop = new Shop();
 
@@ -67,21 +68,21 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
         addNewShopViewModel.getStatus().observe(this, this::setStatus);
         addNewShopViewModel.getShop().observe(this,this::setShop);
 
-        addShopBinding.addShopStep2.setOnClickListener(this);
-        addShopBinding.addShopStep3.setOnClickListener(this);
-        addShopBinding.btnAddShopImage.setOnClickListener(this);
-        addShopBinding.addressView.setOnClickListener(this);
-        addShopBinding.tvSelectAddress.setOnClickListener(this);
+        addNewShopBinding.addShopStep2.setOnClickListener(this);
+        addNewShopBinding.addShopStep3.setOnClickListener(this);
+        addNewShopBinding.btnAddShopImage.setOnClickListener(this);
+        addNewShopBinding.addressView.setOnClickListener(this);
+        addNewShopBinding.tvSelectAddress.setOnClickListener(this);
 
-        addShopBinding.addShopPage1.setVisibility(View.VISIBLE);
-        addShopBinding.addShopPage2.setVisibility(View.GONE);
+        addNewShopBinding.addShopPage1.setVisibility(View.VISIBLE);
+        addNewShopBinding.addShopPage2.setVisibility(View.GONE);
 
     }
 
     public void nextStep(){
-        shop.setName(addShopBinding.etAddShopName.getText().toString());
-        addShopBinding.addShopPage1.setVisibility(View.GONE);
-        addShopBinding.addShopPage2.setVisibility(View.VISIBLE);
+        shop.setName(addNewShopBinding.etAddShopName.getText().toString());
+        addNewShopBinding.addShopPage1.setVisibility(View.GONE);
+        addNewShopBinding.addShopPage2.setVisibility(View.VISIBLE);
     }
 
     public void setStatus(int status) {
@@ -102,27 +103,27 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
             }
         }
         else if (status==5){
-            enableDisableViewGroup((ViewGroup)addShopBinding.getRoot(),true);
-            ((ViewGroup)addShopBinding.getRoot()).removeView(coverView);
-            addShopBinding.addShopProgressBar.setVisibility(View.GONE);
+            enableDisableViewGroup((ViewGroup)addNewShopBinding.getRoot(),true);
+            ((ViewGroup)addNewShopBinding.getRoot()).removeView(coverView);
+            addNewShopBinding.addShopProgressBar.setVisibility(View.GONE);
             Intent intent = new Intent(this, SetShopStructure.class);
             intent.putExtra("shopId",shop.getId());
             intent.putExtra("template",Integer.valueOf(1));
             startActivity(intent);
         }
         else if(status==-1){
-            enableDisableViewGroup((ViewGroup)addShopBinding.getRoot(),true);
-            ((ViewGroup)addShopBinding.getRoot()).removeView(coverView);
-            addShopBinding.addShopProgressBar.setVisibility(View.GONE);
+            enableDisableViewGroup((ViewGroup)addNewShopBinding.getRoot(),true);
+            ((ViewGroup)addNewShopBinding.getRoot()).removeView(coverView);
+            addNewShopBinding.addShopProgressBar.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onClick(View v) {
 
-        if(v.getId()==addShopBinding.addShopStep2.getId()){
-            if(addShopBinding.etAddShopName.getText().length()==0){
-                addShopBinding.etAddShopName.setError("This field is mandatory");
+        if(v.getId()==addNewShopBinding.addShopStep2.getId()){
+            if(addNewShopBinding.etAddShopName.getText().length()==0){
+                addNewShopBinding.etAddShopName.setError("This field is mandatory");
             }
             else if(imageUri==null&&userWantsImage){
                 AlertDialog.Builder builder = new AlertDialog.Builder(AddShop.this);
@@ -140,48 +141,48 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
                 nextStep();
             }
         }
-        else if(v.getId()==addShopBinding.btnAddShopImage.getId()){
+        else if(v.getId()==addNewShopBinding.btnAddShopImage.getId()){
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
             startActivityForResult(intent,GALLERY_INTENT);
         }
-        else if(v.getId()==addShopBinding.addressView.getId()||v.getId()==addShopBinding.tvAddShopAddress.getId()){
+        else if(v.getId()==addNewShopBinding.addressView.getId()||v.getId()==addNewShopBinding.tvAddShopAddress.getId()){
 
             Intent locationIntent = new Intent(AddShop.this, LocationSelector.class);
-            if(addShopBinding.etShopAddCity.getText().toString().trim().length()>0){
+            if(addNewShopBinding.etShopAddCity.getText().toString().trim().length()>0){
                 locationIntent.putExtra("type",Integer.valueOf(1));
-                if (addShopBinding.etShopAddLocality.getText().toString().trim().length()>0)
-                    locationIntent.putExtra("address",addShopBinding.etShopAddLocality.getText().toString().trim()+" "+addShopBinding.etShopAddCity.getText().toString().trim());
+                if (addNewShopBinding.etShopAddLocality.getText().toString().trim().length()>0)
+                    locationIntent.putExtra("address",addNewShopBinding.etShopAddLocality.getText().toString().trim()+" "+addNewShopBinding.etShopAddCity.getText().toString().trim());
                 else
-                    locationIntent.putExtra("address",addShopBinding.etShopAddCity.getText().toString().trim());
+                    locationIntent.putExtra("address",addNewShopBinding.etShopAddCity.getText().toString().trim());
             }
             else
                 locationIntent.putExtra("type",Integer.valueOf(0));
             startActivityForResult(locationIntent,LOCATION_SELECTOR);
         }
-        else if (v.getId()==addShopBinding.addShopStep3.getId()){
+        else if (v.getId()==addNewShopBinding.addShopStep3.getId()){
             boolean done = true;
 
-            if(addShopBinding.etShopAddCity.getText().length()==0){
-                addShopBinding.etShopAddCity.setError("This field is mandatory");
+            if(addNewShopBinding.etShopAddCity.getText().length()==0){
+                addNewShopBinding.etShopAddCity.setError("This field is mandatory");
                 done = false;
             }
             else
-                shop.setCity(addShopBinding.etShopAddCity.getText().toString());
+                shop.setCity(addNewShopBinding.etShopAddCity.getText().toString());
 
-            if (addShopBinding.etShopAddLocality.getText().length()==0){
-                addShopBinding.etShopAddLocality.setError("This field is mandatory");
+            if (addNewShopBinding.etShopAddLocality.getText().length()==0){
+                addNewShopBinding.etShopAddLocality.setError("This field is mandatory");
                 done = false;
             }
             else
-                shop.setLocality(addShopBinding.etShopAddLocality.getText().toString());
+                shop.setLocality(addNewShopBinding.etShopAddLocality.getText().toString());
 
-            if(addShopBinding.etAddShopAddressLine1.getText().length()==0&&addShopBinding.etAddShopAddressLine2.getText().length()==0){
-                addShopBinding.etAddShopAddressLine1.setError("This filed is mandatory");
+            if(addNewShopBinding.etAddShopAddressLine1.getText().length()==0&&addNewShopBinding.etAddShopAddressLine2.getText().length()==0){
+                addNewShopBinding.etAddShopAddressLine1.setError("This filed is mandatory");
                 done = false;
             }
             else
-                shop.setAddress(addShopBinding.etAddShopAddressLine1.getText().toString()+", "+addShopBinding.etAddShopAddressLine2.getText().toString());
+                shop.setAddress(addNewShopBinding.etAddShopAddressLine1.getText().toString()+", "+addNewShopBinding.etAddShopAddressLine2.getText().toString());
 
             if(addressUri==null){
                 done = false;
@@ -190,14 +191,13 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
 
             if(done){
                 addNewShopViewModel.getShop().setValue(shop);
-                enableDisableViewGroup((ViewGroup)addShopBinding.getRoot(),false);
                 coverView = new View(this);
                 coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 coverView.setBackgroundResource(R.color.gray_1);
                 coverView.setAlpha(0.5f);
-                ((ViewGroup)addShopBinding.getRoot()).addView(coverView);
-                addShopBinding.addShopProgressBar.setVisibility(View.VISIBLE);
-                addShopBinding.addShopProgressBar.bringToFront();
+                ((ViewGroup)addNewShopBinding.getRoot()).addView(coverView);
+                addNewShopBinding.addShopProgressBar.setVisibility(View.VISIBLE);
+                addNewShopBinding.addShopProgressBar.bringToFront();
                 addNewShopViewModel.uploadShopData();
             }
         }
@@ -223,18 +223,18 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
                     addNewShopViewModel.getShop().setValue(shop);
                     addressUri = data.getData();
                     addNewShopViewModel.getAddressImageUri().setValue(addressUri);
-                    addShopBinding.addressView.setAlpha(1f);
+                    addNewShopBinding.addressView.setAlpha(1f);
                     Glide
                             .with(this)
                             .load(addressUri)
-                            .into(addShopBinding.addressView);
-                    addShopBinding.tvSelectAddress.setVisibility(View.GONE);
+                            .into(addNewShopBinding.addressView);
+                    addNewShopBinding.tvSelectAddress.setVisibility(View.GONE);
                     break;
                 case CROP_IMAGE:
                     Glide
                             .with(this)
                             .load(imageUri)
-                            .into(addShopBinding.btnAddShopImage);
+                            .into(addNewShopBinding.btnAddShopImage);
 
                     addNewShopViewModel.getShopImageUri().setValue(imageUri);
             }
