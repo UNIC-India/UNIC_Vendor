@@ -14,12 +14,12 @@
         android:backgroundTint="#FFFFFF"
         tools:context=".views.nav_fragments.OrdersFragment">
 
-
         <ImageView
             android:id="@+id/ivNoOrder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/no_order"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvNoOrders" />
@@ -29,12 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-<<<<<<< HEAD
             android:text="You Do Not Have Any Order Yet."
             android:visibility="gone"
-=======
-            android:text="You Do Not Have Any Order."
->>>>>>> parent of e303315... Merged
             android:textColor="#000000"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
