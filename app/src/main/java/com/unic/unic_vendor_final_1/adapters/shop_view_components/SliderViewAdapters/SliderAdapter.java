@@ -1,17 +1,24 @@
 package com.unic.unic_vendor_final_1.adapters.shop_view_components.SliderViewAdapters;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.commons.BlurBuilder;
 
 import java.util.List;
 import java.util.Map;
@@ -45,7 +52,7 @@ public class SliderAdapter extends PagerAdapter {
         View viewItem = inflater.inflate(R.layout.slider_image_view_item,container,false);
 
         if(demo==1){
-            ((ImageView)viewItem).setImageResource(demoImages[position]);
+            ((ImageView)viewItem.findViewById(R.id.slider_foreground)).setImageResource(demoImages[position]);
         }
 
         else {
@@ -53,7 +60,25 @@ public class SliderAdapter extends PagerAdapter {
             Glide
                     .with(activity)
                     .load(data.get(position).get("imageLink"))
-                    .into((ImageView) viewItem);
+                    .into((ImageView) viewItem.findViewById(R.id.slider_foreground));
+
+
+            Glide.with(activity)
+                    .asBitmap()
+                    .load(data.get(position).get("imageLink"))
+                    .into(new CustomTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+
+                            Bitmap stretchedBitmap = BlurBuilder.blur(activity.getBaseContext(),resource);
+
+                            ((ImageView)viewItem.findViewById(R.id.slider_background)).setImageBitmap(stretchedBitmap);
+                        }
+
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
+                        }
+                    });
         }
 
         container.addView(viewItem);

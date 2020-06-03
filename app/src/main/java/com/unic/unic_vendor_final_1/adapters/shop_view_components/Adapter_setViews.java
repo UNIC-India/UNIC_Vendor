@@ -23,7 +23,6 @@ import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAda
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListWithoutImagesAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.TripleProductAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.SliderViewAdapters.SliderAdapter;
-import com.unic.unic_vendor_final_1.commons.AutoScrollViewPager;
 
 public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.ViewHolder> {
 
