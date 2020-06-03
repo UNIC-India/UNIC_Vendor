@@ -26,6 +26,7 @@ import com.unic.unic_vendor_final_1.viewmodels.AddNewProductViewModel;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import static com.unic.unic_vendor_final_1.commons.Helpers.buttonEffect;
 import static com.unic.unic_vendor_final_1.commons.Helpers.enableDisableViewGroup;
 
 public class AddNewProduct extends AppCompatActivity implements View.OnClickListener {
@@ -56,6 +57,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         assert shopId != null;
         addNewProductBinding.btnAddShopImage.setOnClickListener(this);
         addNewProductBinding.addShopStep3.setOnClickListener(this);
+        buttonEffect(addNewProductBinding.addShopStep3);
         addNewProductViewModel.setShopId(shopId);
 
 

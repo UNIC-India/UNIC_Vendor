@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.NotificationsAdapter;
+import com.unic.unic_vendor_final_1.commons.Helpers;
 import com.unic.unic_vendor_final_1.databinding.FragmentNotificationsBinding;
 import com.unic.unic_vendor_final_1.datamodels.Notification;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
@@ -71,6 +72,7 @@ public class NotificationsFragment extends Fragment {
                         .commit();
             }
         });
+        Helpers.buttonEffect(notificationsBinding.btnNotify);
         // Inflate the layout for this fragment
         return notificationsBinding.getRoot();
 

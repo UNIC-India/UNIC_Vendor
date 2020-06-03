@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.unic.unic_vendor_final_1.commons.Helpers.buttonEffect;
 import static com.unic.unic_vendor_final_1.commons.Helpers.enableDisableViewGroup;
 
 public class AddShop extends AppCompatActivity implements View.OnClickListener{
@@ -72,6 +73,8 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
         addShopBinding.btnAddShopImage.setOnClickListener(this);
         addShopBinding.addressView.setOnClickListener(this);
         addShopBinding.tvSelectAddress.setOnClickListener(this);
+        buttonEffect(addShopBinding.addShopStep2);
+        buttonEffect(addShopBinding.addShopStep3);
 
         addShopBinding.addShopPage1.setVisibility(View.VISIBLE);
         addShopBinding.addShopPage2.setVisibility(View.GONE);

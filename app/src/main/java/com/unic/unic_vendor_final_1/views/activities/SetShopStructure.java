@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.commons.Helpers;
 import com.unic.unic_vendor_final_1.databinding.ActivitySetShopStructureBinding;
 import com.unic.unic_vendor_final_1.datamodels.Page;
 import com.unic.unic_vendor_final_1.datamodels.Product;
@@ -103,6 +104,9 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         setShopStructureBinding.btnleft.setOnClickListener(this);
         setShopStructureBinding.btnRight.setOnClickListener(this);
         setShopStructureBinding.confirmShopStructure.setOnClickListener(this);
+        Helpers.buttonEffect(setShopStructureBinding.btnleft);
+        Helpers.buttonEffect(setShopStructureBinding.btnRight);
+        Helpers.buttonEffect(setShopStructureBinding.confirmShopStructure);
 
         option = getIntent().getIntExtra("template", 0);
 

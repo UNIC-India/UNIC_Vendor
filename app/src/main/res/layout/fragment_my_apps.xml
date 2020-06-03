@@ -52,8 +52,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="40dp"
-                    tools:listitem="@layout/my_shop_list_item_modified"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    tools:listitem="@layout/my_shop_list_item_modified" />
             </LinearLayout>
         </ScrollView>
 
@@ -62,12 +62,15 @@
             style="@style/StandardButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/std_button"
             android:text="ADD NEW SHOP"
             android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
