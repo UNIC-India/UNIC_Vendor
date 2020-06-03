@@ -22,6 +22,8 @@ public class SliderAdapter extends PagerAdapter {
     private List<Map<String,Object>> data;
     private int demo = 0;
 
+    private int demoImages[] = {R.drawable.slider_1,R.drawable.slider_2,R.drawable.slider_3};
+
     public SliderAdapter(Activity activity, List<Map<String,Object>> data){
         this.activity = activity;
         this.data = data;
@@ -43,7 +45,7 @@ public class SliderAdapter extends PagerAdapter {
         View viewItem = inflater.inflate(R.layout.slider_image_view_item,container,false);
 
         if(demo==1){
-            ((ImageView)viewItem).setImageResource(R.drawable.slider_1);
+            ((ImageView)viewItem).setImageResource(demoImages[position]);
         }
 
         else {
