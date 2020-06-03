@@ -428,7 +428,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         selectProducts(pageId,view.getViewCode());
         else if(code/10==2)
             selectCategories(pageId,view.getViewCode());
-        else if (code/10==1)
+        else if (code/10==1||code/10==3)
             selectImages(pageId,view.getViewCode());
     }
 
