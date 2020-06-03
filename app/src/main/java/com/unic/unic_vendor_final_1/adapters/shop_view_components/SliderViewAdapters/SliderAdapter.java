@@ -57,18 +57,14 @@ public class SliderAdapter extends PagerAdapter {
 
         else {
 
-            Glide
-                    .with(activity)
-                    .load(data.get(position).get("imageLink"))
-                    .into((ImageView) viewItem.findViewById(R.id.slider_foreground));
-
-
             Glide.with(activity)
                     .asBitmap()
                     .load(data.get(position).get("imageLink"))
                     .into(new CustomTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+
+                            ((ImageView)viewItem.findViewById(R.id.slider_foreground)).setImageBitmap(resource);
 
                             Bitmap stretchedBitmap = BlurBuilder.blur(activity.getBaseContext(),resource);
 
