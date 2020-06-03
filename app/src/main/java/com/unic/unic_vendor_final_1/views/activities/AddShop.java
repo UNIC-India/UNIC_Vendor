@@ -110,6 +110,7 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
             intent.putExtra("shopId",shop.getId());
             intent.putExtra("template",Integer.valueOf(1));
             startActivity(intent);
+            finish();
         }
         else if(status==-1){
             enableDisableViewGroup((ViewGroup)addNewShopBinding.getRoot(),true);
