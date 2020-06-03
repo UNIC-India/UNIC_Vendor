@@ -109,6 +109,22 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
                 view21.setHeight(50);
                 ((SetShopStructure) Objects.requireNonNull(getActivity())).addView(pageId, view21,21);
                 break;
+
+            case "31":
+
+                com.unic.unic_vendor_final_1.datamodels.View view31 = new com.unic.unic_vendor_final_1.datamodels.View();
+                view31.setFields("imageLink,tag");
+                view31.setHeight(200);
+                ((SetShopStructure)getActivity()).addView(pageId,view31,31);
+                break;
+
+            case "32":
+                com.unic.unic_vendor_final_1.datamodels.View view32 = new com.unic.unic_vendor_final_1.datamodels.View();
+                view32.setFields("imageLink,tag");
+                view32.setHeight(250);
+                ((SetShopStructure)getActivity()).addView(pageId,view32,32);
+                break;
+
             case "41":
                 final EditText etViewHeader = new EditText(getContext());
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());

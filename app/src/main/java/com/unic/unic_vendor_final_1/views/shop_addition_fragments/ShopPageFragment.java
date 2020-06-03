@@ -28,11 +28,13 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategoriesAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ImageViewAdapters.DoubleImageAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.TripleProductAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.SliderViewAdapters.SliderAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentShopPageBinding;
 import com.unic.unic_vendor_final_1.datamodels.Page;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
@@ -206,10 +208,70 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
             case 24:
                 //TODO
             case 31:
-                //TODO
+
+                View sliderView = getLayoutInflater().inflate(R.layout.slider,parent,false);
+                sliderView.setId(view.getViewCode());
+                sliderView.findViewById(R.id.slider_images_tab).setVisibility(View.GONE);
+
+                View view31 = getLayoutInflater().inflate(R.layout.view_bounding,parent,false);
+                view31.setId(view.getViewCode());
+                parent.addView(view31,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
+                RelativeLayout.LayoutParams sliderParams = (RelativeLayout.LayoutParams) view31.getLayoutParams();
+                sliderParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+                view31.setLayoutParams(sliderParams);
+
+                ((ViewGroup)view31.findViewById(R.id.view_loader)).addView(sliderView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
+
+                view31.findViewById(R.id.view_dragger).setOnTouchListener(this::onTouch);
+                view31.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
+
+                views.add(view31);
+
+                SliderAdapter sliderAdapter = new SliderAdapter(getActivity(),view.getData());
+                pl.pzienowicz.autoscrollviewpager.AutoScrollViewPager viewPager = sliderView.findViewById(R.id.slider_images_flipper);
+
+                viewPager.startAutoScroll();
+                viewPager.setInterval(3000);
+                viewPager.setCycle(true);
+                viewPager.setStopScrollWhenTouch(true);
+                viewPager.setAdapter(sliderAdapter);
+                break;
+
             case 32:
-                //TODO
-            case 41:
+
+                View sliderIndicatorView = getLayoutInflater().inflate(R.layout.slider,parent,false);
+                sliderIndicatorView.setId(view.getViewCode());
+
+                View view32 = getLayoutInflater().inflate(R.layout.view_bounding,parent,false);
+                view32.setId(view.getViewCode());
+                parent.addView(view32,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
+                RelativeLayout.LayoutParams sliderIndicatorParams = (RelativeLayout.LayoutParams) view32.getLayoutParams();
+                sliderIndicatorParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+                view32.setLayoutParams(sliderIndicatorParams);
+
+                ((ViewGroup)view32.findViewById(R.id.view_loader)).addView(sliderIndicatorView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
+
+                view32.findViewById(R.id.view_dragger).setOnTouchListener(this::onTouch);
+                view32.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
+
+                views.add(view32);
+
+                SliderAdapter sliderIndicatorAdapter = new SliderAdapter(getActivity(),view.getData());
+
+                pl.pzienowicz.autoscrollviewpager.AutoScrollViewPager viewIndicatorPager = sliderIndicatorView.findViewById(R.id.slider_images_flipper);
+
+                viewIndicatorPager.startAutoScroll();
+                viewIndicatorPager.setInterval(3000);
+                viewIndicatorPager.setCycle(true);
+                viewIndicatorPager.setStopScrollWhenTouch(true);
+
+                TabLayout sliderTabs = sliderIndicatorView.findViewById(R.id.slider_images_tab);
+                sliderTabs.setupWithViewPager(viewIndicatorPager);
+
+                viewIndicatorPager.setAdapter(sliderIndicatorAdapter);
+                break;
+
+                case 41:
                 View doubleProductView = getLayoutInflater().inflate(R.layout.double_product_view,parent,false);
                 doubleProductView.setId(view.getViewCode());
 
