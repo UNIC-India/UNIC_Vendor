@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.ShopAdapter;
+import com.unic.unic_vendor_final_1.commons.Helpers;
 import com.unic.unic_vendor_final_1.databinding.FragmentMyAppsBinding;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
@@ -64,6 +65,7 @@ public class MyAppsFragment extends Fragment implements View.OnClickListener{
         recyclerView.setAdapter(adapter);
 
         myAppsBinding.btnAddShop.setOnClickListener(this);
+        Helpers.buttonEffect(myAppsBinding.btnAddShop);
         return myAppsBinding.getRoot();
     }
 

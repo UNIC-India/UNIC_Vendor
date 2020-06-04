@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.ShopAdapter;
@@ -30,6 +32,7 @@ import java.util.List;
  */
 public class MyProducts extends Fragment {
     private UserShopsViewModel shopsViewModel;
+
 
     private ShopListAdapter adapter;
     FragmentMyProductsBinding myProductsBinding;
@@ -55,6 +58,24 @@ public class MyProducts extends Fragment {
         adapter = new ShopListAdapter(getContext(),from);
         shopsViewModel = new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
         adapter.setShops(shopsViewModel.getShops().getValue());
+
+        shopsViewModel.notificationStatus.observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if(integer==0) {
+                    myProductsBinding.loading.setVisibility(View.GONE);
+                    Toast.makeText(getActivity(), "Notification sent!", Toast.LENGTH_SHORT).show();
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .replace(R.id.home_fragment, new NotificationsFragment())
+                            .commit();
+                }
+                else if(integer==1)
+                    myProductsBinding.loading.setVisibility(View.VISIBLE);
+
+            }
+        });
         shopsViewModel.getShops().observe(getViewLifecycleOwner(), new Observer<List<Shop>>() {
             @Override
             public void onChanged(List<Shop> shops) {

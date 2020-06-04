@@ -20,8 +20,10 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.rpc.Help;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.TeamAdapter;
+import com.unic.unic_vendor_final_1.commons.Helpers;
 import com.unic.unic_vendor_final_1.databinding.FragmentTeamBinding;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 
@@ -54,6 +56,7 @@ public class TeamFragment extends Fragment implements View.OnClickListener {
         teamBinding=FragmentTeamBinding.inflate(getLayoutInflater(),container,false);
         userShopsViewModel=new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
         teamBinding.btnAddTeamMember.setOnClickListener(this);
+        Helpers.buttonEffect(teamBinding.btnAddTeamMember);
         teamAdapter=new TeamAdapter(getContext(),shopId);
         userShopsViewModel.getAllMembers(shopId).observe(getViewLifecycleOwner(), new Observer<List<Map<String, String>>>() {
             @Override

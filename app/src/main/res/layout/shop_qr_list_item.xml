@@ -39,17 +39,17 @@
 
         <Button
             android:id="@+id/btn_shop_generate_qr"
+            style="@style/StandardButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/StandardButton"
-            android:background="@drawable/std_button"
-            android:text="Generate QR"
-            app:layout_constraintTop_toBottomOf="@id/qr_shop_name"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="100dp"
+            android:background="@drawable/std_button"
             android:paddingStart="5dp"
-            android:paddingEnd="5dp"/>
+            android:paddingEnd="5dp"
+            android:text="Share Link"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/qr_shop_name" />
 
         <ImageButton
             android:id="@+id/ib_qr_dialog"

@@ -231,8 +231,8 @@ public class UserShopsViewModel extends ViewModel {
     }
 
     public void sendNotification(Notification notification){
-        notificationStatus.setValue(0);
-        firebaseRepository.db.collection("notifications").add(notification).addOnSuccessListener(documentReference -> notificationStatus.setValue(1));
+        notificationStatus.setValue(1);
+        firebaseRepository.db.collection("notifications").add(notification).addOnSuccessListener(documentReference -> notificationStatus.setValue(0));
 
     }
 

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.NotificationsAdapter;
+import com.unic.unic_vendor_final_1.commons.Helpers;
 import com.unic.unic_vendor_final_1.databinding.FragmentNotificationsBinding;
 import com.unic.unic_vendor_final_1.datamodels.Notification;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
@@ -29,9 +30,12 @@ public class NotificationsFragment extends Fragment {
     FragmentNotificationsBinding notificationsBinding;
     UserShopsViewModel userShopsViewModel;
     NotificationsAdapter notificationsAdapter;
+    int from;
     public NotificationsFragment() {
-        // Required empty public constructor
+
     }
+
+
 
 
     @Override
@@ -39,6 +43,7 @@ public class NotificationsFragment extends Fragment {
                              Bundle savedInstanceState) {
         notificationsBinding=FragmentNotificationsBinding.inflate(inflater,container,false);
         userShopsViewModel=new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
+
         userShopsViewModel.notificationStatus.setValue(2);
         notificationsAdapter=new NotificationsAdapter(getContext());
         userShopsViewModel.getNotifications().observe(getViewLifecycleOwner(), new Observer<List<Notification>>() {
@@ -73,12 +78,13 @@ public class NotificationsFragment extends Fragment {
                         .commit();
             }
         });
+        Helpers.buttonEffect(notificationsBinding.btnNotify);
         // Inflate the layout for this fragment
         return notificationsBinding.getRoot();
 
 
     }
 
-    public void sendNotification(){}
+
 
 }

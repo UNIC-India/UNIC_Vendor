@@ -61,26 +61,26 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etMessage">
 
         <Button
             android:id="@+id/btncancel"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginRight="8dp"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/roundbutton"
+            android:backgroundTint="@color/colorPrimary"
             android:text="CANCEL"
             android:textColor="#FFFFFF" />
 
         <Button
             android:id="@+id/btnsend"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="8dp"
-            android:background="@color/colorTertiary"
+            android:background="@drawable/roundbutton"
             android:text="Send"
             android:textColor="#FFFFFF" />
     </LinearLayout>
