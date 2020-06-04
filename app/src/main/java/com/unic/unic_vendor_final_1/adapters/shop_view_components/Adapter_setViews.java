@@ -18,11 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.tabs.TabLayout;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategoriesAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.ImageViewAdapters.DoubleImageAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListWithoutImagesAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.TripleProductAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.SliderViewAdapters.SliderAdapter;
+
+import java.util.List;
 
 public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.ViewHolder> {
 
@@ -68,6 +71,23 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         switch(code){
+
+            case 1:
+                if ((position==0)){
+                    DoubleImageAdapter doubleImageAdapter = new DoubleImageAdapter(1);
+                    LinearLayoutManager doubleImagesLayoutManager = new LinearLayoutManager(mContext,RecyclerView.HORIZONTAL,false);
+
+                    RecyclerView rv = new RecyclerView(mContext);
+                    ((ViewGroup)holder.rl).addView(rv,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+                    rv.setLayoutManager(doubleImagesLayoutManager);
+                    rv.setAdapter(doubleImageAdapter);
+                    rv.setNestedScrollingEnabled(false);
+                    holder.rdbtn.setChecked(position==lastchecked);
+                    holder.tvViewTitle.setText("Double Images");
+                }
+                break;
+
             case 2:
                 if(position==0){
                     CategoriesAdapter categoriesAdapter=new CategoriesAdapter(1);
@@ -203,6 +223,8 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
             return 1;
         else if(code==3)
             return 2;
+        else if(code==1)
+            return 1;
         return 0;
     }
 

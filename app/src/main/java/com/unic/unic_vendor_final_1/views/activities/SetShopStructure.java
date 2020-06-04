@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +24,6 @@ import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.commons.Helpers;
 import com.unic.unic_vendor_final_1.databinding.ActivitySetShopStructureBinding;
 import com.unic.unic_vendor_final_1.datamodels.Page;
-import com.unic.unic_vendor_final_1.datamodels.Product;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.datamodels.Structure;
 import com.unic.unic_vendor_final_1.commons.StructureTemplates;
@@ -125,7 +123,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 }
                 else if(currentFragment.getClass()== ProductSelector.class){
                     getSupportFragmentManager().popBackStack();
-
                 }
                 else if(currentFragment.getClass()== CategorySelector.class){
                     getSupportFragmentManager().popBackStack();
@@ -134,9 +131,11 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                     ((ViewSelector)currentFragment).onClick(v);
                 }
                 break;
+
             case R.id.confirm_shop_structure:
                 setStructureViewModel.saveShopStructure();
                 break;
+
             case R.id.btnRight:
                 if(currentFragment.getClass()==ShopPageFragment.class){
                     ((ShopPageFragment)currentFragment).onClick(v);
@@ -156,12 +155,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 }
                 break;
 
-
-                /*
-            case R.id.btn_add_products:
-                Toast.makeText(this, Integer.valueOf(((View)v.getParent()).getId()).toString(), Toast.LENGTH_SHORT).show();
-                break;
-                 */
         }
 
     }
@@ -188,13 +181,16 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     }
 
     public void setButtonsAndToolBar(Fragment currentFragment){
+
         if(currentFragment!=null){
+
             if(currentFragment.getClass()==NoProductsFragment.class){
                 if(shop!=null)
                     setShopStructureBinding.tvTitle.setText(shop.getName());
                 setShopStructureBinding.btnleft.setVisibility(View.GONE);
                 setShopStructureBinding.btnRight.setVisibility(View.GONE);
             }
+
             if(currentFragment.getClass()==ShopPageFragment.class){
                 if(shop!=null)
                     setShopStructureBinding.tvTitle.setText(shop.getName());
@@ -202,8 +198,8 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 setShopStructureBinding.btnRight.setText("Add View");
                 setShopStructureBinding.btnleft.setText("Add Page");
                 setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-
             }
+
             else if(currentFragment.getClass()== ViewSelector.class){
                 setShopStructureBinding.tvTitle.setText("Select a View");
                 setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
@@ -211,14 +207,15 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 setShopStructureBinding.btnleft.setText("Cancel");
                 setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
             }
+
             else if(currentFragment.getClass()== ProductSelector.class){
                 setShopStructureBinding.tvTitle.setText("Select Products");
                 setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
                 setShopStructureBinding.btnRight.setText("Confirm");
                 setShopStructureBinding.btnleft.setText("Cancel");
                 setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
-
             }
+
             else if(currentFragment.getClass()== CategorySelector.class){
                 setShopStructureBinding.tvTitle.setText("Select Categories");
                 setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
@@ -226,6 +223,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 setShopStructureBinding.btnleft.setText("Cancel");
                 setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
             }
+
             else if(currentFragment.getClass()==ImagePicker.class){
                 setShopStructureBinding.tvTitle.setText("Select Images");
                 setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
@@ -251,26 +249,16 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 break;
             case 1:
 
-                if(shop.getNoOfProducts()==0){
-                    setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
-                    getSupportFragmentManager().beginTransaction()
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                            .add(R.id.shop_pages_loader,new NoProductsFragment())
-                            .commit();
-                }
-
-                else {
-                    structure = StructureTemplates.getTemplate1(shopId);
-                    setStructureViewModel.getStructure().setValue(structure);
-                    updateMenu();
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                            .replace(R.id.shop_pages_loader, new ShopPageFragment(structure.getPage(1001)), structure.getPage(1001).getPageName())
-                            .commit();
-                    status = 3;
-                    updateStatus(status);
-                }
+                structure = StructureTemplates.getTemplate1(shopId);
+                setStructureViewModel.getStructure().setValue(structure);
+                updateMenu();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .replace(R.id.shop_pages_loader, new ShopPageFragment(structure.getPage(1001)), structure.getPage(1001).getPageName())
+                        .commit();
+                status = 3;
+                updateStatus(status);
                 break;
         }
     }
@@ -282,6 +270,18 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 setStructureViewModel.getShopData(shopId);
                 break;
             case 1:
+
+                if(shop.getNoOfProducts()==0){
+                    if(shop.getNoOfProducts()==0){
+                        setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
+                        getSupportFragmentManager().beginTransaction()
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .replace(R.id.shop_pages_loader,new NoProductsFragment())
+                                .commit();
+                        return;
+                    }
+                }
+
                 populateHeader();
                 setTemplate(option);
                 break;
@@ -446,19 +446,21 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     public void onBackPressed() {
         super.onBackPressed();
         Fragment fg=getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader);
-        fg.getClass();
-        if(fg.getClass()== ProductSelector.class||fg.getClass()==CategorySelector.class||fg.getClass()==ProductDescriptionFragment.class)
-            getSupportFragmentManager().popBackStack();
+        if(fg!=null) {
+            if (fg.getClass() == ProductSelector.class || fg.getClass() == CategorySelector.class || fg.getClass() == ProductDescriptionFragment.class||fg.getClass()==ImagePicker.class)
+                getSupportFragmentManager().popBackStack();
+        }
         else
-            returnToPage(1001);
+            if(shop.getNoOfProducts()>0&&structure!=null)
+                returnToPage(1001);
     }
 
-    @Override
+    /*@Override
     protected void onStop() {
         super.onStop();
-    }
+    }*/
 
-    @Override
+    /*@Override
     protected void onRestart() {
 
         super.onRestart();
@@ -473,9 +475,9 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 .commit();
 
 
-    }
+    }*/
 
-    @Override
+    /*@Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
 
         if(currentFragment.getClass()==ImagePicker.class){
@@ -487,9 +489,9 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         }
 
         super.onSaveInstanceState(outState);
-    }
+    }*/
 
-    @Override
+    /*@Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
 
         if(savedInstanceState.containsKey("fragment")&&savedInstanceState.getString("fragment").equals("Image Picker")){
@@ -502,7 +504,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         }
 
         super.onRestoreInstanceState(savedInstanceState);
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

@@ -132,8 +132,8 @@ public class FirebaseRepository {
         return mRef.child("shops").child(shopId).child("view images").child(Integer.valueOf(pageId).toString()+Integer.valueOf(viewCode).toString()+Integer.valueOf(position).toString()).getDownloadUrl();
     }
 
-    public Task<Void> deleteViewImages(String shopId, int pageId, int viewCode, int position){
-        return mRef.child("shops").child(shopId).child("view_images").child(Integer.valueOf(pageId).toString()+Integer.valueOf(viewCode).toString()+Integer.valueOf(position).toString()).delete();
+    public Task<Void> deleteViewImage(String imageUrl){
+        return mRef.getStorage().getReferenceFromUrl(imageUrl).delete();
     }
 
     public Task<Uri> getImageLink(String shopId) {

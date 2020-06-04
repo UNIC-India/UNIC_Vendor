@@ -86,13 +86,15 @@ public class ImagePicker extends Fragment implements View.OnClickListener{
 
         setStructureViewModel = new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
 
+        setStructureViewModel.getCurrentImageUpload().setValue(-1);
+
         setStructureViewModel.setCurrentFrag(this);
 
         setStructureViewModel.getCurrentImageUpload().observe(getViewLifecycleOwner(),integer -> currentUpload = integer);
 
         setStructureViewModel.getIsImagePickerUploading().observe(getViewLifecycleOwner(),aBoolean -> {
             uploading = aBoolean;
-            if(!uploading) {
+            if(!uploading&&data.size()!=0&&currentUpload!=-1) {
 
                 if(currentUpload==data.size()) {
 
@@ -179,7 +181,10 @@ public class ImagePicker extends Fragment implements View.OnClickListener{
 
         imagePickerBinding.imagePickProgressBar.setVisibility(View.VISIBLE);
 
-        uploadImageToFirebase(0);
+        if(data.size()>0)
+            uploadImageToFirebase(0);
+        else
+            Toast.makeText(getContext(), "Please select at least one image", Toast.LENGTH_SHORT).show();
     }
 
     void uploadImageToFirebase(int position){

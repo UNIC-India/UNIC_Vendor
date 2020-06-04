@@ -235,6 +235,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 viewPager.setCycle(true);
                 viewPager.setStopScrollWhenTouch(true);
                 viewPager.setAdapter(sliderAdapter);
+                viewPager.setOffscreenPageLimit(3);
                 break;
 
             case 32:
@@ -264,6 +265,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 viewIndicatorPager.setInterval(3000);
                 viewIndicatorPager.setCycle(true);
                 viewIndicatorPager.setStopScrollWhenTouch(true);
+                viewIndicatorPager.setOffscreenPageLimit(3);
 
                 TabLayout sliderTabs = sliderIndicatorView.findViewById(R.id.slider_images_tab);
                 sliderTabs.setupWithViewPager(viewIndicatorPager);
