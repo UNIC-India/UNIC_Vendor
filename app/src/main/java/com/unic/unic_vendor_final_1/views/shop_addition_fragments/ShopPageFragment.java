@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -202,7 +203,29 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
 
 
             case 22:
-                //TODO
+                View categoriesView2=getLayoutInflater().inflate(R.layout.categories_view,parent,false);
+                categoriesView2.setId(view.getViewCode());
+
+                View view22 = getLayoutInflater().inflate(R.layout.view_bounding,parent,false);
+                view22.setId(view.getViewCode());
+                parent.addView(view22,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
+                RelativeLayout.LayoutParams categoriesViewParams2 = (RelativeLayout.LayoutParams) view22.getLayoutParams();
+                categoriesViewParams2.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+                view22.setLayoutParams(categoriesViewParams2);
+
+                ((ViewGroup)view22.findViewById(R.id.view_loader)).addView(categoriesView2,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
+                view22.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
+                view22.findViewById(R.id.view_dragger).setOnTouchListener(this::onTouch);
+
+                views.add(view22);
+
+                CategoriesAdapter categoriesAdapter2=new CategoriesAdapter(getContext());
+                categoriesAdapter2.setCategories(view.getData());
+                RecyclerView.LayoutManager categoriesLayoutManager2=new GridLayoutManager(getContext(),3);
+                RecyclerView categoriesRecyclerView2=categoriesView2.findViewById(R.id.categories_recycler_view);
+                categoriesRecyclerView2.setLayoutManager(categoriesLayoutManager2);
+                categoriesRecyclerView2.setAdapter(categoriesAdapter2);
+                break;
             case 23:
                 //TODO
             case 24:

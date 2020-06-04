@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -102,6 +103,21 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
                     rv.setNestedScrollingEnabled(false);
                     holder.rdbtn.setChecked(position==lastchecked);
                     holder.tvViewTitle.setText("Simple Categories Display");
+                }
+                else if(position==1){
+                    CategoriesAdapter categoriesAdapter=new CategoriesAdapter(1);
+                    RecyclerView.LayoutManager mLayoutManager= new GridLayoutManager(mContext,3);
+
+
+                    RecyclerView rv = new RecyclerView(mContext);
+
+                    ((ViewGroup)holder.rl).addView(rv,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+                    rv.setLayoutManager(mLayoutManager);
+                    rv.setAdapter(categoriesAdapter);
+                    rv.setNestedScrollingEnabled(false);
+                    holder.rdbtn.setChecked(position==lastchecked);
+                    holder.tvViewTitle.setText("Triple Categories Display");
                 }
                 break;
 
@@ -220,7 +236,7 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
         if(code==4)
             return 4;
         else if(code==2)
-            return 1;
+            return 2;
         else if(code==3)
             return 2;
         else if(code==1)

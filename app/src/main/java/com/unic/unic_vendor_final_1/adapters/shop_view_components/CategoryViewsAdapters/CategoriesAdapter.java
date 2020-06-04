@@ -56,7 +56,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<com.unic.unic_vendor
             holder.tvCategory.setText((categories.get(position).get("cname")!=null?categories.get(position).get("cname").toString():categories.get(position).get("compname").toString()));
         }
         else{
-            holder.tvCategory.setText("Cat1"+position);
+            holder.tvCategory.setText("Category"+position);
 
         }
 
@@ -68,7 +68,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<com.unic.unic_vendor
         if(demo==0)
             return categories.size();
         else
-            return 6;
+            return 9;
     }
 
     public void setProducts(List<Map<String,Object>> products){
