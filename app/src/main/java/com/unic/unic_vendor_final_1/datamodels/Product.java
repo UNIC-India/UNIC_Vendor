@@ -1,10 +1,24 @@
 package com.unic.unic_vendor_final_1.datamodels;
 
 public class Product {
-    private String category, company, name, id, imageId, tags, shopId, subcategory,firestoreId;
+    private String category, company, name, id, imageId, tags, shopId, subcategory,firestoreId,desc;
     private double price;
 
-    public Product() {
+    public Product(String  shopId) {
+
+        this.category = " ";
+        this.company = " ";
+        this.name= " ";
+        this.shopId = shopId;
+        this.price = 0.0;
+        this.id=" ";
+        this.firestoreId=" ";
+        this.imageId=" ";
+        this.tags=" ";
+        this.subcategory=" ";
+        this.desc = " ";
+
+
     }
 
     public Product(String name, double price) {
@@ -23,6 +37,7 @@ public class Product {
         this.imageId=" ";
         this.tags=" ";
         this.subcategory=" ";
+        this.desc = " ";
     }
 
     public String getShopId() {
@@ -103,5 +118,13 @@ public class Product {
 
     public double getPrice() {
         return price;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }

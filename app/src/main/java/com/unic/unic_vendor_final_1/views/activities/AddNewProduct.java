@@ -13,17 +13,20 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.ActivityAddNewProductBinding;
 import com.unic.unic_vendor_final_1.datamodels.Product;
 import com.unic.unic_vendor_final_1.viewmodels.AddNewProductViewModel;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 
 import static com.unic.unic_vendor_final_1.commons.Helpers.buttonEffect;
@@ -38,12 +41,11 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
     private View coverView;
 
     private static final int GALLERY_INTENT = 1001;
+    private static final int CROP_IMAGE = 1002;
 
-    private Bitmap imageBitmap;
-    private AlertDialog dialog;
+    private Uri imageUri;
 
     private boolean userWantsImage = true;
-    private boolean imageSelectSuccessful = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,28 +57,51 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         shopId = getIntent().getStringExtra("shopId");
         Toast.makeText(AddNewProduct.this, shopId, Toast.LENGTH_SHORT).show();
         assert shopId != null;
-        addNewProductBinding.btnAddShopImage.setOnClickListener(this);
-        addNewProductBinding.addShopStep3.setOnClickListener(this);
-        buttonEffect(addNewProductBinding.addShopStep3);
+        addNewProductBinding.btnAddProductImage.setOnClickListener(this);
+        addNewProductBinding.btnConfirmProductAddition.setOnClickListener(this);
         addNewProductViewModel.setShopId(shopId);
 
 
-        addNewProductViewModel.getProductStatus().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                statusUpdate(integer);
-            }
-        });
-        addNewProductViewModel.getProduct().observe(this, new Observer<Product>() {
-            @Override
-            public void onChanged(Product product) {
-                updateProduct(product);
-            }
-        });
+        addNewProductViewModel.getProductStatus().observe(this, this::statusUpdate);
+        addNewProductViewModel.getProduct().observe(this,this::setProduct);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
+    public void onClick(View v) {
+
+        if(v.getId()==addNewProductBinding.btnAddProductImage.getId()){
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("image/*");
+            startActivityForResult(intent,GALLERY_INTENT);
+        }
+
+        else if(v.getId()==addNewProductBinding.btnConfirmProductAddition.getId()){
+            if(userWantsImage&&imageUri==null){
+                AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                        .setMessage("No product image selected. Do you want to select one?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            userWantsImage = true;
+                            Intent intent = new Intent(Intent.ACTION_PICK);
+                            intent.setType("image/*");
+                            startActivityForResult(intent,GALLERY_INTENT);
+                        })
+                        .setNegativeButton("No", (dialog, which) -> {
+                            userWantsImage = false;
+                            saveProduct();
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+
+            else {
+                saveProduct();
+            }
+
+        }
+
+    }
+
+    /*@Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.add_shop_step_3:
@@ -131,49 +156,103 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
                 startActivityForResult(intent,GALLERY_INTENT);
                 break;
         }
-    }
+    }*/
 
     private void statusUpdate(int i){
         switch(i){
-            case 1:
-                Toast.makeText(this, "Shop saved", Toast.LENGTH_SHORT).show();
-                addNewProductViewModel.setProductId();
-                break;
 
             case 2:
-                if(!userWantsImage){
-                    Intent intent = new Intent(this, UserHome.class);
-                    Toast.makeText(AddNewProduct.this, "Product Added", Toast.LENGTH_SHORT).show();
-                    startActivity(intent);
+                if(imageUri!=null){
+
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+
+                        bitmap = getResizedBitmap(bitmap, 300);
+
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+                        byte[] stream = baos.toByteArray();
+
+                        addNewProductViewModel.uploadImage(stream);
+                    }
+                    catch (IOException e){
+                        e.printStackTrace();
+                    }
                 }
-                else{
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    imageBitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
-                    byte[] data = baos.toByteArray();
-                    addNewProductViewModel.uploadImage(data);
-                }
-                break;
-            case 3:
-                addNewProductViewModel.setProductImageLink();
+                else
+                    finish();
                 break;
 
             case 4:
                 enableDisableViewGroup((ViewGroup)addNewProductBinding.getRoot(),true);
                 ((ViewGroup)addNewProductBinding.getRoot()).removeView(coverView);
                 addNewProductBinding.addShopProgressBar.setVisibility(View.GONE);
-                Intent intent = new Intent(this, UserHome.class);
-                Toast.makeText(AddNewProduct.this, "Product Added", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
+                finish();
                 break;
 
-            case -4:
+            case -1:
                 enableDisableViewGroup((ViewGroup)addNewProductBinding.getRoot(),true);
                 ((ViewGroup)addNewProductBinding.getRoot()).removeView(coverView);
                 addNewProductBinding.addShopProgressBar.setVisibility(View.GONE);
         }
     }
 
-    private void updateProduct(Product product){
+    public void saveProduct(){
+
+        product = new Product(shopId);
+
+        boolean done = true;
+
+        if(addNewProductBinding.edtProductName.getText().length()==0){
+            addNewProductBinding.edtProductName.setError("This field is mandatory");
+            done = false;
+        }
+        else
+            product.setName(addNewProductBinding.edtProductName.getText().toString());
+
+        if(addNewProductBinding.edtProductCompany.getText().length()==0){
+            addNewProductBinding.edtProductCompany.setError("This field is mandatory");
+            done = false;
+        }
+        else
+            product.setCompany(addNewProductBinding.edtProductCompany.getText().toString());
+
+        if(addNewProductBinding.edtProductCategory.getText().length()==0){
+            addNewProductBinding.edtProductCategory.setError("This field is mandatory");
+            done = false;
+        }
+        else
+            product.setCategory(addNewProductBinding.edtProductCategory.getText().toString());
+
+        if(addNewProductBinding.edtProductPrice.getText().length()==0){
+            addNewProductBinding.edtProductPrice.setError("This field is mandatory");
+            done = false;
+        }
+        else
+            product.setPrice(Double.parseDouble(addNewProductBinding.edtProductPrice.getText().toString()));
+
+        if(addNewProductBinding.edtProductTags.getText().length()!=0)
+            product.setTags(addNewProductBinding.edtProductTags.getText().toString());
+
+        if(addNewProductBinding.edtProductDesc.getText().length()!=0)
+            product.setDesc(addNewProductBinding.edtProductDesc.getText().toString());
+
+        if(done){
+            addNewProductViewModel.setProduct(product);
+            coverView = new View(this);
+            coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            coverView.setBackgroundResource(R.color.gray_1);
+            coverView.setAlpha(0.5f);
+            ((ViewGroup)addNewProductBinding.getRoot()).addView(coverView);
+            addNewProductBinding.addShopProgressBar.setVisibility(View.VISIBLE);
+            addNewProductBinding.addShopProgressBar.bringToFront();
+            addNewProductViewModel.saveProduct();
+        }
+
+    }
+
+    public void setProduct(Product product) {
         this.product = product;
     }
 
@@ -186,23 +265,47 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
             switch (requestCode){
                 case GALLERY_INTENT:
                     Uri uri = data.getData();
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                        addNewProductBinding.btnAddShopImage.setImageBitmap(bitmap);
-                        imageSelectSuccessful = true;
-                        imageBitmap = bitmap;
 
-                        // Log.d(TAG, String.valueOf(bitmap));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    cropImage(uri);
                     break;
 
+                case CROP_IMAGE:
+                    Glide
+                            .with(this)
+                            .load(imageUri)
+                            .into(addNewProductBinding.btnAddProductImage);
             }
 
         }
     }
 
+    private void cropImage(Uri uri){
+        Intent cropIntent = new Intent("com.android.camera.action.CROP");
+        cropIntent.setDataAndType(uri, "image/*");
+        cropIntent.putExtra("crop", "true");
+        cropIntent.putExtra("aspectX", 1);
+        cropIntent.putExtra("aspectY", 1);
+        cropIntent.putExtra("return-data", true);
+        File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "new-product-image" + ".jpg");
+        imageUri = Uri.fromFile(file);
+        cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        cropIntent.putExtra("output",imageUri);
+        startActivityForResult(cropIntent, CROP_IMAGE);
+    }
 
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float)width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true);
+    }
 
 }
