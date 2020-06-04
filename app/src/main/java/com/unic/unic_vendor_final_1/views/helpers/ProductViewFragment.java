@@ -136,6 +136,11 @@ public class ProductViewFragment extends Fragment implements AdapterView.OnItemS
         setStructureViewModel.getProducts().observe(getViewLifecycleOwner(), maps -> {
             productListAdapter.setProducts(maps);
             productListAdapter.notifyDataSetChanged();
+            if(maps==null||maps.size()==0){
+                productViewBinding.animNoData.setVisibility(View.VISIBLE);
+                productViewBinding.noData.setVisibility(View.VISIBLE);
+
+            }
         });
 
         setStructureViewModel.getSearchResults().observe(getViewLifecycleOwner(), maps -> {
@@ -143,6 +148,7 @@ public class ProductViewFragment extends Fragment implements AdapterView.OnItemS
                 productListAdapter.setProducts(maps);
                 productListAdapter.notifyDataSetChanged();
             }
+
         });
 
         productViewBinding.myProductsSwipe.setColorScheme(R.color.colorPrimary, R.color.colorSecondary, R.color.colorTertiary);

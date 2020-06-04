@@ -10,6 +10,34 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent">
+        <TextView
+            android:id="@+id/noData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textSize="16sp"
+            android:visibility="gone"
+            android:text="No Products added. Add products or contact 6354334006 or 9033892829 to import them directly from excel/spreadsheets."
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animNoData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/nodata"
+            app:layout_constraintTop_toBottomOf="@id/noData"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"
+            />
         <Button
             android:id="@+id/btn_add_product"
             android:layout_width="wrap_content"
