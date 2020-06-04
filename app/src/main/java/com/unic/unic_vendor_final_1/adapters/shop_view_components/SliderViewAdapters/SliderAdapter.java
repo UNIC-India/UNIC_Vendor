@@ -2,8 +2,10 @@ package com.unic.unic_vendor_final_1.adapters.shop_view_components.SliderViewAda
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,11 @@ import com.bumptech.glide.request.transition.Transition;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.commons.BlurBuilder;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -57,7 +64,51 @@ public class SliderAdapter extends PagerAdapter {
 
         else {
 
-            Glide.with(activity)
+            Glide
+                    .with(activity)
+                    .load(data.get(position).get("imageLink"))
+                    .into((ImageView)viewItem.findViewById(R.id.slider_foreground));
+
+            Glide
+                    .with(activity)
+                    .load(data.get(position).get("imageLink"))
+                    .into((ImageView)viewItem.findViewById(R.id.slider_background));
+
+            class BitmapDownloadTask extends AsyncTask<String,Void,Bitmap>{
+                @Override
+                protected Bitmap doInBackground(String... strings) {
+
+                    try{
+                        URL url = new URL(strings[0]);
+
+                        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+
+                        connection.setDoInput(true);
+                        connection.connect();
+                        InputStream input = connection.getInputStream();
+                        Bitmap myBitmap = BitmapFactory.decodeStream(input);
+
+                        return myBitmap;
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Bitmap bitmap) {
+                    Bitmap stretchedBitmap = BlurBuilder.blur(activity.getBaseContext(),bitmap);
+
+                    ((ImageView)viewItem.findViewById(R.id.slider_background)).setImageBitmap(stretchedBitmap);
+                }
+            }
+
+            new BitmapDownloadTask().execute(data.get(position).get("imageLink").toString());
+
+            /*Glide.with(activity)
                     .asBitmap()
                     .load(data.get(position).get("imageLink"))
                     .into(new CustomTarget<Bitmap>() {
@@ -74,7 +125,7 @@ public class SliderAdapter extends PagerAdapter {
                         @Override
                         public void onLoadCleared(@Nullable Drawable placeholder) {
                         }
-                    });
+                    });*/
         }
 
         container.addView(viewItem);
@@ -102,6 +153,4 @@ public class SliderAdapter extends PagerAdapter {
         // TODO Auto-generated method stub
         ((ViewPager) container).removeView((View) object);
     }
-
-
 }

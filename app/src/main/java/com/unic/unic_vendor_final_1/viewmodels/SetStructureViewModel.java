@@ -161,7 +161,20 @@ public class SetStructureViewModel extends ViewModel {
     public void deleteViewPics(int pageId,int viewCode){
         int nos = structure.getValue().getPage(pageId).getView(viewCode).getData().size();
         for(int i=0;i<nos;i++){
-            firebaseRepository.deleteViewImages(shop.getValue().getId(),pageId,viewCode,i);
+            firebaseRepository.deleteViewImage(structure.getValue().getPage(pageId).getView(viewCode).getData().get(i).get("imageLink").toString())
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            status.setValue(100);
+                        }
+                    })
+
+                    .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    e.printStackTrace();
+                }
+            });
         }
     }
 

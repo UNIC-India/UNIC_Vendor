@@ -14,12 +14,22 @@
         android:layout_height="200dp">
 
         <ImageView
-            android:id="@+id/double_image_view"
-            android:layout_width="match_parent"
+            android:id="@+id/double_image_view_background"
+            android:layout_width="175dp"
             android:layout_height="175dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="fitXY"/>
+
+        <ImageView
+            android:id="@+id/double_image_view"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="fitCenter"/>
         <TextView
             android:id="@+id/double_image_view_name"
             android:layout_width="match_parent"

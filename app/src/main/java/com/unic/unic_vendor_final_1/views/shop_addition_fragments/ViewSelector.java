@@ -73,12 +73,7 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
         switch (v.getId()){
             case R.id.btnRight:
 
-                if(code==0){
-                    viewAdder("12");
-                    return;
-                }
-
-                viewAdder((code+1)+""+(adapter_setViews.lastchecked+1));
+                viewAdder(Integer.valueOf((code+1)*10 + adapter_setViews.lastchecked+1).toString());
                 break;
             case R.id.btnleft:
                 getActivity().getSupportFragmentManager().popBackStack();
@@ -95,7 +90,7 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
                 view00.setHeight(650);
                 break;
 
-            case "12":
+            case "11":
                 com.unic.unic_vendor_final_1.datamodels.View view12 = new com.unic.unic_vendor_final_1.datamodels.View();
                 view12.setHeight(210);
                 view12.setFields("imageLink,tag");
