@@ -180,14 +180,14 @@ public class ProductViewFragment extends Fragment implements AdapterView.OnItemS
             }
         });
 
-        /*productViewBinding.btnAddProduct.setOnClickListener(new View.OnClickListener() {
+        productViewBinding.btnAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), AddNewProduct.class);
                 intent.putExtra("shopId", shopId);
                 getContext().startActivity(intent);
             }
-        });*/
+        });
 
         // Inflate the layout for this fragment
         return productViewBinding.getRoot();

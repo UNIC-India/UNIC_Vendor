@@ -13,17 +13,20 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.ActivityAddNewProductBinding;
 import com.unic.unic_vendor_final_1.datamodels.Product;
 import com.unic.unic_vendor_final_1.viewmodels.AddNewProductViewModel;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 
 import static com.unic.unic_vendor_final_1.commons.Helpers.buttonEffect;
@@ -38,9 +41,9 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
     private View coverView;
 
     private static final int GALLERY_INTENT = 1001;
+    private static final int CROP_IMAGE = 1002;
 
-    private Bitmap imageBitmap;
-    private AlertDialog dialog;
+    private Uri imageUri;
 
     private boolean userWantsImage = true;
     private boolean imageSelectSuccessful = false;
@@ -55,9 +58,8 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         shopId = getIntent().getStringExtra("shopId");
         Toast.makeText(AddNewProduct.this, shopId, Toast.LENGTH_SHORT).show();
         assert shopId != null;
-        addNewProductBinding.btnAddShopImage.setOnClickListener(this);
-        addNewProductBinding.addShopStep3.setOnClickListener(this);
-        buttonEffect(addNewProductBinding.addShopStep3);
+        addNewProductBinding.btnAddProductImage.setOnClickListener(this);
+        addNewProductBinding.btnConfirmProductAddition.setOnClickListener(this);
         addNewProductViewModel.setShopId(shopId);
 
 
@@ -75,8 +77,25 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
+    public void onClick(View v) {
+
+        if(v.getId()==addNewProductBinding.btnAddProductImage.getId()){
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("image/*");
+            startActivityForResult(intent,GALLERY_INTENT);
+        }
+
+        else if(v.getId()==addNewProductBinding.btnConfirmProductAddition.getId()){
+            if(userWantsImage){
+
+            }
+            
+        }
+
+    }
+
+    /*@Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.add_shop_step_3:
@@ -131,7 +150,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
                 startActivityForResult(intent,GALLERY_INTENT);
                 break;
         }
-    }
+    }*/
 
     private void statusUpdate(int i){
         switch(i){
@@ -142,9 +161,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
 
             case 2:
                 if(!userWantsImage){
-                    Intent intent = new Intent(this, UserHome.class);
-                    Toast.makeText(AddNewProduct.this, "Product Added", Toast.LENGTH_SHORT).show();
-                    startActivity(intent);
+                    finish();
                 }
                 else{
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -161,9 +178,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
                 enableDisableViewGroup((ViewGroup)addNewProductBinding.getRoot(),true);
                 ((ViewGroup)addNewProductBinding.getRoot()).removeView(coverView);
                 addNewProductBinding.addShopProgressBar.setVisibility(View.GONE);
-                Intent intent = new Intent(this, UserHome.class);
-                Toast.makeText(AddNewProduct.this, "Product Added", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
+                finish();
                 break;
 
             case -4:
@@ -186,23 +201,32 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
             switch (requestCode){
                 case GALLERY_INTENT:
                     Uri uri = data.getData();
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                        addNewProductBinding.btnAddShopImage.setImageBitmap(bitmap);
-                        imageSelectSuccessful = true;
-                        imageBitmap = bitmap;
 
-                        // Log.d(TAG, String.valueOf(bitmap));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    cropImage(uri);
                     break;
 
+                case CROP_IMAGE:
+                    Glide
+                            .with(this)
+                            .load(imageUri)
+                            .into(addNewProductBinding.btnAddProductImage);
             }
 
         }
     }
 
-
+    private void cropImage(Uri uri){
+        Intent cropIntent = new Intent("com.android.camera.action.CROP");
+        cropIntent.setDataAndType(uri, "image/*");
+        cropIntent.putExtra("crop", "true");
+        cropIntent.putExtra("aspectX", 1);
+        cropIntent.putExtra("aspectY", 1);
+        cropIntent.putExtra("return-data", true);
+        File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "new-product-image" + ".jpg");
+        imageUri = Uri.fromFile(file);
+        cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        cropIntent.putExtra("output",imageUri);
+        startActivityForResult(cropIntent, CROP_IMAGE);
+    }
 
 }

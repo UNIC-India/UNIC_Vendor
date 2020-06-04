@@ -96,9 +96,8 @@ public class DoubleImageAdapter extends RecyclerView.Adapter<DoubleImageAdapter.
                         connection.setDoInput(true);
                         connection.connect();
                         InputStream input = connection.getInputStream();
-                        Bitmap myBitmap = BitmapFactory.decodeStream(input);
 
-                        return myBitmap;
+                        return BitmapFactory.decodeStream(input);
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -110,6 +109,10 @@ public class DoubleImageAdapter extends RecyclerView.Adapter<DoubleImageAdapter.
 
                 @Override
                 protected void onPostExecute(Bitmap bitmap) {
+
+                    if(bitmap==null)
+                        return;
+
                     Bitmap stretchedBitmap = BlurBuilder.blur(mContext,bitmap);
 
                     holder.ivBackground.setImageBitmap(stretchedBitmap);

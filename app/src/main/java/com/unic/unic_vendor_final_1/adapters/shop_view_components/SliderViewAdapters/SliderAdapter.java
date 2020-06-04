@@ -100,6 +100,10 @@ public class SliderAdapter extends PagerAdapter {
 
                 @Override
                 protected void onPostExecute(Bitmap bitmap) {
+
+                    if(bitmap==null)
+                        return;
+
                     Bitmap stretchedBitmap = BlurBuilder.blur(activity.getBaseContext(),bitmap);
 
                     ((ImageView)viewItem.findViewById(R.id.slider_background)).setImageBitmap(stretchedBitmap);

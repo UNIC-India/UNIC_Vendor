@@ -96,16 +96,25 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
 
         if(status==2){
 
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
-                byte[] data = baos.toByteArray();
+            if(userWantsImage) {
 
-                addNewShopViewModel.uploadShopImage(data);
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
+                    byte[] data = baos.toByteArray();
+
+                    addNewShopViewModel.uploadShopImage(data);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            catch (IOException e){
-                e.printStackTrace();
+            else {
+                Intent intent = new Intent(this, SetShopStructure.class);
+                intent.putExtra("shopId",shop.getId());
+                intent.putExtra("template",Integer.valueOf(1));
+                startActivity(intent);
+                finish();
             }
         }
         else if (status==5){

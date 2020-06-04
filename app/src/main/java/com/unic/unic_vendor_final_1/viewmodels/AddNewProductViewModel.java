@@ -25,6 +25,7 @@ public class AddNewProductViewModel extends ViewModel {
 
                 product.getValue().setFirestoreId(documentReference.getId());
                 productStatus.setValue(1);
+                setProductId();
             }
         });
     }
