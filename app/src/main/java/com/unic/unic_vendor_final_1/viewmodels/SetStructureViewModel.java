@@ -204,8 +204,16 @@ public class SetStructureViewModel extends ViewModel {
                             categories.setValue(categoryData);
 
                         case "companies":
-                            List<String> companies = doc.get("namesArray")!=null?(List<String>)doc.get("namesArray"):new ArrayList<>();
-                            extras.put("companies",companies);
+                            List<String> companiesdata = doc.get("namesArray")!=null?(List<String>)doc.get("namesArray"):new ArrayList<>();
+                            extras.put("companies",companiesdata);
+                            List<Map<String,Object>> companydata = new ArrayList<>();
+
+                            for(String company: companiesdata){
+                                Map<String,Object> data = new HashMap<>();
+                                data.put("compname",company);
+                                companydata.add(data);
+                            }
+                            companies.setValue(companydata);
                     }
                 }
                 shopExtras.setValue(extras);
@@ -353,6 +361,14 @@ public class SetStructureViewModel extends ViewModel {
 
     public MutableLiveData<List<Map<String, Object>>> getCategories() {
         return categories;
+    }
+
+    public MutableLiveData<List<Map<String, Object>>> getCompanies() {
+        return companies;
+    }
+
+    public void setCompanies(MutableLiveData<List<Map<String, Object>>> companies) {
+        this.companies = companies;
     }
 
     public LiveData<List<Map<String, Object>>> getProducts() {

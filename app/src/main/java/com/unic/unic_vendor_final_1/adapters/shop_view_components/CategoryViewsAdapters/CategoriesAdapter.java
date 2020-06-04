@@ -53,8 +53,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<com.unic.unic_vendor
     @Override
     public void onBindViewHolder(@NonNull com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategoriesAdapter.ViewHolder holder, int position) {
         if(demo==0){
-            holder.tvCategory.setText(categories.get(position).get("cname").toString());
-
+            holder.tvCategory.setText((categories.get(position).get("cname")!=null?categories.get(position).get("cname").toString():categories.get(position).get("compname").toString()));
         }
         else{
             holder.tvCategory.setText("Cat1"+position);
