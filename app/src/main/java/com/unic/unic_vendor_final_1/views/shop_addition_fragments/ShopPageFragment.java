@@ -124,7 +124,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 FrameLayout frameLayout =new FrameLayout(getContext());
                 frameLayout.setId(view.getViewCode()*10+1);
                 FragmentManager fm=getActivity().getSupportFragmentManager();
-                fm.beginTransaction().replace(frameLayout.getId(),new MasterLayoutFragment(view)).commit();
+                fm.beginTransaction().replace(frameLayout.getId(),new MasterLayoutFragment(view,page.getPageId())).commit();
 
                 ViewGroup frame = new RelativeLayout(getContext());
                 frame.addView(frameLayout,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));

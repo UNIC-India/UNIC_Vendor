@@ -417,8 +417,18 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 .commit();
     }
 
+    public void updateMasterLayoutHeight(int pageId, int viewCode){
 
+        structure.getPage(pageId).setSize(structure.getPage(pageId).getSize()-650+structure.getPage(pageId).getView(viewCode).getHeight());
+        for (int i = viewCode%100;i<structure.getPage(pageId).getViews().size();i++){
+            structure.getPage(pageId).getViews().get(i).setyPos(structure.getPage(pageId).getViews().get(i-1).getyPos()+structure.getPage(pageId).getViews().get(i-1).getHeight());
+        }
 
+        setStructureViewModel.getStructure().setValue(structure);
+
+        returnToPage(pageId);
+
+    }
 
     public void addView(int pageId, com.unic.unic_vendor_final_1.datamodels.View view, int code){
 
