@@ -389,7 +389,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 views.remove(i);
                 break;
             }
-        if(viewCode/1000==1)
+        if(viewCode/1000==1||viewCode/1000==3)
             setStructureViewModel.deleteViewPics(page.getPageId(),viewCode);
 
         refreshViews();
