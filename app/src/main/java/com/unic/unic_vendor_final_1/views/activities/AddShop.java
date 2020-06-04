@@ -96,7 +96,7 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
 
         if(status==2){
 
-            if(userWantsImage) {
+            if(imageUri!=null) {
 
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
@@ -275,5 +275,15 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
 
     public void setShop(Shop shop) {
         this.shop = shop;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(addNewShopBinding.addShopPage1.getVisibility()==View.VISIBLE)
+            super.onBackPressed();
+        else {
+            addNewShopBinding.addShopPage1.setVisibility(View.VISIBLE);
+            addNewShopBinding.addShopPage2.setVisibility(View.GONE);
+        }
     }
 }

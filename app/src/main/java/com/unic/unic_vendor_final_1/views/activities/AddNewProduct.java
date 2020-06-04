@@ -46,7 +46,6 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
     private Uri imageUri;
 
     private boolean userWantsImage = true;
-    private boolean imageSelectSuccessful = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,18 +62,8 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         addNewProductViewModel.setShopId(shopId);
 
 
-        addNewProductViewModel.getProductStatus().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                statusUpdate(integer);
-            }
-        });
-        addNewProductViewModel.getProduct().observe(this, new Observer<Product>() {
-            @Override
-            public void onChanged(Product product) {
-                updateProduct(product);
-            }
-        });
+        addNewProductViewModel.getProductStatus().observe(this, this::statusUpdate);
+        addNewProductViewModel.getProduct().observe(this,this::setProduct);
     }
 
     @Override
@@ -87,10 +76,27 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         }
 
         else if(v.getId()==addNewProductBinding.btnConfirmProductAddition.getId()){
-            if(userWantsImage){
-
+            if(userWantsImage&&imageUri==null){
+                AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                        .setMessage("No product image selected. Do you want to select one?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            userWantsImage = true;
+                            Intent intent = new Intent(Intent.ACTION_PICK);
+                            intent.setType("image/*");
+                            startActivityForResult(intent,GALLERY_INTENT);
+                        })
+                        .setNegativeButton("No", (dialog, which) -> {
+                            userWantsImage = false;
+                            saveProduct();
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
-            
+
+            else {
+                saveProduct();
+            }
+
         }
 
     }
@@ -154,24 +160,28 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
 
     private void statusUpdate(int i){
         switch(i){
-            case 1:
-                Toast.makeText(this, "Shop saved", Toast.LENGTH_SHORT).show();
-                addNewProductViewModel.setProductId();
-                break;
 
             case 2:
-                if(!userWantsImage){
+                if(imageUri!=null){
+
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+
+                        bitmap = getResizedBitmap(bitmap, 300);
+
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+                        byte[] stream = baos.toByteArray();
+
+                        addNewProductViewModel.uploadImage(stream);
+                    }
+                    catch (IOException e){
+                        e.printStackTrace();
+                    }
+                }
+                else
                     finish();
-                }
-                else{
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    imageBitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
-                    byte[] data = baos.toByteArray();
-                    addNewProductViewModel.uploadImage(data);
-                }
-                break;
-            case 3:
-                addNewProductViewModel.setProductImageLink();
                 break;
 
             case 4:
@@ -181,14 +191,68 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
                 finish();
                 break;
 
-            case -4:
+            case -1:
                 enableDisableViewGroup((ViewGroup)addNewProductBinding.getRoot(),true);
                 ((ViewGroup)addNewProductBinding.getRoot()).removeView(coverView);
                 addNewProductBinding.addShopProgressBar.setVisibility(View.GONE);
         }
     }
 
-    private void updateProduct(Product product){
+    public void saveProduct(){
+
+        product = new Product(shopId);
+
+        boolean done = true;
+
+        if(addNewProductBinding.edtProductName.getText().length()==0){
+            addNewProductBinding.edtProductName.setError("This field is mandatory");
+            done = false;
+        }
+        else
+            product.setName(addNewProductBinding.edtProductName.getText().toString());
+
+        if(addNewProductBinding.edtProductCompany.getText().length()==0){
+            addNewProductBinding.edtProductCompany.setError("This field is mandatory");
+            done = false;
+        }
+        else
+            product.setCompany(addNewProductBinding.edtProductCompany.getText().toString());
+
+        if(addNewProductBinding.edtProductCategory.getText().length()==0){
+            addNewProductBinding.edtProductCategory.setError("This field is mandatory");
+            done = false;
+        }
+        else
+            product.setCategory(addNewProductBinding.edtProductCategory.getText().toString());
+
+        if(addNewProductBinding.edtProductPrice.getText().length()==0){
+            addNewProductBinding.edtProductPrice.setError("This field is mandatory");
+            done = false;
+        }
+        else
+            product.setPrice(Double.parseDouble(addNewProductBinding.edtProductPrice.getText().toString()));
+
+        if(addNewProductBinding.edtProductTags.getText().length()!=0)
+            product.setTags(addNewProductBinding.edtProductTags.getText().toString());
+
+        if(addNewProductBinding.edtProductDesc.getText().length()!=0)
+            product.setDesc(addNewProductBinding.edtProductDesc.getText().toString());
+
+        if(done){
+            addNewProductViewModel.setProduct(product);
+            coverView = new View(this);
+            coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            coverView.setBackgroundResource(R.color.gray_1);
+            coverView.setAlpha(0.5f);
+            ((ViewGroup)addNewProductBinding.getRoot()).addView(coverView);
+            addNewProductBinding.addShopProgressBar.setVisibility(View.VISIBLE);
+            addNewProductBinding.addShopProgressBar.bringToFront();
+            addNewProductViewModel.saveProduct();
+        }
+
+    }
+
+    public void setProduct(Product product) {
         this.product = product;
     }
 
@@ -227,6 +291,21 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         cropIntent.putExtra("output",imageUri);
         startActivityForResult(cropIntent, CROP_IMAGE);
+    }
+
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float)width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
 }
