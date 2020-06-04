@@ -108,24 +108,6 @@ public class SliderAdapter extends PagerAdapter {
 
             new BitmapDownloadTask().execute(data.get(position).get("imageLink").toString());
 
-            /*Glide.with(activity)
-                    .asBitmap()
-                    .load(data.get(position).get("imageLink"))
-                    .into(new CustomTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-
-                            ((ImageView)viewItem.findViewById(R.id.slider_foreground)).setImageBitmap(resource);
-
-                            Bitmap stretchedBitmap = BlurBuilder.blur(activity.getBaseContext(),resource);
-
-                            ((ImageView)viewItem.findViewById(R.id.slider_background)).setImageBitmap(stretchedBitmap);
-                        }
-
-                        @Override
-                        public void onLoadCleared(@Nullable Drawable placeholder) {
-                        }
-                    });*/
         }
 
         container.addView(viewItem);
