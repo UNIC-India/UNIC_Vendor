@@ -24,6 +24,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.ActivityUserHomeBinding;
+import com.unic.unic_vendor_final_1.datamodels.Notification;
 import com.unic.unic_vendor_final_1.datamodels.User;
 import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
@@ -216,6 +217,9 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         }
        /* */
 
+    }
+    public void sendNotification(String title, String shopId, String message){
+        userShopsViewModel.sendNotification(new Notification(title,shopId,message));
     }
 
 }

@@ -60,7 +60,7 @@ public class NotificationsAdapter  extends RecyclerView.Adapter<NotificationsAda
                 holder.tvShopName.setText(documentSnapshot.getData().get("name").toString());
             }
         });
-        holder.tvTime.setText(notifications.get(position).getTime().toString().substring(11,16)+" "+notifications.get(position).getTime().toString().substring(8,10)+" "+notifications.get(position).getTime().toString().substring(4,7)+notifications.get(position).getTime().toString().substring(29,34));
+        holder.tvTime.setText(notifications.get(position).getTime()==null?"Recently":notifications.get(position).getTime().toString().substring(11,16)+" "+notifications.get(position).getTime().toString().substring(8,10)+" "+notifications.get(position).getTime().toString().substring(4,7)+notifications.get(position).getTime().toString().substring(29,34));
         holder.tvTitle.setText(notifications.get(position).getTitle());
         holder.tvMessage.setText(notifications.get(position).getMessage());
 

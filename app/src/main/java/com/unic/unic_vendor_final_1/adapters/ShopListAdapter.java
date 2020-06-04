@@ -1,19 +1,34 @@
 package com.unic.unic_vendor_final_1.adapters;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.commons.Helpers;
+import com.unic.unic_vendor_final_1.databinding.FragmentWriteNoficationBinding;
+import com.unic.unic_vendor_final_1.datamodels.Notification;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
+import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
+import com.unic.unic_vendor_final_1.views.activities.UserHome;
 import com.unic.unic_vendor_final_1.views.helpers.ProductViewFragment;
+import com.unic.unic_vendor_final_1.views.nav_fragments.NotificationsFragment;
 import com.unic.unic_vendor_final_1.views.settings_fragments.LogoFragment;
 import com.unic.unic_vendor_final_1.views.settings_fragments.TeamFragment;
 import com.unic.unic_vendor_final_1.views.helpers.WriteNofication;
@@ -74,12 +89,35 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ViewHo
                 holder.tvShopName2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ((AppCompatActivity)context).getSupportFragmentManager()
-                                .beginTransaction()
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .replace(R.id.home_fragment,new WriteNofication(shops.get(position).getId(),shops.get(position).getName()))
-                                .addToBackStack(null)
-                                .commit();
+                        Dialog dialog=new Dialog(context);
+                        dialog.setContentView(R.layout.fragment_write_nofication);
+                        dialog.findViewById(R.id.loading).setVisibility(View.GONE);
+                        ((TextView)dialog.findViewById(R.id.tvShopName)).setText("Name: "+shops.get(position).getName());
+                        ((Button)dialog.findViewById(R.id.btncancel)).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                        ((Button)dialog.findViewById(R.id.btnsend)).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                String title=((EditText)dialog.findViewById(R.id.etTitle)).getText().toString();
+                                String message=((EditText)dialog.findViewById(R.id.etMessage)).getText().toString();
+                                ((Button)dialog.findViewById(R.id.btnsend)).setEnabled(false);
+                                ((UserHome)context).sendNotification(title,shops.get(position).getId(),message);
+                                dialog.dismiss();
+
+
+                            }
+                        });
+                        Helpers.buttonEffect((Button)dialog.findViewById(R.id.btnsend));
+                        Helpers.buttonEffect((Button)dialog.findViewById(R.id.btncancel));
+                        dialog.show();
+                        Window window= dialog.getWindow();
+                        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+
+
 
                     }
                 });

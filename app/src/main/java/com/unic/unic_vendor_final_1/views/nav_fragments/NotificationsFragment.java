@@ -30,9 +30,12 @@ public class NotificationsFragment extends Fragment {
     FragmentNotificationsBinding notificationsBinding;
     UserShopsViewModel userShopsViewModel;
     NotificationsAdapter notificationsAdapter;
+    int from;
     public NotificationsFragment() {
-        // Required empty public constructor
+
     }
+
+
 
 
     @Override
@@ -40,6 +43,7 @@ public class NotificationsFragment extends Fragment {
                              Bundle savedInstanceState) {
         notificationsBinding=FragmentNotificationsBinding.inflate(inflater,container,false);
         userShopsViewModel=new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
+
         userShopsViewModel.notificationStatus.setValue(2);
         notificationsAdapter=new NotificationsAdapter(getContext());
         userShopsViewModel.getNotifications().observe(getViewLifecycleOwner(), new Observer<List<Notification>>() {
@@ -81,6 +85,6 @@ public class NotificationsFragment extends Fragment {
 
     }
 
-    public void sendNotification(){}
+
 
 }
