@@ -460,8 +460,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             if (fg.getClass() == ProductSelector.class || fg.getClass() == CategorySelector.class || fg.getClass() == ProductDescriptionFragment.class||fg.getClass()==ImagePicker.class)
                 getSupportFragmentManager().popBackStack();
         }
-        else
-            if(shop.getNoOfProducts()>0&&structure!=null)
+        else if(shop.getNoOfProducts()>0&&structure!=null)
                 returnToPage(1001);
     }
 
