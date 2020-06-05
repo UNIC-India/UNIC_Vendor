@@ -447,6 +447,29 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         else if (code/10==1||code/10==3)
             selectImages(pageId,view,code);
         else if(code/10==0) {
+
+            int count = 0;
+            int height = 0;
+
+            switch (Integer.parseInt(view.getData().get(0).get("default").toString())){
+                case 0:
+                    height = 650;
+                    break;
+                case 1:
+                    count = setStructureViewModel.getShopExtras().getValue().get("categories").size();
+                    height = 45 + count*55;
+                    break;
+
+                case 2:
+                    count = setStructureViewModel.getShopExtras().getValue().get("companies").size();
+                    height = 45 + count*55;
+                    break;
+
+            }
+
+            height = Math.min(height, 650);
+            view.setHeight(height);
+
             structure.getPage(pageId).addNewView(view, code);
             setStructureViewModel.setStructure(structure);
             returnToPage(pageId);
