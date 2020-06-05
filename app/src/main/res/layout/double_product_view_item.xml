@@ -40,12 +40,36 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <ImageView
+                    android:id="@+id/no_image"
+                    android:layout_width="90dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent="0.6"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/no_image_triple_products" />
+
+                <TextView
+                    android:id="@+id/tv_no_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="N"
+                    android:textColor="#FFFFFF"
+                    android:textSize="36sp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/no_image"
+                    app:layout_constraintEnd_toEndOf="@+id/no_image"
+                    app:layout_constraintStart_toStartOf="@+id/no_image"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:id="@+id/double_product_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/montserrat_normal"
                     android:gravity="center"
@@ -53,24 +77,25 @@
                     android:textAllCaps="true"
                     android:textColor="#2D3748"
                     android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvCompany"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/double_product_view" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:id="@+id/double_product_price"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginBottom="4dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/montserrat_bold_normal"
                     android:gravity="center"
                     android:maxLines="1"
                     android:textColor="#2D3748"
                     android:textSize="12sp"
+                    app:layout_constraintBottom_toTopOf="@+id/double_product_cart"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvCompany" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:id="@+id/tvCompany"
@@ -78,16 +103,15 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:textSize="12sp"
+                    app:layout_constraintBottom_toTopOf="@+id/double_product_price"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/double_product_name" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <Button
                     android:id="@+id/double_product_cart"
                     android:layout_width="93dp"
                     android:layout_height="0dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="4dp"
                     android:layout_marginBottom="3dp"
                     android:background="@drawable/curved_corners"
                     android:backgroundTint="@color/green"
@@ -97,8 +121,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHeight_percent="0.1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/double_product_price" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:id="@+id/tvDiscount"
@@ -114,6 +137,16 @@
                     android:textSize="11sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvWithoutDiscount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toTopOf="@+id/double_product_name"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

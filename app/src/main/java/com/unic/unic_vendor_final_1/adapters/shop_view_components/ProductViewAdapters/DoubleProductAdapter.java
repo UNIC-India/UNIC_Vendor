@@ -1,6 +1,8 @@
 package com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,8 +38,8 @@ public class DoubleProductAdapter extends RecyclerView.Adapter<DoubleProductAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView tvProductName;
-        ImageView ivProductImage;
-        TextView tvProductPrice,tvCompany,tvDiscount;
+        ImageView ivProductImage,noImage;
+        TextView tvProductPrice,tvCompany,tvDiscount,tvWithoutDiscount,tv_no_image;
         Button addToCart;
 
         public ViewHolder(@NonNull View itemView){
@@ -48,6 +50,9 @@ public class DoubleProductAdapter extends RecyclerView.Adapter<DoubleProductAdap
             addToCart = itemView.findViewById(R.id.double_product_cart);
             tvCompany=itemView.findViewById(R.id.tvCompany);
             tvDiscount=itemView.findViewById(R.id.tvDiscount);
+            tvWithoutDiscount=itemView.findViewById(R.id.tvWithoutDiscount);
+            tv_no_image=itemView.findViewById(R.id.tv_no_image);
+            noImage=itemView.findViewById(R.id.no_image);
         }
     }
 
@@ -61,19 +66,62 @@ public class DoubleProductAdapter extends RecyclerView.Adapter<DoubleProductAdap
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if(demo==0){
+            if(products.get(position).get("discount")!=null){
+                holder.tvDiscount.setText(products.get(position).get("discount").toString()+"% OFF");
+                holder.tvDiscount.setVisibility(View.VISIBLE);
+                holder.tvWithoutDiscount.setText("Rs "+products.get(position).get("price").toString());
+                holder.tvWithoutDiscount.setPaintFlags(holder.tvWithoutDiscount.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+                holder.tvProductPrice.setText("Rs "+(Double.parseDouble(products.get(position).get("price").toString())*(100-Double.parseDouble(products.get(position).get("discount").toString()))/100)+"");
+            }
+            else{
+                holder.tvDiscount.setText("20% OFF");
+                holder.tvDiscount.setVisibility(View.VISIBLE);
+                holder.tvWithoutDiscount.setText("Rs "+products.get(position).get("price").toString());
+                holder.tvWithoutDiscount.setPaintFlags(holder.tvWithoutDiscount.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+                holder.tvProductPrice.setText("Rs "+(Double.parseDouble(products.get(position).get("price").toString())*(100-20)/100));
+
+            }
           holder.tvProductName.setText(products.get(position).get("name").toString());
           if(products.get(position).get("name").toString().length()>20) {
               holder.tvProductName.setTextSize(12);
               holder.tvProductName.setMaxLines(2);
               holder.ivProductImage.getLayoutParams().height=330;
           }
-          holder.tvProductPrice.setText("Rs "+products.get(position).get("price").toString());
           holder.tvCompany.setText(products.get(position).get("company").toString());
-          holder.tvDiscount.setText(products.get(position).get("discount")!=null?products.get(position).get("discount").toString()+" OFF":"20% OFF");
-          Glide
-                  .with(mContext)
-                  .load(products.get(position).get("imageId"))
-                  .into(holder.ivProductImage);
+          if(products.get(position).get("imageId").toString().length()>=3) {
+              holder.noImage.setVisibility(View.GONE);
+              holder.tv_no_image.setVisibility(View.GONE);
+              holder.ivProductImage.setVisibility(View.VISIBLE);
+              Glide
+                      .with(mContext)
+                      .load(products.get(position).get("imageId"))
+                      .into(holder.ivProductImage);
+          }
+          else{
+              int p=position;
+              holder.ivProductImage.setVisibility(View.GONE);
+              holder.noImage.setVisibility(View.VISIBLE);
+              holder.tv_no_image.setVisibility(View.VISIBLE);
+              holder.tv_no_image.setText(products.get(position).get("name").toString().substring(0,1).toUpperCase());
+              switch (p%3){
+                  case 0:
+                      holder.noImage.setImageTintList(ColorStateList.valueOf(mContext.getResources().getColor(R.color.colorTertiary)));
+                      holder.tv_no_image.setTextColor(mContext.getResources().getColor(R.color.white));
+
+                      break;
+                  case 1:
+                      holder.noImage.setImageTintList(ColorStateList.valueOf(mContext.getResources().getColor(R.color.colorSecondary)));
+                      holder.tv_no_image.setTextColor(mContext.getResources().getColor(R.color.black));
+                      break;
+
+                  case 2:
+                      holder.noImage.setImageTintList(ColorStateList.valueOf(mContext.getResources().getColor(R.color.colorPrimary)));
+                      holder.tv_no_image.setTextColor(mContext.getResources().getColor(R.color.white));
+
+                      break;
+              }
+          }
+
            holder.tvProductName.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
@@ -84,6 +132,26 @@ public class DoubleProductAdapter extends RecyclerView.Adapter<DoubleProductAdap
                            .commit();
                }
            });
+          holder.tv_no_image.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  ((AppCompatActivity)mContext).getSupportFragmentManager()
+                          .beginTransaction().replace(R.id.shop_pages_loader,new ProductDescriptionFragment(products.get(position)))
+                          .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                          .addToBackStack(null)
+                          .commit();
+              }
+          });
+          holder.noImage.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  ((AppCompatActivity)mContext).getSupportFragmentManager()
+                          .beginTransaction().replace(R.id.shop_pages_loader,new ProductDescriptionFragment(products.get(position)))
+                          .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                          .addToBackStack(null)
+                          .commit();
+              }
+          });
            holder.tvCompany.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
@@ -119,6 +187,11 @@ public class DoubleProductAdapter extends RecyclerView.Adapter<DoubleProductAdap
            holder.tvProductName.setText("Product Name"+position);
            holder.tvProductPrice.setText("Rs:2104");
            holder.ivProductImage.setImageResource(R.drawable.demo_product);
+           holder.tvCompany.setText("Company"+position);
+            holder.tvDiscount.setText("20% OFF");
+            holder.tvDiscount.setVisibility(View.VISIBLE);
+            holder.tvWithoutDiscount.setText("Rs: 2524.8");
+            holder.tvWithoutDiscount.setPaintFlags(holder.tvWithoutDiscount.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
        }
 
 
