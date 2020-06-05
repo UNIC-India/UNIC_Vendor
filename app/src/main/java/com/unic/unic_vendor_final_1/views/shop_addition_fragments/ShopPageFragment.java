@@ -443,7 +443,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_add_products:
-                ((SetShopStructure) Objects.requireNonNull(getActivity())).selectProducts(page.getPageId(),((View)v.getParent()).getId());
+                ((SetShopStructure) Objects.requireNonNull(getActivity())).selectProducts(page.getPageId(),page.getView(((View)v.getParent()).getId()), ((Integer) ((View) v.getParent()).getId())/100);
                 break;
             case R.id.btnRight:
                 dialog = new Dialog(getActivity());

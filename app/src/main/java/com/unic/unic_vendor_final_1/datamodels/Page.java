@@ -59,8 +59,6 @@ public class Page {
     public void addView(View view,int code){
         view.setyPos(size);
         view.setPos(views.size());
-        List<Map<String,Object>> data = new ArrayList<>();
-        view.setData(data);
         view.setViewCode(code*100+views.size()+1);
         views.add(view);
         updateHeight();

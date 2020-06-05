@@ -1,16 +1,13 @@
 package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -36,14 +33,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 
 
 public class ImagePicker extends Fragment implements View.OnClickListener{
 
-    private int pageId,viewCode;
+    private int pageId,code;
+
+    private com.unic.unic_vendor_final_1.datamodels.View view;
 
     private List<Map<String,Object>> data = new ArrayList<>();
 
@@ -65,9 +63,10 @@ public class ImagePicker extends Fragment implements View.OnClickListener{
         // Required empty public constructor
     }
 
-    public ImagePicker(int pageId,int viewCode){
+    public ImagePicker(int pageId, com.unic.unic_vendor_final_1.datamodels.View  view,int code){
         this.pageId = pageId;
-        this.viewCode = viewCode;
+        this.view = view;
+        this.code = code;
     }
 
     @Override
@@ -181,6 +180,8 @@ public class ImagePicker extends Fragment implements View.OnClickListener{
 
         imagePickerBinding.imagePickProgressBar.setVisibility(View.VISIBLE);
 
+        setStructureViewModel.getStructure().getValue().getPage(pageId).addView(view,code);
+
         if(data.size()>0)
             uploadImageToFirebase(0);
         else
@@ -206,7 +207,7 @@ public class ImagePicker extends Fragment implements View.OnClickListener{
             byte[] stream = baos.toByteArray();
 
             String tag = data.get(position).get("tag") != null ? data.get(position).get("tag").toString() : null;
-            setStructureViewModel.uploadViewImage(pageId, viewCode, position, tag, stream);
+            setStructureViewModel.uploadViewImage(pageId, view.getViewCode(), position, tag, stream);
         }
         catch (IOException e){
             e.printStackTrace();
