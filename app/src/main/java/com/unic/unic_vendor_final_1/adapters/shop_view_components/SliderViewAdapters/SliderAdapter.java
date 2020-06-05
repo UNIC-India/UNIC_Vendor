@@ -1,6 +1,7 @@
 package com.unic.unic_vendor_final_1.adapters.shop_view_components.SliderViewAdapters;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -21,6 +22,7 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.commons.BlurBuilder;
+import com.unic.unic_vendor_final_1.commons.BlurTransformation;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,20 +34,20 @@ import java.util.Map;
 
 public class SliderAdapter extends PagerAdapter {
 
-    private Activity activity;
+    private Context context;
     private List<Map<String,Object>> data;
     private int demo = 0;
 
     private int demoImages[] = {R.drawable.slider_1,R.drawable.slider_2,R.drawable.slider_3};
 
-    public SliderAdapter(Activity activity, List<Map<String,Object>> data){
-        this.activity = activity;
+    public SliderAdapter(Context context, List<Map<String,Object>> data){
+        this.context = context;
         this.data = data;
         this.demo = 0;
     }
 
-    public SliderAdapter(Activity activity, int demo){
-        this.activity = activity;
+    public SliderAdapter(Context context, int demo){
+        this.context = context;
         this.demo = demo;
     }
 
@@ -54,7 +56,7 @@ public class SliderAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
 
-        LayoutInflater inflater = ((Activity)activity).getLayoutInflater();
+        LayoutInflater inflater = ((Activity)context).getLayoutInflater();
 
         View viewItem = inflater.inflate(R.layout.slider_image_view_item,container,false);
 
@@ -65,53 +67,15 @@ public class SliderAdapter extends PagerAdapter {
         else {
 
             Glide
-                    .with(activity)
+                    .with(context)
                     .load(data.get(position).get("imageLink"))
                     .into((ImageView)viewItem.findViewById(R.id.slider_foreground));
 
             Glide
-                    .with(activity)
+                    .with(context)
                     .load(data.get(position).get("imageLink"))
+                    .transform(new BlurTransformation(context))
                     .into((ImageView)viewItem.findViewById(R.id.slider_background));
-
-            class BitmapDownloadTask extends AsyncTask<String,Void,Bitmap>{
-                @Override
-                protected Bitmap doInBackground(String... strings) {
-
-                    try{
-                        URL url = new URL(strings[0]);
-
-                        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-
-                        connection.setDoInput(true);
-                        connection.connect();
-                        InputStream input = connection.getInputStream();
-                        Bitmap myBitmap = BitmapFactory.decodeStream(input);
-
-                        return myBitmap;
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(Bitmap bitmap) {
-
-                    if(bitmap==null)
-                        return;
-
-                    Bitmap stretchedBitmap = BlurBuilder.blur(activity.getBaseContext(),bitmap);
-
-                    ((ImageView)viewItem.findViewById(R.id.slider_background)).setImageBitmap(stretchedBitmap);
-                }
-            }
-
-            new BitmapDownloadTask().execute(data.get(position).get("imageLink").toString());
-
         }
 
         container.addView(viewItem);

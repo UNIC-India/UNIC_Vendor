@@ -102,7 +102,7 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
                 defaultval.put("default",1);
                 view00.getData().add(defaultval);
                 Toast.makeText(getActivity(), "View Added!", Toast.LENGTH_SHORT).show();
-                ((SetShopStructure)getActivity()).addView(pageId,view00,00);
+                ((SetShopStructure)getActivity()).addView(pageId,view00,0);
                 break;
 
             case "11":
