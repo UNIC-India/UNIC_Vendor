@@ -100,7 +100,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
         setStructureViewModel.setCurrentFrag(getActivity().getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader));
         parent = shopPageBinding.shopViewParent;
         ViewGroup.LayoutParams parentLayoutParams = parent.getLayoutParams();
-        parentLayoutParams.height = (int)dpToPx(page.getSize());
+        parentLayoutParams.height = (int)dpToPx(page!=null?page.getSize():0);
         parent.setLayoutParams(parentLayoutParams);
         inflateViews(page);
         return shopPageBinding.getRoot();

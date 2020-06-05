@@ -3,21 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="231dp"
     android:clickable="true"
     android:orientation="vertical">
 
 
     <LinearLayout
         android:layout_width="152dp"
-        android:layout_height="210dp"
+        android:layout_height="231dp"
         android:layout_gravity="center"
         android:layout_marginStart="4dp"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
             android:layout_width="142dp"
-            android:layout_height="200dp"
+            android:layout_height="224dp"
             android:layout_gravity="center"
             android:layout_margin="5dp"
             app:cardBackgroundColor="@color/cardview_light_background"
@@ -26,7 +26,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="224dp"
                 android:layout_gravity="center"
                 android:orientation="vertical">
 
@@ -42,32 +42,42 @@
 
                 <TextView
                     android:id="@+id/double_product_name"
-                    android:layout_width="115.5dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
+                    android:ellipsize="end"
                     android:fontFamily="@font/montserrat_normal"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:textAllCaps="true"
                     android:textColor="#2D3748"
-                    android:textSize="16sp"
-                    android:maxLines="1"
-                    android:ellipsize="end"
+                    android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/double_product_view" />
 
                 <TextView
                     android:id="@+id/double_product_price"
-                    android:layout_width="115.5dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:ellipsize="end"
                     android:fontFamily="@font/montserrat_bold_normal"
                     android:gravity="center"
-                    android:textColor="#2D3748"
                     android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textSize="14sp"
+                    android:textColor="#2D3748"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvCompany" />
+
+                <TextView
+                    android:id="@+id/tvCompany"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/double_product_name" />
@@ -77,15 +87,33 @@
                     android:layout_width="93dp"
                     android:layout_height="0dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/green"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="3dp"
+                    android:background="@drawable/curved_corners"
+                    android:backgroundTint="@color/green"
                     android:text="ADD TO CART"
                     android:textColor="@color/white"
-                    android:textSize="12sp"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHeight_percent="0.1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/double_product_price" />
+
+                <TextView
+                    android:id="@+id/tvDiscount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/curved_corners"
+                    android:backgroundTint="@color/colorTertiary"
+                    android:gravity="center_horizontal"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="11sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

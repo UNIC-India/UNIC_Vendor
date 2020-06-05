@@ -37,7 +37,7 @@ public class DoubleProductAdapter extends RecyclerView.Adapter<DoubleProductAdap
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView tvProductName;
         ImageView ivProductImage;
-        TextView tvProductPrice;
+        TextView tvProductPrice,tvCompany,tvDiscount;
         Button addToCart;
 
         public ViewHolder(@NonNull View itemView){
@@ -46,6 +46,8 @@ public class DoubleProductAdapter extends RecyclerView.Adapter<DoubleProductAdap
             ivProductImage = itemView.findViewById(R.id.double_product_view);
             tvProductPrice = itemView.findViewById(R.id.double_product_price);
             addToCart = itemView.findViewById(R.id.double_product_cart);
+            tvCompany=itemView.findViewById(R.id.tvCompany);
+            tvDiscount=itemView.findViewById(R.id.tvDiscount);
         }
     }
 
@@ -60,12 +62,29 @@ public class DoubleProductAdapter extends RecyclerView.Adapter<DoubleProductAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if(demo==0){
           holder.tvProductName.setText(products.get(position).get("name").toString());
+          if(products.get(position).get("name").toString().length()>20) {
+              holder.tvProductName.setTextSize(12);
+              holder.tvProductName.setMaxLines(2);
+              holder.ivProductImage.getLayoutParams().height=330;
+          }
           holder.tvProductPrice.setText("Rs "+products.get(position).get("price").toString());
-           Glide
-                   .with(mContext)
-                   .load(products.get(position).get("imageId"))
-                   .into(holder.ivProductImage);
+          holder.tvCompany.setText(products.get(position).get("company").toString());
+          holder.tvDiscount.setText(products.get(position).get("discount")!=null?products.get(position).get("discount").toString()+" OFF":"20% OFF");
+          Glide
+                  .with(mContext)
+                  .load(products.get(position).get("imageId"))
+                  .into(holder.ivProductImage);
            holder.tvProductName.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   ((AppCompatActivity)mContext).getSupportFragmentManager()
+                           .beginTransaction().replace(R.id.shop_pages_loader,new ProductDescriptionFragment(products.get(position)))
+                           .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                           .addToBackStack(null)
+                           .commit();
+               }
+           });
+           holder.tvCompany.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
                    ((AppCompatActivity)mContext).getSupportFragmentManager()
