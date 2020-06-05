@@ -205,7 +205,7 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
             Structure structure = setStructureViewModel.getStructure().getValue();
             if(view.getViewCode()==0){
                 view.setData(data);
-                structure.getPage(pageId).addView(view,code);
+                structure.getPage(pageId).addNewView(view,code);
             }
             else
                 structure.updateProductList(pageId,view.getViewCode(),data);

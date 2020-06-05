@@ -420,7 +420,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
 
     private void refreshViews(){
 
-        ArrayList<com.unic.unic_vendor_final_1.datamodels.View> oldViews = page.getViews();
+        List<com.unic.unic_vendor_final_1.datamodels.View> oldViews = page.getViews();
         page.setViews(new ArrayList<>());
         page.setSize(0);
 
@@ -450,12 +450,9 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 dialog.setContentView(R.layout.popup_what_you_want_to_do);
                 dialog.setTitle("What Do You want to do?");
                 ListView whatToDo = (ListView) dialog.findViewById(R.id.listWhatDo);
-                whatToDo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        ((SetShopStructure)Objects.requireNonNull(getActivity())).selectView(page.getPageId(),position);
-                        dialog.dismiss();
-                    }
+                whatToDo.setOnItemClickListener((parent, view, position, id) -> {
+                    ((SetShopStructure)Objects.requireNonNull(getActivity())).selectView(page.getPageId(),position);
+                    dialog.dismiss();
                 });
                 dialog.show();
                 break;
@@ -465,19 +462,11 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
                         .setTitle("CONFIRM YOUR ACTIONS")
                         .setMessage("Are you sure you want to delete this view?" )
-                        .setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                deleteView(pId);
-                                dialog.dismiss();
-                            }
+                        .setPositiveButton("DELETE", (dialog, which) -> {
+                            deleteView(pId);
+                            dialog.dismiss();
                         })
-                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
+                        .setNegativeButton("CANCEL", (dialog, which) -> dialog.dismiss());
                 AlertDialog dialog = builder.create();
                 dialog.show();
                 break;

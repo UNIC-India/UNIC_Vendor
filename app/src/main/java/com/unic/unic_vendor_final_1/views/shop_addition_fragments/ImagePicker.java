@@ -180,7 +180,7 @@ public class ImagePicker extends Fragment implements View.OnClickListener{
 
         imagePickerBinding.imagePickProgressBar.setVisibility(View.VISIBLE);
 
-        setStructureViewModel.getStructure().getValue().getPage(pageId).addView(view,code);
+        setStructureViewModel.getStructure().getValue().getPage(pageId).addNewView(view,code);
 
         if(data.size()>0)
             uploadImageToFirebase(0);

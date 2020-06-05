@@ -142,7 +142,7 @@ public class CategorySelector extends Fragment implements  View.OnClickListener,
             }
             view.setData(prevData);
             if(isFirst){
-                structure.getPage(pageId).addView(view,code);
+                structure.getPage(pageId).addNewView(view,code);
             }
             else
                 structure.updateProductList(pageId,view.getViewCode(),prevData);
