@@ -3,6 +3,7 @@ package com.unic.unic_vendor_final_1.adapters;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,8 +41,8 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvShopName,tvShopName2,tvLocality,tvSubscribers,tvProducts;
-        ImageView ivShopPhoto;
+        TextView tvShopName,tvShopName2,tvLocality,tvSubscribers,tvProducts,tv_no_image;
+        ImageView ivShopPhoto,no_image;
         LinearLayout Edit;
         CardView cdShop;
         ImageButton ibDeleteShop;
@@ -59,6 +60,8 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
             tvSubscribers=itemView.findViewById(R.id.tvSubscribers);
             tvProducts=itemView.findViewById(R.id.tvProducts);
             cdShop=itemView.findViewById(R.id.cdshop);
+            no_image=itemView.findViewById(R.id.no_image);
+            tv_no_image=itemView.findViewById(R.id.tv_no_image);
         }
     }
 
@@ -89,10 +92,44 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
                 }
             });
 
-            Glide
-                    .with(context)
-                    .load(shops.get(position).getImageLink())
-                    .into(holder.ivShopPhoto);
+            if(shops.get(position).getImageLink().toString().length()>=3) {
+                holder.no_image.setVisibility(View.GONE);
+                holder.tv_no_image.setVisibility(View.GONE);
+                holder.ivShopPhoto.setVisibility(View.VISIBLE);
+                Glide
+                        .with(context)
+                        .load(shops.get(position).getImageLink())
+                        .into(holder.ivShopPhoto);
+            }
+            else{
+                int p=position;
+                Glide
+                        .with(context)
+                        .load(shops.get(position).getImageLink())
+                        .into(holder.ivShopPhoto);
+                holder.no_image.setVisibility(View.VISIBLE);
+                holder.tv_no_image.setVisibility(View.VISIBLE);
+                holder.tv_no_image.bringToFront();
+                int i=0;
+                holder.tv_no_image.setText(shops.get(position).getName().toString().substring(i,++i).toUpperCase());
+                switch (p%3){
+                    case 0:
+                        holder.no_image.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.colorTertiary)));
+                        holder.tv_no_image.setTextColor(context.getResources().getColor(R.color.white));
+
+                        break;
+                    case 1:
+                        holder.no_image.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.colorSecondary)));
+                        holder.tv_no_image.setTextColor(context.getResources().getColor(R.color.black));
+                        break;
+
+                    case 2:
+                        holder.no_image.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.colorPrimary)));
+                        holder.tv_no_image.setTextColor(context.getResources().getColor(R.color.white));
+
+                        break;
+                }
+            }
 
             holder.Edit.setOnClickListener(new View.OnClickListener() {
                 @Override

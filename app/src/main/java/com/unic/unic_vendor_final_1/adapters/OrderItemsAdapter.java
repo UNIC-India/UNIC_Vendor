@@ -31,7 +31,7 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
 
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView tvProductName,tvCompany,tvPrice, tvTotal,tvQty;
+        TextView tvProductName,tvCompany,tvPrice, tvTotal,tvQty, tvExtraInfo1,tvExtraInfo2;
         CardView cdProduct;
 
 
@@ -43,6 +43,8 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
             tvTotal=itemView.findViewById(R.id.tvTotal);
             tvQty=itemView.findViewById(R.id.tvQty);
             cdProduct=itemView.findViewById(R.id.cdProduct);
+            tvExtraInfo1=itemView.findViewById(R.id.tvExtraInfo1);
+            tvExtraInfo2=itemView.findViewById(R.id.tvExtraInfo2);
 
         }
     }
@@ -62,6 +64,9 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
         holder.tvPrice.setText("Rs "+products.get(position).get("price").toString());
         holder.tvTotal.setText(Double.parseDouble(products.get(position).get("price").toString())*qty.get(position)+"");
         holder.tvQty.setText(""+qty.get(position));
+        holder.tvExtraInfo1.setText(products.get(position).get("ExtraInfo1")!=null?products.get(position).get("ExtraInfo1").toString():"");
+        holder.tvExtraInfo2.setText(products.get(position).get("ExtraInfo2")!=null?products.get(position).get("ExtraInfo2").toString():"");
+
         holder.cdProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

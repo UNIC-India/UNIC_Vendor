@@ -34,7 +34,7 @@ public class MasterProductAdapter extends RecyclerView.Adapter<MasterProductAdap
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvProductName, tvCompany, tvPrice, tvCategory;
+        TextView tvProductName, tvCompany, tvPrice, tvCategory,tvExtrainfo1,tvExtrainfo2;
         ImageView ivProductPhoto;
         CardView cdProduct;
 
@@ -46,6 +46,8 @@ public class MasterProductAdapter extends RecyclerView.Adapter<MasterProductAdap
             tvPrice = itemView.findViewById(R.id.product_price);
             tvCategory = itemView.findViewById(R.id.tvCategory);
             cdProduct=itemView.findViewById(R.id.cdProduct);
+            tvExtrainfo1=itemView.findViewById(R.id.tvExtrainfo1);
+            tvExtrainfo2=itemView.findViewById(R.id.tvExtrainfo2);
 
 
         }
@@ -67,6 +69,10 @@ public class MasterProductAdapter extends RecyclerView.Adapter<MasterProductAdap
         holder.tvPrice.setText("Rs " + products.get(position).get("price").toString());
         holder.tvCompany.setText(products.get(position).get("category").toString());
         holder.tvCategory.setText(products.get(position).get("company").toString());
+        holder.tvExtrainfo1.setText(products.get(position).get("ExtraInfo1")!=null?products.get(position).get("ExtraInfo1").toString():"");
+        holder.tvExtrainfo2.setText(products.get(position).get("ExtraInfo2")!=null?products.get(position).get("ExtraInfo2").toString():"");
+
+
 
         if (((products.get(position).get("imageId").toString().length()) >= 2)) {
             holder.ivProductPhoto.setVisibility(View.VISIBLE);

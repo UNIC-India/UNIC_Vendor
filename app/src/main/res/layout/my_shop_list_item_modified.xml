@@ -23,6 +23,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/linearLayout4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
@@ -53,13 +54,26 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="0dp"
+                android:ellipsize="end"
                 android:hint="Shop Locality"
                 android:maxLines="1"
-                android:ellipsize="end"
                 android:textColor="@color/darkest"
                 android:textColorHint="@color/darkest"
                 android:textSize="15dp" />
+
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_no_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="N"
+            android:textColor="#FFFFFF"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toBottomOf="@+id/no_image"
+            app:layout_constraintEnd_toEndOf="@+id/no_image"
+            app:layout_constraintStart_toStartOf="@+id/no_image"
+            app:layout_constraintTop_toTopOf="@+id/no_image" />
 
         <ImageView
             android:id="@+id/shop_photo"
@@ -75,6 +89,24 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.38" />
+
+        <ImageView
+            android:id="@+id/no_image"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="15dp"
+            android:elevation="2dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
+            app:layout_constraintHeight_percent="0.84"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintWidth_percent="0.3"
+            app:srcCompat="@drawable/no_image_triple_products" />
 
         <TextView
             android:id="@+id/tvSubscribers"
