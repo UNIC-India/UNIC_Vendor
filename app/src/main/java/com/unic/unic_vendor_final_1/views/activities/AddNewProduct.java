@@ -101,63 +101,6 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
 
     }
 
-    /*@Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.add_shop_step_3:
-
-                if(imageBitmap==null){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                            .setMessage("No shop Image selected. Do you want to select one?")
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    userWantsImage = true;
-                                    Intent intent = new Intent(Intent.ACTION_PICK);
-                                    intent.setType("image/*");
-                                    startActivityForResult(intent,GALLERY_INTENT);
-                                }
-                            })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    userWantsImage = false;
-                                }
-                            });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }
-                if(userWantsImage) {
-
-                   if (addNewProductBinding.edtProductName.getText().toString().trim().length()==0 || (addNewProductBinding.edtProductCategory.getText().toString().trim().length()==0 && addNewProductBinding.edtProductCompany.getText().toString().trim().length()==0) || addNewProductBinding.edtProductPrice.getText().toString().trim().length()==0) {
-                        Toast.makeText(AddNewProduct.this, "Please enter all fields", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    coverView = new View(this);
-                    coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                    coverView.setBackgroundResource(R.color.gray_1);
-                    coverView.setAlpha(0.5f);
-                    ((ViewGroup)addNewProductBinding.getRoot()).addView(coverView);
-                    addNewProductBinding.addShopProgressBar.setVisibility(View.VISIBLE);
-                    addNewProductBinding.addShopProgressBar.bringToFront();
-                    enableDisableViewGroup((ViewGroup)addNewProductBinding.getRoot(),false);
-
-                    product = new Product(addNewProductBinding.edtProductCategory.getText().toString(), addNewProductBinding.edtProductCompany.getText().toString(),addNewProductBinding.edtProductName.getText().toString(),shopId,Double.parseDouble(addNewProductBinding.edtProductPrice.getText().toString()));
-
-                    addNewProductViewModel.setProduct(product);
-
-                    addNewProductViewModel.saveProduct();
-                }
-                break;
-            case R.id.btn_add_shop_image:
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
-                startActivityForResult(intent,GALLERY_INTENT);
-                break;
-        }
-    }*/
-
     private void statusUpdate(int i){
         switch(i){
 

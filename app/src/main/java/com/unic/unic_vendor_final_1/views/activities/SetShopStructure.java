@@ -447,6 +447,29 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         else if (code/10==1||code/10==3)
             selectImages(pageId,view,code);
         else if(code/10==0) {
+
+            int count = 0;
+            int height = 0;
+
+            switch (Integer.parseInt(view.getData().get(0).get("default").toString())){
+                case 0:
+                    height = 650;
+                    break;
+                case 1:
+                    count = setStructureViewModel.getShopExtras().getValue().get("categories").size();
+                    height = 45 + count*55;
+                    break;
+
+                case 2:
+                    count = setStructureViewModel.getShopExtras().getValue().get("companies").size();
+                    height = 45 + count*55;
+                    break;
+
+            }
+
+            height = Math.min(height, 650);
+            view.setHeight(height);
+
             structure.getPage(pageId).addNewView(view, code);
             setStructureViewModel.setStructure(structure);
             returnToPage(pageId);
@@ -479,57 +502,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         else if(shop.getNoOfProducts()>0&&structure!=null)
                 returnToPage(1001);
     }
-
-    /*@Override
-    protected void onStop() {
-        super.onStop();
-    }*/
-
-    /*@Override
-    protected void onRestart() {
-
-        super.onRestart();
-
-        if(currentPageId==0||currentViewCode==0)
-            return;
-
-        getSupportFragmentManager().beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .replace(R.id.shop_pages_loader,currentFragment)
-                .addToBackStack(null)
-                .commit();
-
-
-    }*/
-
-    /*@Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-
-        if(currentFragment.getClass()==ImagePicker.class){
-            outState.putString("fragment","Image Picker");
-            if(currentPageId!=0)
-                outState.putInt("pageId",currentPageId);
-            if(currentViewCode!=0)
-                outState.putInt("viewCode",currentViewCode);
-        }
-
-        super.onSaveInstanceState(outState);
-    }*/
-
-    /*@Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-
-        if(savedInstanceState.containsKey("fragment")&&savedInstanceState.getString("fragment").equals("Image Picker")){
-            getSupportFragmentManager().beginTransaction()
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .replace(R.id.shop_pages_loader,currentFragment)
-                    .addToBackStack(null)
-                    .commit();
-
-        }
-
-        super.onRestoreInstanceState(savedInstanceState);
-    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
