@@ -40,18 +40,20 @@ import java.util.Set;
 public class CategorySelector extends Fragment implements  View.OnClickListener, AdapterView.OnItemSelectedListener {
     private FragmentCategorySelectorBinding categorySelectorBinding;
     private SetStructureViewModel setStructureViewModel;
-    private int pageId;
-    private int viewCode;
+    private int pageId,code;
+    private com.unic.unic_vendor_final_1.datamodels.View view;
     private CategorySelectionAdapter categorySelectionAdapter, companySelectionAdapter;
     private List<Map<String,Object>> categories;
     private List<Map<String,Object>> prevData;
     int setter=0;
+    boolean isFirst = true;
     public CategorySelector() {
         // Required empty public constructor
     }
-    public CategorySelector(int pageId,int viewCode){
+    public CategorySelector(int pageId, com.unic.unic_vendor_final_1.datamodels.View view, int code){
         this.pageId=pageId;
-        this.viewCode=viewCode;
+        this.view = view;
+        this.code = code;
     }
 
 
@@ -60,7 +62,10 @@ public class CategorySelector extends Fragment implements  View.OnClickListener,
                              Bundle savedInstanceState) {
         categorySelectorBinding=FragmentCategorySelectorBinding.inflate(inflater,container,false);
         setStructureViewModel= new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
-        prevData = setStructureViewModel.getStructure().getValue().getPage(pageId).getView(viewCode).getData();
+
+
+        isFirst = view.getViewCode() == 0;
+        prevData = view.getData();
         setStructureViewModel.setCurrentFrag(getActivity().getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader));
 
         categorySelectionAdapter=new CategorySelectionAdapter(getContext());
@@ -133,9 +138,19 @@ public class CategorySelector extends Fragment implements  View.OnClickListener,
              prevData = categorySelectionAdapter.returnSelectedCategories();
             else {
                 prevData = companySelectionAdapter.returnSelectedCategories();
-                structure.getPage(pageId).getView(viewCode).setFields("compname");
+                view.setFields("compname");
             }
-            structure.updateProductList(pageId,viewCode,prevData);
+            view.setData(prevData);
+
+            if(code%10==2){
+                int height = 50*(prevData.size()%3==0?prevData.size()/3:1+prevData.size()/3);
+                view.setHeight(height);
+            }
+
+            if(isFirst)
+                structure.getPage(pageId).addNewView(view,code);
+            else
+                structure.updateProductList(pageId,view.getViewCode(),prevData);
             setStructureViewModel.setStructure(structure);
             ((SetShopStructure) Objects.requireNonNull(getActivity())).returnToPage(pageId);
         }

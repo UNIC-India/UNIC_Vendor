@@ -36,8 +36,8 @@ import java.util.Objects;
 
 public class ProductSelector extends Fragment implements View.OnClickListener,AdapterView.OnItemSelectedListener{
 
-    private int viewCode;
-    private int pageId;
+    private int pageId,code;
+    private com.unic.unic_vendor_final_1.datamodels.View view;
 
     private SetStructureViewModel setStructureViewModel;
     private FragmentProductSelectorBinding productSelectorBinding;
@@ -59,8 +59,9 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
 
     public ProductSelector(){}
 
-    public ProductSelector(int pageId,int viewCode){
-        this.viewCode = viewCode;
+    public ProductSelector(int pageId, com.unic.unic_vendor_final_1.datamodels.View view, int code){
+        this.view = view;
+        this.code = code;
         this.pageId = pageId;
 
     }
@@ -71,7 +72,7 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
 
         productSelectorBinding = FragmentProductSelectorBinding.inflate(inflater,container,false);
         setStructureViewModel = new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
-        data = setStructureViewModel.getStructure().getValue().getPage(pageId).getView(viewCode).getData();
+        data = view.getData();
         adapter = new ProductListAdapter(getContext(),1);
         adapter.setSelectedProducts(data);
 
@@ -202,7 +203,12 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
         if(v.getId()==R.id.btnRight){
             data = adapter.returnSelectedProducts();
             Structure structure = setStructureViewModel.getStructure().getValue();
-            structure.updateProductList(pageId,viewCode,data);
+            if(view.getViewCode()==0){
+                view.setData(data);
+                structure.getPage(pageId).addNewView(view,code);
+            }
+            else
+                structure.updateProductList(pageId,view.getViewCode(),data);
             setStructureViewModel.setStructure(structure);
             ((SetShopStructure) Objects.requireNonNull(getActivity())).returnToPage(pageId);
         }

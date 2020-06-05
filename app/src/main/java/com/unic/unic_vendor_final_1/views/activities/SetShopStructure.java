@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import android.app.AlertDialog;
@@ -378,17 +379,17 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         this.products = products;
     }
 
-    public void selectProducts(int pageId, int viewCode){
+    public void selectProducts(int pageId, com.unic.unic_vendor_final_1.datamodels.View view, int code){
         getSupportFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .replace(R.id.shop_pages_loader,new ProductSelector(pageId,viewCode))
+                .replace(R.id.shop_pages_loader,new ProductSelector(pageId,view,code))
                 .addToBackStack(null)
                 .commit();
     }
-    public void selectCategories(int pageId, int viewCode){
+    public void selectCategories(int pageId, com.unic.unic_vendor_final_1.datamodels.View view, int code){
         getSupportFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .replace(R.id.shop_pages_loader,new CategorySelector(pageId,viewCode))
+                .replace(R.id.shop_pages_loader,new CategorySelector(pageId,view,code))
                 .addToBackStack(null)
                 .commit();
     }
@@ -405,14 +406,14 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
     }
 
-    public void selectImages(int pageId,int code){
+    public void selectImages(int pageId, com.unic.unic_vendor_final_1.datamodels.View view, int code){
 
         currentViewCode = code;
         currentPageId = pageId;
 
         getSupportFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .replace(R.id.shop_pages_loader,new ImagePicker(pageId,code))
+                .replace(R.id.shop_pages_loader,new ImagePicker(pageId,view,code))
                 .addToBackStack(null)
                 .commit();
     }
@@ -432,18 +433,21 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
     public void addView(int pageId, com.unic.unic_vendor_final_1.datamodels.View view, int code){
 
-        structure.getPage(pageId).addView(view,code);
-        setStructureViewModel.setStructure(structure);
         if(code/10==4)
-        selectProducts(pageId,view.getViewCode());
+        selectProducts(pageId,view,code);
         else if(code/10==2)
-            selectCategories(pageId,view.getViewCode());
+            selectCategories(pageId,view,code);
         else if (code/10==1||code/10==3)
-            selectImages(pageId,view.getViewCode());
+            selectImages(pageId,view,code);
     }
 
     public void returnToPage(int pageId){
-        getSupportFragmentManager()
+
+        FragmentManager fm = getSupportFragmentManager();
+
+        fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+        fm
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.shop_pages_loader,new ShopPageFragment(structure.getPage(pageId)),structure.getPage(pageId).getPageName())
