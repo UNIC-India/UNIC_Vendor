@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.commons.BlurBuilder;
+import com.unic.unic_vendor_final_1.commons.BlurTransformation;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -82,44 +83,8 @@ public class DoubleImageAdapter extends RecyclerView.Adapter<DoubleImageAdapter.
             Glide
                     .with(mContext)
                     .load(data.get(position).get("imageLink").toString())
+                    .transform(new BlurTransformation(mContext))
                     .into(holder.ivBackground);
-
-            class BitmapDownloadTask extends AsyncTask<String,Void, Bitmap> {
-                @Override
-                protected Bitmap doInBackground(String... strings) {
-
-                    try{
-                        URL url = new URL(strings[0]);
-
-                        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-
-                        connection.setDoInput(true);
-                        connection.connect();
-                        InputStream input = connection.getInputStream();
-
-                        return BitmapFactory.decodeStream(input);
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(Bitmap bitmap) {
-
-                    if(bitmap==null)
-                        return;
-
-                    Bitmap stretchedBitmap = BlurBuilder.blur(mContext,bitmap);
-
-                    holder.ivBackground.setImageBitmap(stretchedBitmap);
-                }
-            }
-
-            new BitmapDownloadTask().execute(data.get(position).get("imageLink").toString());
         }
         else if (demo==1){
             holder.ivImage.setImageResource(R.drawable.prouctdemo2);

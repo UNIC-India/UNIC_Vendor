@@ -468,57 +468,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 returnToPage(1001);
     }
 
-    /*@Override
-    protected void onStop() {
-        super.onStop();
-    }*/
-
-    /*@Override
-    protected void onRestart() {
-
-        super.onRestart();
-
-        if(currentPageId==0||currentViewCode==0)
-            return;
-
-        getSupportFragmentManager().beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .replace(R.id.shop_pages_loader,currentFragment)
-                .addToBackStack(null)
-                .commit();
-
-
-    }*/
-
-    /*@Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-
-        if(currentFragment.getClass()==ImagePicker.class){
-            outState.putString("fragment","Image Picker");
-            if(currentPageId!=0)
-                outState.putInt("pageId",currentPageId);
-            if(currentViewCode!=0)
-                outState.putInt("viewCode",currentViewCode);
-        }
-
-        super.onSaveInstanceState(outState);
-    }*/
-
-    /*@Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-
-        if(savedInstanceState.containsKey("fragment")&&savedInstanceState.getString("fragment").equals("Image Picker")){
-            getSupportFragmentManager().beginTransaction()
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .replace(R.id.shop_pages_loader,currentFragment)
-                    .addToBackStack(null)
-                    .commit();
-
-        }
-
-        super.onRestoreInstanceState(savedInstanceState);
-    }*/
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
