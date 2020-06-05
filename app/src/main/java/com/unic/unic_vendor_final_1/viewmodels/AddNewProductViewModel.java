@@ -19,51 +19,58 @@ public class AddNewProductViewModel extends ViewModel {
     private String shopId;
 
     public void saveProduct(){
-        firebaseRepository.saveProduct(shopId,product.getValue()).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference documentReference) {
-
-                product.getValue().setFirestoreId(documentReference.getId());
-                productStatus.setValue(1);
-            }
-        });
+        firebaseRepository.saveProduct(shopId,product.getValue())
+                .addOnSuccessListener(documentReference -> {
+                    product.getValue().setFirestoreId(documentReference.getId());
+                    productStatus.setValue(1);
+                    setProductId();
+                })
+                .addOnFailureListener(e -> {
+                    productStatus.setValue(-1);
+                    e.printStackTrace();
+                });
     }
 
     public void setProductId(){
-        firebaseRepository.setProductId(shopId,product.getValue().getFirestoreId()).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                productStatus.setValue(2);
-            }
-        });
+        firebaseRepository.setProductId(shopId,product.getValue().getFirestoreId())
+                .addOnSuccessListener(aVoid -> productStatus.setValue(2))
+                .addOnFailureListener(e -> {
+                    productStatus.setValue(-1);
+                    e.printStackTrace();
+                });
     }
 
     public void uploadImage(byte[] data){
-        firebaseRepository.saveProductImage(shopId,product.getValue().getFirestoreId(),data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                productStatus.setValue(3);
-            }
-        });
+        firebaseRepository.saveProductImage(shopId,product.getValue().getFirestoreId(),data)
+                .addOnSuccessListener(taskSnapshot -> {
+                    productStatus.setValue(3);
+                    setProductImageLink();
+                })
+                .addOnFailureListener(e -> {
+                    productStatus.setValue(-1);
+                    e.printStackTrace();
+                });
     }
 
     public void setProductImageLink(){
-        firebaseRepository.getProductImageLink(shopId,product.getValue().getFirestoreId()).addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                product.getValue().setImageId(uri.toString());
-                setProductImageLinkonFirebase();
-            }
-        });
+        firebaseRepository.getProductImageLink(shopId,product.getValue().getFirestoreId())
+                .addOnSuccessListener(uri -> {
+                    product.getValue().setImageId(uri.toString());
+                    setProductImageLinkOnFirebase();
+                })
+                .addOnFailureListener(e -> {
+                    productStatus.setValue(-1);
+                    e.printStackTrace();
+                });
     }
 
-    public void setProductImageLinkonFirebase(){
-        firebaseRepository.setProductImage(shopId,product.getValue().getFirestoreId(),product.getValue().getImageId()).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                productStatus.setValue(4);
-            }
-        });
+    public void setProductImageLinkOnFirebase(){
+        firebaseRepository.setProductImage(shopId,product.getValue().getFirestoreId(),product.getValue().getImageId())
+                .addOnSuccessListener(aVoid -> productStatus.setValue(4))
+                .addOnFailureListener(e -> {
+                    productStatus.setValue(-1);
+                    e.printStackTrace();
+                });
     }
 
     public void setShopId(String shopId){

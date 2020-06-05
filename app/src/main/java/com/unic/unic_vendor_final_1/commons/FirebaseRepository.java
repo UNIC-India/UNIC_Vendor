@@ -121,7 +121,7 @@ public class FirebaseRepository {
     }
 
     public UploadTask saveProductImage(String shopId,String productId, byte[] data){
-        return mRef.child("shops").child(shopId).child("products").child(productId).child("productimage").putBytes(data);
+        return mRef.child("shops").child(shopId).child("products").child(productId).putBytes(data);
     }
 
     public UploadTask saveViewImage(String shopId, int pageId, int viewCode,int position, byte[] data){
@@ -141,15 +141,15 @@ public class FirebaseRepository {
     }
 
     public Task<Uri> getProductImageLink(String shopId,String productId){
-        return mRef.child("shops").child(shopId).child("products").child(productId).child("productimage").getDownloadUrl();
+        return mRef.child("shops").child(shopId).child("products").child(productId).getDownloadUrl();
     }
 
     public Task<Void> setShopImage(String shopId, String imageLink) {
         return db.collection("shops").document(shopId).update("imageLink", imageLink);
     }
 
-    public Task<Void> setProductImage(String shopId,String ProductId, String imageid){
-        return db.collection("shops").document(shopId).collection("products").document(ProductId).update("imageid",imageid);
+    public Task<Void> setProductImage(String shopId,String ProductId, String imageId){
+        return db.collection("shops").document(shopId).collection("products").document(ProductId).update("imageId",imageId);
     }
 
     public UploadTask saveShopLogo(String shopId, byte[] data) {

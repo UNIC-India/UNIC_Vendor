@@ -96,16 +96,25 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
 
         if(status==2){
 
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
-                byte[] data = baos.toByteArray();
+            if(imageUri!=null) {
 
-                addNewShopViewModel.uploadShopImage(data);
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
+                    byte[] data = baos.toByteArray();
+
+                    addNewShopViewModel.uploadShopImage(data);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            catch (IOException e){
-                e.printStackTrace();
+            else {
+                Intent intent = new Intent(this, SetShopStructure.class);
+                intent.putExtra("shopId",shop.getId());
+                intent.putExtra("template",Integer.valueOf(1));
+                startActivity(intent);
+                finish();
             }
         }
         else if (status==5){
@@ -266,5 +275,15 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
 
     public void setShop(Shop shop) {
         this.shop = shop;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(addNewShopBinding.addShopPage1.getVisibility()==View.VISIBLE)
+            super.onBackPressed();
+        else {
+            addNewShopBinding.addShopPage1.setVisibility(View.VISIBLE);
+            addNewShopBinding.addShopPage2.setVisibility(View.GONE);
+        }
     }
 }

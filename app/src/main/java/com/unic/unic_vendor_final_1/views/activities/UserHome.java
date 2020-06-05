@@ -190,7 +190,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         Fragment fg=getSupportFragmentManager().findFragmentById(R.id.home_fragment);
         if(fg.getClass()==HomeFragment.class){
             if(doubleBackToExitPressedOnce){
-                super.onBackPressed();
+                moveTaskToBack(true);
                 return;
             }
             this.doubleBackToExitPressedOnce = true;
