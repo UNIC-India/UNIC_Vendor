@@ -141,6 +141,7 @@ public class SetStructureViewModel extends ViewModel {
     }
 
     public void getViewImageLink(int pageId, int viewCode, int position,String tag){
+
         firebaseRepository.getViewImageLink(shop.getValue().getId(),pageId,viewCode,position)
                 .addOnSuccessListener(uri -> {
                     List<Map<String,Object>> data = structure.getValue().getPage(pageId).getView(viewCode).getData();
