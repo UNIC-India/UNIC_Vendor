@@ -141,9 +141,14 @@ public class CategorySelector extends Fragment implements  View.OnClickListener,
                 view.setFields("compname");
             }
             view.setData(prevData);
-            if(isFirst){
-                structure.getPage(pageId).addNewView(view,code);
+
+            if(code%10==2){
+                int height = 50*(prevData.size()%3==0?prevData.size()/3:1+prevData.size()/3);
+                view.setHeight(height);
             }
+
+            if(isFirst)
+                structure.getPage(pageId).addNewView(view,code);
             else
                 structure.updateProductList(pageId,view.getViewCode(),prevData);
             setStructureViewModel.setStructure(structure);
