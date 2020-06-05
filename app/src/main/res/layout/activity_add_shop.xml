@@ -28,29 +28,31 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone">
+
             <ImageButton
                 android:id="@+id/btn_add_shop_image"
-                android:layout_height="300dp"
                 android:layout_width="0dp"
+                android:layout_height="300dp"
+                android:layout_marginBottom="200dp"
+                android:src="@drawable/ic_baseline_photo_camera_150"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.7281"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHeight_percent="0.7281"
-                app:layout_constraintWidth_percent="0.7281"
-                android:layout_marginBottom="200dp"
-                android:src="@drawable/ic_baseline_photo_camera_150"/>
+                app:layout_constraintWidth_percent="0.7281" />
 
             <TextView
                 android:id="@+id/tv_add_shop_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/btn_add_shop_image"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="70dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="70dp"
+                android:text="Shop Name:"
+                android:textColor="#000000"
                 android:textSize="22sp"
-                android:text="Shop Name:"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_add_shop_image" />
 
             <EditText
                 android:id="@+id/et_add_shop_name"
@@ -66,15 +68,15 @@
                 style="@style/StandardButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="50dp"
                 android:layout_marginEnd="50dp"
+                android:layout_marginBottom="50dp"
                 android:background="@drawable/std_button"
+                android:drawableEnd="@drawable/ic_baseline_arrow_forward_24"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
                 android:text="Next Step"
-                android:drawableEnd="@drawable/ic_baseline_arrow_forward_24"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -87,45 +89,47 @@
                 android:id="@+id/address_view"
                 android:layout_width="300dp"
                 android:layout_height="200dp"
-                android:background="@color/light_gray"
-                android:alpha="0.2"
-                android:src="@drawable/ic_map"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="100dp"
-                android:clickable="true"/>
+                android:alpha="0.2"
+                android:background="@color/light_gray"
+                android:clickable="true"
+                android:src="@drawable/ic_map"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_select_address"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/address_view"
-                app:layout_constraintEnd_toEndOf="@id/address_view"
-                app:layout_constraintTop_toBottomOf="@id/address_view"
-                android:text="Select address"
-                android:textSize="20sp"
                 android:background="@drawable/black_border"
+                android:clickable="true"
                 android:gravity="center"
-                android:clickable="true"/>
+                android:text="Select address"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@id/address_view"
+                app:layout_constraintStart_toStartOf="@id/address_view"
+                app:layout_constraintTop_toBottomOf="@id/address_view" />
 
             <TextView
                 android:id="@+id/tv_add_shop_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/tv_select_address"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="30dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
+                android:text="Address:"
+                android:textColor="#000000"
                 android:textSize="22sp"
-                android:text="Address:"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_select_address" />
 
             <EditText
                 android:id="@+id/et_add_shop_address_line1"
-                android:layout_height="wrap_content"
                 android:layout_width="0dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tv_add_shop_address"
                 app:layout_constraintWidth_percent="0.582524" />
 
@@ -134,8 +138,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/et_add_shop_address_line1"
                 app:layout_constraintWidth_percent="0.582524" />
 
@@ -143,19 +147,20 @@
                 android:id="@+id/tv_shop_locality"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/et_add_shop_address_line2"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="20dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Locality:"
+                android:textColor="#000000"
                 android:textSize="22sp"
-                android:text="Locality:"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/et_add_shop_address_line2" />
 
             <EditText
                 android:id="@+id/et_shop_add_locality"
-                android:layout_height="wrap_content"
                 android:layout_width="0dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tv_shop_locality"
                 app:layout_constraintWidth_percent="0.582524" />
 
@@ -166,16 +171,17 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:text="City:"
+                android:textColor="#000000"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/et_shop_add_locality" />
 
             <EditText
                 android:id="@+id/et_shop_add_city"
-                android:layout_height="wrap_content"
                 android:layout_width="0dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tv_add_shop_city"
                 app:layout_constraintWidth_percent="0.582524" />
 
@@ -184,15 +190,15 @@
                 style="@style/StandardButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="50dp"
                 android:layout_marginEnd="50dp"
+                android:layout_marginBottom="50dp"
                 android:background="@drawable/std_button"
+                android:drawableEnd="@drawable/ic_baseline_arrow_forward_24"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
                 android:text="Next Step"
-                android:drawableEnd="@drawable/ic_baseline_arrow_forward_24"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
