@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -25,6 +26,7 @@ import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAda
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListWithoutImagesAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.TripleProductAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.SliderViewAdapters.SliderAdapter;
+import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 
 import java.util.List;
 
@@ -33,12 +35,12 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
     public int lastchecked=-1;
     int code=0;
     Context mContext;
-    Activity mActivity;
+
 
     public Adapter_setViews(Context mContext){
         this.mContext=mContext;
-        mActivity=(Activity)mContext;
     }
+
 
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -72,6 +74,8 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         switch(code){
+            case 0:
+                break;
 
             case 1:
                 if ((position==0)){

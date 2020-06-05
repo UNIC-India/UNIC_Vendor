@@ -138,6 +138,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 break;
 
             case R.id.btnRight:
+                if(currentFragment!=null){
                 if(currentFragment.getClass()==ShopPageFragment.class){
                     ((ShopPageFragment)currentFragment).onClick(v);
                 }
@@ -154,6 +155,10 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 else if(currentFragment.getClass()==ImagePicker.class){
                     ((ImagePicker)currentFragment).onClick(v);
                 }
+                }
+                else
+                    Toast.makeText(this, "Please wait!!!", Toast.LENGTH_SHORT).show();
+
                 break;
 
         }
@@ -396,7 +401,9 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     public void selectView(int pageId,int code){
 
         currentPageId = pageId;
+        if(code!=5)
         currentViewCode = code;
+        else code=-1;
 
         getSupportFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -439,6 +446,11 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             selectCategories(pageId,view,code);
         else if (code/10==1||code/10==3)
             selectImages(pageId,view,code);
+        else if(code/10==0) {
+            structure.getPage(pageId).addNewView(view, code);
+            setStructureViewModel.setStructure(structure);
+            returnToPage(pageId);
+        }
     }
 
     public void returnToPage(int pageId){

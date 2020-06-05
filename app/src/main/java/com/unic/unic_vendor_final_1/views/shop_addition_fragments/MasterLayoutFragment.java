@@ -122,7 +122,7 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
     @Override
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
 
-        if(position!=Integer.parseInt(view.getData().get(0).get("default").toString()) ){
+        if(position!=Integer.parseInt((view.getData().size()!=0)?view.getData().get(0).get("default").toString():"0") ){
             int count = 0;
             int height = 0;
 

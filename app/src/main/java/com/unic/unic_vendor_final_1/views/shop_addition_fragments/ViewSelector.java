@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.Adapter_setViews;
@@ -29,6 +30,8 @@ import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ShopPageFragment;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -62,17 +65,22 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
 
 
     void loadViews(int code){
-        adapter_setViews=new Adapter_setViews(getContext());
-        adapter_setViews.setCode(code+1);
-        viewSelectorBinding.rvDemo1.setAdapter(adapter_setViews);
-        viewSelectorBinding.rvDemo1.setLayoutManager(new LinearLayoutManager(getContext()));
+        if(code==-1){
+            viewAdder(Integer.valueOf((code+1)*10 + 0).toString());
+
+        }
+        else {
+            adapter_setViews = new Adapter_setViews(getContext());
+            adapter_setViews.setCode(code + 1);
+            viewSelectorBinding.rvDemo1.setAdapter(adapter_setViews);
+            viewSelectorBinding.rvDemo1.setLayoutManager(new LinearLayoutManager(getContext()));
+        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnRight:
-
                 viewAdder(Integer.valueOf((code+1)*10 + adapter_setViews.lastchecked+1).toString());
                 break;
             case R.id.btnleft:
@@ -86,8 +94,15 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
         switch (code){
 
             case "00":
+            case "0":
                 com.unic.unic_vendor_final_1.datamodels.View view00 = new com.unic.unic_vendor_final_1.datamodels.View();
                 view00.setHeight(650);
+
+                Map<String, Object> defaultval=new HashMap<>();
+                defaultval.put("default",1);
+                view00.getData().add(defaultval);
+                Toast.makeText(getActivity(), "View Added!", Toast.LENGTH_SHORT).show();
+                ((SetShopStructure)getActivity()).addView(pageId,view00,00);
                 break;
 
             case "11":

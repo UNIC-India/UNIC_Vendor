@@ -71,6 +71,7 @@
         <item>Show Advertisements</item>
         <item>Display Products</item>
         <item>Put Text</item>
+        <item>Default: All in One</item>
     </string-array>
     <string-array name="spinner_array">
         <item>All Products</item>
