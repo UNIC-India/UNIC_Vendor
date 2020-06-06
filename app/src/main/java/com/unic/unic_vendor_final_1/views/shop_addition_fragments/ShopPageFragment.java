@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -28,6 +30,7 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.unic.unic_vendor_final_1.R;
@@ -45,6 +48,7 @@ import com.unic.unic_vendor_final_1.views.activities.UserHome;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -363,37 +367,149 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
             case 51:
                 View Text_View=Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.text_view_item,parent,false);
                 Text_View.setId(view.getViewCode());
-                parent.addView(Text_View);
+
+                View view51 = getLayoutInflater().inflate(R.layout.view_bounding,parent,false);
+                view51.setId(view.getViewCode());
+                parent.addView(view51,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
+                RelativeLayout.LayoutParams Text_Viewparams = (RelativeLayout.LayoutParams) view51.getLayoutParams();
+                Text_Viewparams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+
+                ((ViewGroup)view51.findViewById(R.id.view_loader)).addView(Text_View,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
+                view51.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
+                view51.findViewById(R.id.view_dragger).setOnTouchListener(this::onTouch);
+
+
                 EditText etText=Text_View.findViewById(R.id.etText);
                 EditText etSize=Text_View.findViewById(R.id.etSize);
                 TextView tvBold=Text_View.findViewById(R.id.tvBold);
                 TextView tvItalics=Text_View.findViewById(R.id.tvItalic);
-                etText.setText(view.getData().get(0).get("text")==null?" ":view.getData().get(0).get("text").toString());
-                if(view.getData().get(0).containsKey("Bold")&&view.getData().get(0).get("Bold").toString().equals("True"))
-                    etText.setTypeface(null, Typeface.BOLD);
-                if(view.getData().get(0).containsKey("Italics")&&view.getData().get(0).get("Italics").toString().equals("True"))
-                    etText.setTypeface(null, Typeface.ITALIC);
-                if(view.getData().get(0).containsKey("Size"))
-                    etText.setTextSize(Integer.parseInt(view.getData().get(0).get("Size").toString()));
+                view.getData().add(new HashMap<>());
+                view.getData().get(0).put("size",18);
+
+                etText.setText(view.getData().get(0).get("text") == null ? " " : view.getData().get(0).get("text").toString());
+                if (view.getData().get(0).containsKey("bold") && view.getData().get(0).get("bold").toString().equals("True"))
+                    etText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+                if (view.getData().get(0).containsKey("italics") && view.getData().get(0).get("italics").toString().equals("True"))
+                    etText.setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
+                if(view.getData().get(0).containsKey("bold") && view.getData().get(0).get("bold").toString().equals("True")&&view.getData().get(0).containsKey("italics") && view.getData().get(0).get("italics").toString().equals("True"))
+                    etText.setTypeface(Typeface.DEFAULT, Typeface.BOLD_ITALIC);
+                if (view.getData().get(0).containsKey("size")) {
+                    etSize.setTextSize(Integer.parseInt(view.getData().get(0).get("size").toString()));
+                    etSize.setText(view.getData().get(0).get("size")+"");
+                }
+
                 tvBold.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(etText.getTypeface().getStyle()==Typeface.BOLD)
-                            etText.setTypeface(null,Typeface.NORMAL);
-                        else
-                            etText.setTypeface(null,Typeface.BOLD);
+                        if(etText!=null&&etText.getTypeface()!=null)
+                        switch (etText.getTypeface().getStyle()){
+                            case Typeface.ITALIC:
+                                etText.setTypeface(Typeface.DEFAULT,Typeface.BOLD_ITALIC);
+                                tvBold.setBackgroundColor(getActivity().getResources().getColor(R.color.gray_1));
+                                view.getData().get(0).put("bold",Boolean.TRUE);
+                                break;
+
+                            case Typeface.BOLD:
+                                etText.setTypeface(Typeface.DEFAULT,Typeface.NORMAL);
+                                tvBold.setBackgroundColor(getActivity().getResources().getColor(R.color.white));
+                                tvItalics.setBackground(getActivity().getDrawable(R.drawable.round_corner));
+                                view.getData().get(0).put("bold",Boolean.FALSE);
+                                break;
+                            case Typeface.NORMAL:
+                                etText.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
+                                tvBold.setBackgroundColor(getActivity().getResources().getColor(R.color.gray_1));
+                                view.getData().get(0).put("bold",Boolean.TRUE);
+                                break;
+                            case Typeface.BOLD_ITALIC:
+                                etText.setTypeface(Typeface.DEFAULT,Typeface.ITALIC);
+                                tvBold.setBackgroundColor(getActivity().getResources().getColor(R.color.white));
+                                tvItalics.setBackground(getActivity().getDrawable(R.drawable.round_corner));
+                                view.getData().get(0).put("bold",Boolean.FALSE);
+                                break;
+
+                        }
                     }
                 });
                 tvItalics.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(etText.getTypeface().getStyle()==Typeface.ITALIC)
-                            etText.setTypeface(null,Typeface.ITALIC);
-                        else
-                            etText.setTypeface(null,Typeface.ITALIC);
+                        if(etText!=null&&etText.getTypeface()!=null)
+                        switch (etText.getTypeface().getStyle()) {
+                            case Typeface.ITALIC:
+                                etText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
+                                tvItalics.setBackgroundColor(getActivity().getResources().getColor(R.color.white));
+                                tvItalics.setBackground(getActivity().getDrawable(R.drawable.round_corner));
+                                view.getData().get(0).put("italics",Boolean.FALSE);
+                                break;
+                            case Typeface.BOLD:
+                                etText.setTypeface(Typeface.DEFAULT, Typeface.BOLD_ITALIC);
+                                tvItalics.setBackgroundColor(getActivity().getResources().getColor(R.color.gray_1));
+                                view.getData().get(0).put("italics",Boolean.TRUE);
+                                break;
+                            case Typeface.NORMAL:
+                                etText.setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
+                                tvItalics.setBackgroundColor(getActivity().getResources().getColor(R.color.gray_1));
+                                view.getData().get(0).put("italics",Boolean.TRUE);
+                                break;
+                            case Typeface.BOLD_ITALIC:
+                                etText.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
+                                tvItalics.setBackgroundColor(getActivity().getResources().getColor(R.color.white));
+                                tvItalics.setBackground(getActivity().getDrawable(R.drawable.round_corner));
+                                view.getData().get(0).put("italics",Boolean.FALSE);
+                                break;
+                        }
+                    }
+
+                });
+                etText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        view.getData().get(0).put("text",etText.getText());
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
                     }
                 });
-                break;
+                etSize.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                          if (etSize.getText()==null||etSize.getText().toString().length()==0) {
+                              etText.setTextSize(18);
+                              view.getData().get(0).put("size",18);
+                          }
+                          else{
+                              if(Integer.parseInt(etSize.getText().toString())>=10 && Integer.parseInt(etSize.getText().toString())<=32) {
+                                  etText.setTextSize(Integer.parseInt(etSize.getText().toString()));
+                                  view.getData().get(0).put("size",Integer.parseInt(etSize.getText().toString()));
+                              }
+                              else{
+                                  etText.setTextSize(18);
+                                  view.getData().get(0).put("size",18);
+                                  Toast.makeText(getActivity(), "Size can only be between 10 and 32", Toast.LENGTH_SHORT).show();
+                              }
+                          }
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+
 
         }
     }

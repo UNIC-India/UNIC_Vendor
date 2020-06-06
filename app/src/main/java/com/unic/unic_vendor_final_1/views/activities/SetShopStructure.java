@@ -446,6 +446,11 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             selectCategories(pageId,view,code);
         else if (code/10==1||code/10==3)
             selectImages(pageId,view,code);
+        else if(code/10==5) {
+            structure.getPage(pageId).addNewView(view, code);
+            setStructureViewModel.setStructure(structure);
+            returnToPage(pageId);
+        }
         else if(code/10==0) {
 
             int count = 0;
@@ -466,6 +471,9 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                     break;
 
             }
+
+
+
 
             height = Math.min(height, 650);
             view.setHeight(height);

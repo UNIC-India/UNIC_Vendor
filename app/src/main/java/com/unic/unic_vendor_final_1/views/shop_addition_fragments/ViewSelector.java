@@ -69,6 +69,9 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
             viewAdder(Integer.valueOf((code+1)*10 + 0).toString());
 
         }
+        else if(code==4){
+            viewAdder(Integer.valueOf((code+1)*10 + 1).toString());
+        }
         else {
             adapter_setViews = new Adapter_setViews(getContext());
             adapter_setViews.setCode(code + 1);
@@ -185,6 +188,8 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
             case "51":
                 com.unic.unic_vendor_final_1.datamodels.View view51 = new com.unic.unic_vendor_final_1.datamodels.View();
                 view51.setFields("Text");
+
+                view51.setHeight(100);
                 ((SetShopStructure) Objects.requireNonNull(getActivity())).addView(pageId, view51,51);
                 break;
 
