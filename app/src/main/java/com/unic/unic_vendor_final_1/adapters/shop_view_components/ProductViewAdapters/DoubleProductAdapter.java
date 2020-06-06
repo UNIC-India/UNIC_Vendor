@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.adapters.ProductDetailsAdapter;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ProductDescriptionFragment;
 
 import java.util.List;
@@ -35,6 +36,24 @@ public class DoubleProductAdapter extends RecyclerView.Adapter<DoubleProductAdap
 
         this.demo=demo;
     }
+
+    class ProductDetailsListener implements View.OnClickListener {
+        private  int position;
+
+        ProductDetailsListener(int position){
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            ((AppCompatActivity)mContext).getSupportFragmentManager()
+                    .beginTransaction().replace(R.id.shop_pages_loader,new ProductDescriptionFragment(products.get(position)))
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .addToBackStack(null)
+                    .commit();
+        }
+    }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView tvProductName;
@@ -122,66 +141,14 @@ public class DoubleProductAdapter extends RecyclerView.Adapter<DoubleProductAdap
               }
           }
 
-           holder.tvProductName.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   ((AppCompatActivity)mContext).getSupportFragmentManager()
-                           .beginTransaction().replace(R.id.shop_pages_loader,new ProductDescriptionFragment(products.get(position)))
-                           .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                           .addToBackStack(null)
-                           .commit();
-               }
-           });
-          holder.tv_no_image.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  ((AppCompatActivity)mContext).getSupportFragmentManager()
-                          .beginTransaction().replace(R.id.shop_pages_loader,new ProductDescriptionFragment(products.get(position)))
-                          .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                          .addToBackStack(null)
-                          .commit();
-              }
-          });
-          holder.noImage.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  ((AppCompatActivity)mContext).getSupportFragmentManager()
-                          .beginTransaction().replace(R.id.shop_pages_loader,new ProductDescriptionFragment(products.get(position)))
-                          .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                          .addToBackStack(null)
-                          .commit();
-              }
-          });
-           holder.tvCompany.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   ((AppCompatActivity)mContext).getSupportFragmentManager()
-                           .beginTransaction().replace(R.id.shop_pages_loader,new ProductDescriptionFragment(products.get(position)))
-                           .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                           .addToBackStack(null)
-                           .commit();
-               }
-           });
-           holder.ivProductImage.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   ((AppCompatActivity)mContext).getSupportFragmentManager()
-                           .beginTransaction().replace(R.id.shop_pages_loader,new ProductDescriptionFragment(products.get(position)))
-                           .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                           .addToBackStack(null)
-                           .commit();
-               }
-           });
-           holder.tvProductPrice.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   ((AppCompatActivity)mContext).getSupportFragmentManager()
-                           .beginTransaction().replace(R.id.shop_pages_loader,new ProductDescriptionFragment(products.get(position)))
-                           .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                           .addToBackStack(null)
-                           .commit();
-               }
-           });
+          ProductDetailsListener pdl = new ProductDetailsListener(position);
+
+           holder.tvProductName.setOnClickListener(pdl);
+          holder.tv_no_image.setOnClickListener(pdl);
+          holder.noImage.setOnClickListener(pdl);
+           holder.tvCompany.setOnClickListener(pdl);
+           holder.ivProductImage.setOnClickListener(pdl);
+           holder.tvProductPrice.setOnClickListener(pdl);
        }
        else{
            holder.tvProductName.setText("Product Name"+position);

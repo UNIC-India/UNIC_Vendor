@@ -187,7 +187,7 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
                 break;
             case "51":
                 com.unic.unic_vendor_final_1.datamodels.View view51 = new com.unic.unic_vendor_final_1.datamodels.View();
-                view51.setFields("Text");
+                view51.setFields("text");
 
                 view51.setHeight(100);
                 ((SetShopStructure) Objects.requireNonNull(getActivity())).addView(pageId, view51,51);

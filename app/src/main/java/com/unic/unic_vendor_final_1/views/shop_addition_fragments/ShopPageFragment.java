@@ -106,22 +106,32 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
         ViewGroup.LayoutParams parentLayoutParams = parent.getLayoutParams();
         parentLayoutParams.height = (int)dpToPx(page!=null?page.getSize():0);
         parent.setLayoutParams(parentLayoutParams);
-        inflateViews(page);
+        inflateViews();
         return shopPageBinding.getRoot();
     }
 
-    private void inflateViews(Page page){
+    private void inflateViews(){
 
         parent.removeAllViews();
         views.clear();
 
         for(com.unic.unic_vendor_final_1.datamodels.View view : page.getViews()){
-            inflateView(view);
+            inflateView(view,true);
         }
 
     }
 
-    private void inflateView(com.unic.unic_vendor_final_1.datamodels.View view){
+    public void inflateViewsAfterOffset(int offset){
+        for(int i=offset;i<page.getViews().size();i++){
+            parent.removeViewAt(offset);
+        }
+        for(int i=offset;i<page.getViews().size();i++){
+            inflateView(page.getViews().get(i),false);
+        }
+    }
+
+
+    private void inflateView(com.unic.unic_vendor_final_1.datamodels.View view,boolean isNew){
         int viewType = view.getViewCode()/100;
         int viewPos = view.getViewCode()%100-1;
         switch (viewType){
@@ -145,7 +155,8 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 view00.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
                 view00.findViewById(R.id.view_dragger).setOnTouchListener(this::onTouch);
 
-                views.add(view00);
+                if(isNew)
+                    views.add(view00);
 
 
                 break;
@@ -176,7 +187,8 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 doubleImageRecyclerView.setNestedScrollingEnabled(false);
                 doubleImageRecyclerView.addItemDecoration(new SpacesItemDecoration(10));
 
-                views.add(view12);
+                if (isNew)
+                    views.add(view12);
                 break;
             case 13:
                 //TODO
@@ -195,7 +207,8 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 view21.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
                 view21.findViewById(R.id.view_dragger).setOnTouchListener(this::onTouch);
 
-                views.add(view21);
+                if(isNew)
+                    views.add(view21);
 
                 CategoriesAdapter categoriesAdapter=new CategoriesAdapter(getContext());
                 categoriesAdapter.setCategories(view.getData());
@@ -221,7 +234,8 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 view22.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
                 view22.findViewById(R.id.view_dragger).setOnTouchListener(this::onTouch);
 
-                views.add(view22);
+                if(isNew)
+                    views.add(view22);
 
                 CategoriesAdapter categoriesAdapter2=new CategoriesAdapter(getContext());
                 categoriesAdapter2.setCategories(view.getData());
@@ -252,7 +266,8 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 view31.findViewById(R.id.view_dragger).setOnTouchListener(this::onTouch);
                 view31.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
 
-                views.add(view31);
+                if(isNew)
+                    views.add(view31);
 
                 SliderAdapter sliderAdapter = new SliderAdapter(getActivity(),view.getData());
                 pl.pzienowicz.autoscrollviewpager.AutoScrollViewPager viewPager = sliderView.findViewById(R.id.slider_images_flipper);
@@ -282,7 +297,8 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 view32.findViewById(R.id.view_dragger).setOnTouchListener(this::onTouch);
                 view32.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
 
-                views.add(view32);
+                if(isNew)
+                    views.add(view32);
 
                 SliderAdapter sliderIndicatorAdapter = new SliderAdapter(getActivity(),view.getData());
 
@@ -329,7 +345,8 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 doubleProductRecyclerView.setAdapter(doubleProductAdapter);
                 doubleProductRecyclerView.addItemDecoration(new SpacesItemDecoration(10));
 
-                views.add(view41);
+                if(isNew)
+                    views.add(view41);
                 break;
             case 42:
                 View tripleProductView = getLayoutInflater().inflate(R.layout.triple_product_view,parent,false);
@@ -358,7 +375,9 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 tripleProductRecyclerView.setNestedScrollingEnabled(false);
                 tripleProductRecyclerView.setAdapter(tripleProductAdapter);
                 tripleProductRecyclerView.addItemDecoration(new SpacesItemDecoration(5));
-                views.add(view42);
+
+                if(isNew)
+                    views.add(view42);
                 break;
             case 43:
                 break;
@@ -377,6 +396,9 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 ((ViewGroup)view51.findViewById(R.id.view_loader)).addView(Text_View,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
                 view51.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
                 view51.findViewById(R.id.view_dragger).setOnTouchListener(this::onTouch);
+
+                if(isNew)
+                    views.add(view51);
 
 
                 EditText etText=Text_View.findViewById(R.id.etText);
@@ -406,14 +428,14 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                             case Typeface.ITALIC:
                                 etText.setTypeface(Typeface.DEFAULT,Typeface.BOLD_ITALIC);
                                 tvBold.setBackgroundColor(getActivity().getResources().getColor(R.color.gray_1));
-                                view.getData().get(0).put("bold",Boolean.TRUE);
+                                view.getData().get(0).put("bold",true);
                                 break;
 
                             case Typeface.BOLD:
                                 etText.setTypeface(Typeface.DEFAULT,Typeface.NORMAL);
                                 tvBold.setBackgroundColor(getActivity().getResources().getColor(R.color.white));
                                 tvItalics.setBackground(getActivity().getDrawable(R.drawable.round_corner));
-                                view.getData().get(0).put("bold",Boolean.FALSE);
+                                view.getData().get(0).put("bold",false);
                                 break;
                             case Typeface.NORMAL:
                                 etText.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
@@ -469,7 +491,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        view.getData().get(0).put("text",etText.getText());
+                        view.getData().get(0).put("text",etText.getText().toString());
 
                     }
 
@@ -548,10 +570,10 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
             List<Map<String,Object>> data = view.getData();
             page.addView(view,viewCode/100);
             page.updateView(viewCode-viewCode%100+page.getViews().size(),data);
+            views.get(i).setId(viewCode-viewCode%100+page.getViews().size());
+            ((ViewGroup)views.get(i).findViewById(R.id.view_loader)).getChildAt(0).setId(viewCode-viewCode%100+page.getViews().size());
 
         }
-
-        inflateViews(page);
 
     }
 
@@ -608,7 +630,6 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 parent.requestDisallowInterceptTouchEvent(true);
                 return true;
             case MotionEvent.ACTION_MOVE:
-
                 if((currView!=views.size()-1)&&params.topMargin>((RelativeLayout.LayoutParams)views.get(currView+1).getLayoutParams()).topMargin+((RelativeLayout.LayoutParams)views.get(currView+1).getLayoutParams()).height/2){
                     RelativeLayout.LayoutParams lowerViewParams = (RelativeLayout.LayoutParams)views.get(currView+1).getLayoutParams();
                     lowerViewParams.topMargin-=params.height;
