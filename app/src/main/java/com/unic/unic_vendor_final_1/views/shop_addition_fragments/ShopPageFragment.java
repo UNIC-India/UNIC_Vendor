@@ -411,12 +411,22 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 }
 
                 etText.setText(view.getData().get(0).get("text") == null ? " " : view.getData().get(0).get("text").toString());
-                if (view.getData().get(0).containsKey("bold") && ((Boolean)view.getData().get(0).get("bold")))
+                if (view.getData().get(0).containsKey("bold") && ((Boolean)view.getData().get(0).get("bold"))) {
                     etText.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-                if (view.getData().get(0).containsKey("italics") && ((Boolean)view.getData().get(0).get("italics")))
+                    tvBold.setBackgroundColor(getResources().getColor(R.color.gray_1));
+                }
+                if (view.getData().get(0).containsKey("italics") && ((Boolean)view.getData().get(0).get("italics"))) {
                     etText.setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
-                if(view.getData().get(0).containsKey("bold") && ((Boolean)view.getData().get(0).get("bold"))&&view.getData().get(0).containsKey("italics") && ((Boolean)view.getData().get(0).get("italics")))
+                    tvItalics.setBackgroundColor(getResources().getColor(R.color.gray_1));
+
+                }
+                if(view.getData().get(0).containsKey("bold") && ((Boolean)view.getData().get(0).get("bold"))&&view.getData().get(0).containsKey("italics") && ((Boolean)view.getData().get(0).get("italics"))) {
                     etText.setTypeface(Typeface.DEFAULT, Typeface.BOLD_ITALIC);
+                    tvBold.setBackgroundColor(getResources().getColor(R.color.gray_1));
+                    tvItalics.setBackgroundColor(getResources().getColor(R.color.gray_1));
+
+
+                }
                 if (view.getData().get(0).containsKey("size")) {
                     etText.setTextSize(Integer.parseInt(view.getData().get(0).get("size").toString()));
                     etSize.setText(view.getData().get(0).get("size")+"");
