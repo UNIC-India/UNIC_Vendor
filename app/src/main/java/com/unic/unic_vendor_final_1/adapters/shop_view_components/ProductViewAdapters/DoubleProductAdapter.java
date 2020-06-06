@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.adapters.ProductDetailsAdapter;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ProductDescriptionFragment;
 
 import java.util.List;
@@ -35,6 +36,24 @@ public DoubleProductAdapter(Context context) {
 public DoubleProductAdapter(int demo) {
 
         this.demo = demo;
+
+    class ProductDetailsListener implements View.OnClickListener {
+        private  int position;
+
+        ProductDetailsListener(int position){
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            ((AppCompatActivity)mContext).getSupportFragmentManager()
+                    .beginTransaction().replace(R.id.shop_pages_loader,new ProductDescriptionFragment(products.get(position)))
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .addToBackStack(null)
+                    .commit();
+        }
+    }
+
         }
 
 public class ViewHolder extends RecyclerView.ViewHolder {

@@ -434,6 +434,8 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
         setStructureViewModel.getStructure().setValue(structure);
 
+        ((ShopPageFragment)getSupportFragmentManager().findFragmentByTag(structure.getPage(pageId).getPageName())).inflateViewsAfterOffset(viewCode%100-1);
+
         returnToPage(pageId);
 
     }
@@ -447,7 +449,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         else if (code/10==1||code/10==3)
             selectImages(pageId,view,code);
         else if(code/10==5) {
-            structure.getPage(pageId).addNewView(view, code);
+            structure.getPage(pageId).addNewView(view,code);
             setStructureViewModel.setStructure(structure);
             returnToPage(pageId);
         }
@@ -493,7 +495,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         fm
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .replace(R.id.shop_pages_loader,new ShopPageFragment(structure.getPage(pageId)),structure.getPage(pageId).getPageName())
+                .replace(R.id.shop_pages_loader,fm.findFragmentByTag(structure.getPage(pageId).getPageName()))
                 .commit();
         setShopStructureBinding.setStructureNavView.setCheckedItem(pageId);
     }
