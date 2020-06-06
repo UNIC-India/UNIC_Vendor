@@ -154,7 +154,7 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
                 builder.setPositiveButton("DONE", (dialog, which) -> {
                     if (etViewHeader.getText().toString().trim().length()>0) {
                         com.unic.unic_vendor_final_1.datamodels.View view = new com.unic.unic_vendor_final_1.datamodels.View();
-                        view.setHeight(265);
+                        view.setHeight(200);
                         view.setFields("name,imageId,price");
                         view.setHeader(etViewHeader.getText().toString().trim());
                         ((SetShopStructure) Objects.requireNonNull(getActivity())).addView(pageId, view,41);
@@ -174,8 +174,8 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
                 builder2.setPositiveButton("DONE", (dialog2, which) -> {
                     if (etViewHeader2.getText().toString().trim().length()>0) {
                         com.unic.unic_vendor_final_1.datamodels.View view = new com.unic.unic_vendor_final_1.datamodels.View();
-                        view.setHeight(302);
-                        view.setFields("name,imageId,price");
+                        view.setHeight(185);
+                        view.setFields("name,company,price");
                         view.setHeader(etViewHeader2.getText().toString().trim());
                         ((SetShopStructure) Objects.requireNonNull(getActivity())).addView(pageId, view,42);
                     }

@@ -64,8 +64,8 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
         holder.tvPrice.setText("Rs "+products.get(position).get("price").toString());
         holder.tvTotal.setText(Double.parseDouble(products.get(position).get("price").toString())*qty.get(position)+"");
         holder.tvQty.setText(""+qty.get(position));
-        holder.tvExtraInfo1.setText(products.get(position).get("ExtraInfo1")!=null?products.get(position).get("ExtraInfo1").toString():"");
-        holder.tvExtraInfo2.setText(products.get(position).get("ExtraInfo2")!=null?products.get(position).get("ExtraInfo2").toString():"");
+        holder.tvExtraInfo1.setText((products.get(position).get("extraInfo1")!=null&&products.get(position).get("extraInfo1").toString().length()>=3)?products.get(position).get("extraInfo1").toString():"");
+        holder.tvExtraInfo2.setText((products.get(position).get("extraInfo2")!=null&&products.get(position).get("extraInfo2").toString().length()>=3)?products.get(position).get("extraInfo2").toString():"");
 
         holder.cdProduct.setOnClickListener(new View.OnClickListener() {
             @Override

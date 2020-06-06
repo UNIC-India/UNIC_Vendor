@@ -37,6 +37,7 @@ import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategoriesAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ImageViewAdapters.DoubleImageAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductwoImageAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.TripleProductAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.SliderViewAdapters.SliderAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentShopPageBinding;
@@ -332,8 +333,8 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 views.add(view41);
                 break;
             case 42:
-                View tripleProductView = getLayoutInflater().inflate(R.layout.triple_product_view,parent,false);
-                tripleProductView.setId(view.getViewCode());
+                View doubleProductwoImages = getLayoutInflater().inflate(R.layout.double_product_view,parent,false);
+                doubleProductwoImages.setId(view.getViewCode());
 
                 View view42 = getLayoutInflater().inflate(R.layout.view_bounding,parent,false);
                 view42.setId(view.getViewCode());
@@ -341,23 +342,23 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 RelativeLayout.LayoutParams tripleProductViewParams = (RelativeLayout.LayoutParams) view42.getLayoutParams();
                 tripleProductViewParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
 
-                ((ViewGroup)view42.findViewById(R.id.view_loader)).addView(tripleProductView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
+                ((ViewGroup)view42.findViewById(R.id.view_loader)).addView(doubleProductwoImages,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
                 view42.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
                 view42.findViewById(R.id.view_dragger).setOnTouchListener(this::onTouch);
 
 
-                TextView tvHeader2 = tripleProductView.findViewById(R.id.triple_image_header);
+                TextView tvHeader2 = doubleProductwoImages.findViewById(R.id.double_product_header);
                 tvHeader2.setText(view.getHeader());
-                tripleProductView.findViewById(R.id.btn_add_products).setOnClickListener(this);
+                doubleProductwoImages.findViewById(R.id.btn_add_products).setOnClickListener(this);
 
-                TripleProductAdapter tripleProductAdapter = new TripleProductAdapter(getContext());
-                tripleProductAdapter.setProducts(view.getData());
-                LinearLayoutManager TripleProductLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL,false);
-                RecyclerView tripleProductRecyclerView = tripleProductView.findViewById(R.id.triple_image_recycler_view);
-                tripleProductRecyclerView.setLayoutManager(TripleProductLayoutManager);
-                tripleProductRecyclerView.setNestedScrollingEnabled(false);
-                tripleProductRecyclerView.setAdapter(tripleProductAdapter);
-                tripleProductRecyclerView.addItemDecoration(new SpacesItemDecoration(5));
+                DoubleProductwoImageAdapter doubleProductwoImageAdapter = new DoubleProductwoImageAdapter(getContext());
+                doubleProductwoImageAdapter.setProducts(view.getData());
+                LinearLayoutManager doubleProductwoImageLayout = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL,false);
+                RecyclerView doubleProductwoImagesRecyclerView = doubleProductwoImages.findViewById(R.id.double_product_recycler_view);
+                doubleProductwoImagesRecyclerView.setLayoutManager(doubleProductwoImageLayout);
+                doubleProductwoImagesRecyclerView.setNestedScrollingEnabled(false);
+                doubleProductwoImagesRecyclerView.setAdapter(doubleProductwoImageAdapter);
+                doubleProductwoImagesRecyclerView.addItemDecoration(new SpacesItemDecoration(5));
                 views.add(view42);
                 break;
             case 43:
@@ -383,8 +384,10 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 EditText etSize=Text_View.findViewById(R.id.etSize);
                 TextView tvBold=Text_View.findViewById(R.id.tvBold);
                 TextView tvItalics=Text_View.findViewById(R.id.tvItalic);
-                view.getData().add(new HashMap<>());
-                view.getData().get(0).put("size",18);
+                if(view.getData().size()==0) {
+                    view.getData().add(new HashMap<>());
+                    view.getData().get(0).put("size", 18);
+                }
 
                 etText.setText(view.getData().get(0).get("text") == null ? " " : view.getData().get(0).get("text").toString());
                 if (view.getData().get(0).containsKey("bold") && view.getData().get(0).get("bold").toString().equals("True"))
@@ -469,7 +472,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        view.getData().get(0).put("text",etText.getText());
+                        view.getData().get(0).put("text",etText.getText().toString());
 
                     }
 

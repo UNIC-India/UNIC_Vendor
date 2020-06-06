@@ -22,12 +22,14 @@ import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategoriesAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ImageViewAdapters.DoubleImageAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductwoImageAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListWithoutImagesAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.TripleProductAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.SliderViewAdapters.SliderAdapter;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 
+import java.io.DataOutputStream;
 import java.util.List;
 
 public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.ViewHolder> {
@@ -183,10 +185,10 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
                     rv.setAdapter(doubleProductAdapter);
                     rv.setNestedScrollingEnabled(false);
                     holder.rdbtn.setChecked(position==lastchecked);
-                    holder.tvViewTitle.setText("Triple Products");
+                    holder.tvViewTitle.setText("Products with Images");
                 }
                 if(position==1){
-                    TripleProductAdapter tripleProductAdapter =new TripleProductAdapter(1);
+                    DoubleProductwoImageAdapter doubleProductwoImageAdapter =new DoubleProductwoImageAdapter(1);
                     LinearLayoutManager tripleProductLayoutManager=new LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false);
 
                     RecyclerView rv = new RecyclerView(mContext);
@@ -194,10 +196,10 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
                     ((ViewGroup)holder.rl).addView(rv,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
                     rv.setLayoutManager(tripleProductLayoutManager);
-                    rv.setAdapter(tripleProductAdapter);
+                    rv.setAdapter(doubleProductwoImageAdapter);
                     rv.setNestedScrollingEnabled(false);
                     holder.rdbtn.setChecked(position==lastchecked);
-                    holder.tvViewTitle.setText("Double Products");
+                    holder.tvViewTitle.setText("Products without Images");
                 }
                 if(position==2){
                     ProductListWithoutImagesAdapter productListWithoutImagesAdapter=new ProductListWithoutImagesAdapter(1);
