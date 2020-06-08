@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,6 +46,8 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     private Fragment currentFragment;
     public Structure structure;
     private Shop shop;
+    boolean doubleBackToExitPressedOnce = false;
+
     Toolbar toolbar;
     public int currentPage=1001;
     private List<Map<String,Object>> products;
@@ -506,11 +509,26 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         super.onBackPressed();
         Fragment fg=getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader);
         if(fg!=null) {
-            if (fg.getClass() == ProductSelector.class || fg.getClass() == CategorySelector.class || fg.getClass() == ProductDescriptionFragment.class||fg.getClass()==ImagePicker.class)
+            if (fg.getClass() == ProductSelector.class || fg.getClass() == CategorySelector.class || fg.getClass() == ProductDescriptionFragment.class || fg.getClass() == ImagePicker.class)
                 getSupportFragmentManager().popBackStack();
-        }
-        else if(shop.getNoOfProducts()>0&&structure!=null)
+            else if (fg.getClass() == ShopPageFragment.class) {
+                if (doubleBackToExitPressedOnce) {
+                    moveTaskToBack(true);
+                    return;
+                }
+                this.doubleBackToExitPressedOnce = true;
+                Toast.makeText(this, "Please save or your changes will be lost.", Toast.LENGTH_SHORT).show();
+
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        doubleBackToExitPressedOnce = false;
+                    }
+                }, 2000);
+            } else if (shop.getNoOfProducts() > 0 && structure != null)
                 returnToPage(1001);
+        }
     }
 
     @Override
