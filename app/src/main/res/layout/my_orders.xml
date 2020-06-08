@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <TextView
         android:id="@+id/tv_order_id"
         android:layout_width="wrap_content"
@@ -13,7 +14,7 @@
         android:paddingTop="10dp"
         android:fontFamily="@font/montserrat_bold"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"></TextView>
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView
         android:id="@+id/order_id"
@@ -25,8 +26,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:textColorHint="@color/colourQuaternary"
         android:textColor="@color/colourQuaternary"
-        app:layout_constraintLeft_toRightOf="@id/tv_order_id"
-        ></TextView>
+        app:layout_constraintLeft_toRightOf="@id/tv_order_id" />
 
     <View
         android:id="@+id/dashed_line"
@@ -37,7 +37,7 @@
         android:layout_marginTop="5dp"
         android:layout_height="4dp"
         app:layout_constraintTop_toBottomOf="@id/tv_order_id"
-        android:background="@drawable/horizontal_dashed_line"></View>
+        android:background="@drawable/horizontal_dashed_line" />
 
     <TextView
         android:id="@+id/tv_product_name"
@@ -48,7 +48,8 @@
         app:layout_constraintTop_toBottomOf="@id/dashed_line"
         app:layout_constraintLeft_toLeftOf="parent"
         android:paddingLeft="15dp"
-        android:text="Product Name : "></TextView>
+        android:text="Product Name : " />
+
     <TextView
         android:id="@+id/product_name"
         android:layout_width="wrap_content"
@@ -57,7 +58,8 @@
         android:layout_marginTop="5dp"
         app:layout_constraintTop_toBottomOf="@id/dashed_line"
         app:layout_constraintLeft_toRightOf="@id/tv_product_name"
-        android:hint="Pulses"></TextView>
+        android:hint="Pulses" />
+
     <TextView
         android:id="@+id/tv_product_qty"
         android:layout_width="wrap_content"
@@ -67,7 +69,8 @@
         app:layout_constraintTop_toBottomOf="@id/product_name"
         app:layout_constraintLeft_toLeftOf="parent"
         android:paddingLeft="15dp"
-        android:text="Product qty : "></TextView>
+        android:text="Product qty : " />
+
     <TextView
         android:id="@+id/product_qty"
         android:layout_width="wrap_content"
@@ -76,7 +79,8 @@
         android:layout_marginTop="5dp"
         app:layout_constraintTop_toBottomOf="@id/product_name"
         app:layout_constraintLeft_toRightOf="@id/tv_product_qty"
-        android:hint="3"></TextView>
+        android:hint="3" />
+
     <TextView
         android:id="@+id/tv_product_bill_amount"
         android:layout_width="wrap_content"
@@ -86,7 +90,8 @@
         app:layout_constraintTop_toBottomOf="@id/product_qty"
         app:layout_constraintLeft_toLeftOf="parent"
         android:paddingLeft="15dp"
-        android:text="Bill amount : Rs. "></TextView>
+        android:text="Bill amount : Rs. " />
+
     <TextView
         android:id="@+id/bill_amount"
         android:layout_width="wrap_content"
@@ -95,7 +100,8 @@
         android:layout_marginTop="7dp"
         app:layout_constraintTop_toBottomOf="@id/product_qty"
         app:layout_constraintLeft_toRightOf="@id/tv_product_bill_amount"
-        android:hint="330"></TextView>
+        android:hint="330" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="13sp"
@@ -104,7 +110,8 @@
         android:textSize="12sp"
         android:text="@string/collected"
         app:layout_constraintTop_toTopOf="@id/icon_collected"
-        app:layout_constraintBottom_toBottomOf="@id/icon_collected"></TextView>
+        app:layout_constraintBottom_toBottomOf="@id/icon_collected" />
+
     <ImageButton
         android:id="@+id/icon_collected"
         android:layout_width="30dp"
@@ -114,7 +121,8 @@
         android:layout_marginRight="25dp"
         app:layout_constraintTop_toTopOf="@id/dashed_line"
         app:layout_constraintBottom_toBottomOf="@id/solid_line"
-        android:src="@drawable/check_icon"></ImageButton>
+        android:src="@drawable/check_icon" />
+
     <View
         android:id="@+id/solid_line"
         android:layout_width="match_parent"
@@ -122,7 +130,7 @@
         android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@id/tv_product_bill_amount"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:background="@color/gray_1"></View>
+        android:background="@color/gray_1" />
 
 
 

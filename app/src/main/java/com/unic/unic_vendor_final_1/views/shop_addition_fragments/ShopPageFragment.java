@@ -125,9 +125,10 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
     public void inflateViewsAfterOffset(int offset){
         for(int i=offset;i<page.getViews().size();i++){
             parent.removeViewAt(offset);
+            views.remove(offset);
         }
         for(int i=offset;i<page.getViews().size();i++){
-            inflateView(page.getViews().get(i),false);
+            inflateView(page.getViews().get(i),true);
         }
     }
 
@@ -257,10 +258,10 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
 
                 View view31 = getLayoutInflater().inflate(R.layout.view_bounding,parent,false);
                 view31.setId(view.getViewCode());
-                parent.addView(view31,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
-                RelativeLayout.LayoutParams sliderParams = (RelativeLayout.LayoutParams) view31.getLayoutParams();
-                sliderParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
-                view31.setLayoutParams(sliderParams);
+                    parent.addView(view31,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
+                    RelativeLayout.LayoutParams sliderParams = (RelativeLayout.LayoutParams) view31.getLayoutParams();
+                    sliderParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+                    view31.setLayoutParams(sliderParams);
 
                 ((ViewGroup)view31.findViewById(R.id.view_loader)).addView(sliderView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
 
@@ -556,6 +557,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
             setStructureViewModel.deleteViewPics(page.getPageId(),viewCode);
 
         refreshViews();
+        inflateViewsAfterOffset(viewCode%100-1);
     }
 
     private void refreshViews(){
@@ -619,6 +621,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
     public boolean onTouch(View view, MotionEvent motionEvent) {
 
         View parentView = (View)view.getParent();
+
         int currView = views.indexOf(parentView);
 
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)parentView.getLayoutParams();

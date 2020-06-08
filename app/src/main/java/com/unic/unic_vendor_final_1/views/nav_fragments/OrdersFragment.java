@@ -63,7 +63,7 @@ public class OrdersFragment extends Fragment {
 
         userShopsViewModel.isOrderUpdating.observe(getViewLifecycleOwner(),aBoolean -> {
             isUpdating=aBoolean;
-        if(updatingPosition>=0&&isUpdating==false) {
+        if(updatingPosition>=0&&!isUpdating) {
             allOrdersAdapter.updateOrder(updatingPosition, newStatus);
             updatingPosition = -1;
         }
@@ -90,7 +90,7 @@ public class OrdersFragment extends Fragment {
 
             Handler handler = new Handler();
 
-            handler.postDelayed(() -> myOrdersBinding.orderRefresh.setRefreshing(false),5000);
+            handler.postDelayed(() -> myOrdersBinding.orderRefresh.setRefreshing(false),2000);
         });
 
         myOrdersBinding.rvAllOrders.addOnScrollListener(new RecyclerView.OnScrollListener() {
