@@ -12,6 +12,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,6 +39,7 @@ import com.unic.unic_vendor_final_1.views.nav_fragments.MyProducts;
 import com.unic.unic_vendor_final_1.views.nav_fragments.QRFragment;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ProductDescriptionFragment;
 
+import java.util.List;
 import java.util.Objects;
 
 public class UserHome extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{

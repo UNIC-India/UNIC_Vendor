@@ -45,6 +45,7 @@ import com.unic.unic_vendor_final_1.datamodels.Page;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 import com.unic.unic_vendor_final_1.views.activities.UserHome;
+import com.unic.unic_vendor_final_1.views.helpers.AutoScrollViewPager;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -125,9 +126,10 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
     public void inflateViewsAfterOffset(int offset){
         for(int i=offset;i<page.getViews().size();i++){
             parent.removeViewAt(offset);
+            views.remove(offset);
         }
         for(int i=offset;i<page.getViews().size();i++){
-            inflateView(page.getViews().get(i),false);
+            inflateView(page.getViews().get(i),true);
         }
     }
 
@@ -257,10 +259,10 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
 
                 View view31 = getLayoutInflater().inflate(R.layout.view_bounding,parent,false);
                 view31.setId(view.getViewCode());
-                parent.addView(view31,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
-                RelativeLayout.LayoutParams sliderParams = (RelativeLayout.LayoutParams) view31.getLayoutParams();
-                sliderParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
-                view31.setLayoutParams(sliderParams);
+                    parent.addView(view31,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
+                    RelativeLayout.LayoutParams sliderParams = (RelativeLayout.LayoutParams) view31.getLayoutParams();
+                    sliderParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+                    view31.setLayoutParams(sliderParams);
 
                 ((ViewGroup)view31.findViewById(R.id.view_loader)).addView(sliderView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
 
@@ -271,7 +273,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                     views.add(view31);
 
                 SliderAdapter sliderAdapter = new SliderAdapter(getActivity(),view.getData());
-                pl.pzienowicz.autoscrollviewpager.AutoScrollViewPager viewPager = sliderView.findViewById(R.id.slider_images_flipper);
+                AutoScrollViewPager viewPager = sliderView.findViewById(R.id.slider_images_flipper);
 
                 viewPager.startAutoScroll();
                 viewPager.setInterval(3000);
@@ -303,7 +305,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
 
                 SliderAdapter sliderIndicatorAdapter = new SliderAdapter(getActivity(),view.getData());
 
-                pl.pzienowicz.autoscrollviewpager.AutoScrollViewPager viewIndicatorPager = sliderIndicatorView.findViewById(R.id.slider_images_flipper);
+                AutoScrollViewPager viewIndicatorPager = sliderIndicatorView.findViewById(R.id.slider_images_flipper);
 
                 viewIndicatorPager.startAutoScroll();
                 viewIndicatorPager.setInterval(3000);
@@ -566,6 +568,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
             setStructureViewModel.deleteViewPics(page.getPageId(),viewCode);
 
         refreshViews();
+        inflateViewsAfterOffset(viewCode%100-1);
     }
 
     private void refreshViews(){
@@ -629,6 +632,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
     public boolean onTouch(View view, MotionEvent motionEvent) {
 
         View parentView = (View)view.getParent();
+
         int currView = views.indexOf(parentView);
 
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)parentView.getLayoutParams();

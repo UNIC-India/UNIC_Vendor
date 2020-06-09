@@ -80,7 +80,7 @@
                         android:id="@+id/confirm_shop_structure"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/roundbutton"
+                        android:background="@drawable/std_button"
                         android:drawableEnd="@drawable/ic_arrow_forward_black_24dp"
                         android:drawableTint="#FFFFFF"
                         android:text="Save"
