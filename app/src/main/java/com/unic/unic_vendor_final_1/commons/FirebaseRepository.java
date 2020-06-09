@@ -294,7 +294,7 @@ public class FirebaseRepository {
         return db.collection("shops").document(shopId).collection("products").whereIn("company",companies).orderBy("name", Query.Direction.ASCENDING).get();
     }
 
-    public Task<ShortDynamicLink> createSubscribeLink(String shopId, String shopName){
+    public Task<ShortDynamicLink> createSubscribeLink(String shopId, String shopName,String  imageLink){
         String link = "https://nisarg2104.github.io/"+"?shopId="+shopId;
         return mDynamicLinks.createDynamicLink()
                 .setLink(Uri.parse(link))
@@ -316,6 +316,7 @@ public class FirebaseRepository {
                         new DynamicLink.SocialMetaTagParameters.Builder()
                         .setTitle("Subscribe to "+shopName+" on UNIC")
                         .setDescription("Check out my shop on UNIC, a platform where I can host my own shop at my convenience")
+                        .setImageUrl(Uri.parse(imageLink))
                         .build()
                 )
                 .buildShortDynamicLink();

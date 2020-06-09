@@ -87,8 +87,8 @@ public class UserShopsViewModel extends ViewModel {
         });
     }
 
-    public void buildSubscribeLink(String shopId,String shopName){
-        firebaseRepository.createSubscribeLink(shopId,shopName)
+    public void buildSubscribeLink(String shopId,String shopName,String imageLink){
+        firebaseRepository.createSubscribeLink(shopId,shopName,imageLink)
                 .addOnSuccessListener(shortDynamicLink -> updateSubscribeLink(shopId,shortDynamicLink.getShortLink()))
                 .addOnFailureListener(e -> e.printStackTrace());
     }
