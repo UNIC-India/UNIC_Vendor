@@ -506,14 +506,14 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+
         Fragment fg=getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader);
         if(fg!=null) {
             if (fg.getClass() == ProductSelector.class || fg.getClass() == CategorySelector.class || fg.getClass() == ProductDescriptionFragment.class || fg.getClass() == ImagePicker.class)
                 getSupportFragmentManager().popBackStack();
             else if (fg.getClass() == ShopPageFragment.class) {
                 if (doubleBackToExitPressedOnce) {
-                    moveTaskToBack(true);
+                    super.onBackPressed();
                     return;
                 }
                 this.doubleBackToExitPressedOnce = true;
