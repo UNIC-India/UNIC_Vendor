@@ -45,6 +45,7 @@ import com.unic.unic_vendor_final_1.datamodels.Page;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 import com.unic.unic_vendor_final_1.views.activities.UserHome;
+import com.unic.unic_vendor_final_1.views.helpers.AutoScrollViewPager;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -272,7 +273,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                     views.add(view31);
 
                 SliderAdapter sliderAdapter = new SliderAdapter(getActivity(),view.getData());
-                pl.pzienowicz.autoscrollviewpager.AutoScrollViewPager viewPager = sliderView.findViewById(R.id.slider_images_flipper);
+                AutoScrollViewPager viewPager = sliderView.findViewById(R.id.slider_images_flipper);
 
                 viewPager.startAutoScroll();
                 viewPager.setInterval(3000);
@@ -304,7 +305,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
 
                 SliderAdapter sliderIndicatorAdapter = new SliderAdapter(getActivity(),view.getData());
 
-                pl.pzienowicz.autoscrollviewpager.AutoScrollViewPager viewIndicatorPager = sliderIndicatorView.findViewById(R.id.slider_images_flipper);
+                AutoScrollViewPager viewIndicatorPager = sliderIndicatorView.findViewById(R.id.slider_images_flipper);
 
                 viewIndicatorPager.startAutoScroll();
                 viewIndicatorPager.setInterval(3000);

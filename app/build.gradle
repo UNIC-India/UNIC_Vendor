@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId "com.unic.unic_vendor_final_1"
         minSdkVersion 26
-        targetSdkVersion 26
+        targetSdkVersion 29
         versionCode 1
         versionName "beta v1.0.0"
 
@@ -71,8 +71,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:20.2.0'
     implementation 'com.google.firebase:firebase-functions:19.0.2'
     implementation 'com.google.firebase:firebase-dynamic-links:19.1.0'
-    implementation 'com.google.firebase:firebase-analytics:17.4.2'
-    implementation 'com.google.firebase:firebase-crashlytics:17.0.0'
+    implementation 'com.google.firebase:firebase-analytics:17.4.3'
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.1'
 
     implementation 'com.firebaseui:firebase-ui-firestore:5.0.0'
 
@@ -82,7 +82,5 @@ dependencies {
     implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-places-v9:0.12.0'
 
     implementation 'com.airbnb.android:lottie:3.4.0'
-
-    implementation 'com.github.pzienowicz:androidx-auto-scroll-view-pager:1.1.0'
 
 }
