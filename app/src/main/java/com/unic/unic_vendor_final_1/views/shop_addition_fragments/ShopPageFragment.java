@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -274,7 +276,6 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 pl.pzienowicz.autoscrollviewpager.AutoScrollViewPager viewPager = sliderView.findViewById(R.id.slider_images_flipper);
 
                 viewPager.startAutoScroll();
-                viewPager.setInterval(3000);
                 viewPager.setCycle(true);
                 viewPager.setStopScrollWhenTouch(true);
                 viewPager.setAdapter(sliderAdapter);
@@ -370,7 +371,14 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
 
                 DoubleProductwoImageAdapter doubleProductwoImageAdapter = new DoubleProductwoImageAdapter(getContext());
                 doubleProductwoImageAdapter.setProducts(view.getData());
-                LinearLayoutManager doubleProductwoImageLayout = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL,false);
+                RecyclerView.LayoutManager doubleProductwoImageLayout;
+                if(view.getData().size()<3){
+                    doubleProductwoImageLayout=new GridLayoutManager(getContext(),view.getData().size());
+
+                }
+                else{
+                    doubleProductwoImageLayout = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL,false);
+                }
                 RecyclerView doubleProductwoImagesRecyclerView = doubleProductwoImages.findViewById(R.id.double_product_recycler_view);
                 doubleProductwoImagesRecyclerView.setLayoutManager(doubleProductwoImageLayout);
                 doubleProductwoImagesRecyclerView.setNestedScrollingEnabled(false);

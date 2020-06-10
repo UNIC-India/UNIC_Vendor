@@ -93,11 +93,11 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 holder.tvCreatedBy.setText(documentSnapshot.getString("fullName"));
-                if(orders.get(position).getOrgName().length()<=1){
+              /*  if(orders.get(position).getOrderAddress().get.length()<=1){
                     holder.tvCustomer.setText(holder.tvCreatedBy.getText());
                 }
                 else
-                    holder.tvCustomer.setText(orders.get(position).getOrgName());
+                    holder.tvCustomer.setText(orders.get(position).getOrgName());*/
             }
         });
 
@@ -121,7 +121,7 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
         holder.tvDate.setText(date);
         holder.tvTime.setText(orders.get(position).getTime().toString().substring(11,16));
         holder.tvNoOfItems.setText(Integer.valueOf(orders.get(position).getNo_of_items()).toString());
-        holder.tvCustomer.setText((orders.get(position).getOrgName()==null||orders.get(position).toString().equals(" "))||orders.get(position).getOrgName().toString().length()==0?"Personal":orders.get(position).getOrgName().toString());
+       // holder.tvCustomer.setText((orders.get(position).getOrgName()==null||orders.get(position).toString().equals(" "))||orders.get(position).getOrgName().toString().length()==0?"Personal":orders.get(position).getOrgName().toString());
         holder.tvGST.setText((orders.get(position).getGSTIN()==null||orders.get(position).getGSTIN().toString().equals(" "))?"GSTIN:"+"Not Specified":"GSTIN: "+orders.get(position).getGSTIN().toString());
 
         String total = "Rs "+Double.valueOf(orders.get(position).getTotal()).toString();
