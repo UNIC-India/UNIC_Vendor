@@ -28,6 +28,7 @@ import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAda
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.TripleProductAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.SliderViewAdapters.SliderAdapter;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
+import com.unic.unic_vendor_final_1.views.helpers.AutoScrollViewPager;
 
 import java.io.DataOutputStream;
 import java.util.List;
@@ -136,7 +137,7 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
 
                     sliderView.findViewById(R.id.slider_images_tab).setVisibility(View.GONE);
 
-                    pl.pzienowicz.autoscrollviewpager.AutoScrollViewPager viewPager = sliderView.findViewById(R.id.slider_images_flipper);
+                    AutoScrollViewPager viewPager = sliderView.findViewById(R.id.slider_images_flipper);
 
                     viewPager.startAutoScroll();
                     viewPager.setInterval(3000);
@@ -154,7 +155,7 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
                     View sliderView = getActivity(mContext).getLayoutInflater().inflate(R.layout.slider,holder.rl,false);
                     ((ViewGroup)holder.rl).addView(sliderView,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-                    pl.pzienowicz.autoscrollviewpager.AutoScrollViewPager viewPager = sliderView.findViewById(R.id.slider_images_flipper);
+                    AutoScrollViewPager viewPager = sliderView.findViewById(R.id.slider_images_flipper);
 
                     viewPager.startAutoScroll();
                     viewPager.setInterval(3000);
