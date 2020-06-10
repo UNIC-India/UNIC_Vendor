@@ -12,12 +12,14 @@ public class Order {
 
     @DocumentId
     private String id;
-    private String ownerId, shopId,address,orgName;
+    private String ownerId, shopId;
     private double total;
     private List<Map<String,Object>> items;
     private List<Integer> quantity;
     private int no_of_items;
     private int orderStatus;
+    int pickUp=0;
+    com.unic.unic_vendor_final_1.datamodels.Address orderAddress;
     @ServerTimestamp
     private
     Date time;
@@ -37,11 +39,10 @@ public class Order {
         this.items = items;
         this.quantity = quantity;
         this.no_of_items = no_of_items;
-        this.address=" ";
-        this.orgName=" ";
+
         this.id=" ";
         this.orderStatus=0;
-        address=" ";
+
         this.total=0;
         this.instructions=" ";
         this.GSTIN=" ";
@@ -126,20 +127,20 @@ public class Order {
         return phoneNo;
     }
 
-    public String getAddress() {
-        return address;
+    public int getPickUp() {
+        return pickUp;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setPickUp(int pickUp) {
+        this.pickUp = pickUp;
     }
 
-    public String getOrgName() {
-        return orgName;
+    public Address getAddress() {
+        return orderAddress;
     }
 
-    public void setOrgName(String orgName) {
-        this.orgName = orgName;
+    public void setAddress(Address orderAddress) {
+        this.orderAddress = orderAddress;
     }
 
     public double getTotal() {

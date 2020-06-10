@@ -25,6 +25,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:textColor="#000000"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/textView10"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,7 +46,16 @@
         android:text="City:"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        app:layout_constraintTop_toBottomOf="@+id/tvOrgName" />
+
+    <TextView
+        android:id="@+id/textview20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Pincode:"
+        app:layout_constraintStart_toStartOf="@+id/textView19"
+        app:layout_constraintTop_toBottomOf="@+id/tvAddress" />
 
     <TextView
         android:id="@+id/textView19"
@@ -55,6 +65,15 @@
         android:text="Address:"
         app:layout_constraintStart_toStartOf="@+id/textView15"
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+    <TextView
+        android:id="@+id/tvPincode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="#000000"
+        app:layout_constraintStart_toEndOf="@+id/textview20"
+        app:layout_constraintTop_toTopOf="@+id/textview20" />
 
     <TextView
         android:id="@+id/tvAddress"
@@ -93,7 +112,7 @@
         android:layout_marginTop="8dp"
         android:textColor="#000000"
         app:layout_constraintStart_toEndOf="@+id/textView24"
-        app:layout_constraintTop_toBottomOf="@+id/tvAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/textview20" />
 
     <TextView
         android:id="@+id/textView24"
@@ -102,5 +121,5 @@
         android:layout_marginTop="8dp"
         android:text="Phone:"
         app:layout_constraintStart_toStartOf="@+id/textView19"
-        app:layout_constraintTop_toBottomOf="@+id/textView19" />
+        app:layout_constraintTop_toBottomOf="@+id/textview20" />
 </androidx.constraintlayout.widget.ConstraintLayout>

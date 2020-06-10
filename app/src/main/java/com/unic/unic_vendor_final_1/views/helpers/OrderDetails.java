@@ -40,9 +40,13 @@ public class OrderDetails extends Fragment {
             }
         });
         fragmentOrderDetailsBinding=FragmentOrderDetailsBinding.inflate(getLayoutInflater());
-        fragmentOrderDetailsBinding.tvOrgName.setText(order.getOrgName());
-        fragmentOrderDetailsBinding.tvAddress.setText(order.getAddress());
-        fragmentOrderDetailsBinding.tvGST.setText("1234567890");
+        if(order.getAddress()!=null) {
+            fragmentOrderDetailsBinding.tvOrgName.setText(order.getAddress() != null ? (order.getAddress().getOrgName().equals(" ") ? "Personal" : order.getAddress().getOrgName()) : "Personal");
+            fragmentOrderDetailsBinding.tvAddress.setText(order.getAddress().getAddressLine1() + "\n" + order.getAddress().getAddressLine2() + (order.getAddress().getLandmark().equals(" ") ? "" : ("\nnear " + order.getAddress().getLandmark())));
+            fragmentOrderDetailsBinding.tvCity.setText(order.getAddress().getCity().toUpperCase());
+            fragmentOrderDetailsBinding.tvPincode.setText(order.getAddress().getPincode());
+            fragmentOrderDetailsBinding.tvGST.setText("1234567890");
+        }
 
 
         return fragmentOrderDetailsBinding.getRoot();
