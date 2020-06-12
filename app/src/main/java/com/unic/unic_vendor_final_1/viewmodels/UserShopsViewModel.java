@@ -68,7 +68,6 @@ public class UserShopsViewModel extends ViewModel {
             shopids.setValue(ids);
 
             if(ids.size()>0) {
-                //getAllOrders();
                 getAllNotifications();
             }
         });
@@ -79,12 +78,7 @@ public class UserShopsViewModel extends ViewModel {
     }
 
     public void getUser() {
-        firebaseRepository.getUser().addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                mUser.setValue(documentSnapshot.toObject(User.class));
-            }
-        });
+        firebaseRepository.getUser().addSnapshotListener((documentSnapshot, e) -> mUser.setValue(documentSnapshot.toObject(User.class)));
     }
 
     public void buildSubscribeLink(String shopId,String shopName,String imageLink){
@@ -101,12 +95,7 @@ public class UserShopsViewModel extends ViewModel {
     private void updateSubscribeLink(String shopId, Uri link){
 
         firebaseRepository.setSubscribeLink(shopId,link)
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        e.printStackTrace();
-                    }
-                });
+                .addOnFailureListener(e -> e.printStackTrace());
     }
 
     public LiveData<List<Shop>> getShops() {
@@ -264,11 +253,13 @@ public class UserShopsViewModel extends ViewModel {
         Map<String,Object> data=new HashMap<>();
         data.put(role,phones);
 
-        firebaseRepository.db.collection("shops").document(shopId).collection("extraData").document("team").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if(documentSnapshot.getData()==null) {
-                    firebaseRepository.db.collection("shops").document(shopId).collection("extraData").document("team").set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+        firebaseRepository.db.collection("shops").document(shopId).collection("extraData").document("team").get().addOnSuccessListener(documentSnapshot -> {
+            if(documentSnapshot.getData()==null) {
+                firebaseRepository.db.collection("shops").document(shopId).collection("extraData").document("team").set(data).addOnSuccessListener(aVoid -> memberAddStatus.setValue(1));
+            }
+            else {
+                if(documentSnapshot.getData().get(role)==null) {
+                    firebaseRepository.db.collection("shops").document(shopId).collection("extraData").document("team").set(data, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             memberAddStatus.setValue(1);
@@ -276,77 +267,63 @@ public class UserShopsViewModel extends ViewModel {
                     });
                 }
                 else {
-                    if(documentSnapshot.getData().get(role)==null) {
-                        firebaseRepository.db.collection("shops").document(shopId).collection("extraData").document("team").set(data, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                memberAddStatus.setValue(1);
-                            }
-                        });
-                    }
-                    else {
-                        firebaseRepository.db.collection("shops").document(shopId).collection("extraData")
-                                .document("team").update(role, FieldValue.arrayUnion("+91"+phone)).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                memberAddStatus.setValue(1);
-                            }
-                        });
-                    }
+                    firebaseRepository.db.collection("shops").document(shopId).collection("extraData")
+                            .document("team").update(role, FieldValue.arrayUnion("+91"+phone)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            memberAddStatus.setValue(1);
+                        }
+                    });
                 }
-
-
             }
+
+
         });
     }
 
     public MutableLiveData<List<Map<String,String>>> getAllMembers(String shopId){
         firebaseRepository.db.collection("shops").document(shopId).collection("extraData").document("team")
-                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                        Map<String,Object> data=new HashMap<>();
-                        List<Map<String,String>> memberData=new ArrayList<>();
-                        if(e!=null){
-                            return;
+                .addSnapshotListener((documentSnapshot, e) -> {
+                    Map<String,Object> data=new HashMap<>();
+                    List<Map<String,String>> memberData=new ArrayList<>();
+                    if(e!=null){
+                        return;
+                    }
+                    if(documentSnapshot!=null && documentSnapshot.exists()) {
+                        data.putAll(documentSnapshot.getData());
+                        if(data.containsKey("salesMan")) {
+                            for (String i : (ArrayList<String>) data.get("salesMan")) {
+                                Map<String, String> a = new HashMap<>();
+                                a.put("phoneNo", i);
+                                a.put("role","salesMan");
+                                memberData.add(a);
+                            }
                         }
-                        if(documentSnapshot!=null && documentSnapshot.exists()) {
-                            data.putAll(documentSnapshot.getData());
-                            if(data.containsKey("salesMan")) {
-                                for (String i : (ArrayList<String>) data.get("salesMan")) {
-                                    Map<String, String> a = new HashMap<>();
-                                    a.put("phoneNo", i);
-                                    a.put("role","salesMan");
-                                    memberData.add(a);
-                                }
+                        if(data.containsKey("deliveryMan")) {
+                            for (String i : (ArrayList<String>) data.get("deliveryMan")) {
+                                Map<String, String> a = new HashMap<>();
+                                a.put("phoneNo", i);
+                                a.put("role","deliveryMan");
+                                memberData.add(a);
                             }
-                            if(data.containsKey("deliveryMan")) {
-                                for (String i : (ArrayList<String>) data.get("deliveryMan")) {
-                                    Map<String, String> a = new HashMap<>();
-                                    a.put("phoneNo", i);
-                                    a.put("role","deliveryMan");
-                                    memberData.add(a);
-                                }
-                            }
-                            if(data.containsKey("preparer")) {
-                                for (String i : (ArrayList<String>) data.get("preparer")) {
-                                    Map<String, String> a = new HashMap<>();
-                                    a.put("phoneNo", i);
-                                    a.put("role","preparer");
-                                    memberData.add(a);
-                                }
-                            }
-                            if(data.containsKey("dispatcher")) {
-                                for (String i : (ArrayList<String>) data.get("dispatcher")) {
-                                    Map<String, String> a = new HashMap<>();
-                                    a.put("phoneNo", i);
-                                    a.put("role","dispatcher");
-                                    memberData.add(a);
-                                }
-                            }
-                            members.setValue(memberData);
                         }
+                        if(data.containsKey("preparer")) {
+                            for (String i : (ArrayList<String>) data.get("preparer")) {
+                                Map<String, String> a = new HashMap<>();
+                                a.put("phoneNo", i);
+                                a.put("role","preparer");
+                                memberData.add(a);
+                            }
+                        }
+                        if(data.containsKey("dispatcher")) {
+                            for (String i : (ArrayList<String>) data.get("dispatcher")) {
+                                Map<String, String> a = new HashMap<>();
+                                a.put("phoneNo", i);
+                                a.put("role","dispatcher");
+                                memberData.add(a);
+                            }
+                        }
+                        members.setValue(memberData);
                     }
                 });
         return members;

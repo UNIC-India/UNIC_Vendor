@@ -118,7 +118,7 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
             }
         }
         else if (status==5){
-            enableDisableViewGroup((ViewGroup)addNewShopBinding.getRoot(),true);
+            enableDisableViewGroup(addNewShopBinding.getRoot(),true);
             ((ViewGroup)addNewShopBinding.getRoot()).removeView(coverView);
             addNewShopBinding.addShopProgressBar.setVisibility(View.GONE);
             Intent intent = new Intent(this, SetShopStructure.class);
@@ -128,7 +128,7 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
             finish();
         }
         else if(status==-1){
-            enableDisableViewGroup((ViewGroup)addNewShopBinding.getRoot(),true);
+            enableDisableViewGroup(addNewShopBinding.getRoot(),true);
             ((ViewGroup)addNewShopBinding.getRoot()).removeView(coverView);
             addNewShopBinding.addShopProgressBar.setVisibility(View.GONE);
         }
@@ -211,7 +211,7 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
                 coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 coverView.setBackgroundResource(R.color.gray_1);
                 coverView.setAlpha(0.5f);
-                ((ViewGroup)addNewShopBinding.getRoot()).addView(coverView);
+                addNewShopBinding.getRoot().addView(coverView);
                 addNewShopBinding.addShopProgressBar.setVisibility(View.VISIBLE);
                 addNewShopBinding.addShopProgressBar.bringToFront();
                 addNewShopViewModel.uploadShopData();

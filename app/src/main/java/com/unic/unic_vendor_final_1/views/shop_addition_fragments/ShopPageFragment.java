@@ -1,14 +1,11 @@
 package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 
 import android.app.Dialog;
-import android.content.Intent;
-import android.content.DialogInterface;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -20,15 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -40,13 +34,11 @@ import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsA
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ImageViewAdapters.DoubleImageAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductwoImageAdapter;
-import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.TripleProductAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.SliderViewAdapters.SliderAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentShopPageBinding;
 import com.unic.unic_vendor_final_1.datamodels.Page;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
-import com.unic.unic_vendor_final_1.views.activities.UserHome;
 import com.unic.unic_vendor_final_1.views.helpers.AutoScrollViewPager;
 
 import org.jetbrains.annotations.NotNull;
@@ -261,10 +253,10 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
 
                 View view31 = getLayoutInflater().inflate(R.layout.view_bounding,parent,false);
                 view31.setId(view.getViewCode());
-                    parent.addView(view31,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
-                    RelativeLayout.LayoutParams sliderParams = (RelativeLayout.LayoutParams) view31.getLayoutParams();
-                    sliderParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
-                    view31.setLayoutParams(sliderParams);
+                parent.addView(view31,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
+                RelativeLayout.LayoutParams sliderParams = (RelativeLayout.LayoutParams) view31.getLayoutParams();
+                sliderParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+                view31.setLayoutParams(sliderParams);
 
                 ((ViewGroup)view31.findViewById(R.id.view_loader)).addView(sliderView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
 
@@ -278,6 +270,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 AutoScrollViewPager viewPager = sliderView.findViewById(R.id.slider_images_flipper);
 
                 viewPager.startAutoScroll();
+                viewPager.setInterval(3000);
                 viewPager.setCycle(true);
                 viewPager.setStopScrollWhenTouch(true);
                 viewPager.setAdapter(sliderAdapter);
@@ -320,7 +313,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 viewIndicatorPager.setAdapter(sliderIndicatorAdapter);
                 break;
 
-                case 41:
+            case 41:
                 View doubleProductView = getLayoutInflater().inflate(R.layout.double_product_view,parent,false);
                 doubleProductView.setId(view.getViewCode());
 
@@ -373,14 +366,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
 
                 DoubleProductwoImageAdapter doubleProductwoImageAdapter = new DoubleProductwoImageAdapter(getContext());
                 doubleProductwoImageAdapter.setProducts(view.getData());
-                RecyclerView.LayoutManager doubleProductwoImageLayout;
-                if(view.getData().size()<3){
-                    doubleProductwoImageLayout=new GridLayoutManager(getContext(),view.getData().size());
-
-                }
-                else{
-                    doubleProductwoImageLayout = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL,false);
-                }
+                LinearLayoutManager doubleProductwoImageLayout = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL,false);
                 RecyclerView doubleProductwoImagesRecyclerView = doubleProductwoImages.findViewById(R.id.double_product_recycler_view);
                 doubleProductwoImagesRecyclerView.setLayoutManager(doubleProductwoImageLayout);
                 doubleProductwoImagesRecyclerView.setNestedScrollingEnabled(false);
@@ -446,62 +432,62 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                     @Override
                     public void onClick(View v) {
                         if(etText!=null&&etText.getTypeface()!=null)
-                        switch (etText.getTypeface().getStyle()){
-                            case Typeface.ITALIC:
-                                etText.setTypeface(Typeface.DEFAULT,Typeface.BOLD_ITALIC);
-                                tvBold.setBackgroundColor(getActivity().getResources().getColor(R.color.gray_1));
-                                view.getData().get(0).put("bold",true);
-                                break;
+                            switch (etText.getTypeface().getStyle()){
+                                case Typeface.ITALIC:
+                                    etText.setTypeface(Typeface.DEFAULT,Typeface.BOLD_ITALIC);
+                                    tvBold.setBackgroundColor(getActivity().getResources().getColor(R.color.gray_1));
+                                    view.getData().get(0).put("bold",true);
+                                    break;
 
-                            case Typeface.BOLD:
-                                etText.setTypeface(Typeface.DEFAULT,Typeface.NORMAL);
-                                tvBold.setBackgroundColor(getActivity().getResources().getColor(R.color.white));
-                                tvItalics.setBackground(getActivity().getDrawable(R.drawable.round_corner));
-                                view.getData().get(0).put("bold",false);
-                                break;
-                            case Typeface.NORMAL:
-                                etText.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
-                                tvBold.setBackgroundColor(getActivity().getResources().getColor(R.color.gray_1));
-                                view.getData().get(0).put("bold",true);
-                                break;
-                            case Typeface.BOLD_ITALIC:
-                                etText.setTypeface(Typeface.DEFAULT,Typeface.ITALIC);
-                                tvBold.setBackgroundColor(getActivity().getResources().getColor(R.color.white));
-                                tvItalics.setBackground(getActivity().getDrawable(R.drawable.round_corner));
-                                view.getData().get(0).put("bold",false);
-                                break;
+                                case Typeface.BOLD:
+                                    etText.setTypeface(Typeface.DEFAULT,Typeface.NORMAL);
+                                    tvBold.setBackgroundColor(getActivity().getResources().getColor(R.color.white));
+                                    tvItalics.setBackground(getActivity().getDrawable(R.drawable.round_corner));
+                                    view.getData().get(0).put("bold",false);
+                                    break;
+                                case Typeface.NORMAL:
+                                    etText.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
+                                    tvBold.setBackgroundColor(getActivity().getResources().getColor(R.color.gray_1));
+                                    view.getData().get(0).put("bold",true);
+                                    break;
+                                case Typeface.BOLD_ITALIC:
+                                    etText.setTypeface(Typeface.DEFAULT,Typeface.ITALIC);
+                                    tvBold.setBackgroundColor(getActivity().getResources().getColor(R.color.white));
+                                    tvItalics.setBackground(getActivity().getDrawable(R.drawable.round_corner));
+                                    view.getData().get(0).put("bold",false);
+                                    break;
 
-                        }
+                            }
                     }
                 });
                 tvItalics.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if(etText!=null&&etText.getTypeface()!=null)
-                        switch (etText.getTypeface().getStyle()) {
-                            case Typeface.ITALIC:
-                                etText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
-                                tvItalics.setBackgroundColor(getActivity().getResources().getColor(R.color.white));
-                                tvItalics.setBackground(getActivity().getDrawable(R.drawable.round_corner));
-                                view.getData().get(0).put("italics",true);
-                                break;
-                            case Typeface.BOLD:
-                                etText.setTypeface(Typeface.DEFAULT, Typeface.BOLD_ITALIC);
-                                tvItalics.setBackgroundColor(getActivity().getResources().getColor(R.color.gray_1));
-                                view.getData().get(0).put("italics",true);
-                                break;
-                            case Typeface.NORMAL:
-                                etText.setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
-                                tvItalics.setBackgroundColor(getActivity().getResources().getColor(R.color.gray_1));
-                                view.getData().get(0).put("italics",true);
-                                break;
-                            case Typeface.BOLD_ITALIC:
-                                etText.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
-                                tvItalics.setBackgroundColor(getActivity().getResources().getColor(R.color.white));
-                                tvItalics.setBackground(getActivity().getDrawable(R.drawable.round_corner));
-                                view.getData().get(0).put("italics",false);
-                                break;
-                        }
+                            switch (etText.getTypeface().getStyle()) {
+                                case Typeface.ITALIC:
+                                    etText.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
+                                    tvItalics.setBackgroundColor(getActivity().getResources().getColor(R.color.white));
+                                    tvItalics.setBackground(getActivity().getDrawable(R.drawable.round_corner));
+                                    view.getData().get(0).put("italics",true);
+                                    break;
+                                case Typeface.BOLD:
+                                    etText.setTypeface(Typeface.DEFAULT, Typeface.BOLD_ITALIC);
+                                    tvItalics.setBackgroundColor(getActivity().getResources().getColor(R.color.gray_1));
+                                    view.getData().get(0).put("italics",true);
+                                    break;
+                                case Typeface.NORMAL:
+                                    etText.setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
+                                    tvItalics.setBackgroundColor(getActivity().getResources().getColor(R.color.gray_1));
+                                    view.getData().get(0).put("italics",true);
+                                    break;
+                                case Typeface.BOLD_ITALIC:
+                                    etText.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
+                                    tvItalics.setBackgroundColor(getActivity().getResources().getColor(R.color.white));
+                                    tvItalics.setBackground(getActivity().getDrawable(R.drawable.round_corner));
+                                    view.getData().get(0).put("italics",false);
+                                    break;
+                            }
                     }
 
                 });
@@ -530,21 +516,21 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                          if (etSize.getText()==null||etSize.getText().toString().length()==0) {
-                              etText.setTextSize(18);
-                              view.getData().get(0).put("size",18);
-                          }
-                          else{
-                              if(Integer.parseInt(etSize.getText().toString())>=10 && Integer.parseInt(etSize.getText().toString())<=32) {
-                                  etText.setTextSize(Integer.parseInt(etSize.getText().toString()));
-                                  view.getData().get(0).put("size",Integer.parseInt(etSize.getText().toString()));
-                              }
-                              else{
-                                  etText.setTextSize(18);
-                                  view.getData().get(0).put("size",18);
-                                  Toast.makeText(getActivity(), "Size can only be between 10 and 32", Toast.LENGTH_SHORT).show();
-                              }
-                          }
+                        if (etSize.getText()==null||etSize.getText().toString().length()==0) {
+                            etText.setTextSize(18);
+                            view.getData().get(0).put("size",18);
+                        }
+                        else{
+                            if(Integer.parseInt(etSize.getText().toString())>=10 && Integer.parseInt(etSize.getText().toString())<=32) {
+                                etText.setTextSize(Integer.parseInt(etSize.getText().toString()));
+                                view.getData().get(0).put("size",Integer.parseInt(etSize.getText().toString()));
+                            }
+                            else{
+                                etText.setTextSize(18);
+                                view.getData().get(0).put("size",18);
+                                Toast.makeText(getActivity(), "Size can only be between 10 and 32", Toast.LENGTH_SHORT).show();
+                            }
+                        }
 
                     }
 
@@ -569,6 +555,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
     private void deleteView(int viewCode){
         for(int i=0;i<views.size();i++)
             if(viewCode==views.get(i).getId()){
+                parent.removeViewAt(i);
                 views.remove(i);
                 break;
             }
@@ -595,7 +582,6 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
             page.updateView(viewCode-viewCode%100+page.getViews().size(),data);
             views.get(i).setId(viewCode-viewCode%100+page.getViews().size());
             ((ViewGroup)views.get(i).findViewById(R.id.view_loader)).getChildAt(0).setId(viewCode-viewCode%100+page.getViews().size());
-
         }
 
     }
