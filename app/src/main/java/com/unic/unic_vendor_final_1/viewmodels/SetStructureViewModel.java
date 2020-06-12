@@ -23,6 +23,7 @@ import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.datamodels.Structure;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,14 +59,11 @@ public class SetStructureViewModel extends ViewModel {
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
     public void getShopData(String shopId){
-        firebaseRepository.getShop(shopId).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                shop.setValue(documentSnapshot.toObject(Shop.class));
-                status.setValue(1);
+        firebaseRepository.getShop(shopId).addOnSuccessListener(documentSnapshot -> {
+            shop.setValue(documentSnapshot.toObject(Shop.class));
+            status.setValue(1);
 
-                getShopExtras(shopId);
-            }
+            getShopExtras(shopId);
         });
     }
 
@@ -80,63 +78,52 @@ public class SetStructureViewModel extends ViewModel {
             return;
 
         firebaseRepository.getPaginatedProducts(shop.getValue().getId(),lastDoc,isFirst)
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if(queryDocumentSnapshots==null||queryDocumentSnapshots.size()==0) {
-                            lastProductSelectionDoc.setValue(null);
-                            lastProductDoc.setValue(null);
-                            lastMyProductDoc.setValue(null);
-                            return;
-                        }
-                        for(DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
-                            productData.add(doc.getData());
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if(queryDocumentSnapshots==null||queryDocumentSnapshots.size()==0) {
+                        lastProductSelectionDoc.setValue(null);
+                        lastProductDoc.setValue(null);
+                        lastMyProductDoc.setValue(null);
+                        return;
+                    }
+                    for(DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
+                        productData.add(doc.getData());
 
-                        products.setValue(productData);
-                        productStatus.setValue(1);
+                    products.setValue(productData);
+                    productStatus.setValue(1);
 
-                        switch (where){
-                            case 1:
-                                lastProductSelectionDoc.setValue(queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size()-1));;
-                                isFirstProductSelection.setValue(Boolean.FALSE);
-                                break;
-                            case 2:
-                                lastProductDoc.setValue(queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size()-1));
-                                isFirstProduct.setValue(Boolean.FALSE);
-                                break;
-                            case 3:
-                                lastMyProductDoc.setValue(queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size()-1));
-                                isFirstMyProduct.setValue(Boolean.FALSE);
+                    switch (where){
+                        case 1:
+                            lastProductSelectionDoc.setValue(queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size()-1));;
+                            isFirstProductSelection.setValue(Boolean.FALSE);
+                            break;
+                        case 2:
+                            lastProductDoc.setValue(queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size()-1));
+                            isFirstProduct.setValue(Boolean.FALSE);
+                            break;
+                        case 3:
+                            lastMyProductDoc.setValue(queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size()-1));
+                            isFirstMyProduct.setValue(Boolean.FALSE);
 
-                        }
                     }
                 });
     }
 
     public void getStructureData(final String shopId){
         firebaseRepository
-                .getShopStructure(shopId).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()) {
-                    structure.setValue(documentSnapshot.toObject(Structure.class));
-                    structureStatus.setValue(1);
-                }
-                else structureStatus.setValue(0);
-            }
-        })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        structureStatus.setValue(0);
+                .getShopStructure(shopId).addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        structure.setValue(documentSnapshot.toObject(Structure.class));
+                        structureStatus.setValue(1);
                     }
-                });
+                    else structureStatus.setValue(0);
+                })
+                .addOnFailureListener(e -> structureStatus.setValue(0));
     }
 
     public void uploadViewImage(int pageId, int viewCode, int position,String tag, byte[] data){
         firebaseRepository.saveViewImage(shop.getValue().getId(),pageId,viewCode,position,data)
                 .addOnSuccessListener(taskSnapshot -> getViewImageLink(pageId, viewCode, position, tag))
-                .addOnFailureListener(e -> e.printStackTrace());
+                .addOnFailureListener(Throwable::printStackTrace);
 
     }
 
@@ -170,55 +157,49 @@ public class SetStructureViewModel extends ViewModel {
                         }
                     })
 
-                    .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    e.printStackTrace();
-                }
-            });
+                    .addOnFailureListener(Throwable::printStackTrace);
         }
     }
 
     public void getShopExtras(String  shopId){
         Map<String,List<String>> extras = new HashMap<>();
-        firebaseRepository.getShopExtras(shopId).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+        firebaseRepository.getShopExtras(shopId).addSnapshotListener((queryDocumentSnapshots, e) -> {
 
-                if (queryDocumentSnapshots==null)
-                    return;
+            if (queryDocumentSnapshots==null)
+                return;
 
-                for(DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()){
-                    switch (doc.getId()){
-                        case "categories":
-                            List<String> categoriesList = doc.get("namesArray")!=null?(List<String>)doc.get("namesArray"):new ArrayList<>();
-                            extras.put("categories",categoriesList);
+            for(DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()){
+                switch (doc.getId()){
+                    case "categories":
 
-                            List<Map<String,Object>> categoryData = new ArrayList<>();
+                        List<String> categoriesList = new ArrayList<>(doc.getData().keySet());
 
-                            for(String category : categoriesList){
-                                Map<String,Object> data = new HashMap<>();
-                                data.put("cname",category);
-                                categoryData.add(data);
-                            }
+                        extras.put("categories",categoriesList);
 
-                            categories.setValue(categoryData);
+                        List<Map<String,Object>> categoryData = new ArrayList<>();
 
-                        case "companies":
-                            List<String> companiesdata = doc.get("namesArray")!=null?(List<String>)doc.get("namesArray"):new ArrayList<>();
-                            extras.put("companies",companiesdata);
-                            List<Map<String,Object>> companydata = new ArrayList<>();
+                        for(String category : categoriesList){
+                            Map<String,Object> data = new HashMap<>();
+                            data.put("cname",category);
+                            categoryData.add(data);
+                        }
 
-                            for(String company: companiesdata){
-                                Map<String,Object> data = new HashMap<>();
-                                data.put("compname",company);
-                                companydata.add(data);
-                            }
-                            companies.setValue(companydata);
-                    }
+                        categories.setValue(categoryData);
+
+                    case "companies":
+                        List<String> companiesdata = new ArrayList<>(doc.getData().keySet());
+                        extras.put("companies",companiesdata);
+                        List<Map<String,Object>> companydata = new ArrayList<>();
+
+                        for(String company: companiesdata){
+                            Map<String,Object> data = new HashMap<>();
+                            data.put("compname",company);
+                            companydata.add(data);
+                        }
+                        companies.setValue(companydata);
                 }
-                shopExtras.setValue(extras);
             }
+            shopExtras.setValue(extras);
         });
     }
 

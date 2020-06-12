@@ -118,6 +118,9 @@ public class ShopQRAdapter  extends RecyclerView.Adapter<ShopQRAdapter.ViewHolde
         holder.btnGenerateQR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //userShopsViewModel.buildSubscribeLink(shops.get(position).getId(),shops.get(position).getName(),shops.get(position).getImageLink());
+
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, shops.get(position).getDynSubscribeLink());

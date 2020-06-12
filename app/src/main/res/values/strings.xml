@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">UNIC Vendor</string>
+    <string name="app_name">UNIC Business</string>
 
     <string name="title_activity_navigation">navigation</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

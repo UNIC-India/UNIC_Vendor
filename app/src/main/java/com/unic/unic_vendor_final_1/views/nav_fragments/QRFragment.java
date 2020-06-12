@@ -83,8 +83,8 @@ public class QRFragment extends Fragment {
 
     }
 
-    private void makeDynamicLink(String shopId,String shopName){
-        shopsViewModel.buildSubscribeLink(shopId,shopName);
+    private void makeDynamicLink(String shopId,String shopName,String imageLink){
+        shopsViewModel.buildSubscribeLink(shopId,shopName,imageLink);
     }
 
     public Bitmap generateQRCode(String str, int len) throws WriterException {

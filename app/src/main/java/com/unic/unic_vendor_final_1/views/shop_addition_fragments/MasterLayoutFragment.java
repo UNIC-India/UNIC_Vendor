@@ -227,6 +227,11 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
 
 
     private void setSearchResults(List<Map<String, Object>> searchResults) {
+        if(searchResults==null) {
+            masterProductAdapter.setProducts(products);
+            masterProductAdapter.notifyDataSetChanged();
+            return;
+        }
         this.searchResults = searchResults;
         masterProductAdapter.setProducts(searchResults);
         masterProductAdapter.notifyDataSetChanged();
@@ -270,11 +275,6 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
                         if(category.toLowerCase().contains(s.toString().toLowerCase()))
                             refinedCategories.add(category);
                     }
-                    /*for(Map map : products){
-                        if (((String)map.get("category")).toLowerCase().contains(s.toString().toLowerCase())){
-                            refinedProducts.add(map);
-                        }
-                    }*/
                     masterCategoriesAdapter.setCategories(refinedCategories);
                 }
                 else {
@@ -306,11 +306,17 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
     @Override
     public void afterTextChanged(Editable s) {
 
+        if(s.length()<2){
+            masterProductAdapter.setProducts(products);
+            masterProductAdapter.notifyDataSetChanged();
+            setStructureViewModel.clearSearch();
+        }
+
     }
 
     private void refineSearchResult(CharSequence s){
 
-        if(searchResults.size()==0)
+        if(searchResults==null||searchResults.size()==0)
             return;
 
         List<Map<String,Object>> refinedProducts = new ArrayList<>();

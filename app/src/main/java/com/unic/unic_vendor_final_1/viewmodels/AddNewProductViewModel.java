@@ -23,6 +23,7 @@ public class AddNewProductViewModel extends ViewModel {
                 .addOnSuccessListener(documentReference -> {
                     product.getValue().setFirestoreId(documentReference.getId());
                     productStatus.setValue(1);
+                    firebaseRepository.prepareProduct(shopId,product.getValue().getCompany(),product.getValue().getCategory(),product.getValue().getSubcategory());
                     setProductId();
                 })
                 .addOnFailureListener(e -> {
