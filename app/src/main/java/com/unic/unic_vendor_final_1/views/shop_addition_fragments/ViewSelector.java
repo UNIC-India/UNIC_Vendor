@@ -102,7 +102,7 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
                 view00.setHeight(650);
 
                 Map<String, Object> defaultval=new HashMap<>();
-                defaultval.put("default",1);
+                defaultval.put("default",0);
                 view00.getData().add(defaultval);
                 Toast.makeText(getActivity(), "View Added!", Toast.LENGTH_SHORT).show();
                 ((SetShopStructure)getActivity()).addView(pageId,view00,0);
@@ -154,7 +154,7 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
                 builder.setPositiveButton("DONE", (dialog, which) -> {
                     if (etViewHeader.getText().toString().trim().length()>0) {
                         com.unic.unic_vendor_final_1.datamodels.View view = new com.unic.unic_vendor_final_1.datamodels.View();
-                        view.setHeight(200);
+                        view.setHeight(265);
                         view.setFields("name,imageId,price");
                         view.setHeader(etViewHeader.getText().toString().trim());
                         ((SetShopStructure) Objects.requireNonNull(getActivity())).addView(pageId, view,41);

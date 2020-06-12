@@ -519,15 +519,11 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 this.doubleBackToExitPressedOnce = true;
                 Toast.makeText(this, "Please save or your changes will be lost.", Toast.LENGTH_SHORT).show();
 
-                new Handler().postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        doubleBackToExitPressedOnce = false;
-                    }
-                }, 2000);
-            } else if (shop.getNoOfProducts() > 0 && structure != null)
-                returnToPage(1001);
+                new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+            }
+            else if (fg.getClass()==NoProductsFragment.class){
+                super.onBackPressed();
+            }
         }
     }
 

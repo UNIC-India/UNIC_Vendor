@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ import com.unic.unic_vendor_final_1.viewmodels.AddNewProductViewModel;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.unic.unic_vendor_final_1.commons.Helpers.buttonEffect;
 import static com.unic.unic_vendor_final_1.commons.Helpers.enableDisableViewGroup;
@@ -151,8 +154,16 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
             addNewProductBinding.edtProductName.setError("This field is mandatory");
             done = false;
         }
-        else
+        else {
             product.setName(addNewProductBinding.edtProductName.getText().toString());
+            List<String> keys = new ArrayList<>();
+            for(String key : product.getName().split(" ")) {
+                if (key.length() > 1)
+                    keys.add(key.substring(0, 2).toLowerCase());
+            }
+            product.setNameKeywords(keys);
+
+        }
 
         if(addNewProductBinding.edtProductCompany.getText().length()==0){
             addNewProductBinding.edtProductCompany.setError("This field is mandatory");
@@ -178,6 +189,10 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         if(addNewProductBinding.edtProductTags.getText().length()!=0)
             product.setTags(addNewProductBinding.edtProductTags.getText().toString());
 
+        if(addNewProductBinding.edtProductSubCategory.getText().length()!=0){
+            product.setSubcategory(addNewProductBinding.edtProductSubCategory.getText().toString());
+        }
+
         if(addNewProductBinding.edtProductDesc.getText().length()!=0)
             product.setDesc(addNewProductBinding.edtProductDesc.getText().toString());
 
@@ -187,7 +202,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
             coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             coverView.setBackgroundResource(R.color.gray_1);
             coverView.setAlpha(0.5f);
-            ((ViewGroup)addNewProductBinding.getRoot()).addView(coverView);
+            addNewProductBinding.getRoot().addView(coverView);
             addNewProductBinding.addShopProgressBar.setVisibility(View.VISIBLE);
             addNewProductBinding.addShopProgressBar.bringToFront();
             addNewProductViewModel.saveProduct();
@@ -213,10 +228,22 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
                     break;
 
                 case CROP_IMAGE:
-                    Glide
-                            .with(this)
-                            .load(imageUri)
-                            .into(addNewProductBinding.btnAddProductImage);
+
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imageUri);
+
+                        addNewProductBinding.btnAddProductImage.setImageBitmap(bitmap);
+
+                        /*Glide
+                                .with(this)
+                                .load(imageUri)
+                                .into(addNewProductBinding.btnAddProductImage);*/
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
             }
 
         }

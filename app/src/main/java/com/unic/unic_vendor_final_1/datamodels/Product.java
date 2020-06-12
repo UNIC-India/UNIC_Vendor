@@ -1,22 +1,27 @@
 package com.unic.unic_vendor_final_1.datamodels;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Product {
     private String category, company, name, id, imageId, tags, shopId, subcategory,firestoreId,desc;
     private double price;
+    private List<String> nameKeywords;
 
     public Product(String  shopId) {
 
-        this.category = " ";
-        this.company = " ";
-        this.name= " ";
+        this.category = "null";
+        this.company = "null";
+        this.name= "null";
         this.shopId = shopId;
         this.price = 0.0;
-        this.id=" ";
+        this.id="null";
         this.firestoreId=" ";
-        this.imageId=" ";
-        this.tags=" ";
-        this.subcategory=" ";
-        this.desc = " ";
+        this.imageId="null";
+        this.tags="null";
+        this.subcategory="null";
+        this.desc = "null";
+        this.nameKeywords = new ArrayList<>();
 
 
     }
@@ -126,5 +131,13 @@ public class Product {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public List<String> getNameKeywords() {
+        return nameKeywords;
+    }
+
+    public void setNameKeywords(List<String> nameKeywords) {
+        this.nameKeywords = nameKeywords;
     }
 }

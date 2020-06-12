@@ -94,18 +94,7 @@ public class FirebaseRepository {
     }
 
     public Task<DocumentReference> saveProduct(String shopId, Product product){
-        Map<String,Object> productMap=new HashMap<>();
-        productMap.put("firestoreId",product.getFirestoreId());
-        productMap.put("subcategory",product.getSubcategory());
-        productMap.put("shopId",product.getShopId());
-        productMap.put("tags",product.getTags());
-        productMap.put("imageId",product.getImageId());
-        productMap.put("id",product.getId());
-        productMap.put("name",product.getName());
-        productMap.put("company",product.getCompany());
-        productMap.put("category",product.getCategory());
-        productMap.put("price",product.getPrice());
-        return db.collection("shops").document(shopId).collection("products").add(productMap);
+        return db.collection("shops").document(shopId).collection("products").add(product);
     }
 
     public Task<Void> setShopId(String id) {
@@ -207,14 +196,24 @@ public class FirebaseRepository {
         data.put("shopId",shopId);
         return mFunctions.getHttpsCallable("removeOrders")
                 .call(data)
-                .continueWith(new Continuation<HttpsCallableResult, String>() {
-                    @Override
-                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                        // This continuation runs on either success or failure, but if the task
-                        // has failed then getResult() will throw an Exception which will be
-                        // propagated down.
-                        return (String) task.getResult().getData();
-                    }
+                .continueWith(task -> {
+                    // This continuation runs on either success or failure, but if the task
+                    // has failed then getResult() will throw an Exception which will be
+                    // propagated down.
+                    return (String) task.getResult().getData();
+                });
+    }
+
+    public Task<String> prepareProduct(String shopId, String company, String category, String subcategory){
+        Map<String,Object> data = new HashMap<>();
+        data.put("shopId",shopId);
+        data.put("company",company);
+        data.put("category",category);
+        data.put("subcategory",subcategory);
+        return mFunctions.getHttpsCallable("addProduct")
+                .call(data)
+                .continueWith(task -> {
+                    return (String)task.getResult().getData();
                 });
     }
 
