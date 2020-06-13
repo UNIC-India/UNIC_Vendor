@@ -313,7 +313,7 @@ public class FirebaseRepository {
                 )
                 .setSocialMetaTagParameters(
                         new DynamicLink.SocialMetaTagParameters.Builder()
-                        .setTitle("Subscribe to "+shopName+" on UNIC")
+                        .setTitle("Follow "+shopName+" on UNIC")
                         .setDescription("Check out my shop on UNIC, a platform where I can host my own shop at my convenience")
                         .setImageUrl(Uri.parse(imageLink))
                         .build()

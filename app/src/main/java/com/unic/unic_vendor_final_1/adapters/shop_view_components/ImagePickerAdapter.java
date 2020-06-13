@@ -2,6 +2,10 @@ package com.unic.unic_vendor_final_1.adapters.shop_view_components;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +13,16 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +31,8 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
 
     private List<Map<String,Object>> data;
     private Context context;
+
+    public static final int CROP_IMAGE = 2005;
 
     public ImagePickerAdapter(Context context){
         data = new ArrayList<>();
@@ -101,4 +110,5 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
     public List<Map<String, Object>> getData() {
         return data;
     }
+
 }

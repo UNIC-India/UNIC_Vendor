@@ -160,6 +160,7 @@ public class UserShopsViewModel extends ViewModel {
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (queryDocumentSnapshots==null||queryDocumentSnapshots.getDocuments().size()==0) {
                         lastOrderDoc.setValue(null);
+                        orders.setValue(null);
                         return;
                     }
                     for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()){
