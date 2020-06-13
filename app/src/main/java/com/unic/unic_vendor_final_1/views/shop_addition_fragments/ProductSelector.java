@@ -203,13 +203,18 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
         if(v.getId()==R.id.btnRight){
             data = adapter.returnSelectedProducts();
             Structure structure = setStructureViewModel.getStructure().getValue();
+            if(code==43){
+                view.setHeight(30+58*data.size());
+            }
+            if(code==44){
+                view.setHeight(30+75*data.size());
+            }
             if(view.getViewCode()==0){
                 view.setData(data);
                 structure.getPage(pageId).addNewView(view,code);
             }
             else
                 structure.updateProductList(pageId,view.getViewCode(),data);
-            setStructureViewModel.setStructure(structure);
             ((SetShopStructure) Objects.requireNonNull(getActivity())).returnToPage(pageId);
         }
 

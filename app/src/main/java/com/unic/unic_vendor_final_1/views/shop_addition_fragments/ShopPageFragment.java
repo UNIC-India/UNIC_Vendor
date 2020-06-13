@@ -34,6 +34,8 @@ import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsA
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ImageViewAdapters.DoubleImageAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductwoImageAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListWithoutImagesAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.SliderViewAdapters.SliderAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentShopPageBinding;
 import com.unic.unic_vendor_final_1.datamodels.Page;
@@ -376,8 +378,70 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                     views.add(view42);
                 break;
             case 43:
+                View productListWithoutImages = getLayoutInflater().inflate(R.layout.double_product_view,parent,false);
+                productListWithoutImages.setId(view.getViewCode());
+
+                View view43 = getLayoutInflater().inflate(R.layout.view_bounding,parent,false);
+                view43.setId(view.getViewCode());
+                parent.addView(view43,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
+                RelativeLayout.LayoutParams productListWithoutImagesParams = (RelativeLayout.LayoutParams) view43.getLayoutParams();
+                productListWithoutImagesParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+
+                ((ViewGroup)view43.findViewById(R.id.view_loader)).addView(productListWithoutImages,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
+                view43.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
+                view43.findViewById(R.id.view_dragger).setOnTouchListener(this::onTouch);
+
+                TextView tvPLWoIHeader = productListWithoutImages.findViewById(R.id.double_product_header);
+                tvPLWoIHeader.setText(view.getHeader());
+                productListWithoutImages.findViewById(R.id.btn_add_products).setOnClickListener(this);
+
+                ProductListWithoutImagesAdapter productListWithoutImagesAdapter = new ProductListWithoutImagesAdapter(getContext());
+                productListWithoutImagesAdapter.setProducts(view.getData());
+                LinearLayoutManager productListWithoutImagesLayout = new LinearLayoutManager(getContext()){
+                    @Override
+                    public boolean canScrollVertically() {
+                        return false;
+                    }
+                };
+                RecyclerView productListWithoutImagesRecyclerView = productListWithoutImages.findViewById(R.id.double_product_recycler_view);
+                productListWithoutImagesRecyclerView.setLayoutManager(productListWithoutImagesLayout);
+                productListWithoutImagesRecyclerView.setNestedScrollingEnabled(false);
+                productListWithoutImagesRecyclerView.setAdapter(productListWithoutImagesAdapter);
+                if(isNew)
+                    views.add(view43);
                 break;
             case 44:
+                View productListWithImages = getLayoutInflater().inflate(R.layout.double_product_view,parent,false);
+                productListWithImages.setId(view.getViewCode());
+
+                View view44 = getLayoutInflater().inflate(R.layout.view_bounding,parent,false);
+                view44.setId(view.getViewCode());
+                parent.addView(view44,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
+                RelativeLayout.LayoutParams productListWithImagesParams = (RelativeLayout.LayoutParams) view44.getLayoutParams();
+                productListWithImagesParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+
+                ((ViewGroup)view44.findViewById(R.id.view_loader)).addView(productListWithImages,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
+                view44.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
+                view44.findViewById(R.id.view_dragger).setOnTouchListener(this::onTouch);
+
+                TextView tvPLWiIHeader = productListWithImages.findViewById(R.id.double_product_header);
+                tvPLWiIHeader.setText(view.getHeader());
+                productListWithImages.findViewById(R.id.btn_add_products).setOnClickListener(this);
+
+                ProductListAdapter productListWithImagesAdapter = new ProductListAdapter(getContext(),3);
+                productListWithImagesAdapter.setProducts(view.getData());
+                LinearLayoutManager productListWithImagesLayout = new LinearLayoutManager(getContext()){
+                    @Override
+                    public boolean canScrollVertically() {
+                        return false;
+                    }
+                };
+                RecyclerView productListWithImagesRecyclerView = productListWithImages.findViewById(R.id.double_product_recycler_view);
+                productListWithImagesRecyclerView.setLayoutManager(productListWithImagesLayout);
+                productListWithImagesRecyclerView.setNestedScrollingEnabled(false);
+                productListWithImagesRecyclerView.setAdapter(productListWithImagesAdapter);
+                if(isNew)
+                    views.add(view44);
                 break;
             case 51:
                 View Text_View=Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.text_view_item,parent,false);
