@@ -217,7 +217,7 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
                     holder.tvViewTitle.setText("Product List Without Image");
                 }
                 if(position==3){
-                    ProductListAdapter productListWithoutImagesAdapter=new ProductListAdapter(1);
+                    ProductListAdapter productListWithImagesAdapter=new ProductListAdapter(1);
                     LinearLayoutManager ProductLayoutManager=new LinearLayoutManager(mContext);
 
                     RecyclerView rv = new RecyclerView(mContext);
@@ -226,7 +226,7 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
 
                     rv.setLayoutManager(ProductLayoutManager);
                     rv.setNestedScrollingEnabled(false);
-                    rv.setAdapter(productListWithoutImagesAdapter);
+                    rv.setAdapter(productListWithImagesAdapter);
                     holder.rdbtn.setChecked(position==lastchecked);
                     holder.tvViewTitle.setText("Product List with Images");
                 }

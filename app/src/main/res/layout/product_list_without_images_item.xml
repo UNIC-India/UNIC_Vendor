@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="55dp"
 
     android:layout_marginBottom="3dp"
     android:paddingBottom="7dp"
@@ -60,7 +60,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/Company"
+            android:id="@+id/company"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -90,16 +90,16 @@
             app:layout_constraintTop_toBottomOf="@+id/add_to_cart" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="extrainfo1"
             android:maxLines="1"
             android:ellipsize="end"
             android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="@+id/Company"
+            app:layout_constraintBottom_toBottomOf="@+id/company"
             app:layout_constraintEnd_toStartOf="@+id/textView4"
-            app:layout_constraintStart_toEndOf="@+id/Company" />
+            app:layout_constraintStart_toEndOf="@+id/company"/>
 
         <TextView
             android:id="@+id/textView4"
@@ -112,7 +112,7 @@
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@+id/tvPrice"
             app:layout_constraintEnd_toStartOf="@+id/tvPrice"
-            app:layout_constraintStart_toEndOf="@+id/Company" />
+            android:layout_marginEnd="20dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

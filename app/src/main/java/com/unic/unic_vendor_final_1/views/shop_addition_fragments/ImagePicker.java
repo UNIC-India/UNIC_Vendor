@@ -97,7 +97,7 @@ public class ImagePicker extends Fragment implements View.OnClickListener{
 
                 if(currentUpload==data.size()) {
 
-                    ((ViewGroup) imagePickerBinding.getRoot()).removeView(coverView);
+                    imagePickerBinding.getRoot().removeView(coverView);
                     imagePickerBinding.imagePickProgressBar.setVisibility(View.GONE);
                     ((SetShopStructure) getActivity()).returnToPage(pageId);
                 }
@@ -113,15 +113,12 @@ public class ImagePicker extends Fragment implements View.OnClickListener{
         adapter.notifyDataSetChanged();
 
 
-        imagePickerBinding.btnPickImages.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_MULTIPLE);
-            }
+        imagePickerBinding.btnPickImages.setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_MULTIPLE);
         });
 
         // Inflate the layout for this fragment
@@ -176,7 +173,7 @@ public class ImagePicker extends Fragment implements View.OnClickListener{
         coverView.setBackgroundResource(R.color.gray_1);
         coverView.setAlpha(0.5f);
 
-        ((ViewGroup)imagePickerBinding.getRoot()).addView(coverView);
+        imagePickerBinding.getRoot().addView(coverView);
 
         imagePickerBinding.imagePickProgressBar.setVisibility(View.VISIBLE);
 
@@ -217,9 +214,7 @@ public class ImagePicker extends Fragment implements View.OnClickListener{
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
-        try {
-            if (requestCode == PICK_IMAGE_MULTIPLE && resultCode == RESULT_OK
-                    && data!=null) {
+            if (requestCode == PICK_IMAGE_MULTIPLE && resultCode == RESULT_OK && data!=null) {
 
                 if(data.getData()!=null){
                     saveSingleImage(data.getData());
@@ -232,14 +227,12 @@ public class ImagePicker extends Fragment implements View.OnClickListener{
                         savePickedImages(mClipData);
                 }
 
-            } else {
-                Toast.makeText(getActivity(), "You haven't picked any Image",
-                        Toast.LENGTH_LONG).show();
             }
-        } catch (Exception e) {
-            Toast.makeText(getActivity(), "Error: Something went wrong " + e.getMessage(), Toast.LENGTH_LONG)
-                    .show();
-        }
+
+            if(requestCode == ImagePickerAdapter.CROP_IMAGE && resultCode== RESULT_OK && data!=null){
+                Uri uri = data.getData();
+            }
+
         super.onActivityResult(requestCode, resultCode, data);
     }
 

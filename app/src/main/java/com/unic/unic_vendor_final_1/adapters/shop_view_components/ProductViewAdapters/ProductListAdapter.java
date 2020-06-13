@@ -114,6 +114,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                     holder.cbCheck.setVisibility(View.INVISIBLE);
                     holder.imageView2.setVisibility(View.INVISIBLE);
                     break;
+                case 3:
+                    holder.cbCheck.setVisibility(View.INVISIBLE);
+                    break;
             }
         }
         else{

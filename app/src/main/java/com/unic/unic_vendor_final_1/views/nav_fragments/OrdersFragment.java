@@ -85,7 +85,6 @@ public class OrdersFragment extends Fragment {
             lastDoc = null;
             userShopsViewModel.getIsFirstOrder().setValue(Boolean.TRUE);
             userShopsViewModel.getLastOrderDoc().setValue(null);
-            userShopsViewModel.getOrders().setValue(null);
             userShopsViewModel.getPaginatedOrders(isFirst,lastDoc);
 
             Handler handler = new Handler();

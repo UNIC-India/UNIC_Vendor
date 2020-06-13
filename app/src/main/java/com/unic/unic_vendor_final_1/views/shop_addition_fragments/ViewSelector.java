@@ -66,7 +66,7 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
 
     void loadViews(int code){
         if(code==-1){
-            viewAdder(Integer.valueOf((code+1)*10 + 0).toString());
+            viewAdder(Integer.valueOf((code + 1) * 10).toString());
 
         }
         else if(code==4){
@@ -102,7 +102,7 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
                 view00.setHeight(650);
 
                 Map<String, Object> defaultval=new HashMap<>();
-                defaultval.put("default",0);
+                defaultval.put("default",1);
                 view00.getData().add(defaultval);
                 Toast.makeText(getActivity(), "View Added!", Toast.LENGTH_SHORT).show();
                 ((SetShopStructure)getActivity()).addView(pageId,view00,0);
@@ -160,8 +160,7 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
                         ((SetShopStructure) Objects.requireNonNull(getActivity())).addView(pageId, view,41);
                     }
                 });
-                builder.setNegativeButton("CANCEL", (dialog, which) -> {
-                });
+                builder.setNegativeButton("CANCEL", (dialog, which) -> dialog.dismiss());
                 AlertDialog dialog  = builder.create();
                 dialog.show();
                 break;
@@ -180,10 +179,45 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
                         ((SetShopStructure) Objects.requireNonNull(getActivity())).addView(pageId, view,42);
                     }
                 });
-                builder2.setNegativeButton("CANCEL", (dialog2, which) -> {
-                });
+                builder2.setNegativeButton("CANCEL", (dialog2, which) -> dialog2.dismiss());
                 AlertDialog dialog2  = builder2.create();
                 dialog2.show();
+                break;
+            case "43":
+                final EditText etViewHeader3 = new EditText(getContext());
+                final AlertDialog.Builder builder3 = new AlertDialog.Builder(getContext());
+                builder3.setTitle("Enter View Title");
+                builder3.setMessage("");
+                builder3.setView(etViewHeader3);
+                builder3.setPositiveButton("DONE", (dialog3, which) -> {
+                    if (etViewHeader3.getText().toString().trim().length()>0) {
+                        com.unic.unic_vendor_final_1.datamodels.View view = new com.unic.unic_vendor_final_1.datamodels.View();
+                        view.setFields("name,company,price");
+                        view.setHeader(etViewHeader3.getText().toString().trim());
+                        ((SetShopStructure) Objects.requireNonNull(getActivity())).addView(pageId, view,43);
+                    }
+                });
+                builder3.setNegativeButton("CANCEL", (dialog3, which) -> dialog3.dismiss());
+                AlertDialog dialog3  = builder3.create();
+                dialog3.show();
+                break;
+            case "44":
+                final EditText etViewHeader4 = new EditText(getContext());
+                final AlertDialog.Builder builder4 = new AlertDialog.Builder(getContext());
+                builder4.setTitle("Enter View Title");
+                builder4.setMessage("");
+                builder4.setView(etViewHeader4);
+                builder4.setPositiveButton("DONE", (dialog4, which) -> {
+                    if (etViewHeader4.getText().toString().trim().length()>0) {
+                        com.unic.unic_vendor_final_1.datamodels.View view = new com.unic.unic_vendor_final_1.datamodels.View();
+                        view.setFields("name,company,price");
+                        view.setHeader(etViewHeader4.getText().toString().trim());
+                        ((SetShopStructure) Objects.requireNonNull(getActivity())).addView(pageId, view,44);
+                    }
+                });
+                builder4.setNegativeButton("CANCEL", (dialog4, which) -> dialog4.dismiss());
+                AlertDialog dialog4  = builder4.create();
+                dialog4.show();
                 break;
             case "51":
                 com.unic.unic_vendor_final_1.datamodels.View view51 = new com.unic.unic_vendor_final_1.datamodels.View();
