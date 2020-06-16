@@ -100,7 +100,7 @@
                     android:layout_gravity="center"
                     android:layout_marginBottom="2dp"
                     android:background="@drawable/curved_corners"
-                    android:backgroundTint="@color/green"
+                    android:backgroundTint="@color/colorPrimary"
                     android:text="Add"
                     android:textColor="@color/white"
                     android:textSize="10sp"

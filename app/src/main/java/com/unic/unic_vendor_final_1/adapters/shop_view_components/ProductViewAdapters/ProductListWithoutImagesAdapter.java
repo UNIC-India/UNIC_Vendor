@@ -39,7 +39,7 @@ public class ProductListWithoutImagesAdapter extends RecyclerView.Adapter<Produc
             addToCart = itemView.findViewById(R.id.add_to_cart);
             tvCompany=itemView.findViewById(R.id.company);
             tvCategory = itemView.findViewById(R.id.category);
-            extraInfo2 = itemView.findViewById(R.id.tvExtraInfo2);
+            extraInfo2 = itemView.findViewById(R.id.textView4);
         }
     }
 

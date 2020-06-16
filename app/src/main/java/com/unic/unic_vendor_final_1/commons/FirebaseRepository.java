@@ -19,7 +19,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.functions.FirebaseFunctions;
@@ -249,8 +248,8 @@ public class FirebaseRepository {
         return db.collection("shops").document(shopId).set(data, SetOptions.merge());
     }
 
-    public Task<Void> setInstanceId(String Uid,String token){
-        return db.collection("users").document(Uid).update("vendorInstanceId",token);
+    public void setInstanceId(String Uid, String token){
+        db.collection("users").document(Uid).update("vendorInstanceId", token);
     }
 
     public Task<Void> setOrderStatus(String orderId, int orderStatus){

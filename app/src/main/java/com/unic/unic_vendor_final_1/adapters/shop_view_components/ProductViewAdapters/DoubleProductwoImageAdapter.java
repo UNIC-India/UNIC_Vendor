@@ -1,13 +1,11 @@
 package com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ProductDescriptionFragment;
 
@@ -61,7 +58,7 @@ public class DoubleProductwoImageAdapter extends RecyclerView.Adapter<DoubleProd
     @NonNull
     @Override
     public DoubleProductwoImageAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.double_product_wo_image_view_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.double_product_without_image_view_item,parent,false);
         return new DoubleProductwoImageAdapter.ViewHolder(view);
     }
 
