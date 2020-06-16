@@ -128,31 +128,33 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
 
             switch (position){
                 case 0:
-                    height = 650;
+                    height = 658;
                     break;
                 case 1:
                     count = extraData.get("categories").size();
-                    height = 45 + count*55;
+                    height = 53 + count*48;
                     break;
 
                 case 2:
                     count = extraData.get("companies").size();
-                    height = 45 + count*55;
+                    height = 53 + count*48;
                     break;
 
             }
+            Map<String,Object> heightMap = new HashMap<>();
+            heightMap.put("0",658);
+            heightMap.put("1",Math.min(53+extraData.get("categories").size()*48,658));
+            heightMap.put("2",Math.min(53+extraData.get("companies").size()*48,658));
 
             List<Map<String, Object>> temp = new ArrayList<>();
             Map<String, Object> d = new HashMap<>();    //Both these variables are used for setting the default view in the MasterLayout.
             d.put("default", position);
 
-            if(view.getData().get(0)!=null)
-                view.getData().get(0).put("default", position);
-            else {
-                temp.add(d);
-                view.setData(temp);
-            }
-            height = Math.min(height, 650);
+            temp.add(d);
+            temp.add(heightMap);
+            view.setData(temp);
+
+            height = Math.min(height, 658);
             view.setHeight(height);
 
             ((SetShopStructure)getActivity()).updateMasterLayoutHeight(pageId,view.getViewCode());
