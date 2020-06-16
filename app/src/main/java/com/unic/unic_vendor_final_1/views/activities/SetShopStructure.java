@@ -39,6 +39,7 @@ import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ProductSelecto
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ViewSelector;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ShopPageFragment;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -462,25 +463,29 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
             switch (Integer.parseInt(view.getData().get(0).get("default").toString())){
                 case 0:
-                    height = 650;
+                    height = 658;
                     break;
                 case 1:
                     count = setStructureViewModel.getShopExtras().getValue().get("categories").size();
-                    height = 45 + count*55;
+                    height = 53 + count*48;
                     break;
 
                 case 2:
                     count = setStructureViewModel.getShopExtras().getValue().get("companies").size();
-                    height = 45 + count*55;
+                    height = 53 + count*48;
                     break;
 
             }
 
+            Map<String,Object> heightMap = new HashMap<>();
+            heightMap.put("0",658);
+            heightMap.put("1",Math.min(53+setStructureViewModel.getShopExtras().getValue().get("categories").size()*48,658));
+            heightMap.put("2",Math.min(53+setStructureViewModel.getShopExtras().getValue().get("companies").size()*48,658));
 
 
-
-            height = Math.min(height, 650);
+            height = Math.min(height, 658);
             view.setHeight(height);
+            view.getData().add(1,heightMap);
 
             structure.getPage(pageId).addNewView(view, code);
             setStructureViewModel.setStructure(structure);
