@@ -61,8 +61,8 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
 
         holder.tvProductName.setText(products.get(position).get("name").toString());
         holder.tvCompany.setText(products.get(position).get("company").toString());
-        holder.tvPrice.setText("\u20B9"+products.get(position).get("price").toString());
-        holder.tvTotal.setText("\u20B9"+Double.parseDouble(products.get(position).get("price").toString())*Integer.parseInt(products.get(position).get("orderQuantity").toString())+"");
+        holder.tvPrice.setText("\u20B9 "+products.get(position).get("price").toString());
+        holder.tvTotal.setText("\u20B9 "+Double.parseDouble(products.get(position).get("price").toString())*Integer.parseInt(products.get(position).get("orderQuantity").toString())+"");
         holder.tvQty.setText(""+products.get(position).get("orderQuantity").toString());
         holder.tvExtraInfo1.setText((products.get(position).get("extraInfo1")!=null&&products.get(position).get("extraInfo1").toString().length()>=3)?products.get(position).get("extraInfo1").toString():"");
         holder.tvExtraInfo2.setText((products.get(position).get("extraInfo2")!=null&&products.get(position).get("extraInfo2").toString().length()>=3)?products.get(position).get("extraInfo2").toString():"");
