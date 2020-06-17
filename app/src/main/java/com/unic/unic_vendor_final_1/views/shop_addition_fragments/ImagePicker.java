@@ -196,7 +196,7 @@ public class ImagePicker extends Fragment implements View.OnClickListener{
 
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
 
-            bitmap = getResizedBitmap(bitmap,300);
+            bitmap = getResizedBitmap(bitmap,500);
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
