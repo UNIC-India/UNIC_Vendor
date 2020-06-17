@@ -22,7 +22,7 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
 
     private Context mContext;
     private List<Map<String,Object>> products;
-    private List<Integer> qty;
+
 
 
     public OrderItemsAdapter(Context context){
@@ -61,9 +61,9 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
 
         holder.tvProductName.setText(products.get(position).get("name").toString());
         holder.tvCompany.setText(products.get(position).get("company").toString());
-        holder.tvPrice.setText("Rs "+products.get(position).get("price").toString());
-        holder.tvTotal.setText(Double.parseDouble(products.get(position).get("price").toString())*qty.get(position)+"");
-        holder.tvQty.setText(""+qty.get(position));
+        holder.tvPrice.setText("\u20B9"+products.get(position).get("price").toString());
+        holder.tvTotal.setText("\u20B9"+Double.parseDouble(products.get(position).get("price").toString())*Integer.parseInt(products.get(position).get("orderQuantity").toString())+"");
+        holder.tvQty.setText(""+products.get(position).get("orderQuantity").toString());
         holder.tvExtraInfo1.setText((products.get(position).get("extraInfo1")!=null&&products.get(position).get("extraInfo1").toString().length()>=3)?products.get(position).get("extraInfo1").toString():"");
         holder.tvExtraInfo2.setText((products.get(position).get("extraInfo2")!=null&&products.get(position).get("extraInfo2").toString().length()>=3)?products.get(position).get("extraInfo2").toString():"");
 
@@ -91,9 +91,9 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
 
     }
 
-    public void setProducts(List<Map<String,Object>> products,List<Integer> qty){
+    public void setProducts(List<Map<String,Object>> products){
         this.products = products;
-        this.qty=qty;
+
 
     }
 

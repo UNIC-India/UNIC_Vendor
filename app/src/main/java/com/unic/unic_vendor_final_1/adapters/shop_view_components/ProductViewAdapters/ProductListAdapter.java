@@ -92,7 +92,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         if(demo==0){
             holder.tvProductName.setText(products.get(position).get("name").toString());
-            holder.tvPrice.setText(products.get(position).get("price").toString());
+            holder.tvPrice.setText("\u20B9"+products.get(position).get("price").toString());
             holder.tvCompany.setText(products.get(position).get("category").toString());
             holder.tvCategory.setText(products.get(position).get("company").toString());
             holder.imageView2.setVisibility(View.GONE);

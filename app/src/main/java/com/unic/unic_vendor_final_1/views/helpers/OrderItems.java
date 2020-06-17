@@ -51,7 +51,7 @@ public class OrderItems extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         fragmentOrderItemsBinding=FragmentOrderItemsBinding.inflate(getLayoutInflater());
         orderItemsAdapter=new OrderItemsAdapter(getContext());
-        orderItemsAdapter.setProducts(order.getItems(),order.getQuantity());
+        orderItemsAdapter.setProducts(order.getItems());
         setStatus(order.getOrderStatus());
         fragmentOrderItemsBinding.tvCustomerName.setText(order.getOwnerId());
         fragmentOrderItemsBinding.tvTotalAmount.setText("Rs "+order.getTotal()+"");

@@ -86,18 +86,17 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     @Override
     public void onBindViewHolder(@NonNull DoubleProductAdapter.ViewHolder holder, int position) {
         if (demo == 0) {
-            if (products.get(position).get("discount") != null) {
+            if (products.get(position).get("discount") != null&&Double.parseDouble(products.get(position).get("discount").toString())!=0.0) {
                 holder.tvDiscount.setText(products.get(position).get("discount").toString() + "% OFF");
                 holder.tvDiscount.setVisibility(View.VISIBLE);
-                holder.tvWithoutDiscount.setText("Rs " + products.get(position).get("price").toString());
+                holder.tvWithoutDiscount.setText("\u20B9" + products.get(position).get("price").toString());
                 holder.tvWithoutDiscount.setPaintFlags(holder.tvWithoutDiscount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                holder.tvProductPrice.setText("Rs " + (Double.parseDouble(products.get(position).get("price").toString()) * (100 - Double.parseDouble(products.get(position).get("discount").toString())) / 100) + "");
+                holder.tvProductPrice.setText("\u20B9" + (Double.parseDouble(products.get(position).get("price").toString()) * (100 - Double.parseDouble(products.get(position).get("discount").toString())) / 100) + "");
             } else {
-                holder.tvDiscount.setText("20% OFF");
+                holder.tvDiscount.setText("");
                 holder.tvDiscount.setVisibility(View.VISIBLE);
-                holder.tvWithoutDiscount.setText("Rs " + products.get(position).get("price").toString());
+                holder.tvWithoutDiscount.setText("\u20B9" + products.get(position).get("price").toString());
                 holder.tvWithoutDiscount.setPaintFlags(holder.tvWithoutDiscount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                holder.tvProductPrice.setText("Rs " + (Double.parseDouble(products.get(position).get("price").toString()) * (100 - 20) / 100));
 
             }
             holder.tvProductName.setText(products.get(position).get("name").toString());
@@ -202,14 +201,14 @@ public class ViewHolder extends RecyclerView.ViewHolder {
             });
         } else {
             holder.tvProductName.setText("Product Name" + position);
-            holder.tvProductPrice.setText("Rs:2104");
+            holder.tvProductPrice.setText("\u20B92104");
             holder.tv_no_image.setVisibility(View.GONE);
             holder.noImage.setVisibility(View.GONE);
             holder.ivProductImage.setImageResource(R.drawable.demo_product);
             holder.tvCompany.setText("Company" + position);
             holder.tvDiscount.setText("20% OFF");
             holder.tvDiscount.setVisibility(View.VISIBLE);
-            holder.tvWithoutDiscount.setText("Rs: 2524.8");
+            holder.tvWithoutDiscount.setText("\u20B92524.8");
             holder.tvWithoutDiscount.setPaintFlags(holder.tvWithoutDiscount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
