@@ -35,9 +35,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_margin="8dp"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/curved_corners"
+        android:backgroundTint="@color/colorPrimary"
         android:text="Select this Location"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white" />
 
     <ImageView
         android:id="@+id/get_location"

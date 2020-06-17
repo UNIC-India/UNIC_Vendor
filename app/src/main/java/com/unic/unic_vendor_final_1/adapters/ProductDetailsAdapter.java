@@ -73,7 +73,7 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
                     break;
                 case 2:
                     holder.tvKey.setText("Price:");
-                    holder.tvValue.setText(data.get("price").toString());
+                    holder.tvValue.setText("\u20B9"+data.get("price").toString());
                     break;
                 case 3:
                     holder.tvKey.setText("Category:");

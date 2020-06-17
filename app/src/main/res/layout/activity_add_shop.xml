@@ -27,7 +27,7 @@
             android:id="@+id/add_shop_page_1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <ImageButton
                 android:id="@+id/btn_add_shop_image"
@@ -83,7 +83,7 @@
             android:id="@+id/add_shop_page_2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/address_view"
@@ -91,7 +91,8 @@
                 android:layout_height="200dp"
                 android:layout_marginTop="100dp"
                 android:alpha="0.2"
-                android:background="@color/light_gray"
+                android:background="@drawable/curved_corneres_2"
+                android:backgroundTint="@color/light_gray"
                 android:clickable="true"
                 android:src="@drawable/ic_map"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -1,16 +1,23 @@
 package com.unic.unic_vendor_final_1.datamodels;
 
+import com.google.firebase.firestore.ServerTimestamp;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Product {
-    private String category, company, name, id, imageId, tags, shopId, subcategory,firestoreId,desc;
-    private double price;
+    private String category, company, name, id, imageId, tags, shopId, subcategory,firestoreId,desc,extraInfo1,extraInfo2;
+    private double price,discount;
     private List<String> nameKeywords;
+    @ServerTimestamp
+    Date time;
 
     public Product(String  shopId) {
 
         this.category = "null";
+        this.extraInfo1="null";
+        this.extraInfo2="null";
         this.company = "null";
         this.name= "null";
         this.shopId = shopId;
@@ -139,5 +146,29 @@ public class Product {
 
     public void setNameKeywords(List<String> nameKeywords) {
         this.nameKeywords = nameKeywords;
+    }
+
+    public String getExtraInfo1() {
+        return extraInfo1;
+    }
+
+    public void setExtraInfo1(String extraInfo1) {
+        this.extraInfo1 = extraInfo1;
+    }
+
+    public String getExtraInfo2() {
+        return extraInfo2;
+    }
+
+    public void setExtraInfo2(String extraInfo2) {
+        this.extraInfo2 = extraInfo2;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
     }
 }

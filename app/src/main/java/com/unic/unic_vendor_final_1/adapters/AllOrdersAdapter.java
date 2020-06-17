@@ -89,6 +89,10 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
         holder.tvCreatedBy.setText("");
         holder.tvTotal.setText("");
         holder.tvNoOfItems.setText("");
+        if(orders.get(position).getPickUp()==1)
+            holder.tvCustomer.setText("Personal/Pick Up");
+        else
+            holder.tvCustomer.setText(orders.get(position).getAddress().getOrgName().length()<=1?"Personal":orders.get(position).getAddress().getOrgName());
         new FirebaseRepository().db.collection("users").document(orders.get(position).getOwnerId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {

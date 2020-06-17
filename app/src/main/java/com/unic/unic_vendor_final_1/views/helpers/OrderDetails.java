@@ -40,12 +40,20 @@ public class OrderDetails extends Fragment {
             }
         });
         fragmentOrderDetailsBinding=FragmentOrderDetailsBinding.inflate(getLayoutInflater());
-        if(order.getAddress()!=null) {
-            fragmentOrderDetailsBinding.tvOrgName.setText(order.getAddress() != null ? (order.getAddress().getOrgName().equals(" ") ? "Personal" : order.getAddress().getOrgName()) : "Personal");
-            fragmentOrderDetailsBinding.tvAddress.setText(order.getAddress().getAddressLine1() + "\n" + order.getAddress().getAddressLine2() + (order.getAddress().getLandmark().equals(" ") ? "" : ("\nnear " + order.getAddress().getLandmark())));
-            fragmentOrderDetailsBinding.tvCity.setText(order.getAddress().getCity().toUpperCase());
+        fragmentOrderDetailsBinding.tvGST.setText("Not Specified");
+        if(order.getPickUp()==1){
+            fragmentOrderDetailsBinding.tvOrgName.setText("Personal/Pick Up");
+            fragmentOrderDetailsBinding.tvCity.setText("Pick Up");
+            fragmentOrderDetailsBinding.tvPincode.setText("Pick Up");
+
+            fragmentOrderDetailsBinding.tvAddress.setText("Pick Up");
+        }
+        else{
+            fragmentOrderDetailsBinding.tvOrgName.setText(order.getAddress().getOrgName().length()<=1?"Not specified":order.getAddress().getOrgName());
+            fragmentOrderDetailsBinding.tvCity.setText(order.getAddress().getCity()+", ");
             fragmentOrderDetailsBinding.tvPincode.setText(order.getAddress().getPincode());
-            fragmentOrderDetailsBinding.tvGST.setText("1234567890");
+
+            fragmentOrderDetailsBinding.tvAddress.setText(order.getAddress().getAddressLine1()+'\n'+order.getAddress().getAddressLine2()+'\n'+order.getAddress().getLandmark());
         }
 
 

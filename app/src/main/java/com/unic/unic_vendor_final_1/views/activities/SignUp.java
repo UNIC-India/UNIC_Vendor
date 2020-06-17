@@ -17,6 +17,7 @@ import com.unic.unic_vendor_final_1.databinding.ActivitySignUpBinding;
 import com.unic.unic_vendor_final_1.datamodels.User;
 import com.unic.unic_vendor_final_1.viewmodels.FirebasePhoneAuthViewModel;
 import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
+import com.unic.unic_vendor_final_1.views.helpers.Welcome;
 
 import static com.unic.unic_vendor_final_1.commons.Helpers.buttonEffect;
 import static com.unic.unic_vendor_final_1.commons.Helpers.enableDisableViewGroup;
@@ -204,5 +205,15 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         firestoreDataViewModel.addUser(user);
     }
 
-
+    @Override
+    public void onBackPressed() {
+        if(signUpBinding.signuppin.getVisibility()==View.VISIBLE){
+            signUpBinding.signuppin.setVisibility(View.GONE);
+            signUpBinding.signupmain.setVisibility(View.VISIBLE);
+        }
+        else {
+            startActivity(new Intent(SignUp.this, Welcome.class));
+            finish();
+        }
+    }
 }
