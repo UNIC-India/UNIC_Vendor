@@ -73,8 +73,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             ivProductPhoto = itemView.findViewById(R.id.product_image);
             tvCompany=itemView.findViewById(R.id.product_company_name);
             tvPrice=itemView.findViewById(R.id.product_price);
-            tvCategory=itemView.findViewById(R.id.tvCategory);
-            imageView2=itemView.findViewById(R.id.imageView2);
+            tvCategory=itemView.findViewById(R.id.product_category);
+            imageView2=itemView.findViewById(R.id.product_image);
             cbCheck.setChecked(false);
 
         }
@@ -95,7 +95,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder.tvPrice.setText("\u20B9"+products.get(position).get("price").toString());
             holder.tvCompany.setText(products.get(position).get("category").toString());
             holder.tvCategory.setText(products.get(position).get("company").toString());
-            holder.imageView2.setVisibility(View.GONE);
+           if(products.get(position).get("imageId").toString().length()<=3)
+               holder.imageView2.setVisibility(View.GONE);
             Glide
                     .with(mContext)
                     .load(products.get(position).get("imageId").toString())
@@ -111,11 +112,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                     holder.cbCheck.setOnClickListener(new CheckBoxListener(position));
                     break;
                 case 2:
-                    holder.cbCheck.setVisibility(View.INVISIBLE);
-                    holder.imageView2.setVisibility(View.INVISIBLE);
+                    holder.cbCheck.setVisibility(View.GONE);
+                    holder.imageView2.setVisibility(View.GONE);
                     break;
                 case 3:
-                    holder.cbCheck.setVisibility(View.INVISIBLE);
+                    holder.cbCheck.setVisibility(View.GONE);
                     break;
             }
         }
