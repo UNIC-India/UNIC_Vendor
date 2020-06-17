@@ -87,16 +87,17 @@
             android:layout_gravity="center_vertical"></View>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/tv_product_price"
-            android:layout_width="wrap_content"
-            android:layout_height="15sp"
-            android:textSize="12sp"
-            android:text="Price"
-            app:layout_constraintTop_toBottomOf="@id/l1"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="15dp"
-            app:layout_constraintLeft_toLeftOf="parent"></TextView>
+    <TextView
+        android:id="@+id/tv_product_price"
+        android:layout_width="wrap_content"
+        android:layout_height="15sp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
+        android:text="Price"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/l1"></TextView>
         <EditText
             android:id="@+id/edt_product_price"
             android:layout_width="match_parent"
@@ -110,16 +111,18 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/round_corner"></EditText>
-        <TextView
-            android:id="@+id/tv_product_category"
-            android:layout_width="wrap_content"
-            android:layout_height="15sp"
-            android:textSize="12sp"
-            android:text="Category"
-            app:layout_constraintTop_toBottomOf="@id/edt_product_price"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="15dp"
-            app:layout_constraintLeft_toLeftOf="parent"></TextView>
+
+    <TextView
+        android:id="@+id/tv_product_category"
+        android:layout_width="wrap_content"
+        android:layout_height="15sp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
+        android:text="Category"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edt_product_price"></TextView>
         <EditText
             android:id="@+id/edt_product_category"
             android:layout_width="match_parent"
@@ -133,16 +136,18 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/round_corner"></EditText>
-        <TextView
-            android:id="@+id/tv_product_sub_category"
-            android:layout_width="wrap_content"
-            android:layout_height="15sp"
-            android:textSize="12sp"
-            android:text="Sub Category"
-            app:layout_constraintTop_toBottomOf="@id/edt_product_category"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="15dp"
-            app:layout_constraintLeft_toLeftOf="parent"></TextView>
+
+    <TextView
+        android:id="@+id/tv_product_sub_category"
+        android:layout_width="wrap_content"
+        android:layout_height="15sp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
+        android:text="Sub Category"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edt_product_category"></TextView>
         <EditText
             android:id="@+id/edt_product_sub_category"
             android:layout_width="match_parent"
@@ -156,16 +161,18 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/round_corner"></EditText>
+
     <TextView
         android:id="@+id/tv_product_tags"
         android:layout_width="wrap_content"
         android:layout_height="15sp"
-        android:textSize="12sp"
-        android:text="Tags"
-        app:layout_constraintTop_toBottomOf="@id/edt_product_sub_category"
-        android:layout_marginTop="30dp"
         android:layout_marginLeft="15dp"
-        app:layout_constraintLeft_toLeftOf="parent"></TextView>
+        android:layout_marginTop="30dp"
+        android:text="Tags"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edt_product_sub_category"></TextView>
     <EditText
         android:id="@+id/edt_product_tags"
         android:layout_width="match_parent"
@@ -179,16 +186,18 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/round_corner"></EditText>
+
     <TextView
         android:id="@+id/tv_product_qty"
         android:layout_width="wrap_content"
         android:layout_height="15sp"
-        android:textSize="12sp"
-        android:text="Quantity"
-        app:layout_constraintTop_toBottomOf="@id/edt_product_tags"
-        android:layout_marginTop="30dp"
         android:layout_marginLeft="15dp"
-        app:layout_constraintLeft_toLeftOf="parent"></TextView>
+        android:layout_marginTop="30dp"
+        android:text="Quantity"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edt_product_tags"></TextView>
     <EditText
         android:id="@+id/edt_product_qty"
         android:layout_width="175dp"
@@ -202,17 +211,18 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:background="@drawable/round_corner"></EditText>
+
     <TextView
         android:id="@+id/tv_product_company"
         android:layout_width="wrap_content"
         android:layout_height="15sp"
-        android:textSize="12sp"
-        android:text="Company"
-        app:layout_constraintTop_toBottomOf="@id/edt_product_tags"
-        android:layout_marginTop="30dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginTop="30dp"
+        android:text="Company"
+        android:textColor="#000000"
+        android:textSize="12sp"
         app:layout_constraintLeft_toLeftOf="@id/edt_product_company"
-        ></TextView>
+        app:layout_constraintTop_toBottomOf="@id/edt_product_tags"></TextView>
     <EditText
         android:id="@+id/edt_product_company"
         android:layout_width="175dp"

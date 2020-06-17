@@ -16,6 +16,7 @@ import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.commons.Helpers;
 import com.unic.unic_vendor_final_1.databinding.ActivityLoginBinding;
 import com.unic.unic_vendor_final_1.viewmodels.FirebasePhoneAuthViewModel;
+import com.unic.unic_vendor_final_1.views.helpers.Welcome;
 
 import static com.unic.unic_vendor_final_1.commons.Helpers.buttonEffect;
 import static com.unic.unic_vendor_final_1.commons.Helpers.enableDisableViewGroup;
@@ -211,4 +212,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         loginViewModel.checkUserExists(loginBinding.etphone.getText().toString());
     }
 
+    @Override
+    public void onBackPressed() {
+        if(loginBinding.loginOTP.getVisibility()==View.VISIBLE){
+            loginBinding.loginOTP.setVisibility(View.GONE);
+            loginBinding.details.setVisibility(View.VISIBLE);
+        }
+        else {
+            startActivity(new Intent(Login.this, Welcome.class));
+            finish();
+        }
+    }
 }

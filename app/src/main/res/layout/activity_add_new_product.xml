@@ -108,8 +108,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="15sp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:text="Product Name"
+                android:textColor="#000000"
                 android:textSize="12sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -133,8 +134,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="15sp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:text="Product Description"
+                android:textColor="#000000"
                 android:textSize="12sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edt_product_name" />
@@ -160,8 +162,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="15sp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:text="Company Name"
+                android:textColor="#000000"
                 android:textSize="12sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edt_product_desc" />
@@ -184,12 +187,13 @@
                 android:id="@+id/tv_product_price"
                 android:layout_width="wrap_content"
                 android:layout_height="15sp"
-                android:textSize="12sp"
-                android:text="Price"
-                app:layout_constraintTop_toBottomOf="@id/edt_product_company"
-                android:layout_marginTop="30dp"
                 android:layout_marginLeft="15dp"
-                app:layout_constraintLeft_toLeftOf="parent"/>
+                android:layout_marginTop="20dp"
+                android:text="Price"
+                android:textColor="#000000"
+                android:textSize="12sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edt_product_company" />
             <EditText
                 android:id="@+id/edt_product_price"
                 android:layout_width="match_parent"
@@ -204,16 +208,18 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/round_corner"/>
+
             <TextView
                 android:id="@+id/tv_product_category"
                 android:layout_width="wrap_content"
                 android:layout_height="15sp"
-                android:textSize="12sp"
-                android:text="Category"
-                app:layout_constraintTop_toBottomOf="@id/edt_product_price"
-                android:layout_marginTop="30dp"
                 android:layout_marginLeft="15dp"
-                app:layout_constraintLeft_toLeftOf="parent"/>
+                android:layout_marginTop="20dp"
+                android:text="Category"
+                android:textColor="#000000"
+                android:textSize="12sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edt_product_price" />
             <EditText
                 android:id="@+id/edt_product_category"
                 android:layout_width="match_parent"
@@ -227,16 +233,18 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/round_corner"/>
+
             <TextView
                 android:id="@+id/tv_product_sub_category"
                 android:layout_width="wrap_content"
                 android:layout_height="15sp"
-                android:textSize="12sp"
-                android:text="Sub Category"
-                app:layout_constraintTop_toBottomOf="@id/edt_product_category"
-                android:layout_marginTop="30dp"
                 android:layout_marginLeft="15dp"
-                app:layout_constraintLeft_toLeftOf="parent"/>
+                android:layout_marginTop="20dp"
+                android:text="Sub Category"
+                android:textColor="#000000"
+                android:textSize="12sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edt_product_category" />
             <EditText
                 android:id="@+id/edt_product_sub_category"
                 android:layout_width="match_parent"
@@ -250,16 +258,18 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/round_corner"/>
+
             <TextView
                 android:id="@+id/tv_product_tags"
                 android:layout_width="wrap_content"
                 android:layout_height="15sp"
-                android:textSize="12sp"
-                android:text="Tags"
-                app:layout_constraintTop_toBottomOf="@id/edt_product_sub_category"
-                android:layout_marginTop="30dp"
                 android:layout_marginLeft="15dp"
-                app:layout_constraintLeft_toLeftOf="parent"/>
+                android:layout_marginTop="20dp"
+                android:text="Tags"
+                android:textColor="#000000"
+                android:textSize="12sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edt_product_sub_category" />
             <EditText
                 android:id="@+id/edt_product_tags"
                 android:layout_width="match_parent"
@@ -273,12 +283,84 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/round_corner"/>
+            <TextView
+                android:id="@+id/tv_product_discount"
+                android:layout_width="wrap_content"
+                android:layout_height="15sp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:text="Discount (in %)"
+                android:textColor="#000000"
+                android:textSize="12sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edt_product_tags" />
+            <EditText
+                android:id="@+id/edt_product_discount"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_product_discount"
+                android:layout_marginTop="10dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:paddingLeft="10dp"
+                android:textColor="@color/darkest"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/round_corner"/>
+            <TextView
+                android:id="@+id/tv_product_extrainfo1"
+                android:layout_width="wrap_content"
+                android:layout_height="15sp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:text="ExtraInfo1"
+                android:textColor="#000000"
+                android:textSize="12sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edt_product_discount" />
+            <EditText
+                android:id="@+id/edt_product_extrainfo1"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_product_extrainfo1"
+                android:layout_marginTop="10dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:paddingLeft="10dp"
+                android:textColor="@color/darkest"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/round_corner"/>
+            <TextView
+                android:id="@+id/tv_product_extrainfo2"
+                android:layout_width="wrap_content"
+                android:layout_height="15sp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:text="ExtraInfo2"
+                android:textColor="#000000"
+                android:textSize="12sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edt_product_extrainfo1" />
+            <EditText
+                android:id="@+id/edt_product_extrainfo2"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_product_extrainfo2"
+                android:layout_marginTop="10dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:paddingLeft="10dp"
+                android:textColor="@color/darkest"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/round_corner"/>
 
             <Button
                 android:id="@+id/btn_confirm_product_addition"
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/edt_product_tags"
+                app:layout_constraintTop_toBottomOf="@id/edt_product_extrainfo2"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:textSize="16sp"

@@ -22,7 +22,7 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
 
     private Context mContext;
     private List<Map<String,Object>> products;
-    private List<Integer> qty;
+
 
 
     public OrderItemsAdapter(Context context){
@@ -91,9 +91,9 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
 
     }
 
-    public void setProducts(List<Map<String,Object>> products,List<Integer> qty){
+    public void setProducts(List<Map<String,Object>> products){
         this.products = products;
-        this.qty=qty;
+
 
     }
 

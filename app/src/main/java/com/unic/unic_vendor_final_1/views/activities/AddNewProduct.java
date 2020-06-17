@@ -41,6 +41,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
     private ActivityAddNewProductBinding addNewProductBinding;
     private Product product;
 
+
     private View coverView;
 
     private static final int GALLERY_INTENT = 1001;
@@ -195,6 +196,12 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
 
         if(addNewProductBinding.edtProductDesc.getText().length()!=0)
             product.setDesc(addNewProductBinding.edtProductDesc.getText().toString());
+        if(addNewProductBinding.edtProductDiscount.getText().length()!=0)
+            product.setDiscount(Double.parseDouble(addNewProductBinding.edtProductDiscount.getText().toString()));
+        if(addNewProductBinding.edtProductExtrainfo1.getText().length()!=0)
+            product.setExtraInfo1(addNewProductBinding.edtProductExtrainfo1.getText().toString());
+        if(addNewProductBinding.edtProductExtrainfo2.getText().length()!=0)
+            product.setExtraInfo2(addNewProductBinding.edtProductExtrainfo2.getText().toString());
 
         if(done){
             addNewProductViewModel.setProduct(product);

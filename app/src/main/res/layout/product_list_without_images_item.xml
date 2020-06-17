@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    android:id="@+id/product_list_without_images_card"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="55dp"
-
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
     android:layout_marginBottom="3dp"
-    android:paddingBottom="7dp"
+    app:cardCornerRadius="8dp"
     app:cardElevation="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp">
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
 
         <ImageView
             android:id="@+id/imageView"
@@ -28,16 +30,17 @@
 
         <TextView
             android:id="@+id/product_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent=".75"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_weight="9"
+            android:ellipsize="end"
             android:fontFamily="@font/montserrat_normal"
+            android:maxLines="1"
             android:text="Product Name"
             android:textColor="#000000"
             android:textSize="17sp"
-            android:maxLines="1"
-            android:ellipsize="end"
 
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/imageView"
@@ -47,12 +50,15 @@
         <Button
             android:id="@+id/add_to_cart"
             style="@style/StandardButton"
-            android:layout_width="55dp"
+            android:layout_width="70dp"
             android:layout_height="25dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:layout_marginRight="5dp"
+            android:drawableEnd="@drawable/ic_plus_pink_16"
             android:layout_weight="1"
             android:background="@drawable/btn_without_images_item"
-            android:text="Add+"
+            android:text="Add"
             android:textColor="@color/colorPrimary"
             android:textSize="11sp"
             android:theme="@style/btn_without_images"
@@ -65,11 +71,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_weight="9"
+            android:ellipsize="end"
             android:fontFamily="@font/montserrat_normal"
+            android:maxLines="1"
             android:text="company"
             android:textSize="15sp"
-            android:maxLines="1"
-            android:ellipsize="end"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
 
@@ -93,26 +99,27 @@
             android:id="@+id/category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="extrainfo1"
-            android:maxLines="1"
             android:ellipsize="end"
+            android:maxLines="1"
+            android:text="extrainfo1"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@+id/company"
             app:layout_constraintEnd_toStartOf="@+id/textView4"
-            app:layout_constraintStart_toEndOf="@+id/company"/>
+            app:layout_constraintStart_toEndOf="@+id/company" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
             android:layout_marginRight="4dp"
-            android:text="extraInfo2"
-            android:maxLines="1"
             android:ellipsize="end"
+            android:maxLines="1"
+            android:text="extraInfo2"
             android:textSize="15sp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/tvPrice"
-            app:layout_constraintEnd_toStartOf="@+id/tvPrice"
-            android:layout_marginEnd="20dp"/>
+            app:layout_constraintEnd_toStartOf="@+id/tvPrice" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

@@ -67,10 +67,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
+                        android:fontFamily="@font/montserrat_bold"
                         android:maxLines="1"
                         android:textColor="#FFFFFF"
-                        android:textSize="24sp"
 
+                        android:textSize="24sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/confirm_shop_structure"
                         app:layout_constraintStart_toStartOf="parent"

@@ -10,6 +10,7 @@
     android:layout_marginBottom="13dp"
     android:clickable="true"
     android:paddingTop="10dp"
+    app:cardCornerRadius="10dp"
     app:cardElevation="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,29 +44,29 @@
                         android:id="@+id/textView8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Customer:"
-                        android:textSize="12sp"
+                        android:ellipsize="end"
                         android:maxLines="1"
-                        android:ellipsize="end"/>
+                        android:text="Customer:"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tvCustomer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:textColor="#000000"
                         android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:maxLines="1"
-                        android:ellipsize="end"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tvGST"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text='"'
-                        android:textSize="10sp"
+                        android:ellipsize="end"
                         android:maxLines="1"
-                        android:ellipsize="end"/>
+                        android:text='"'
+                        android:textSize="10sp" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -90,24 +91,24 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:drawableStart="@drawable/call"
+                        android:ellipsize="end"
                         android:gravity="center_horizontal|center_vertical"
+                        android:maxLines="1"
                         android:text="Call"
                         android:textColor="#107E22"
                         android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:maxLines="1"
-                        android:ellipsize="end"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tvShopName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:text="Shop Name"
                         android:textColor="#000000"
-                        android:textSize="10sp"
-                        android:maxLines="1"
-                        android:ellipsize="end"/>
+                        android:textSize="10sp" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -168,11 +169,11 @@
                 android:id="@+id/tvOrderId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="TextView"
                 android:textColor="#0020C2"
                 android:textSize="12sp"
-                android:maxLines="1"
-                android:ellipsize="end"
                 app:layout_constraintBottom_toBottomOf="@+id/orderId"
                 app:layout_constraintStart_toEndOf="@+id/orderId" />
 
@@ -194,11 +195,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="10dp"
+                android:ellipsize="end"
                 android:fontFamily="@font/abeezee"
+                android:maxLines="1"
                 android:text="Order ID:"
                 android:textAllCaps="false"
-                android:maxLines="1"
-                android:ellipsize="end"
                 android:textSize="12sp"
                 app:layout_constraintStart_toEndOf="@id/view2"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -209,10 +210,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="11dp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="Created By: "
                 android:textSize="10sp"
-                android:maxLines="1"
-                android:ellipsize="end"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/orderId"
                 app:layout_constraintTop_toBottomOf="@+id/orderId" />
@@ -225,12 +226,12 @@
                 android:layout_marginRight="6dp"
                 android:background="@drawable/order_status"
                 android:backgroundTint="@color/colorPrimary"
+                android:ellipsize="end"
                 android:gravity="center_horizontal|center_vertical"
+                android:maxLines="1"
                 android:text="Denied"
                 android:textColor="#FFFFFF"
                 android:textSize="10dp"
-                android:maxLines="1"
-                android:ellipsize="end"
                 android:textStyle="normal"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -266,11 +267,11 @@
                         android:id="@+id/tvDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:text="21 Apr 2020"
                         android:textColor="#000000"
                         android:textSize="12sp"
-                        android:maxLines="1"
-                        android:ellipsize="end"
                         android:textStyle="bold"
                         tools:layout_editor_absoluteX="39dp"
                         tools:layout_editor_absoluteY="19dp" />
@@ -280,9 +281,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="14:20"
-                        android:maxLines="1"
                         android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="14:20"
                         android:textSize="10dp"
                         tools:layout_editor_absoluteX="39dp" />
                 </LinearLayout>
@@ -316,9 +317,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="67"
-                        android:maxLines="1"
                         android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="67"
                         android:textColor="#000000"
                         android:textSize="12sp"
                         android:textStyle="bold"
@@ -329,10 +330,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:text="No. Of Items"
                         android:textSize="10dp"
-                        android:maxLines="1"
-                        android:ellipsize="end"
                         tools:layout_editor_absoluteX="39dp"
                         tools:layout_editor_absoluteY="19dp" />
                 </LinearLayout>
@@ -361,9 +362,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Rs.20000"
-                        android:maxLines="1"
                         android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="Rs.20000"
                         android:textColor="#107E22"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -372,9 +373,9 @@
                         android:id="@+id/textView16"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:maxLines="1"
-                        android:ellipsize="end"
                         android:layout_gravity="center_horizontal"
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:text="Total Amount"
                         android:textSize="10dp" />
                 </LinearLayout>
