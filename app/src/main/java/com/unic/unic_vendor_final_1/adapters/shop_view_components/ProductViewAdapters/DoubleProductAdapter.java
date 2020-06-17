@@ -95,9 +95,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
             } else {
                 holder.tvDiscount.setText("");
                 holder.tvDiscount.setVisibility(View.VISIBLE);
-                holder.tvWithoutDiscount.setText("\u20B9" + products.get(position).get("price").toString());
-                holder.tvWithoutDiscount.setPaintFlags(holder.tvWithoutDiscount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-
+                holder.tvProductPrice.setText("\u20B9" + products.get(position).get("price").toString());
             }
             holder.tvProductName.setText(products.get(position).get("name").toString());
             if (products.get(position).get("name").toString().length() > 20) {
