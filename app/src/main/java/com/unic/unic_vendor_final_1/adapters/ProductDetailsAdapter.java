@@ -81,7 +81,7 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
                     break;
             }
         } else {
-            if (keysToOmit.contains(keys.get(position>=data.size()?(position-data.size()):position))||values.get(position).toString().equals("null")) {
+            if (keysToOmit.contains(keys.get(position>=data.size()?(position-data.size()):position))) {
                 holder.cdDetail.setLayoutParams(holder.params);
             } else {
                 holder.tvKey.setText(keys.get(position>=data.size()?(position-data.size()):position) + ":");
