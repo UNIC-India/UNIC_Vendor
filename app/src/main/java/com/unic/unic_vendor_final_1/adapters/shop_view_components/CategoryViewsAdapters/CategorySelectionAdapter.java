@@ -96,7 +96,7 @@ public class CategorySelectionAdapter extends RecyclerView.Adapter<com.unic.unic
         if(demo==0){
             if(categories==null)
                 return 0;
-            return categories.size();
+            return categories==null?0:categories.size();
         }
 
         else

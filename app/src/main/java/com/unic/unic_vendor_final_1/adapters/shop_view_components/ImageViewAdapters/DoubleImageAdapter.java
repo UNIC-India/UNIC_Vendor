@@ -96,7 +96,7 @@ public class DoubleImageAdapter extends RecyclerView.Adapter<DoubleImageAdapter.
     @Override
     public int getItemCount() {
         if (demo==0)
-            return data.size();
+            return data==null?0:data.size();
         return 3;
     }
 }

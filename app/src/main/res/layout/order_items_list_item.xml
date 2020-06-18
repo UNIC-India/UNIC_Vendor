@@ -29,8 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/product_image"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -93,7 +93,6 @@
             android:id="@+id/product_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
             android:ellipsize="end"
             android:fontFamily="@font/abeezee"
             android:hint="Rs. 20"
@@ -102,7 +101,7 @@
             android:textColorHint="@color/colorPrimary"
 
             android:textSize="15dp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/product_company_name"
             app:layout_constraintTop_toBottomOf="@id/product_company_name" />
 
         <TextView

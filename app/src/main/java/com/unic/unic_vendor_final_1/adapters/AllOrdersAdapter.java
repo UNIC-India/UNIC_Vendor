@@ -183,6 +183,13 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
                 holder.tvStatus.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green2)));
                 holder.line.setBackgroundColor(context.getResources().getColor(R.color.green2));
                 break;
+            case 5:
+                holder.loading.setVisibility(View.GONE);
+                holder.tvStatus.setVisibility(View.VISIBLE);
+                holder.tvStatus.setText("Patrially Accepted");
+                holder.tvStatus.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green2)));
+                holder.line.setBackgroundColor(context.getResources().getColor(R.color.green2));
+                break;
             case -1:
                 holder.loading.setVisibility(View.GONE);
                 holder.tvStatus.setVisibility(View.VISIBLE);

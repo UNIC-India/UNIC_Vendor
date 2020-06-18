@@ -1,9 +1,12 @@
 package com.unic.unic_vendor_final_1.adapters;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,7 +15,9 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.unic.unic_vendor_final_1.BuildConfig;
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.datamodels.Order;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ProductDescriptionFragment;
 
 import java.util.List;
@@ -21,7 +26,9 @@ import java.util.Map;
 public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<Map<String,Object>> products;
+    private Order order;
+    private Boolean isVisible=false;
+    public Boolean reset=false;
 
 
 
@@ -33,6 +40,7 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView tvProductName,tvCompany,tvPrice, tvTotal,tvQty, tvExtraInfo1,tvExtraInfo2;
         CardView cdProduct;
+        CheckBox checkBox;
 
 
         public ViewHolder(@NonNull View itemView){
@@ -45,6 +53,9 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
             cdProduct=itemView.findViewById(R.id.cdProduct);
             tvExtraInfo1=itemView.findViewById(R.id.tvExtraInfo1);
             tvExtraInfo2=itemView.findViewById(R.id.tvExtraInfo2);
+            checkBox=itemView.findViewById(R.id.product_checkbox);
+
+
 
         }
     }
@@ -59,13 +70,47 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull OrderItemsAdapter.ViewHolder holder, int position) {
 
-        holder.tvProductName.setText(products.get(position).get("name").toString());
-        holder.tvCompany.setText(products.get(position).get("company").toString());
-        holder.tvPrice.setText("\u20B9 "+products.get(position).get("price").toString());
-        holder.tvTotal.setText("\u20B9 "+Double.parseDouble(products.get(position).get("price").toString())*Integer.parseInt(products.get(position).get("orderQuantity").toString())+"");
-        holder.tvQty.setText(""+products.get(position).get("orderQuantity").toString());
-        holder.tvExtraInfo1.setText((products.get(position).get("extraInfo1")!=null&&products.get(position).get("extraInfo1").toString().length()>=3)?products.get(position).get("extraInfo1").toString():"");
-        holder.tvExtraInfo2.setText((products.get(position).get("extraInfo2")!=null&&products.get(position).get("extraInfo2").toString().length()>=3)?products.get(position).get("extraInfo2").toString():"");
+        holder.tvProductName.setText(order.getItems().get(position).get("name").toString());
+        holder.tvCompany.setText(order.getItems().get(position).get("company").toString());
+        holder.tvPrice.setText("\u20B9 "+order.getItems().get(position).get("price").toString());
+        holder.tvTotal.setText("\u20B9 "+Double.parseDouble(order.getItems().get(position).get("price").toString())*Integer.parseInt(order.getItems().get(position).get("orderQuantity").toString())+"");
+        holder.tvQty.setText(""+order.getItems().get(position).get("orderQuantity").toString());
+        holder.tvExtraInfo1.setText((order.getItems().get(position).get("extraInfo1")!=null&&order.getItems().get(position).get("extraInfo1").toString().length()>=3)?order.getItems().get(position).get("extraInfo1").toString():"");
+        holder.tvExtraInfo2.setText((order.getItems().get(position).get("extraInfo2")!=null&&order.getItems().get(position).get("extraInfo2").toString().length()>=3)?order.getItems().get(position).get("extraInfo2").toString():"");
+        if(isVisible)
+            holder.checkBox.setVisibility(View.VISIBLE);
+        else
+            holder.checkBox.setVisibility(View.GONE);
+        if(order.getItems().get(position).get("availability")!=null){
+            switch (Integer.parseInt(order.getItems().get(position).get("availability").toString())){
+                case -1:
+                    holder.cdProduct.setCardBackgroundColor(ColorStateList.valueOf(mContext.getResources().getColor(R.color.grey3)));
+                    break;
+                case 1:
+                    holder.cdProduct.setCardBackgroundColor(ColorStateList.valueOf(mContext.getResources().getColor(R.color.white)));
+            }
+        }
+        else
+            order.getItems().get(position).put("availability",1);
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!reset) {
+                    if (holder.checkBox.isChecked()) {
+                        order.getItems().get(position).put("availability", -1);
+                        holder.cdProduct.setCardBackgroundColor(ColorStateList.valueOf(mContext.getResources().getColor(R.color.grey3)));
+                    } else {
+                        order.getItems().get(position).put("availability", 1);
+                        holder.cdProduct.setCardBackgroundColor(ColorStateList.valueOf(mContext.getResources().getColor(R.color.white)));
+
+                    }
+                }
+                else{
+                    order.getItems().get(position).put("availability", 1);
+                }
+            }
+
+        });
 
         holder.cdProduct.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,10 +119,15 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
                         .beginTransaction()
                         .addToBackStack(null)
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .replace(R.id.home_fragment,new ProductDescriptionFragment(products.get(position)))
+                        .replace(R.id.home_fragment,new ProductDescriptionFragment(order.getItems().get(position)))
                         .commit();
             }
         });
+        if(position==getItemCount()-1){
+            reset=false;
+        }
+
+
 
 
 
@@ -87,14 +137,20 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return products.size();
+        return order==null||order.getItems()==null?0:order.getItems().size();
 
     }
 
-    public void setProducts(List<Map<String,Object>> products){
-        this.products = products;
+    public void setProducts(Order order){
+        this.order = order;
+    }
 
+    public void setCheckBoxVisibility(Boolean isVisible){
+        this.isVisible=isVisible;
+    }
 
+    public Order returnOrder(){
+        return order;
     }
 
 }

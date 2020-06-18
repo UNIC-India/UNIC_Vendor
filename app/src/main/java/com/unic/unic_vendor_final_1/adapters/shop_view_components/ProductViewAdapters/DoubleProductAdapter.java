@@ -224,7 +224,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     public int getItemCount() {
         if (demo == 0)
             if (products != null)
-                return products.size();
+                return products==null?0:products.size();
             else
                 return 0;
         else

@@ -157,7 +157,7 @@ public class MasterProductAdapter extends RecyclerView.Adapter<MasterProductAdap
     public int getItemCount() {
         if (products == null)
             return 0;
-        return products.size();
+        return products==null?0:products.size();
 
     }
 

@@ -74,7 +74,7 @@ public class ProductListWithoutImagesAdapter extends RecyclerView.Adapter<Produc
     @Override
     public int getItemCount() {
         if(demo==0)
-            return products.size();
+            return products==null?0:products.size();
         else
             return 3;
     }

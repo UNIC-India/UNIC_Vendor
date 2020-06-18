@@ -190,6 +190,10 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     public void authWithOTP() {
         if (signUpBinding.edtpin.getText().toString().trim().length() != 6) {
             signUpBinding.edtpin.setError("Incorrect OTP Entered");
+            signUpBinding.signUpConstraintLayout.setVisibility(View.GONE);
+            enableDisableViewGroup((ViewGroup)signUpBinding.getRoot(),true);
+            if(coverView.getParent()!=null)
+                ((ViewGroup)signUpBinding.signUpConstraintLayout).removeView(coverView);
             return;
         }
         signUpViewModel.verifyWithOTP(signUpBinding.edtpin.getText().toString().trim());
@@ -210,6 +214,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         if(signUpBinding.signuppin.getVisibility()==View.VISIBLE){
             signUpBinding.signuppin.setVisibility(View.GONE);
             signUpBinding.signupmain.setVisibility(View.VISIBLE);
+
         }
         else {
             startActivity(new Intent(SignUp.this, Welcome.class));

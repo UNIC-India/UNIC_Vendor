@@ -182,7 +182,7 @@ public class ShopQRAdapter  extends RecyclerView.Adapter<ShopQRAdapter.ViewHolde
 
     @Override
     public int getItemCount() {
-        return shops.size();
+        return shops==null?0:shops.size();
     }
 
     public void setShops(List<Shop> shops) {

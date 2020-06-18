@@ -100,7 +100,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return data==null?0:data.size();
     }
 
     public void setData(List<Map<String, Object>> data) {

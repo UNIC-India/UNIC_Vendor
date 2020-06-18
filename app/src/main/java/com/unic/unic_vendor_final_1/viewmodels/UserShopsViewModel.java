@@ -45,6 +45,7 @@ public class UserShopsViewModel extends ViewModel {
     private MutableLiveData<Boolean> isFirstOrder = new MutableLiveData<>();
     private MutableLiveData<DocumentSnapshot> lastOrderDoc = new MutableLiveData<>();
     public MutableLiveData<Boolean> isOrderUpdating =new MutableLiveData<>();
+    public MutableLiveData<Boolean> isVisible= new MutableLiveData<>();
 
     public MutableLiveData<Boolean> isMyAppsLoading = new MutableLiveData<>();
 
@@ -179,6 +180,15 @@ public class UserShopsViewModel extends ViewModel {
                     }
                 });
 
+    }
+    public void updateOrderItems(Order order){
+
+        firebaseRepository.db.collection("orders").document(order.getId()).update("items",order.getItems()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+        });
     }
 
     public void setOrderStatus(String  orderId, int orderStatus) {

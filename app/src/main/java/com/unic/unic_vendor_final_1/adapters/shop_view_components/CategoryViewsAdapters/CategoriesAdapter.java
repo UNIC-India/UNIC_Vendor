@@ -66,7 +66,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<com.unic.unic_vendor
     @Override
     public int getItemCount() {
         if(demo==0)
-            return categories.size();
+            return categories==null?0:categories.size();
         else
             return 9;
     }

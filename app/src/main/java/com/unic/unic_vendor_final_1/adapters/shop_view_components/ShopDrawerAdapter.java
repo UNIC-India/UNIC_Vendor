@@ -214,7 +214,7 @@ public class ShopDrawerAdapter extends RecyclerView.Adapter<ShopDrawerAdapter.Vi
     public int getItemCount() {
         if(pages==null)
             return 0;
-        return pages.size();
+        return pages==null?0:pages.size();
     }
 
     public void setPages(List<Page> pages) {

@@ -13,6 +13,60 @@
     tools:context=".views.helpers.OrderItems">
 
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ccButtons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvInstructions">
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/std_button"
+            android:backgroundTint="@color/colorPrimary"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="Cancel"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/btnDone"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnDone"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:background="@drawable/std_button"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="Done"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnAvailability"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/std_button"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="Select Unavailable Items"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <TextView
         android:id="@+id/tvInstructions"
         android:layout_width="wrap_content"
@@ -277,10 +331,10 @@
         android:id="@+id/rvOrderItems"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvInstructions" />
+        app:layout_constraintTop_toBottomOf="@+id/ccButtons" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
