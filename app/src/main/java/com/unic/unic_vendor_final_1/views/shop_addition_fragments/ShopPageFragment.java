@@ -756,4 +756,8 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
         views.set(v1,views.get(v2));
         views.set(v2,v);
     }
+
+    public int getPageId(){
+        return page.getPageId();
+    }
 }

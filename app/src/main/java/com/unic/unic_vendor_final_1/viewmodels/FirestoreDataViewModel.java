@@ -23,6 +23,7 @@ public class FirestoreDataViewModel extends ViewModel {
     private MutableLiveData<Integer> userStatus = new MutableLiveData<>();
     private MutableLiveData<User> user = new MutableLiveData<>();
     private MutableLiveData<Integer> userSplashStatus = new MutableLiveData<>();
+    private MutableLiveData<Exception> error = new MutableLiveData<>();
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
@@ -43,13 +44,9 @@ public class FirestoreDataViewModel extends ViewModel {
     }
 
     public void getUserData(){
-        firebaseRepository.getUser().addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                assert documentSnapshot != null;
-                user.setValue(documentSnapshot.toObject(User.class));
-            }
-        });
+        firebaseRepository.getUser().get()
+                .addOnSuccessListener(doc -> user.setValue(doc.toObject(User.class)))
+                .addOnFailureListener(e -> error.setValue(e));
     }
 
     private void setUserSplashStatus(String Uid, final int status, boolean isNewUser){
@@ -91,6 +88,10 @@ public class FirestoreDataViewModel extends ViewModel {
 
     public LiveData<Integer> getUserStatus(){
         return userStatus;
+    }
+
+    public MutableLiveData<Exception> getError() {
+        return error;
     }
 
     public LiveData<User> getUser(){

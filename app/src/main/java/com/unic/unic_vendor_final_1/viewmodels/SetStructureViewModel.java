@@ -56,6 +56,8 @@ public class SetStructureViewModel extends ViewModel {
     private MutableLiveData<Boolean> isImagePickerUploading = new MutableLiveData<>();
     private MutableLiveData<Integer> currentImageUpload = new MutableLiveData<>();
 
+    private MutableLiveData<Boolean> closeDrawers = new MutableLiveData<>();
+
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
     public void getShopData(String shopId){
@@ -407,5 +409,9 @@ public class SetStructureViewModel extends ViewModel {
 
     public MutableLiveData<Integer> getCurrentImageUpload() {
         return currentImageUpload;
+    }
+
+    public MutableLiveData<Boolean> getCloseDrawers() {
+        return closeDrawers;
     }
 }
