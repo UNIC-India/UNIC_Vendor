@@ -200,6 +200,10 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         if(addNewProductBinding.edtProductDesc.getText().length()!=0)
             product.setDesc(addNewProductBinding.edtProductDesc.getText().toString());
         if(addNewProductBinding.edtProductDiscount.getText().length()!=0)
+            if(Double.parseDouble(addNewProductBinding.edtProductDiscount.getText().toString())>=100||Double.parseDouble(addNewProductBinding.edtProductDiscount.getText().toString())<=0){
+                Toast.makeText(this, "Discount can only be between 0.01 & 99.99", Toast.LENGTH_SHORT).show();
+                done=false;
+            }
             product.setDiscount(Double.parseDouble(addNewProductBinding.edtProductDiscount.getText().toString()));
         if(addNewProductBinding.edtProductExtrainfo1.getText().length()!=0)
             product.setExtraInfo1(addNewProductBinding.edtProductExtrainfo1.getText().toString());
