@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,13 +32,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.app.Activity.RESULT_OK;
+
 public class ProductViewFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     private FragmentProductViewBinding productViewBinding;
     private ProductListAdapter productListAdapter;
     private String shopId;
     private SetStructureViewModel setStructureViewModel;
-
     private boolean isFirst;
     private DocumentSnapshot lastDoc;
 
@@ -70,6 +72,12 @@ public class ProductViewFragment extends Fragment implements AdapterView.OnItemS
 
         setStructureViewModel = new ViewModelProvider(this).get(SetStructureViewModel.class);
         setStructureViewModel.getShopData(shopId);
+        setStructureViewModel.getSetProductsUpdating().observe(getViewLifecycleOwner(),aBoolean -> {
+            if(aBoolean){
+                productViewBinding.myProductsSwipe.setRefreshing(true);
+                setStructureViewModel.getSetProductsUpdating().setValue(false);
+            }
+        });
 
         productViewBinding.productSelectionSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -185,9 +193,11 @@ public class ProductViewFragment extends Fragment implements AdapterView.OnItemS
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), AddNewProduct.class);
                 intent.putExtra("shopId", shopId);
-                getContext().startActivity(intent);
+                startActivityForResult(intent,AddNewProduct.ADD_PRODUCTS);
             }
         });
+
+
 
         // Inflate the layout for this fragment
         return productViewBinding.getRoot();
@@ -249,4 +259,10 @@ public class ProductViewFragment extends Fragment implements AdapterView.OnItemS
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK&&requestCode==AddNewProduct.ADD_PRODUCTS)
+            setStructureViewModel.getPaginatedProductData(true,null,3);
+    }
 }

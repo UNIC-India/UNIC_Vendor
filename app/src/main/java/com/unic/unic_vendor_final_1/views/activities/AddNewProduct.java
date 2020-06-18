@@ -32,7 +32,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.unic.unic_vendor_final_1.commons.Helpers.buttonEffect;
 import static com.unic.unic_vendor_final_1.commons.Helpers.enableDisableViewGroup;
 
 public class AddNewProduct extends AppCompatActivity implements View.OnClickListener {
@@ -46,6 +45,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
 
     private static final int GALLERY_INTENT = 1001;
     private static final int CROP_IMAGE = 1002;
+    public static final int ADD_PRODUCTS = 5010;
 
     private Uri imageUri;
 
@@ -127,14 +127,17 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
                         e.printStackTrace();
                     }
                 }
-                else
+                else {
+                    setResult(RESULT_OK);
                     finish();
+                }
                 break;
 
             case 4:
                 enableDisableViewGroup((ViewGroup)addNewProductBinding.getRoot(),true);
                 ((ViewGroup)addNewProductBinding.getRoot()).removeView(coverView);
                 addNewProductBinding.addShopProgressBar.setVisibility(View.GONE);
+                setResult(RESULT_OK);
                 finish();
                 break;
 

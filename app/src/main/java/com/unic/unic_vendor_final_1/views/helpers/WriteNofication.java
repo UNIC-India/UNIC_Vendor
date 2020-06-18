@@ -47,8 +47,6 @@ public class WriteNofication extends Fragment implements View.OnClickListener{
         writeNoficationBinding.tvShopName.setText("Name: "+shopName);
         writeNoficationBinding.btncancel.setOnClickListener(this);
         writeNoficationBinding.btnsend.setOnClickListener(this);
-        Helpers.buttonEffect(writeNoficationBinding.btncancel);
-        Helpers.buttonEffect(writeNoficationBinding.btnsend);
 
         userShopsViewModel.notificationStatus.observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override

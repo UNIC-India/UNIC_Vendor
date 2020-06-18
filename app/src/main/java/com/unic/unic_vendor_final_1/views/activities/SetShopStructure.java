@@ -112,9 +112,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         setShopStructureBinding.btnleft.setOnClickListener(this);
         setShopStructureBinding.btnRight.setOnClickListener(this);
         setShopStructureBinding.confirmShopStructure.setOnClickListener(this);
-        Helpers.buttonEffect(setShopStructureBinding.btnleft);
-        Helpers.buttonEffect(setShopStructureBinding.btnRight);
-        Helpers.buttonEffect(setShopStructureBinding.confirmShopStructure);
+
         shopDrawerAdapter = new ShopDrawerAdapter(this);
         setShopStructureBinding.shopDrawerPagesLoader.setLayoutManager(new LinearLayoutManager(this){
             @Override

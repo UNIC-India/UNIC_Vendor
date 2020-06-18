@@ -56,6 +56,8 @@ public class SetStructureViewModel extends ViewModel {
     private MutableLiveData<Boolean> isImagePickerUploading = new MutableLiveData<>();
     private MutableLiveData<Integer> currentImageUpload = new MutableLiveData<>();
 
+    public MutableLiveData<Boolean> setProductsUpdating = new MutableLiveData<>();
+
     private MutableLiveData<Boolean> closeDrawers = new MutableLiveData<>();
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
@@ -205,6 +207,12 @@ public class SetStructureViewModel extends ViewModel {
         });
     }
 
+    public void deleteProduct(String shopId,String productId){
+        firebaseRepository.deleteProducts(shopId,productId)
+                .addOnSuccessListener( s -> {
+                    setProductsUpdating.setValue(true);
+                });
+    }
 
     public void saveShopStructure(){
         firebaseRepository.saveShopStructure(Objects.requireNonNull(structure.getValue()))
@@ -413,5 +421,9 @@ public class SetStructureViewModel extends ViewModel {
 
     public MutableLiveData<Boolean> getCloseDrawers() {
         return closeDrawers;
+    }
+
+    public MutableLiveData<Boolean> getSetProductsUpdating() {
+        return setProductsUpdating;
     }
 }

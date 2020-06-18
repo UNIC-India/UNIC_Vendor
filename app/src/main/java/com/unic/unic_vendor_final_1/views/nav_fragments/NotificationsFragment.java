@@ -78,7 +78,6 @@ public class NotificationsFragment extends Fragment {
                         .commit();
             }
         });
-        Helpers.buttonEffect(notificationsBinding.btnNotify);
         // Inflate the layout for this fragment
         return notificationsBinding.getRoot();
 

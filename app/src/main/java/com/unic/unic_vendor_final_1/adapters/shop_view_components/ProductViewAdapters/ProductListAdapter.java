@@ -11,10 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 
 import java.util.ArrayList;
@@ -28,12 +31,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private List<Map<String,Object>> checkedProducts = new ArrayList<>();
     int demo;
     int which;
-    UserShopsViewModel userShopsViewModel;
+    private SetStructureViewModel setStructureViewModel;
 
     public ProductListAdapter(Context context,int which){
         this.mContext = context;
         demo=0;
         this.which = which;
+        setStructureViewModel = new ViewModelProvider((FragmentActivity)mContext).get(SetStructureViewModel.class);
     }
     public ProductListAdapter(int demo){
         this.demo=demo;
@@ -124,7 +128,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder.btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    setStructureViewModel.deleteProduct(products.get(position).get("shopId").toString(),products.get(position).get("firestoreId").toString());
                 }
             });
 

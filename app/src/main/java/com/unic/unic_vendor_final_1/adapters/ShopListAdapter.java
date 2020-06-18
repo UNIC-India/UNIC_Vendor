@@ -117,8 +117,6 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ViewHo
 
                         }
                     });
-                    Helpers.buttonEffect((Button)dialog.findViewById(R.id.btnsend));
-                    Helpers.buttonEffect((Button)dialog.findViewById(R.id.btncancel));
                     dialog.show();
                     Window window= dialog.getWindow();
                     window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
@@ -150,8 +148,6 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ViewHo
 
                             }
                         });
-                        Helpers.buttonEffect((Button)dialog.findViewById(R.id.btnsend));
-                        Helpers.buttonEffect((Button)dialog.findViewById(R.id.btncancel));
                         dialog.show();
                         Window window= dialog.getWindow();
                         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);

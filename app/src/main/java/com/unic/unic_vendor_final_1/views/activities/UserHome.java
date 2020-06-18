@@ -1,6 +1,7 @@
 package com.unic.unic_vendor_final_1.views.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -226,4 +227,8 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         userShopsViewModel.sendNotification(new Notification(title,shopId,message));
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

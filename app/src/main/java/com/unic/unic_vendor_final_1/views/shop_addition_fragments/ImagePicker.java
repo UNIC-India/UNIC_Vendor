@@ -263,9 +263,13 @@ public class ImagePicker extends Fragment implements View.OnClickListener{
 
         float bitmapRatio = (float)width / (float) height;
         if (bitmapRatio > 1) {
+            if(width<maxSize)
+                return image;
             width = maxSize;
             height = (int) (width / bitmapRatio);
         } else {
+            if(height<maxSize)
+                return image;
             height = maxSize;
             width = (int) (height * bitmapRatio);
         }
