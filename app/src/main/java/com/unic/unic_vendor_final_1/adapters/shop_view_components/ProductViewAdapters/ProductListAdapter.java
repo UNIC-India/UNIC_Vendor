@@ -65,7 +65,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         TextView tvProductName,tvCompany,tvPrice,tvCategory;;
         ImageView ivProductPhoto;
         CheckBox cbCheck;
-        ImageView addToCart;
+        ImageView addToCart,btnDelete;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -77,6 +77,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             tvPrice=itemView.findViewById(R.id.product_price);
             tvCategory=itemView.findViewById(R.id.product_category);
             addToCart = itemView.findViewById(R.id.product_list_add_to_cart);
+
             cbCheck.setChecked(false);
 
         }
