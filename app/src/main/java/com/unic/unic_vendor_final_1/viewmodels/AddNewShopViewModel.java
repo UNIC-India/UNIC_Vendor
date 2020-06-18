@@ -79,6 +79,22 @@ public class AddNewShopViewModel extends ViewModel {
                 });
     }
 
+    public void buildSubscribeLink(){
+        firebaseRepository.createSubscribeLink(shop.getValue().getId(),shop.getValue().getName(),shop.getValue().getImageLink())
+                .addOnSuccessListener(shortDynamicLink -> updateSubscribeLink(shortDynamicLink.getShortLink()))
+                .addOnFailureListener(e -> e.printStackTrace());
+    }
+
+    private void updateSubscribeLink(Uri link){
+
+        firebaseRepository.setSubscribeLink(shop.getValue().getId(),link)
+                .addOnFailureListener(e -> {
+                    e.printStackTrace();
+                    status.setValue(-1);
+                })
+                .addOnSuccessListener(aVoid -> status.setValue(6));
+    }
+
     public MutableLiveData<Shop> getShop() {
         return shop;
     }
