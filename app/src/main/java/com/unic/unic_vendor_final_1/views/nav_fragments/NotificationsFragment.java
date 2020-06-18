@@ -14,10 +14,10 @@ import android.view.ViewGroup;
 
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.NotificationsAdapter;
-import com.unic.unic_vendor_final_1.commons.Helpers;
 import com.unic.unic_vendor_final_1.databinding.FragmentNotificationsBinding;
 import com.unic.unic_vendor_final_1.datamodels.Notification;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
+import com.unic.unic_vendor_final_1.views.helpers.IntermidiateShopList;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -73,12 +73,11 @@ public class NotificationsFragment extends Fragment {
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .replace(R.id.home_fragment,new MyProducts(1))
+                        .replace(R.id.home_fragment,new IntermidiateShopList(1))
                         .addToBackStack(null)
                         .commit();
             }
         });
-        Helpers.buttonEffect(notificationsBinding.btnNotify);
         // Inflate the layout for this fragment
         return notificationsBinding.getRoot();
 

@@ -32,7 +32,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.unic.unic_vendor_final_1.commons.Helpers.buttonEffect;
 import static com.unic.unic_vendor_final_1.commons.Helpers.enableDisableViewGroup;
 
 public class AddNewProduct extends AppCompatActivity implements View.OnClickListener {
@@ -197,6 +196,10 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         if(addNewProductBinding.edtProductDesc.getText().length()!=0)
             product.setDesc(addNewProductBinding.edtProductDesc.getText().toString());
         if(addNewProductBinding.edtProductDiscount.getText().length()!=0)
+            if(Double.parseDouble(addNewProductBinding.edtProductDiscount.getText().toString())>=100||Double.parseDouble(addNewProductBinding.edtProductDiscount.getText().toString())<=0){
+                Toast.makeText(this, "Discount can only be between 0.01 & 99.99", Toast.LENGTH_SHORT).show();
+                done=false;
+            }
             product.setDiscount(Double.parseDouble(addNewProductBinding.edtProductDiscount.getText().toString()));
         if(addNewProductBinding.edtProductExtrainfo1.getText().length()!=0)
             product.setExtraInfo1(addNewProductBinding.edtProductExtrainfo1.getText().toString());

@@ -57,7 +57,6 @@ public class TeamFragment extends Fragment implements View.OnClickListener {
         teamBinding=FragmentTeamBinding.inflate(getLayoutInflater(),container,false);
         userShopsViewModel=new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
         teamBinding.btnAddTeamMember.setOnClickListener(this);
-        Helpers.buttonEffect(teamBinding.btnAddTeamMember);
         teamAdapter=new TeamAdapter(getContext(),shopId);
         userShopsViewModel.getAllMembers(shopId).observe(getViewLifecycleOwner(), new Observer<List<Map<String, String>>>() {
             @Override

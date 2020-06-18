@@ -1,4 +1,4 @@
-package com.unic.unic_vendor_final_1.views.helpers;
+package com.unic.unic_vendor_final_1.views.nav_fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListAdapter;
+import com.unic.unic_vendor_final_1.databinding.FragmentMyProductsBinding;
 import com.unic.unic_vendor_final_1.databinding.FragmentProductViewBinding;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
@@ -31,9 +32,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ProductViewFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class MyProductsFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
-    private FragmentProductViewBinding productViewBinding;
+    private FragmentMyProductsBinding myProductsBinding;
     private ProductListAdapter productListAdapter;
     private String shopId;
     private SetStructureViewModel setStructureViewModel;
@@ -47,11 +48,11 @@ public class ProductViewFragment extends Fragment implements AdapterView.OnItemS
 
     private int queryType;
 
-    public ProductViewFragment() {
+    public MyProductsFragment() {
         // Required empty public constructor
     }
 
-    public ProductViewFragment(String shopId) {
+    public MyProductsFragment(String shopId) {
         this.shopId = shopId;
     }
 
@@ -59,19 +60,19 @@ public class ProductViewFragment extends Fragment implements AdapterView.OnItemS
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        productViewBinding = FragmentProductViewBinding.inflate(inflater, container, false);
+        myProductsBinding = FragmentMyProductsBinding.inflate(inflater, container, false);
         productListAdapter = new ProductListAdapter(getContext(), 2);
 
         ArrayAdapter<CharSequence> selectionAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.spinner_array, android.R.layout.simple_spinner_item);
         selectionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        productViewBinding.productSpinner.setAdapter(selectionAdapter);
-        productViewBinding.productSpinner.setOnItemSelectedListener(this);
+        myProductsBinding.productSpinner.setAdapter(selectionAdapter);
+        myProductsBinding.productSpinner.setOnItemSelectedListener(this);
 
         setStructureViewModel = new ViewModelProvider(this).get(SetStructureViewModel.class);
         setStructureViewModel.getShopData(shopId);
 
-        productViewBinding.productSelectionSearch.addTextChangedListener(new TextWatcher() {
+        myProductsBinding.productSelectionSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -127,8 +128,8 @@ public class ProductViewFragment extends Fragment implements AdapterView.OnItemS
             }
         });
 
-        productViewBinding.myProductsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        productViewBinding.myProductsRecyclerView.setAdapter(productListAdapter);
+        myProductsBinding.myProductsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        myProductsBinding.myProductsRecyclerView.setAdapter(productListAdapter);
 
         setStructureViewModel.getShop().observe(getViewLifecycleOwner(), this::setShop);
         setStructureViewModel.getIsFirstMyProduct().observe(getViewLifecycleOwner(), this::setFirst);
@@ -137,8 +138,8 @@ public class ProductViewFragment extends Fragment implements AdapterView.OnItemS
             productListAdapter.setProducts(maps);
             productListAdapter.notifyDataSetChanged();
             if(maps==null||maps.size()==0){
-                productViewBinding.animNoData.setVisibility(View.VISIBLE);
-                productViewBinding.noData.setVisibility(View.VISIBLE);
+                myProductsBinding.animNoData.setVisibility(View.VISIBLE);
+                myProductsBinding.noData.setVisibility(View.VISIBLE);
 
             }
         });
@@ -151,15 +152,15 @@ public class ProductViewFragment extends Fragment implements AdapterView.OnItemS
 
         });
 
-        productViewBinding.myProductsSwipe.setColorScheme(R.color.colorPrimary, R.color.colorSecondary, R.color.colorTertiary);
+        myProductsBinding.myProductsSwipe.setColorScheme(R.color.colorPrimary, R.color.colorSecondary, R.color.colorTertiary);
 
-        productViewBinding.myProductsSwipe.setOnRefreshListener(() -> {
+        myProductsBinding.myProductsSwipe.setOnRefreshListener(() -> {
             setStructureViewModel.getLastProductSelectionDoc().setValue(null);
             setStructureViewModel.getIsFirstProductSelection().setValue(Boolean.TRUE);
             setStructureViewModel.clearSearch();
             setStructureViewModel.getPaginatedProductData(true, null, 3);
             Handler handler = new Handler();
-            handler.postDelayed(() -> productViewBinding.myProductsSwipe.setRefreshing(false), 2000);
+            handler.postDelayed(() -> myProductsBinding.myProductsSwipe.setRefreshing(false), 2000);
         });
 
         setStructureViewModel.getIsFirstProductSelection().observe(getViewLifecycleOwner(), this::setFirst);
@@ -168,7 +169,7 @@ public class ProductViewFragment extends Fragment implements AdapterView.OnItemS
 
         setStructureViewModel.getShopExtras().observe(getViewLifecycleOwner(),this::setExtraData);
 
-        productViewBinding.myProductsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        myProductsBinding.myProductsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -180,7 +181,7 @@ public class ProductViewFragment extends Fragment implements AdapterView.OnItemS
             }
         });
 
-        productViewBinding.btnAddProduct.setOnClickListener(new View.OnClickListener() {
+        myProductsBinding.btnAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), AddNewProduct.class);
@@ -190,7 +191,7 @@ public class ProductViewFragment extends Fragment implements AdapterView.OnItemS
         });
 
         // Inflate the layout for this fragment
-        return productViewBinding.getRoot();
+        return myProductsBinding.getRoot();
     }
 
     public void setShop(Shop shop) {

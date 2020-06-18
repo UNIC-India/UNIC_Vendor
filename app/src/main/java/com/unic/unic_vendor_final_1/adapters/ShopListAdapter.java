@@ -1,6 +1,5 @@
 package com.unic.unic_vendor_final_1.adapters;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,27 +10,18 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.unic.unic_vendor_final_1.R;
-import com.unic.unic_vendor_final_1.commons.Helpers;
-import com.unic.unic_vendor_final_1.databinding.FragmentWriteNoficationBinding;
-import com.unic.unic_vendor_final_1.datamodels.Notification;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
-import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 import com.unic.unic_vendor_final_1.views.activities.UserHome;
-import com.unic.unic_vendor_final_1.views.helpers.ProductViewFragment;
-import com.unic.unic_vendor_final_1.views.nav_fragments.NotificationsFragment;
+import com.unic.unic_vendor_final_1.views.nav_fragments.MyProductsFragment;
 import com.unic.unic_vendor_final_1.views.settings_fragments.LogoFragment;
 import com.unic.unic_vendor_final_1.views.settings_fragments.TeamFragment;
-import com.unic.unic_vendor_final_1.views.helpers.WriteNofication;
 
 import java.util.List;
 
@@ -77,7 +67,7 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ViewHo
                     ((AppCompatActivity)context).getSupportFragmentManager()
                             .beginTransaction()
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                            .replace(R.id.home_fragment,new ProductViewFragment(shops.get(position).getId()))
+                            .replace(R.id.home_fragment,new MyProductsFragment(shops.get(position).getId()))
                             .addToBackStack(null)
                             .commit();
                 }
@@ -87,7 +77,7 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ViewHo
                         ((AppCompatActivity)context).getSupportFragmentManager()
                                 .beginTransaction()
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .replace(R.id.home_fragment,new ProductViewFragment(shops.get(position).getId()))
+                                .replace(R.id.home_fragment,new MyProductsFragment(shops.get(position).getId()))
                                 .addToBackStack(null)
                                 .commit();
                     }
@@ -117,8 +107,6 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ViewHo
 
                         }
                     });
-                    Helpers.buttonEffect((Button)dialog.findViewById(R.id.btnsend));
-                    Helpers.buttonEffect((Button)dialog.findViewById(R.id.btncancel));
                     dialog.show();
                     Window window= dialog.getWindow();
                     window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
@@ -150,8 +138,6 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ViewHo
 
                             }
                         });
-                        Helpers.buttonEffect((Button)dialog.findViewById(R.id.btnsend));
-                        Helpers.buttonEffect((Button)dialog.findViewById(R.id.btncancel));
                         dialog.show();
                         Window window= dialog.getWindow();
                         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);

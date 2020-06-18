@@ -71,7 +71,6 @@ public class MyAppsFragment extends Fragment implements View.OnClickListener{
         recyclerView.setAdapter(adapter);
 
         myAppsBinding.btnAddShop.setOnClickListener(this);
-        Helpers.buttonEffect(myAppsBinding.btnAddShop);
         return myAppsBinding.getRoot();
     }
 

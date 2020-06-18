@@ -1,4 +1,4 @@
-package com.unic.unic_vendor_final_1.views.nav_fragments;
+package com.unic.unic_vendor_final_1.views.helpers;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,28 +20,29 @@ import android.widget.Toast;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.ShopAdapter;
 import com.unic.unic_vendor_final_1.adapters.ShopListAdapter;
-import com.unic.unic_vendor_final_1.databinding.FragmentMyProductsBinding;
+import com.unic.unic_vendor_final_1.databinding.FragmentIntermediateShopListBinding;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 import com.unic.unic_vendor_final_1.views.activities.AddShop;
+import com.unic.unic_vendor_final_1.views.nav_fragments.NotificationsFragment;
 
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MyProducts extends Fragment {
+public class IntermidiateShopList extends Fragment {
     private UserShopsViewModel shopsViewModel;
 
 
     private ShopListAdapter adapter;
-    FragmentMyProductsBinding myProductsBinding;
+    FragmentIntermediateShopListBinding intermediateShopListBinding;
     int from=0;
 
-    public MyProducts() {
+    public IntermidiateShopList() {
         // Required empty public constructor
     }
-    public MyProducts(int from){
+    public IntermidiateShopList(int from){
         this.from=from;
     }
 
@@ -50,7 +51,7 @@ public class MyProducts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        myProductsBinding= FragmentMyProductsBinding.inflate( getLayoutInflater(),container, false);
+        intermediateShopListBinding= FragmentIntermediateShopListBinding.inflate( getLayoutInflater(),container, false);
 
 
 
@@ -63,7 +64,7 @@ public class MyProducts extends Fragment {
             @Override
             public void onChanged(Integer integer) {
                 if(integer==0) {
-                    myProductsBinding.loading.setVisibility(View.GONE);
+                    intermediateShopListBinding.loading.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Notification sent!", Toast.LENGTH_SHORT).show();
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
@@ -72,7 +73,7 @@ public class MyProducts extends Fragment {
                             .commit();
                 }
                 else if(integer==1)
-                    myProductsBinding.loading.setVisibility(View.VISIBLE);
+                    intermediateShopListBinding.loading.setVisibility(View.VISIBLE);
 
             }
         });
@@ -82,21 +83,21 @@ public class MyProducts extends Fragment {
                 adapter.setShops(shops);
                 adapter.notifyDataSetChanged();
                 if(shops==null||shops.size()==0){
-                    myProductsBinding.noshops.setVisibility(View.VISIBLE);
-                    myProductsBinding.tvnoshops.setVisibility(View.VISIBLE);
+                    intermediateShopListBinding.noshops.setVisibility(View.VISIBLE);
+                    intermediateShopListBinding.tvnoshops.setVisibility(View.VISIBLE);
                 }
                 else{
-                    myProductsBinding.noshops.setVisibility(View.GONE);
-                    myProductsBinding.tvnoshops.setVisibility(View.GONE);
+                    intermediateShopListBinding.noshops.setVisibility(View.GONE);
+                    intermediateShopListBinding.tvnoshops.setVisibility(View.GONE);
                 }
             }
         });
-        myProductsBinding.rvShops.setAdapter(adapter);
-        myProductsBinding.rvShops.setLayoutManager(new LinearLayoutManager(getContext()));
+        intermediateShopListBinding.rvShops.setAdapter(adapter);
+        intermediateShopListBinding.rvShops.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
 
-        return myProductsBinding.getRoot();
+        return intermediateShopListBinding.getRoot();
     }
 
     @Override

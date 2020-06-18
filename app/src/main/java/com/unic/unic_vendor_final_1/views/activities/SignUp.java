@@ -19,7 +19,6 @@ import com.unic.unic_vendor_final_1.viewmodels.FirebasePhoneAuthViewModel;
 import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
 import com.unic.unic_vendor_final_1.views.helpers.Welcome;
 
-import static com.unic.unic_vendor_final_1.commons.Helpers.buttonEffect;
 import static com.unic.unic_vendor_final_1.commons.Helpers.enableDisableViewGroup;
 
 public class SignUp extends AppCompatActivity implements View.OnClickListener {
@@ -83,18 +82,12 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         });
 
         signUpBinding.btnconfirm.setOnClickListener(this);
-        buttonEffect(signUpBinding.btnconfirm);
         signUpBinding.btncontinue.setOnClickListener(this);
-        buttonEffect(signUpBinding.btncontinue);
         signUpBinding.btnresend.setOnClickListener(this);
-        buttonEffect(signUpBinding.btnresend);
         signUpBinding.btnfb.setOnClickListener(this);
-        buttonEffect(signUpBinding.btnfb);
         signUpBinding.btngoogle.setOnClickListener(this);
-        buttonEffect(signUpBinding.btngoogle);
         signUpBinding.ques.setOnClickListener(this);
         signUpBinding.btnlogin.setOnClickListener(this);
-        buttonEffect(signUpBinding.btnlogin);
     }
 
     private void updateUI(int code) {

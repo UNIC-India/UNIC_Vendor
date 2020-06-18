@@ -130,7 +130,6 @@ public class ShopQRAdapter  extends RecyclerView.Adapter<ShopQRAdapter.ViewHolde
                 context.startActivity(shareIntent);
             }
         });
-        Helpers.buttonEffect(holder.btnGenerateQR);
         holder.ibShopQR.setOnClickListener((View.OnClickListener) v -> {
             if(shops.get(position).getDynSubscribeLink()!=null) {
                 Toast.makeText(context, shops.get(position).getDynSubscribeLink(), Toast.LENGTH_SHORT).show();
