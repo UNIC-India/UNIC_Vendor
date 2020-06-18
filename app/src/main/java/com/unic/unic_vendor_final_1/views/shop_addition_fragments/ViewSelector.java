@@ -134,14 +134,14 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
 
                 com.unic.unic_vendor_final_1.datamodels.View view31 = new com.unic.unic_vendor_final_1.datamodels.View();
                 view31.setFields("imageLink,tag");
-                view31.setHeight(200);
+                view31.setHeight(195);
                 ((SetShopStructure)getActivity()).addView(pageId,view31,31);
                 break;
 
             case "32":
                 com.unic.unic_vendor_final_1.datamodels.View view32 = new com.unic.unic_vendor_final_1.datamodels.View();
                 view32.setFields("imageLink,tag");
-                view32.setHeight(250);
+                view32.setHeight(225);
                 ((SetShopStructure)getActivity()).addView(pageId,view32,32);
                 break;
 

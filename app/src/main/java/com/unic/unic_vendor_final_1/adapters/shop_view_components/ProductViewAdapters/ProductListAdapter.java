@@ -8,6 +8,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -64,6 +65,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         TextView tvProductName,tvCompany,tvPrice,tvCategory;;
         ImageView ivProductPhoto;
         CheckBox cbCheck;
+        ImageView addToCart;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -74,6 +76,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             tvCompany=itemView.findViewById(R.id.product_company_name);
             tvPrice=itemView.findViewById(R.id.product_price);
             tvCategory=itemView.findViewById(R.id.product_category);
+            addToCart = itemView.findViewById(R.id.product_list_add_to_cart);
             cbCheck.setChecked(false);
 
         }
@@ -104,6 +107,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                     .with(mContext)
                     .load(products.get(position).get("imageId").toString())
                     .into(holder.ivProductPhoto);
+            holder.addToCart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(mContext, "Product can only be added by a customer.", Toast.LENGTH_SHORT).show();
+
+                }
+            });
 
             switch (which){
                 case 1:

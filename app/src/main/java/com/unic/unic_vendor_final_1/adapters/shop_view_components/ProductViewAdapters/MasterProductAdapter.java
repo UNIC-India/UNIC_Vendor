@@ -8,6 +8,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +38,7 @@ public class MasterProductAdapter extends RecyclerView.Adapter<MasterProductAdap
         TextView tvProductName, tvCompany, tvPrice, tvCategory,tvExtrainfo1,tvExtrainfo2;
         ImageView ivProductPhoto;
         CardView cdProduct;
+        ImageView addToCart;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -48,6 +50,7 @@ public class MasterProductAdapter extends RecyclerView.Adapter<MasterProductAdap
             cdProduct=itemView.findViewById(R.id.cdProduct);
             tvExtrainfo1=itemView.findViewById(R.id.tvExtrainfo1);
             tvExtrainfo2=itemView.findViewById(R.id.tvExtrainfo2);
+            addToCart=itemView.findViewById(R.id.addToCart);
 
 
         }
@@ -139,6 +142,13 @@ public class MasterProductAdapter extends RecyclerView.Adapter<MasterProductAdap
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .addToBackStack(null)
                         .commit();
+            }
+        });
+        holder.addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, "Product can only be added by a customer.", Toast.LENGTH_SHORT).show();
+
             }
         });
     }

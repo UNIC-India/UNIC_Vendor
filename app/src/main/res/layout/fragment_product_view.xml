@@ -10,6 +10,47 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="5dp"
+            app:cardCornerRadius="5dp"
+            app:cardMaxElevation="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <AutoCompleteTextView
+                    android:id="@+id/product_selection_search"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="2dp"
+                    android:drawableStart="@drawable/ic_search_black_24dp"
+                    android:drawableTint="#D3D3D3"
+                    android:hint="Search "
+                    app:layout_constraintEnd_toStartOf="@+id/product_spinner"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Spinner
+                    android:id="@+id/product_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
         <TextView
             android:id="@+id/noData"
             android:layout_width="match_parent"
@@ -38,46 +79,31 @@
             app:layout_constraintStart_toStartOf="parent"
             android:visibility="gone"
             />
+
         <Button
             android:id="@+id/btn_add_product"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ADD PRODUCT"
             style="@style/StandardButton"
-            android:background="@drawable/std_button"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"/>
-
-        <Spinner
-            android:id="@+id/product_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_add_product"
-            android:layout_marginTop="10dp"/>
-
-        <AutoCompleteTextView
-            android:id="@+id/product_selection_search"
             android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:drawableStart="@drawable/ic_search_black_24dp"
-            android:drawableTint="#D3D3D3"
-            android:hint="Search "
-            app:layout_constraintEnd_toStartOf="@+id/product_spinner"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_add_product"
-            android:layout_marginTop="10dp"/>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/std_button"
+            android:text="ADD NEW PRODUCT"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/my_products_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/product_selection_search"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:listitem="@layout/product_details_list_item"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView7"
+            tools:listitem="@layout/product_details_list_item" />
 
 
 
