@@ -46,19 +46,25 @@ public class MyAppsFragment extends Fragment implements View.OnClickListener{
         recyclerView.setLayoutManager(layoutManager);
         adapter = new ShopAdapter(getContext(),0);
         shopsViewModel = new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
-        shopsViewModel.getShops().observe(getViewLifecycleOwner(), new Observer<List<Shop>>() {
-            @Override
-            public void onChanged(List<Shop> shops) {
-                adapter.setShops(shops);
-                adapter.notifyDataSetChanged();
-                if(shops==null||shops.size()==0){
-                    myAppsBinding.noshops.setVisibility(View.VISIBLE);
-                    myAppsBinding.tvnoshops.setVisibility(View.VISIBLE);
-                }
-                else{
-                    myAppsBinding.noshops.setVisibility(View.GONE);
-                    myAppsBinding.tvnoshops.setVisibility(View.GONE);
-                }
+        shopsViewModel.getIsMyAppsLoading().observe(getViewLifecycleOwner(),aBoolean -> {
+            if(aBoolean){
+                myAppsBinding.myAppsCoverView.setVisibility(View.VISIBLE);
+                myAppsBinding.myAppsLoading.setVisibility(View.VISIBLE);
+                myAppsBinding.myAppsLoading.playAnimation();
+            }
+        });
+        shopsViewModel.getShops().observe(getViewLifecycleOwner(), shops -> {
+            adapter.setShops(shops);
+            adapter.notifyDataSetChanged();
+            myAppsBinding.myAppsCoverView.setVisibility(View.GONE);
+            myAppsBinding.myAppsLoading.setVisibility(View.GONE);
+            if(shops==null||shops.size()==0){
+                myAppsBinding.noshops.setVisibility(View.VISIBLE);
+                myAppsBinding.tvnoshops.setVisibility(View.VISIBLE);
+            }
+            else{
+                myAppsBinding.noshops.setVisibility(View.GONE);
+                myAppsBinding.tvnoshops.setVisibility(View.GONE);
             }
         });
 
@@ -76,15 +82,8 @@ public class MyAppsFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.btn_add_shop:
-                startActivity(new Intent(getContext(), AddShop.class));
-                /*getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .addToBackStack(null)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .replace(R.id.home_fragment,new AddShopFrag())
-                        .commit();*/
+        if (view.getId() == R.id.btn_add_shop) {
+            startActivity(new Intent(getContext(), AddShop.class));
         }
     }
 

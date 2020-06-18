@@ -182,6 +182,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     public void deleteShop(String shopId){
+        userShopsViewModel.isMyAppsLoading.setValue(true);
         userShopsViewModel.deleteShop(shopId);
     }
     public void deleteMember(String phone,String role, String shopId){
