@@ -1,184 +1,278 @@
 package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.DialogInterface;
+import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Handler;
 import android.provider.MediaStore;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.PopupWindow;
+import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ImagePickerAdapter;
-import com.unic.unic_vendor_final_1.databinding.ActivityImagePickerBinding;
-import com.unic.unic_vendor_final_1.viewmodels.ImagePickerViewModel;
+import com.unic.unic_vendor_final_1.databinding.FragmentImagePickerBinding;
+import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
+import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ImagePicker extends AppCompatActivity implements View.OnClickListener {
-    private ActivityImagePickerBinding imagePickerBinding;
-    private ImagePickerViewModel imagePickerViewModel;
+import static android.app.Activity.RESULT_OK;
 
-    private ImagePickerAdapter imagePickerAdapter;
 
-    private List<Map<String,String>> images = new ArrayList<>();
+public class ImagePicker extends Fragment implements View.OnClickListener{
 
-    private View coverView;
+    private int pageId,code;
 
-    private static final int IMAGE_SELECT_GALLERY = 1005;
+    private com.unic.unic_vendor_final_1.datamodels.View view;
+
+    private List<Map<String,Object>> data = new ArrayList<>();
+
+    private FragmentImagePickerBinding imagePickerBinding;
+
+    private ImagePickerAdapter adapter;
+
+    private SetStructureViewModel setStructureViewModel;
+
+    private boolean uploading = false;
+    private int currentUpload = -1;
+    View coverView;
+
+
+
+    private static final int PICK_IMAGE_MULTIPLE = 6001;
+
+    public ImagePicker() {
+        // Required empty public constructor
+    }
+
+    public ImagePicker(int pageId, com.unic.unic_vendor_final_1.datamodels.View  view,int code){
+        this.pageId = pageId;
+        this.view = view;
+        this.code = code;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        imagePickerBinding = ActivityImagePickerBinding.inflate(getLayoutInflater());
-        setContentView(imagePickerBinding.getRoot());
 
-        imagePickerViewModel = new ViewModelProvider(this).get(ImagePickerViewModel.class);
+    }
 
-        imagePickerBinding.btnAddDisplayImage.setOnClickListener(this);
-        imagePickerBinding.confirmImages.setOnClickListener(this);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        imagePickerAdapter = new ImagePickerAdapter(this);
+        imagePickerBinding = FragmentImagePickerBinding.inflate(inflater,container,false);
 
-        coverView = new View(this);
-        coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        adapter = new ImagePickerAdapter(getContext());
+
+        setStructureViewModel = new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
+
+        setStructureViewModel.getCurrentImageUpload().setValue(-1);
+
+        setStructureViewModel.setCurrentFrag(this);
+
+        setStructureViewModel.getCurrentImageUpload().observe(getViewLifecycleOwner(),integer -> currentUpload = integer);
+
+        setStructureViewModel.getIsImagePickerUploading().observe(getViewLifecycleOwner(),aBoolean -> {
+            uploading = aBoolean;
+            if(!uploading&&data.size()!=0&&currentUpload!=-1) {
+
+                if(currentUpload==data.size()) {
+
+                    imagePickerBinding.getRoot().removeView(coverView);
+                    imagePickerBinding.imagePickProgressBar.setVisibility(View.GONE);
+                    ((SetShopStructure) getActivity()).returnToPage(pageId);
+                }
+                else
+                    uploadImageToFirebase(currentUpload);
+            }
+        });
+
+        imagePickerBinding.imagePickerRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),2, RecyclerView.VERTICAL,false));
+        imagePickerBinding.imagePickerRecyclerView.setAdapter(adapter);
+
+        adapter.setData(data);
+        adapter.notifyDataSetChanged();
+
+
+        imagePickerBinding.btnPickImages.setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_MULTIPLE);
+        });
+
+        // Inflate the layout for this fragment
+        return imagePickerBinding.getRoot();
+    }
+
+     void savePickedImages(ClipData clipData){
+
+        data = adapter.getData();
+
+        for (int i = 0; i< clipData.getItemCount();i++){
+            Map<String,Object> imageData = new HashMap<>();
+            imageData.put("imageUri",clipData.getItemAt(i).getUri());
+            data.add(imageData);
+        }
+
+        adapter.setData(data);
+        adapter.notifyDataSetChanged();
+    }
+
+    void saveSingleImage(Uri uri){
+        data = adapter.getData();
+        Map<String,Object> imageData = new HashMap<>();
+        imageData.put("imageUri",uri);
+        data.add(imageData);
+
+        adapter.setData(data);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if(savedInstanceState!=null&&savedInstanceState.containsKey("Uris")){
+            List<String> Uris = savedInstanceState.getStringArrayList("Uris");
+
+            for (String Uri : Uris){
+                Map<String,Object> imageData = new HashMap<>();
+                imageData.put("imageUri",Uri);
+                data.add(imageData);
+            }
+            adapter.setData(data);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    public void uploadImagesToFirebase(){
+        data = adapter.getData();
+        coverView = new View(getContext());
+        coverView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         coverView.setBackgroundResource(R.color.gray_1);
         coverView.setAlpha(0.5f);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this,2);
 
-        imagePickerBinding.imagePickerRecyclerView.setLayoutManager(layoutManager);
-        imagePickerBinding.imagePickerRecyclerView.setAdapter(imagePickerAdapter);
+        imagePickerBinding.getRoot().addView(coverView);
 
-        imagePickerViewModel.getImageLinks().observe(this, new Observer<List<Map<String, String>>>() {
-            @Override
-            public void onChanged(List<Map<String, String>> maps) {
-                imagePickerAdapter.setData(maps);
-                imagePickerAdapter.notifyDataSetChanged();
-            }
-        });
+        imagePickerBinding.imagePickProgressBar.setVisibility(View.VISIBLE);
 
-        imagePickerViewModel.getImageLinks().observe(this, new Observer<List<Map<String, String>>>() {
-            @Override
-            public void onChanged(List<Map<String, String>> maps) {
-                setImages(maps);
-            }
-        });
+        setStructureViewModel.getStructure().getValue().getPage(pageId).addNewView(view,code);
 
-        imagePickerViewModel.getUploadStatus().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                if(integer==1){
-                    EditText textView = new EditText(ImagePicker.this);
+        if(data.size()>0)
+            uploadImageToFirebase(0);
+        else
+            Toast.makeText(getContext(), "Please select at least one image", Toast.LENGTH_SHORT).show();
+    }
 
-                    Map<String,String> data = imagePickerViewModel.getCurrentSet().getValue();
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ImagePicker.this);
-                    builder.setTitle("Enter TAG")
-                            .setMessage(" ")
-                            .setView(textView)
-                            .setPositiveButton("DONE", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    data.put("TAG",textView.getText().toString());
-                                    images.add(data);
-                                    imagePickerViewModel.getImageLinks().setValue(images);
-                                    dialog.dismiss();
-                                }
-                            })
-                    .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+    void uploadImageToFirebase(int position){
+
+        try {
+            uploading = true;
+            currentUpload = position + 1;
+            setStructureViewModel.getIsImagePickerUploading().setValue(Boolean.TRUE);
+
+            Uri uri = (Uri) data.get(position).get("imageUri");
+
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+
+            bitmap = getResizedBitmap(bitmap,500);
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+
+            byte[] stream = baos.toByteArray();
+
+            String tag = data.get(position).get("tag") != null ? data.get(position).get("tag").toString() : null;
+            setStructureViewModel.uploadViewImage(pageId, view.getViewCode(), position, tag, stream);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+            if (requestCode == PICK_IMAGE_MULTIPLE && resultCode == RESULT_OK && data!=null) {
+
+                if(data.getData()!=null){
+                    saveSingleImage(data.getData());
                 }
-            }
-        });
+                else if(data.getClipData()!=null) {
 
+                    ClipData mClipData = data.getClipData();
+
+                    if (mClipData.getItemCount() > 0)
+                        savePickedImages(mClipData);
+                }
+
+            }
+
+            if(requestCode == ImagePickerAdapter.CROP_IMAGE && resultCode== RESULT_OK && data!=null){
+                Uri uri = data.getData();
+            }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+
+        ArrayList<String> Uris = new ArrayList<>();
+
+        for (Map map : data){
+            Uris.add(map.get("imageUri").toString());
+        }
+
+        outState.putStringArrayList("Uris", Uris);
+
+        super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
-            case R.id.btn_add_display_image:
+        if (v.getId()==R.id.btnRight)
+            uploadImagesToFirebase();
+    }
 
-                PickImage();
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float)width / (float) height;
+        if (bitmapRatio > 1) {
+            if(width<maxSize)
+                return image;
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            if(height<maxSize)
+                return image;
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
         }
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode==IMAGE_SELECT_GALLERY&&resultCode==RESULT_OK&&data!=null){
-
-            Uri uri = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                imagePickerViewModel.uploadImage(bitmap);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-        }
-
-    }
-
-    void PickImage(){
-
-        View popupView = ((LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.image_source_chooser,null);
-
-        PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindow.setFocusable(true);
-        popupWindow.showAtLocation(imagePickerBinding.getRoot(), Gravity.CENTER,0,0);
-
-        int type;
-
-        popupView.findViewById(R.id.pick_option_2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
-                startActivityForResult(intent,IMAGE_SELECT_GALLERY);
-            }
-        });
-
-
-
-    }
-
-    private float dpToPx(int dp){
-        return TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                dp,
-                getResources().getDisplayMetrics()
-        );
-    }
-
-    public void setImages(List<Map<String, String>> images) {
-        this.images = images;
+        return Bitmap.createScaledBitmap(image, width, height, true);
     }
 }

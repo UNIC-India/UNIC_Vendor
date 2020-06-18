@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="115dp"
-    android:layout_height="40dp"
+    android:id="@+id/cdCat"
+    android:layout_width="120dp"
+    android:layout_height="37dp"
     android:layout_marginLeft="3dp"
     android:layout_marginTop="5dp"
     android:layout_marginRight="3dp"
@@ -10,7 +11,8 @@
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="auto"
-    app:cardCornerRadius="20dp"
+    android:paddingRight="2dp"
+    app:cardCornerRadius="8dp"
     app:cardElevation="5dp">
 
     <TextView
@@ -18,8 +20,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="2dp"
+        android:ellipsize="end"
         android:fontFamily="@font/montserrat_normal"
+        android:maxLines="2"
+        android:paddingTop="0dp"
+        android:paddingRight="0dp"
         android:text="Category"
         android:textColor="#000000"
-        android:textSize="13sp" />
+        android:textSize="11sp" />
 </androidx.cardview.widget.CardView>

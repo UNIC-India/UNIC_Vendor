@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/shop_drawer_item_bounding"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    
+    <TextView
+        android:id="@+id/drawer_item_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat"
+        android:textColor="@color/black"
+        android:hint="PAGE NAME"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="30dp"/>
+    
+    <ImageButton
+        android:id="@+id/button_move_page_up"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/direction_up"/>
+    <ImageButton
+        android:id="@+id/button_move_page_down"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/direction_down"/>
+
+    <ImageButton
+        android:id="@+id/shop_page_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/ic_delete_black_24dp"/>
+
+    <ImageButton
+        android:id="@+id/edit_page_name"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_baseline_edit_20"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="@id/shop_page_delete"
+        app:layout_constraintBottom_toBottomOf="@id/shop_page_delete"
+        app:layout_constraintEnd_toStartOf="@id/shop_page_delete"
+        android:layout_marginEnd="5dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

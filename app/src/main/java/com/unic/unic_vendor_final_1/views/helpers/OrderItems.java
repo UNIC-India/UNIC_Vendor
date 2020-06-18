@@ -51,10 +51,10 @@ public class OrderItems extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         fragmentOrderItemsBinding=FragmentOrderItemsBinding.inflate(getLayoutInflater());
         orderItemsAdapter=new OrderItemsAdapter(getContext());
-        orderItemsAdapter.setProducts(order.getItems(),order.getQuantity());
         setStatus(order.getOrderStatus());
+        orderItemsAdapter.setProducts(order);
         fragmentOrderItemsBinding.tvCustomerName.setText(order.getOwnerId());
-        fragmentOrderItemsBinding.tvTotalAmount.setText("Rs "+order.getTotal()+"");
+        fragmentOrderItemsBinding.tvTotalAmount.setText("\u20B9"+order.getTotal()+"");
         userShopsViewModel=new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
         userShopsViewModel.getCustomerData(order.getOwnerId()).observe(getActivity(), new Observer<User>() {
             @Override
@@ -63,12 +63,37 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.tvCustomerName.setText(user.getFullName());
             }
         });
+        userShopsViewModel.isVisible.setValue(false);
+        if(order.getOrderStatus()==0) {
+            fragmentOrderItemsBinding.ccButtons.setVisibility(View.VISIBLE);
+            userShopsViewModel.isVisible.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+                @Override
+                public void onChanged(Boolean aBoolean) {
+                    orderItemsAdapter.setCheckBoxVisibility(aBoolean);
+                    orderItemsAdapter.notifyDataSetChanged();
+                    if (aBoolean) {
+                        fragmentOrderItemsBinding.btnAvailability.setVisibility(View.GONE);
+                        fragmentOrderItemsBinding.btnDone.setVisibility(View.VISIBLE);
+                        fragmentOrderItemsBinding.btnCancel.setVisibility(View.VISIBLE);
+                    } else {
+                        fragmentOrderItemsBinding.btnAvailability.setVisibility(View.VISIBLE);
+                        fragmentOrderItemsBinding.btnDone.setVisibility(View.GONE);
+                        fragmentOrderItemsBinding.btnCancel.setVisibility(View.GONE);
+                    }
+
+                }
+            });
+        }
+        else
+            fragmentOrderItemsBinding.ccButtons.setVisibility(View.GONE);
         userShopsViewModel.listenToOrder(order).observe(getActivity(), new Observer<Order>() {
             @Override
             public void onChanged(Order order) {
                 setOrder(order);
                 setStatus(order.getOrderStatus());
                 setUpdateTime(order.getOrderStatus());
+                orderItemsAdapter.setProducts(order);
+                orderItemsAdapter.notifyDataSetChanged();
 
             }
         });
@@ -87,6 +112,9 @@ public class OrderItems extends Fragment implements View.OnClickListener {
         fragmentOrderItemsBinding.iv2.setOnClickListener(this);
         fragmentOrderItemsBinding.iv3.setOnClickListener(this);
         fragmentOrderItemsBinding.iv4.setOnClickListener(this);
+        fragmentOrderItemsBinding.btnDone.setOnClickListener(this);
+        fragmentOrderItemsBinding.btnCancel.setOnClickListener(this);
+        fragmentOrderItemsBinding.btnAvailability.setOnClickListener(this);
 
 
         return fragmentOrderItemsBinding.getRoot();
@@ -102,6 +130,8 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.iv2.setEnabled(false);
                 fragmentOrderItemsBinding.iv3.setEnabled(false);
                 fragmentOrderItemsBinding.iv4.setEnabled(false);
+                fragmentOrderItemsBinding.ccButtons.setVisibility(View.GONE);
+
 
                 break;
             case 0:
@@ -110,8 +140,6 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.tv1.setTextColor(context.getResources().getColor(R.color.yellow));
                 fragmentOrderItemsBinding.textView5.setBackgroundColor(context.getResources().getColor(R.color.yellow));
                 fragmentOrderItemsBinding.textView5.setText("Order pending from"+order.getUpdateTime().toString().substring(11,16)+" on "+order.getUpdateTime().toString().substring(8,10)+" "+order.getUpdateTime().toString().substring(4,7)+order.getUpdateTime().toString().substring(29,34));
-
-
                 break;
             case 1:
                 fragmentOrderItemsBinding.iv1.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green2)));
@@ -122,6 +150,8 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.tv2.setText("Preparing");
                 fragmentOrderItemsBinding.tv2.setTextColor(context.getResources().getColor(R.color.yellow));
                 fragmentOrderItemsBinding.iv1.setEnabled(false);
+                fragmentOrderItemsBinding.ccButtons.setVisibility(View.GONE);
+
                 break;
             case 2:
                 fragmentOrderItemsBinding.iv1.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green2)));
@@ -137,6 +167,8 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.tv3.setTextColor(context.getResources().getColor(R.color.yellow));
                 fragmentOrderItemsBinding.iv1.setEnabled(false);
                 fragmentOrderItemsBinding.iv2.setEnabled(false);
+                fragmentOrderItemsBinding.ccButtons.setVisibility(View.GONE);
+
 
                 break;
             case 3:
@@ -158,6 +190,8 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.iv1.setEnabled(false);
                 fragmentOrderItemsBinding.iv2.setEnabled(false);
                 fragmentOrderItemsBinding.iv3.setEnabled(false);
+                fragmentOrderItemsBinding.ccButtons.setVisibility(View.GONE);
+
                 break;
             case 4:
                 fragmentOrderItemsBinding.iv1.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green2)));
@@ -179,6 +213,19 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.iv2.setEnabled(false);
                 fragmentOrderItemsBinding.iv3.setEnabled(false);
                 fragmentOrderItemsBinding.iv4.setEnabled(false);
+                fragmentOrderItemsBinding.ccButtons.setVisibility(View.GONE);
+
+                break;
+            case 5:
+                fragmentOrderItemsBinding.iv1.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green2)));
+                fragmentOrderItemsBinding.tv1.setText("Partially");
+                fragmentOrderItemsBinding.tv1.setTextColor(context.getResources().getColor(R.color.green2));
+                fragmentOrderItemsBinding.v1.setBackgroundColor(context.getResources().getColor(R.color.green2));
+                fragmentOrderItemsBinding.iv2.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.yellow)));
+                fragmentOrderItemsBinding.tv2.setText("Preparing");
+                fragmentOrderItemsBinding.tv2.setTextColor(context.getResources().getColor(R.color.yellow));
+                fragmentOrderItemsBinding.iv1.setEnabled(false);
+                fragmentOrderItemsBinding.ccButtons.setVisibility(View.GONE);
                 break;
         }
     }
@@ -194,7 +241,7 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 break;
             case 1:
                 fragmentOrderItemsBinding.textView5.setBackgroundColor(context.getResources().getColor(R.color.green));
-                fragmentOrderItemsBinding.textView5.setText(order.getUpdateTime()==null?"Order prepared "+"recently.":"Order accepted at "+order.getUpdateTime().toString().substring(11,16)+" on "+order.getUpdateTime().toString().substring(8,10)+" "+order.getUpdateTime().toString().substring(4,7)+order.getUpdateTime().toString().substring(29,34));
+                fragmentOrderItemsBinding.textView5.setText(order.getUpdateTime()==null?"Order accepted "+"recently.":"Order accepted at "+order.getUpdateTime().toString().substring(11,16)+" on "+order.getUpdateTime().toString().substring(8,10)+" "+order.getUpdateTime().toString().substring(4,7)+order.getUpdateTime().toString().substring(29,34));
 
                 break;
             case 2:
@@ -208,6 +255,11 @@ public class OrderItems extends Fragment implements View.OnClickListener {
             case 4:
                 fragmentOrderItemsBinding.textView5.setBackgroundColor(context.getResources().getColor(R.color.green));
                 fragmentOrderItemsBinding.textView5.setText(order.getUpdateTime()==null?"Order Delivered "+"recently.":"Order Delivered at "+order.getUpdateTime().toString().substring(11,16)+" on "+order.getUpdateTime().toString().substring(8,10)+" "+order.getUpdateTime().toString().substring(4,7)+order.getUpdateTime().toString().substring(29,34));
+                break;
+            case 5:
+                fragmentOrderItemsBinding.textView5.setBackgroundColor(context.getResources().getColor(R.color.green));
+                fragmentOrderItemsBinding.textView5.setText(order.getUpdateTime()==null?"Order partially accepted "+"recently.":"Order partially accepted at "+order.getUpdateTime().toString().substring(11,16)+" on "+order.getUpdateTime().toString().substring(8,10)+" "+order.getUpdateTime().toString().substring(4,7)+order.getUpdateTime().toString().substring(29,34));
+
                 break;
         }
     }
@@ -329,6 +381,38 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                             .commit();
 
                 }
+                break;
+            case R.id.btnAvailability:
+                userShopsViewModel.isVisible.setValue(true);
+                break;
+            case R.id.btnCancel:
+                orderItemsAdapter.reset=true;
+                orderItemsAdapter.notifyDataSetChanged();
+                userShopsViewModel.isVisible.setValue(false);
+                break;
+            case R.id.btnDone:
+                builder=new AlertDialog.Builder(getActivity());
+                builder.setTitle("Status Update");
+                builder.setMessage("Change order status to Partially Accepted?");
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        fragmentOrderItemsBinding.iv1.setEnabled(false);
+                        userShopsViewModel.setOrderStatus(order.getId(),5);
+                        userShopsViewModel.isVisible.setValue(false);
+
+                    }
+                });
+
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.show();
+                userShopsViewModel.updateOrderItems(order);
+
                 break;
         }
     }

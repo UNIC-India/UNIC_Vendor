@@ -2,6 +2,8 @@ package com.unic.unic_vendor_final_1.datamodels;
 
 import com.google.firebase.firestore.DocumentId;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Shop {
@@ -10,9 +12,15 @@ public class Shop {
     private String id;
     private String ownerId,name,address,locality,city,imageLink,logoLink,dynSubscribeLink;
     private int noOfProducts,noOfSubscribers;
+    private List<String> nameKeywords;
     private Map<String,Double> location;
 
-    public Shop(){}
+    public Shop(){
+        this.id = "null";
+        this.imageLink = "null";
+        this.logoLink = "null";
+        this.dynSubscribeLink = "null";
+    }
 
     public Shop(String name,String address,String locality,String city,Map<String,Double> location){
         this.id = " ";
@@ -26,6 +34,10 @@ public class Shop {
         this.noOfProducts = 0;
         this.noOfSubscribers = 0;
         this.location = location;
+        this.nameKeywords = new ArrayList<>();
+        for(String key : name.split(" "))
+            if(key.length()>1)
+                nameKeywords.add(key.substring(0,2).toLowerCase());
     }
 
     public String getId() {
@@ -114,6 +126,14 @@ public class Shop {
 
     public void setDynSubscribeLink(String dynSubscribeLink) {
         this.dynSubscribeLink = dynSubscribeLink;
+    }
+
+    public List<String> getNameKeywords() {
+        return nameKeywords;
+    }
+
+    public void setNameKeywords(List<String> nameKeywords) {
+        this.nameKeywords = nameKeywords;
     }
 
     public Map<String, Double> getLocation() {

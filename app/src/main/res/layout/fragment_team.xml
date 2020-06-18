@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.helpers.TeamFragment">
+    tools:context=".views.settings_fragments.TeamFragment">
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
@@ -29,11 +29,14 @@
         android:id="@+id/btnAddTeamMember"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+
         android:background="@drawable/std_button_normal"
         android:text="Add Member"
         android:textColor="@color/white"
         android:textSize="18sp"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

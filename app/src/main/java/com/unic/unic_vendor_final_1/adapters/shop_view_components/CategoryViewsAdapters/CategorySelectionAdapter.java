@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.unic.unic_vendor_final_1.R;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,14 +23,19 @@ public class CategorySelectionAdapter extends RecyclerView.Adapter<com.unic.unic
     private List<Map<String,Object>> categories;
     private List<Map<String,Object>> checkedCategories;
     private List<Map<String,Object>> products;
+    public Boolean showCompanies=false;
     int demo=0;
 
     public CategorySelectionAdapter(Context context){
         this.mContext = context;
+        checkedCategories=new ArrayList<>();
+
     }
     public CategorySelectionAdapter(int demo){
 
         this.demo=demo;
+        checkedCategories=new ArrayList<>();
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -55,8 +61,12 @@ public class CategorySelectionAdapter extends RecyclerView.Adapter<com.unic.unic
     @Override
     public void onBindViewHolder(@NonNull com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategorySelectionAdapter.ViewHolder holder, int position) {
         if(demo==0){
+            if(!showCompanies)
             holder.tvCategory.setText(categories.get(position).get("cname").toString());
-            if(checkedCategories.contains(categories.get(position)))
+            else
+                holder.tvCategory.setText(categories.get(position).get("compname").toString());
+
+            if(checkedCategories!=null&&checkedCategories.contains(categories.get(position)))
                 holder.cbCheck.setChecked(true);
 
             else
@@ -86,7 +96,7 @@ public class CategorySelectionAdapter extends RecyclerView.Adapter<com.unic.unic
         if(demo==0){
             if(categories==null)
                 return 0;
-            return categories.size();
+            return categories==null?0:categories.size();
         }
 
         else
@@ -100,8 +110,7 @@ public class CategorySelectionAdapter extends RecyclerView.Adapter<com.unic.unic
         this.categories=categories;
 
     }
-    public List<Map<String,Object>> returnSelectedCategories(){
-        return checkedCategories;
+    public List<Map<String,Object>> returnSelectedCategories(){ return checkedCategories;
     }
 
 

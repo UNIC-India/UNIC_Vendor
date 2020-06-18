@@ -15,15 +15,14 @@
         <activity android:name=".views.activities.AddNewProduct"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"/>
-        <activity android:name=".views.shop_addition_fragments.ImagePicker" />
-        <activity android:name=".views.activities.AddNewShop" />
-        <activity android:name=".views.shop_addition_fragments.ProductSelector" />
-        <activity android:name=".views.shop_addition_fragments.LocationSelector" />
-        <activity android:name=".views.activities.SetShopStructure" />
         <activity android:name=".views.activities.AddShop" />
+        <activity android:name=".views.shop_addition_fragments.LocationSelector" />
+        <activity android:name=".views.activities.SetShopStructure"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
         <activity android:name=".views.activities.Login" />
         <activity android:name=".views.activities.SignUp" />
-        <activity android:name=".views.activities.UserHome" />
+        <activity android:name=".views.activities.UserHome"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
         <activity
             android:name=".views.helpers.Welcome"
             android:screenOrientation="portrait"

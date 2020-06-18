@@ -7,7 +7,7 @@ import java.util.Map;
 public class Page {
     private String pageName;
     private int pageId,pos,size;
-    private ArrayList<View> views;
+    private List<View> views;
 
     public Page(){}
 
@@ -19,6 +19,7 @@ public class Page {
     public int getPageId() {
         return pageId;
     }
+
 
     public void setPageId(int pageId) {
         this.pageId = pageId;
@@ -48,7 +49,7 @@ public class Page {
         this.size = size;
     }
 
-    public ArrayList<View> getViews() {
+    public List<View> getViews() {
         return views;
     }
 
@@ -56,12 +57,27 @@ public class Page {
         this.views = views;
     }
 
+    public void addNewView(View view, int code){
+
+        setSize(0);
+
+        List<View> newViews = new ArrayList<>(views);
+
+        views.clear();
+
+        addView(view,code);
+
+        for(View v : newViews){
+            addView(v,v.getViewCode()/100);
+        }
+
+    }
+
     public void addView(View view,int code){
         view.setyPos(size);
         view.setPos(views.size());
-        List<Map<String,Object>> data = new ArrayList<>();
-        view.setData(data);
         view.setViewCode(code*100+views.size()+1);
+
         views.add(view);
         updateHeight();
     }

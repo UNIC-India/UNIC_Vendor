@@ -1,5 +1,6 @@
 package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -35,8 +36,8 @@ import java.util.Objects;
 
 public class ProductSelector extends Fragment implements View.OnClickListener,AdapterView.OnItemSelectedListener{
 
-    private int viewCode;
-    private int pageId;
+    private int pageId,code;
+    private com.unic.unic_vendor_final_1.datamodels.View view;
 
     private SetStructureViewModel setStructureViewModel;
     private FragmentProductSelectorBinding productSelectorBinding;
@@ -58,8 +59,9 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
 
     public ProductSelector(){}
 
-    public ProductSelector(int pageId,int viewCode){
-        this.viewCode = viewCode;
+    public ProductSelector(int pageId, com.unic.unic_vendor_final_1.datamodels.View view, int code){
+        this.view = view;
+        this.code = code;
         this.pageId = pageId;
 
     }
@@ -70,8 +72,8 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
 
         productSelectorBinding = FragmentProductSelectorBinding.inflate(inflater,container,false);
         setStructureViewModel = new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
-        data = setStructureViewModel.getStructure().getValue().getPage(pageId).getView(viewCode).getData();
-        adapter = new ProductListAdapter(getContext());
+        data = view.getData();
+        adapter = new ProductListAdapter(getContext(),1);
         adapter.setSelectedProducts(data);
 
         ArrayAdapter<CharSequence> selectionAdapter=ArrayAdapter.createFromResource(getActivity(), R.array.spinner_array,android.R.layout.simple_spinner_item);
@@ -105,7 +107,8 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
                             setStructureViewModel.getPaginatedProductData(true,null,1);
                         }
                         else{
-                            //TODO Refine product search in product selector
+                            refineSearch(s);
+
                         }
                         break;
                     case 1:
@@ -127,8 +130,6 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
                         }
                         setStructureViewModel.searchProductsByCompanyList(refinedCompanies);
                 }
-
-
             }
 
             @Override
@@ -159,16 +160,13 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
 
         productSelectorBinding.productSelectionSwipe.setColorScheme(R.color.colorPrimary,R.color.colorSecondary,R.color.colorTertiary);
 
-        productSelectorBinding.productSelectionSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                setStructureViewModel.getLastProductSelectionDoc().setValue(null);
-                setStructureViewModel.getIsFirstProductSelection().setValue(Boolean.TRUE);
-                setStructureViewModel.clearSearch();
-                setStructureViewModel.getPaginatedProductData(true,null,1);
-                Handler handler = new Handler();
-                handler.postDelayed(() -> productSelectorBinding.productSelectionSwipe.setRefreshing(false),5000);
-            }
+        productSelectorBinding.productSelectionSwipe.setOnRefreshListener(() -> {
+            setStructureViewModel.getLastProductSelectionDoc().setValue(null);
+            setStructureViewModel.getIsFirstProductSelection().setValue(Boolean.TRUE);
+            setStructureViewModel.clearSearch();
+            setStructureViewModel.getPaginatedProductData(true,null,1);
+            Handler handler = new Handler();
+            handler.postDelayed(() -> productSelectorBinding.productSelectionSwipe.setRefreshing(false),2000);
         });
 
         productSelectorBinding.productsSelectorRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -205,8 +203,18 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
         if(v.getId()==R.id.btnRight){
             data = adapter.returnSelectedProducts();
             Structure structure = setStructureViewModel.getStructure().getValue();
-            structure.updateProductList(pageId,viewCode,data);
-            setStructureViewModel.setStructure(structure);
+            if(code==43){
+                view.setHeight(35+58*data.size());
+            }
+            if(code==44){
+                view.setHeight(35+75*data.size());
+            }
+            if(view.getViewCode()==0){
+                view.setData(data);
+                structure.getPage(pageId).addNewView(view,code);
+            }
+            else
+                structure.updateProductList(pageId,view.getViewCode(),data);
             ((SetShopStructure) Objects.requireNonNull(getActivity())).returnToPage(pageId);
         }
 
@@ -244,5 +252,21 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         setQueryType(0);
+    }
+
+    public void refineSearch(CharSequence s){
+
+        List<Map<String,Object>> searchResults = setStructureViewModel.getSearchResults().getValue();
+
+        List<Map<String,Object>> refinedSearchResults = new ArrayList<>();
+
+        for(Map map : searchResults){
+            if(map.get("name").toString().toLowerCase().contains(s.toString().toLowerCase()))
+                refinedSearchResults.add(map);
+        }
+
+        adapter.setProducts(refinedSearchResults);
+        adapter.notifyDataSetChanged();
+
     }
 }

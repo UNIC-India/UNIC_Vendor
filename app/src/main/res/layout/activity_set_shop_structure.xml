@@ -64,12 +64,16 @@
 
                     <TextView
                         android:id="@+id/tvTitle"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:maxLines="1"
                         android:textColor="#FFFFFF"
-                        android:textSize="24sp"
 
+                        android:textSize="24sp"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/confirm_shop_structure"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -77,8 +81,12 @@
                         android:id="@+id/confirm_shop_structure"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/std_button"
                         android:drawableEnd="@drawable/ic_arrow_forward_black_24dp"
+                        android:drawableTint="#FFFFFF"
                         android:text="Save"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"
                         android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -100,15 +108,24 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.navigation.NavigationView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/set_structure_nav_view"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:backgroundTint="@color/offWhite"
-        app:itemTextAppearance="@style/MontserratTextViewStyle"
-        app:itemTextColor="@color/colorTertiary"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_shop"/>
+        android:background="@color/offWhite"
+        app:headerLayout="@layout/nav_header_shop">
+        <include
+            android:id="@+id/shop_drawer_header"
+            layout="@layout/nav_header_shop"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/shop_drawer_pages_loader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/shop_drawer_header"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>

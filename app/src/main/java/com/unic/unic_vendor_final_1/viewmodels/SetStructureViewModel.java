@@ -1,7 +1,11 @@
 package com.unic.unic_vendor_final_1.viewmodels;
 
+import android.net.Uri;
+import android.os.Handler;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -13,15 +17,18 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.UploadTask;
 import com.unic.unic_vendor_final_1.commons.FirebaseRepository;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.datamodels.Structure;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.LogRecord;
 
 public class SetStructureViewModel extends ViewModel {
 
@@ -36,8 +43,6 @@ public class SetStructureViewModel extends ViewModel {
     private MutableLiveData<List<Map<String,Object>>> categories = new MutableLiveData<>();
     private MutableLiveData<List<Map<String,Object>>> companies = new MutableLiveData<>();
     private MutableLiveData<List<Map<String,Object>>> searchResults = new MutableLiveData<>();
-    private DocumentSnapshot lastDoc=null;
-    private boolean isFirst = true;
 
     private MutableLiveData<Boolean> isFirstProductSelection = new MutableLiveData<>();
     private MutableLiveData<DocumentSnapshot> lastProductSelectionDoc = new MutableLiveData<>();
@@ -45,15 +50,24 @@ public class SetStructureViewModel extends ViewModel {
     private MutableLiveData<Boolean> isFirstProduct = new MutableLiveData<>();
     private MutableLiveData<DocumentSnapshot> lastProductDoc = new MutableLiveData<>();
 
+    private MutableLiveData<Boolean> isFirstMyProduct = new MutableLiveData<>();
+    private MutableLiveData<DocumentSnapshot> lastMyProductDoc = new MutableLiveData<>();
+
+    private MutableLiveData<Boolean> isImagePickerUploading = new MutableLiveData<>();
+    private MutableLiveData<Integer> currentImageUpload = new MutableLiveData<>();
+
+    public MutableLiveData<Boolean> setProductsUpdating = new MutableLiveData<>();
+
+    private MutableLiveData<Boolean> closeDrawers = new MutableLiveData<>();
+
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
     public void getShopData(String shopId){
-        firebaseRepository.getShop(shopId).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                shop.setValue(documentSnapshot.toObject(Shop.class));
-                status.setValue(1);
-            }
+        firebaseRepository.getShop(shopId).addOnSuccessListener(documentSnapshot -> {
+            shop.setValue(documentSnapshot.toObject(Shop.class));
+            status.setValue(1);
+
+            getShopExtras(shopId);
         });
     }
 
@@ -68,89 +82,137 @@ public class SetStructureViewModel extends ViewModel {
             return;
 
         firebaseRepository.getPaginatedProducts(shop.getValue().getId(),lastDoc,isFirst)
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if(queryDocumentSnapshots==null||queryDocumentSnapshots.size()==0) {
-                            lastProductSelectionDoc.setValue(null);
-                            return;
-                        }
-                        for(DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
-                            productData.add(doc.getData());
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if(queryDocumentSnapshots==null||queryDocumentSnapshots.size()==0) {
+                        lastProductSelectionDoc.setValue(null);
+                        lastProductDoc.setValue(null);
+                        lastMyProductDoc.setValue(null);
+                        return;
+                    }
+                    for(DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
+                        productData.add(doc.getData());
 
-                        products.setValue(productData);
-                        productStatus.setValue(1);
+                    products.setValue(productData);
+                    productStatus.setValue(1);
 
-                        switch (where){
-                            case 1:
-                                lastProductSelectionDoc.setValue(queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size()-1));;
-                                isFirstProductSelection.setValue(Boolean.FALSE);
-                                break;
-                            case 2:
-                                lastProductDoc.setValue(queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size()-1));
-                                isFirstProduct.setValue(Boolean.FALSE);
-                                break;
+                    switch (where){
+                        case 1:
+                            lastProductSelectionDoc.setValue(queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size()-1));;
+                            isFirstProductSelection.setValue(Boolean.FALSE);
+                            break;
+                        case 2:
+                            lastProductDoc.setValue(queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size()-1));
+                            isFirstProduct.setValue(Boolean.FALSE);
+                            break;
+                        case 3:
+                            lastMyProductDoc.setValue(queryDocumentSnapshots.getDocuments().get(queryDocumentSnapshots.size()-1));
+                            isFirstMyProduct.setValue(Boolean.FALSE);
 
-                        }
                     }
                 });
     }
 
     public void getStructureData(final String shopId){
         firebaseRepository
-                .getShopStructure(shopId).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists()) {
-                            structure.setValue(documentSnapshot.toObject(Structure.class));
-                            structureStatus.setValue(1);
-                        }
-                        else structureStatus.setValue(0);
+                .getShopStructure(shopId).addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        structure.setValue(documentSnapshot.toObject(Structure.class));
+                        structureStatus.setValue(1);
                     }
+                    else structureStatus.setValue(0);
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        structureStatus.setValue(0);
-                    }
-                });
+                .addOnFailureListener(e -> structureStatus.setValue(0));
+    }
+
+    public void uploadViewImage(int pageId, int viewCode, int position,String tag, byte[] data){
+        firebaseRepository.saveViewImage(shop.getValue().getId(),pageId,viewCode,position,data)
+                .addOnSuccessListener(taskSnapshot -> getViewImageLink(pageId, viewCode, position, tag))
+                .addOnFailureListener(Throwable::printStackTrace);
+
+    }
+
+    public void getViewImageLink(int pageId, int viewCode, int position,String tag){
+
+        firebaseRepository.getViewImageLink(shop.getValue().getId(),pageId,viewCode,position)
+                .addOnSuccessListener(uri -> {
+                    List<Map<String,Object>> data = structure.getValue().getPage(pageId).getView(viewCode).getData();
+                    Map<String,Object> imageData = new HashMap<>();
+                    if (tag!=null)
+                        imageData.put("tag",tag);
+                    imageData.put("imageLink",uri.toString());
+                    data.add(imageData);
+                    structure.getValue().updateProductList(pageId,viewCode,data);
+
+                    currentImageUpload.setValue(position + 1);
+                    isImagePickerUploading.setValue(Boolean.FALSE);
+
+                })
+                .addOnFailureListener(e -> e.printStackTrace());
+    }
+
+    public void deleteViewPics(int pageId,int viewCode){
+        int nos = structure.getValue().getPage(pageId).getView(viewCode).getData().size();
+        for(int i=0;i<nos;i++){
+            firebaseRepository.deleteViewImage(structure.getValue().getPage(pageId).getView(viewCode).getData().get(i).get("imageLink").toString())
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            status.setValue(100);
+                        }
+                    })
+
+                    .addOnFailureListener(Throwable::printStackTrace);
+        }
     }
 
     public void getShopExtras(String  shopId){
         Map<String,List<String>> extras = new HashMap<>();
-        firebaseRepository.getShopExtras(shopId).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+        firebaseRepository.getShopExtras(shopId).addSnapshotListener((queryDocumentSnapshots, e) -> {
 
-                if (queryDocumentSnapshots==null)
-                    return;
+            if (queryDocumentSnapshots==null)
+                return;
 
-                for(DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()){
-                    switch (doc.getId()){
-                        case "categories":
-                            List<String> categoriesList = doc.get("namesArray")!=null?(List<String>)doc.get("namesArray"):new ArrayList<>();
-                            extras.put("categories",categoriesList);
+            for(DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()){
+                switch (doc.getId()){
+                    case "categories":
 
-                            List<Map<String,Object>> categoryData = new ArrayList<>();
+                        List<String> categoriesList = new ArrayList<>(doc.getData().keySet());
 
-                            for(String category : categoriesList){
-                                Map<String,Object> data = new HashMap<>();
-                                data.put("cname",category);
-                                categoryData.add(data);
-                            }
+                        extras.put("categories",categoriesList);
 
-                            categories.setValue(categoryData);
+                        List<Map<String,Object>> categoryData = new ArrayList<>();
 
-                        case "companies":
-                            List<String> companies = doc.get("namesArray")!=null?(List<String>)doc.get("namesArray"):new ArrayList<>();
-                            extras.put("companies",companies);
-                    }
+                        for(String category : categoriesList){
+                            Map<String,Object> data = new HashMap<>();
+                            data.put("cname",category);
+                            categoryData.add(data);
+                        }
+
+                        categories.setValue(categoryData);
+
+                    case "companies":
+                        List<String> companiesdata = new ArrayList<>(doc.getData().keySet());
+                        extras.put("companies",companiesdata);
+                        List<Map<String,Object>> companydata = new ArrayList<>();
+
+                        for(String company: companiesdata){
+                            Map<String,Object> data = new HashMap<>();
+                            data.put("compname",company);
+                            companydata.add(data);
+                        }
+                        companies.setValue(companydata);
                 }
-                shopExtras.setValue(extras);
             }
+            shopExtras.setValue(extras);
         });
     }
 
+    public void deleteProduct(String shopId,String productId){
+        firebaseRepository.deleteProducts(shopId,productId)
+                .addOnSuccessListener( s -> {
+                    setProductsUpdating.setValue(true);
+                });
+    }
 
     public void saveShopStructure(){
         firebaseRepository.saveShopStructure(Objects.requireNonNull(structure.getValue()))
@@ -224,17 +286,24 @@ public class SetStructureViewModel extends ViewModel {
             return;
         }
 
-        firebaseRepository.getProductsFromCategories(shop.getValue().getId(), categories).addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if (queryDocumentSnapshots==null)
-                    return;
-                for (DocumentSnapshot doc : queryDocumentSnapshots){
-                    data.add(doc.getData());
-                }
-                searchResults.setValue(data);
-            }
-        });
+        firebaseRepository.getProductsFromCategories(shop.getValue().getId(), categories)
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (queryDocumentSnapshots==null)
+                            return;
+                        for (DocumentSnapshot doc : queryDocumentSnapshots){
+                            data.add(doc.getData());
+                        }
+                        searchResults.setValue(data);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
     public void searchProductsByCompanyList(List<String> companies){
@@ -286,6 +355,14 @@ public class SetStructureViewModel extends ViewModel {
         return categories;
     }
 
+    public MutableLiveData<List<Map<String, Object>>> getCompanies() {
+        return companies;
+    }
+
+    public void setCompanies(MutableLiveData<List<Map<String, Object>>> companies) {
+        this.companies = companies;
+    }
+
     public LiveData<List<Map<String, Object>>> getProducts() {
         return products;
     }
@@ -324,5 +401,29 @@ public class SetStructureViewModel extends ViewModel {
 
     public MutableLiveData<DocumentSnapshot> getLastProductDoc() {
         return lastProductDoc;
+    }
+
+    public MutableLiveData<DocumentSnapshot> getLastMyProductDoc() {
+        return lastMyProductDoc;
+    }
+
+    public MutableLiveData<Boolean> getIsFirstMyProduct() {
+        return isFirstMyProduct;
+    }
+
+    public MutableLiveData<Boolean> getIsImagePickerUploading() {
+        return isImagePickerUploading;
+    }
+
+    public MutableLiveData<Integer> getCurrentImageUpload() {
+        return currentImageUpload;
+    }
+
+    public MutableLiveData<Boolean> getCloseDrawers() {
+        return closeDrawers;
+    }
+
+    public MutableLiveData<Boolean> getSetProductsUpdating() {
+        return setProductsUpdating;
     }
 }

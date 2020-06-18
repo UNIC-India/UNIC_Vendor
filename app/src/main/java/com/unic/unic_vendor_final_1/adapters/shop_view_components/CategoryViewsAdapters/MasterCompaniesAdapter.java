@@ -59,7 +59,7 @@ public class MasterCompaniesAdapter extends RecyclerView.Adapter<MasterCompanies
     public int getItemCount() {
         if(companies==null)
             return 0;
-        return companies.size();
+        return companies==null?0:companies.size();
     }
 
     public void setCompanies(List<String> companies) {

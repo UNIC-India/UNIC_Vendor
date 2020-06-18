@@ -29,8 +29,7 @@ public class ProductListWithoutImagesAdapter extends RecyclerView.Adapter<Produc
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView tvProductName;
-        TextView tvProductPrice,tvCompany;
+        TextView tvProductName,tvProductPrice,tvCompany,tvCategory,extraInfo2;
         Button addToCart;
 
         public ViewHolder(@NonNull View itemView){
@@ -38,7 +37,9 @@ public class ProductListWithoutImagesAdapter extends RecyclerView.Adapter<Produc
             tvProductName = itemView.findViewById(R.id.product_name);
             tvProductPrice = itemView.findViewById(R.id.tvPrice);
             addToCart = itemView.findViewById(R.id.add_to_cart);
-            tvCompany=itemView.findViewById(R.id.Company);
+            tvCompany=itemView.findViewById(R.id.company);
+            tvCategory = itemView.findViewById(R.id.category);
+            extraInfo2 = itemView.findViewById(R.id.textView4);
         }
     }
 
@@ -53,12 +54,16 @@ public class ProductListWithoutImagesAdapter extends RecyclerView.Adapter<Produc
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if(demo==0){
             holder.tvProductName.setText(products.get(position).get("name").toString());
-            holder.tvProductPrice.setText(products.get(position).get("price").toString());
+            holder.tvProductPrice.setText("\u20B9"+products.get(position).get("price").toString());
+            holder.tvCategory.setText(products.get(position).get("category").toString());
+            holder.tvCompany.setText(products.get(position).get("company").toString());
+            holder.extraInfo2.setVisibility(View.INVISIBLE);
+
 
         }
         else{
             holder.tvProductName.setText("Product Name"+position);
-            holder.tvProductPrice.setText("Rs:2104");
+            holder.tvProductPrice.setText("\u20B9:2104");
             holder.tvCompany.setText("UNIC");
 
         }
@@ -69,7 +74,7 @@ public class ProductListWithoutImagesAdapter extends RecyclerView.Adapter<Produc
     @Override
     public int getItemCount() {
         if(demo==0)
-            return products.size();
+            return products==null?0:products.size();
         else
             return 3;
     }

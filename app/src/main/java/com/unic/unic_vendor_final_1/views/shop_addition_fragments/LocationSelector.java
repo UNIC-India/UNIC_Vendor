@@ -5,8 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +31,7 @@ import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.geometry.LatLngBounds;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
 import com.mapbox.mapboxsdk.location.modes.CameraMode;
@@ -37,6 +42,8 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
+import com.mapbox.mapboxsdk.snapshotter.MapSnapshot;
+import com.mapbox.mapboxsdk.snapshotter.MapSnapshotter;
 import com.mapbox.mapboxsdk.style.layers.Layer;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
@@ -44,6 +51,10 @@ import com.unic.unic_vendor_final_1.R;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -71,7 +82,9 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
     private Layer droppedMarkerLayer;
     private Point initPoint;
     private MapboxGeocoding mapboxGeocoding;
-    private  int type;
+    private MapSnapshotter mapSnapshotter;
+    private boolean hasStartedSnapshotGeneration;
+    private int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +101,8 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
         initSearchFab();
+        initLocationFinder();
+
     }
 
     @Override
@@ -116,11 +131,12 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
                     droppedMarkerLayer.setProperties(visibility(NONE));
                 }
 
+                LocationComponent locationComponent = mapboxMap.getLocationComponent();
+                locationComponent.activateLocationComponent(LocationComponentActivationOptions.builder(
+                        LocationSelector.this, style).build());
+                locationComponent.setLocationComponentEnabled(true);
+
                 if (type == 0) {
-                    LocationComponent locationComponent = mapboxMap.getLocationComponent();
-                    locationComponent.activateLocationComponent(LocationComponentActivationOptions.builder(
-                            LocationSelector.this, style).build());
-                    locationComponent.setLocationComponentEnabled(true);
 
 // Set the component's camera mode
                     locationComponent.setCameraMode(CameraMode.TRACKING);
@@ -133,6 +149,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
                     public void onClick(View v) {
 
                         final LatLng mapTargetLatLng = mapboxMap.getCameraPosition().target;
+                        selectLocationButton.setEnabled(false);
 
                         if (style.getLayer(DROPPED_MARKER_LAYER_ID) != null) {
                             GeoJsonSource source = style.getSourceAs("dropped-marker-source-id");
@@ -164,6 +181,86 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
                 iconIgnorePlacement(true),
                 visibility(NONE)
         ));
+    }
+
+    private void initLocationFinder(){
+        findViewById(R.id.get_location).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(PermissionsManager.areLocationPermissionsGranted(LocationSelector.this)){
+                    LocationComponent locationComponent = mapboxMap.getLocationComponent();
+                    locationComponent.activateLocationComponent(LocationComponentActivationOptions.builder(
+                            LocationSelector.this, Objects.requireNonNull(mapboxMap.getStyle())).build());
+                    locationComponent.setLocationComponentEnabled(true);
+
+// Set the component's camera mode
+                    locationComponent.setCameraMode(CameraMode.TRACKING);
+                    locationComponent.setRenderMode(RenderMode.NORMAL);
+                }
+            }
+        });
+    }
+
+    private void startSnapShot(LatLngBounds latLngBounds, int height, int width,LatLng location) {
+        mapboxMap.getStyle(new Style.OnStyleLoaded() {
+            @Override
+            public void onStyleLoaded(@NonNull Style style) {
+                if (mapSnapshotter == null) {
+// Initialize snapshotter with map dimensions and given bounds
+                    MapSnapshotter.Options options =
+                            new MapSnapshotter.Options(width, height)
+                                    .withRegion(latLngBounds)
+                                    .withCameraPosition(mapboxMap.getCameraPosition())
+                                    .withStyle(style.getUri());
+
+                    mapSnapshotter = new MapSnapshotter(LocationSelector.this, options);
+                } else {
+// Reuse pre-existing MapSnapshotter instance
+                    mapSnapshotter.setSize(width, height);
+                    mapSnapshotter.setRegion(latLngBounds);
+                    mapSnapshotter.setCameraPosition(mapboxMap.getCameraPosition());
+                }
+
+                mapSnapshotter.start(new MapSnapshotter.SnapshotReadyCallback() {
+                    @Override
+                    public void onSnapshotReady(MapSnapshot snapshot) {
+
+                        Bitmap bitmapOfMapSnapshotImage = snapshot.getBitmap();
+
+                        Uri bmpUri = getLocalBitmapUri(bitmapOfMapSnapshotImage);
+
+                        Intent intent = new Intent();
+                        intent.putExtra("latitude",location.getLatitude());
+                        intent.putExtra("longitude",location.getLongitude());
+                        intent.setData(bmpUri);
+                        setResult(RESULT_OK,intent);
+                        finish();
+
+                        hasStartedSnapshotGeneration = false;
+                    }
+                });
+            }
+        });
+    }
+
+    private Uri getLocalBitmapUri(Bitmap bmp) {
+        Uri bmpUri = null;
+        File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                "share_image_" + System.currentTimeMillis() + ".png");
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+            try {
+                out.close();
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+            bmpUri = Uri.fromFile(file);
+        } catch (FileNotFoundException exception) {
+            exception.printStackTrace();
+        }
+        return bmpUri;
     }
 
     @Override
@@ -219,9 +316,6 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
 
 // Get an instance of the component. Adding in LocationComponentOptions is also an optional
 // parameter
-            Toast.makeText(this, "Got perms", Toast.LENGTH_SHORT).show();
-
-
         } else {
             PermissionsManager permissionsManager = new PermissionsManager(this);
             permissionsManager.requestLocationPermissions(this);
@@ -312,11 +406,20 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
     }
 
     private void returnLocation(LatLng location){
-        Intent intent = new Intent();
-        intent.putExtra("latitude",location.getLatitude());
-        intent.putExtra("longitude",location.getLongitude());
-        setResult(RESULT_OK,intent);
-        finish();
+
+        LatLng topRight = new LatLng();
+        topRight.setLatitude(location.getLatitude()+0.0005);
+        topRight.setLongitude(location.getLongitude()+0.0005);
+        topRight.setAltitude(location.getAltitude());
+
+        LatLng bottomLeft = new LatLng();
+        bottomLeft.setLatitude(location.getLatitude()-0.0005);
+        bottomLeft.setLongitude(location.getLongitude()-0.0005);
+        bottomLeft.setAltitude(location.getAltitude());
+
+        LatLngBounds latLngBounds = new LatLngBounds.Builder().include(location).include(topRight).include(bottomLeft).build();
+
+        startSnapShot(latLngBounds,(int)dpToPx(200),(int)dpToPx(300),location);
     }
 
     @Override
@@ -324,11 +427,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_AUTOCOMPLETE) {
 
-// Retrieve selected location's CarmenFeature
             CarmenFeature selectedCarmenFeature = PlaceAutocomplete.getPlace(data);
-
-// Create a new FeatureCollection and add a new Feature to it using selectedCarmenFeature above.
-// Then retrieve and update the source designated for showing a selected location's symbol layer icon
 
             if (mapboxMap != null) {
                 Style style = mapboxMap.getStyle();
@@ -349,5 +448,13 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
                 }
             }
         }
+    }
+
+    private float dpToPx(int dp){
+        return TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                getResources().getDisplayMetrics()
+        );
     }
 }

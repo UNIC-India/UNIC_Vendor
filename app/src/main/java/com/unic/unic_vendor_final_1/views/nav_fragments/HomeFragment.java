@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -36,9 +37,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         firestoreDataViewModel.getUser().observe(getViewLifecycleOwner(), new Observer<User>() {
             @Override
             public void onChanged(User user) {
+                if(user==null)
+                    return;
+                if(user.getFullName()==null)
+                    return;
                 fragmentHomeBinding.tvWorkspace.setText(user!=null?user.getFullName().split(" ")[0]+"'s"+" Workspace":"Workspace");
             }
         });
+        firestoreDataViewModel.getError().observe(getViewLifecycleOwner(),e -> Toast.makeText(getContext(), e.toString(), Toast.LENGTH_SHORT).show());
         fragmentHomeBinding.cardView.setOnClickListener(this);
         fragmentHomeBinding.cardView6.setOnClickListener(this);
         fragmentHomeBinding.cardView3.setOnClickListener(this);

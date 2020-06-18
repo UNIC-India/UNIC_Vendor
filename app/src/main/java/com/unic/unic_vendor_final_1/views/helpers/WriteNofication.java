@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.commons.Helpers;
 import com.unic.unic_vendor_final_1.databinding.FragmentWriteNoficationBinding;
 import com.unic.unic_vendor_final_1.datamodels.Notification;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
@@ -46,6 +47,7 @@ public class WriteNofication extends Fragment implements View.OnClickListener{
         writeNoficationBinding.tvShopName.setText("Name: "+shopName);
         writeNoficationBinding.btncancel.setOnClickListener(this);
         writeNoficationBinding.btnsend.setOnClickListener(this);
+
         userShopsViewModel.notificationStatus.observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {

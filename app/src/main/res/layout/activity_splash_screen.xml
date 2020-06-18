@@ -23,16 +23,16 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="191dp"
-        android:layout_height="72dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="  UNIC"
-        android:textAllCaps="true"
+        android:text="     UNIC Business"
+        android:textAllCaps="false"
         android:textColor="#000000"
-        android:textSize="59sp"
+        android:textSize="36sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/icon"
-        app:layout_constraintLeft_toLeftOf="@id/icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/icon" />
 
     <TextView

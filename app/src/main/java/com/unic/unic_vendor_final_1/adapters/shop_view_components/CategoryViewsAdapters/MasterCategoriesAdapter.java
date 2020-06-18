@@ -62,7 +62,7 @@ public class MasterCategoriesAdapter extends RecyclerView.Adapter<MasterCategori
     public int getItemCount() {
         if(categories==null)
             return 0;
-        return categories.size();
+        return categories==null?0:categories.size();
     }
 
     public void setCategories(List<String> categories){

@@ -26,7 +26,7 @@
         android:gravity="center_horizontal"
         android:inputType="number"
         android:text="12"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etText" />
 
@@ -41,7 +41,7 @@
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/tvItalic"
         app:layout_constraintEnd_toStartOf="@+id/tvItalic" />
 
@@ -58,7 +58,7 @@
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold|italic"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/etSize"
         app:layout_constraintEnd_toStartOf="@+id/etSize" />
 

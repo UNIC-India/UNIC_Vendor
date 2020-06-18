@@ -56,6 +56,14 @@ public class QRFragment extends Fragment {
             public void onChanged(List<Shop> shops) {
                 qrAdapter.setShops(shops);
                 qrAdapter.notifyDataSetChanged();
+                if(shops==null||shops.size()==0){
+                    fragmentQrBinding.noshops.setVisibility(View.VISIBLE);
+                    fragmentQrBinding.tvnoshops.setVisibility(View.VISIBLE);
+                }
+                else{
+                    fragmentQrBinding.noshops.setVisibility(View.GONE);
+                    fragmentQrBinding.tvnoshops.setVisibility(View.GONE);
+                }
             }
         });
         fragmentQrBinding = FragmentQrBinding.inflate(inflater,container,false);
@@ -75,8 +83,8 @@ public class QRFragment extends Fragment {
 
     }
 
-    private void makeDynamicLink(String shopId,String shopName){
-        shopsViewModel.buildSubscribeLink(shopId,shopName);
+    private void makeDynamicLink(String shopId,String shopName,String imageLink){
+        shopsViewModel.buildSubscribeLink(shopId,shopName,imageLink);
     }
 
     public Bitmap generateQRCode(String str, int len) throws WriterException {

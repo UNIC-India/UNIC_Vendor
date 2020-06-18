@@ -1,6 +1,7 @@
 package com.unic.unic_vendor_final_1.views.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +27,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.ActivityUserHomeBinding;
+import com.unic.unic_vendor_final_1.datamodels.Notification;
 import com.unic.unic_vendor_final_1.datamodels.User;
 import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
@@ -34,7 +38,9 @@ import com.unic.unic_vendor_final_1.views.nav_fragments.MyAppsFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.OrdersFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyProducts;
 import com.unic.unic_vendor_final_1.views.nav_fragments.QRFragment;
+import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ProductDescriptionFragment;
 
+import java.util.List;
 import java.util.Objects;
 
 public class UserHome extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -177,6 +183,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     public void deleteShop(String shopId){
+        userShopsViewModel.isMyAppsLoading.setValue(true);
         userShopsViewModel.deleteShop(shopId);
     }
     public void deleteMember(String phone,String role, String shopId){
@@ -188,7 +195,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         Fragment fg=getSupportFragmentManager().findFragmentById(R.id.home_fragment);
         if(fg.getClass()==HomeFragment.class){
             if(doubleBackToExitPressedOnce){
-                super.onBackPressed();
+                moveTaskToBack(true);
                 return;
             }
             this.doubleBackToExitPressedOnce = true;
@@ -202,7 +209,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
                 }
             }, 2000);
         }
-        else if(fg.getClass()== OrderItems.class){
+        else if(fg.getClass()== OrderItems.class||fg.getClass()== ProductDescriptionFragment.class){
             getSupportFragmentManager().popBackStack();
         }
         else{
@@ -216,5 +223,12 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
        /* */
 
     }
+    public void sendNotification(String title, String shopId, String message){
+        userShopsViewModel.sendNotification(new Notification(title,shopId,message));
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

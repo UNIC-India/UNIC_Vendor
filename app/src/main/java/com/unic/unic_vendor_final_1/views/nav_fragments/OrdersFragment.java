@@ -59,17 +59,24 @@ public class OrdersFragment extends Fragment {
 
         myOrdersBinding.orderRefresh.setColorScheme(R.color.colorPrimary,R.color.colorSecondary,R.color.colorTertiary);
 
-        userShopsViewModel.getPaginatedOrders(isFirst,lastDoc);
+        userShopsViewModel.getPaginatedOrders(true,null);
 
         userShopsViewModel.isOrderUpdating.observe(getViewLifecycleOwner(),aBoolean -> {
             isUpdating=aBoolean;
-        if(updatingPosition>=0&&isUpdating==false)
-            allOrdersAdapter.updateOrder(updatingPosition,newStatus);
+        if(updatingPosition>=0&&!isUpdating) {
+            allOrdersAdapter.updateOrder(updatingPosition, newStatus);
+            updatingPosition = -1;
+        }
         });
 
         userShopsViewModel.getOrders().observe(getViewLifecycleOwner(), orders -> {
-            if (orders==null)
+            if (orders==null||orders.size()==0){
+                myOrdersBinding.ivNoOrder.setVisibility(View.VISIBLE);
+                myOrdersBinding.tvNoOrders.setVisibility(View.VISIBLE);
                 return;
+            }
+            myOrdersBinding.ivNoOrder.setVisibility(View.GONE);
+            myOrdersBinding.tvNoOrders.setVisibility(View.GONE);
             setOrders(orders);
         });
         myOrdersBinding.orderRefresh.setOnRefreshListener(() -> {
@@ -78,12 +85,11 @@ public class OrdersFragment extends Fragment {
             lastDoc = null;
             userShopsViewModel.getIsFirstOrder().setValue(Boolean.TRUE);
             userShopsViewModel.getLastOrderDoc().setValue(null);
-            userShopsViewModel.getOrders().setValue(null);
             userShopsViewModel.getPaginatedOrders(isFirst,lastDoc);
 
             Handler handler = new Handler();
 
-            handler.postDelayed(() -> myOrdersBinding.orderRefresh.setRefreshing(false),5000);
+            handler.postDelayed(() -> myOrdersBinding.orderRefresh.setRefreshing(false),2000);
         });
 
         myOrdersBinding.rvAllOrders.addOnScrollListener(new RecyclerView.OnScrollListener() {

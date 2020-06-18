@@ -16,8 +16,8 @@ import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.commons.Helpers;
 import com.unic.unic_vendor_final_1.databinding.ActivityLoginBinding;
 import com.unic.unic_vendor_final_1.viewmodels.FirebasePhoneAuthViewModel;
+import com.unic.unic_vendor_final_1.views.helpers.Welcome;
 
-import static com.unic.unic_vendor_final_1.commons.Helpers.buttonEffect;
 import static com.unic.unic_vendor_final_1.commons.Helpers.enableDisableViewGroup;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
@@ -63,16 +63,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         });
 
         loginBinding.btnconf.setOnClickListener(this);
-        buttonEffect(loginBinding.btnconf);
         loginBinding.btnlogin.setOnClickListener(this);
-        buttonEffect(loginBinding.btnlogin);
         loginBinding.btnres.setOnClickListener(this);
-        buttonEffect(loginBinding.btnres);
         loginBinding.signupLink.setOnClickListener(this);
         loginBinding.btnfb.setOnClickListener(this);
-        buttonEffect(loginBinding.btnfb);
         loginBinding.btngoogle.setOnClickListener(this);
-        buttonEffect(loginBinding.btngoogle);
     }
 
 
@@ -209,5 +204,17 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             return;
         }
         loginViewModel.checkUserExists(loginBinding.etphone.getText().toString());
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(loginBinding.loginOTP.getVisibility()==View.VISIBLE){
+            loginBinding.loginOTP.setVisibility(View.GONE);
+            loginBinding.details.setVisibility(View.VISIBLE);
+        }
+        else {
+            startActivity(new Intent(Login.this, Welcome.class));
+            finish();
+        }
     }
 }

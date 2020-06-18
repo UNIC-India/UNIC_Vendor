@@ -40,9 +40,21 @@ public class OrderDetails extends Fragment {
             }
         });
         fragmentOrderDetailsBinding=FragmentOrderDetailsBinding.inflate(getLayoutInflater());
-        fragmentOrderDetailsBinding.tvOrgName.setText(order.getOrgName());
-        fragmentOrderDetailsBinding.tvAddress.setText(order.getAddress());
-        fragmentOrderDetailsBinding.tvGST.setText("1234567890");
+        fragmentOrderDetailsBinding.tvGST.setText("Not Specified");
+        if(order.getPickUp()==1){
+            fragmentOrderDetailsBinding.tvOrgName.setVisibility(View.GONE);
+            fragmentOrderDetailsBinding.tvCity.setText("Pick Up");
+            fragmentOrderDetailsBinding.tvPincode.setVisibility(View.GONE);
+
+            fragmentOrderDetailsBinding.tvAddress.setText("Pick Up");
+        }
+        else{
+            fragmentOrderDetailsBinding.tvOrgName.setText(order.getAddress().getOrgName().length()<=1?"Not specified":order.getAddress().getOrgName());
+            fragmentOrderDetailsBinding.tvCity.setText(order.getAddress().getCity()+", ");
+            fragmentOrderDetailsBinding.tvPincode.setText(order.getAddress().getPincode());
+
+            fragmentOrderDetailsBinding.tvAddress.setText(order.getAddress().getAddressLine1()+'\n'+order.getAddress().getAddressLine2()+'\n'+order.getAddress().getLandmark());
+        }
 
 
         return fragmentOrderDetailsBinding.getRoot();

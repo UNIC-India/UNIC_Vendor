@@ -1,9 +1,11 @@
 package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -31,6 +33,7 @@ import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsA
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.MasterProductAdapter;
 import com.unic.unic_vendor_final_1.databinding.MasterLayoutBinding;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
+import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +46,7 @@ import java.util.Map;
 public class MasterLayoutFragment extends Fragment implements AdapterView.OnItemSelectedListener, TextWatcher {
     private RecyclerView rv;
     private com.unic.unic_vendor_final_1.datamodels.View view;
+    private int pageId;
     private Spinner spinner;
     private SetStructureViewModel setStructureViewModel;
     private int setter=0;
@@ -63,8 +67,9 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
     public MasterLayoutFragment() {
         // Required empty public constructor
     }
-    public MasterLayoutFragment(com.unic.unic_vendor_final_1.datamodels.View view){
+    public MasterLayoutFragment(com.unic.unic_vendor_final_1.datamodels.View view, int pageId){
         this.view=view;
+        this.pageId = pageId;
     }
 
 
@@ -109,13 +114,56 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
         else
             spinner.setSelection(0);
 
+        masterLayoutBinding.getRoot().setEnabled(false);
+
         return masterLayoutBinding.getRoot();
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        setter=position;
-        setAdapter(setter);
+    public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+
+        if(position!=Integer.parseInt((view.getData().size()!=0)?view.getData().get(0).get("default").toString():"0") ){
+            int count = 0;
+            int height = 0;
+
+            switch (position){
+                case 0:
+                    height = 658;
+                    break;
+                case 1:
+                    count = extraData.get("categories").size();
+                    height = 53 + count*48;
+                    break;
+
+                case 2:
+                    count = extraData.get("companies").size();
+                    height = 53 + count*48;
+                    break;
+
+            }
+            Map<String,Object> heightMap = new HashMap<>();
+            heightMap.put("0",658);
+            heightMap.put("1",Math.min(53+extraData.get("categories").size()*48,658));
+            heightMap.put("2",Math.min(53+extraData.get("companies").size()*48,658));
+
+            List<Map<String, Object>> temp = new ArrayList<>();
+            Map<String, Object> d = new HashMap<>();    //Both these variables are used for setting the default view in the MasterLayout.
+            d.put("default", position);
+
+            temp.add(d);
+            temp.add(heightMap);
+            view.setData(temp);
+
+            height = Math.min(height, 658);
+            view.setHeight(height);
+
+            ((SetShopStructure)getActivity()).updateMasterLayoutHeight(pageId,view.getViewCode());
+        }
+
+        else {
+            setter = position;
+            setAdapter(setter);
+        }
     }
 
     @Override
@@ -141,30 +189,32 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
                     }
                 });
 
+                masterLayoutBinding.getRoot().setEnabled(true);
+
+                masterLayoutBinding.getRoot().setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        setStructureViewModel.getPaginatedProductData(true,null,2);
+                        Handler handler = new Handler();
+                        handler.postDelayed(() -> masterLayoutBinding.getRoot().setRefreshing(false),2000);
+                    }
+                });
+
                 break;
             case 1:
+                masterLayoutBinding.getRoot().setEnabled(false);
                 rv.setLayoutManager(new LinearLayoutManager(getContext()));
                 masterCategoriesAdapter.notifyDataSetChanged();
                 rv.setAdapter(masterCategoriesAdapter);
 
-
                 break;
             case 2:
+                masterLayoutBinding.getRoot().setEnabled(false);
                 rv.setLayoutManager(new LinearLayoutManager(getContext()));
                 masterCompaniesAdapter.notifyDataSetChanged();
                 rv.setAdapter(masterCompaniesAdapter);
                 break;
         }
-
-            List<Map<String, Object>> temp = new ArrayList<>();
-            Map<String, Object> d = new HashMap<>();    //Both these variables are used for setting the default view in the MasterLayout.
-            d.put("default", position);
-            if (view.getData() == null || view.getData().size() == 0) {
-                temp.add(d);
-                view.setData(temp);
-            } else {
-                view.getData().get(0).put("default", position);
-            }
 
     }
 
@@ -179,6 +229,11 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
 
 
     private void setSearchResults(List<Map<String, Object>> searchResults) {
+        if(searchResults==null) {
+            masterProductAdapter.setProducts(products);
+            masterProductAdapter.notifyDataSetChanged();
+            return;
+        }
         this.searchResults = searchResults;
         masterProductAdapter.setProducts(searchResults);
         masterProductAdapter.notifyDataSetChanged();
@@ -222,18 +277,12 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
                         if(category.toLowerCase().contains(s.toString().toLowerCase()))
                             refinedCategories.add(category);
                     }
-                    /*for(Map map : products){
-                        if (((String)map.get("category")).toLowerCase().contains(s.toString().toLowerCase())){
-                            refinedProducts.add(map);
-                        }
-                    }*/
                     masterCategoriesAdapter.setCategories(refinedCategories);
-                    masterCategoriesAdapter.notifyDataSetChanged();
                 }
                 else {
                     masterCategoriesAdapter.setCategories(extraData.get("categories"));
-                    masterCategoriesAdapter.notifyDataSetChanged();
                 }
+                masterCategoriesAdapter.notifyDataSetChanged();
                 break;
             case 2:
                 List<String> refinedCompanies = new ArrayList<>();
@@ -259,11 +308,17 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
     @Override
     public void afterTextChanged(Editable s) {
 
+        if(s.length()<2){
+            masterProductAdapter.setProducts(products);
+            masterProductAdapter.notifyDataSetChanged();
+            setStructureViewModel.clearSearch();
+        }
+
     }
 
     private void refineSearchResult(CharSequence s){
 
-        if(searchResults.size()==0)
+        if(searchResults==null||searchResults.size()==0)
             return;
 
         List<Map<String,Object>> refinedProducts = new ArrayList<>();

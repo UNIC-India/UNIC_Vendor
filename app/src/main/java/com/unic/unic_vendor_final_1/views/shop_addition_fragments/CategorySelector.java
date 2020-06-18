@@ -1,5 +1,6 @@
 package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,10 +10,15 @@ import androidx.lifecycle.HasDefaultViewModelProviderFactory;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategorySelectionAdapter;
@@ -31,20 +37,23 @@ import java.util.Set;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CategorySelector extends Fragment implements  View.OnClickListener {
+public class CategorySelector extends Fragment implements  View.OnClickListener, AdapterView.OnItemSelectedListener {
     private FragmentCategorySelectorBinding categorySelectorBinding;
     private SetStructureViewModel setStructureViewModel;
-    private int pageId;
-    private int viewCode;
-    private CategorySelectionAdapter categorySelectionAdapter;
+    private int pageId,code;
+    private com.unic.unic_vendor_final_1.datamodels.View view;
+    private CategorySelectionAdapter categorySelectionAdapter, companySelectionAdapter;
     private List<Map<String,Object>> categories;
     private List<Map<String,Object>> prevData;
+    int setter=0;
+    boolean isFirst = true;
     public CategorySelector() {
         // Required empty public constructor
     }
-    public CategorySelector(int pageId,int viewCode){
+    public CategorySelector(int pageId, com.unic.unic_vendor_final_1.datamodels.View view, int code){
         this.pageId=pageId;
-        this.viewCode=viewCode;
+        this.view = view;
+        this.code = code;
     }
 
 
@@ -53,12 +62,16 @@ public class CategorySelector extends Fragment implements  View.OnClickListener 
                              Bundle savedInstanceState) {
         categorySelectorBinding=FragmentCategorySelectorBinding.inflate(inflater,container,false);
         setStructureViewModel= new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
-        prevData = setStructureViewModel.getStructure().getValue().getPage(pageId).getView(viewCode).getData();
-        categorySelectionAdapter=new CategorySelectionAdapter(getContext());
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        categorySelectorBinding.productsSelectorRecyclerView.setLayoutManager(layoutManager);
-        categorySelectorBinding.productsSelectorRecyclerView.setAdapter(categorySelectionAdapter);
+
+        isFirst = view.getViewCode() == 0;
+        prevData = view.getData();
+        setStructureViewModel.setCurrentFrag(getActivity().getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader));
+
+        categorySelectionAdapter=new CategorySelectionAdapter(getContext());
+        companySelectionAdapter=new CategorySelectionAdapter(getContext());
+        companySelectionAdapter.showCompanies=true;
+
         setStructureViewModel.getCategories().observe(getViewLifecycleOwner(), new Observer<List<Map<String, Object>>>() {
             @Override
             public void onChanged(List<Map<String, Object>> maps) {
@@ -67,32 +80,77 @@ public class CategorySelector extends Fragment implements  View.OnClickListener 
             }
         });
 
-        setStructureViewModel.getProductStatus().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                if(integer==1) {
-                    categorySelectionAdapter.setSelectedCategories(prevData);
-                    categorySelectionAdapter.notifyDataSetChanged();
-                }
-            }
-        });
+       setStructureViewModel.getCompanies().observe(getViewLifecycleOwner(), new Observer<List<Map<String, Object>>>() {
+           @Override
+           public void onChanged(List<Map<String, Object>> maps) {
+               companySelectionAdapter.setCategories(maps);
+               companySelectionAdapter.notifyDataSetChanged();
+           }
+       });
 
-        setStructureViewModel.setCurrentFrag(getActivity().getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader));
-
+        ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(getActivity(), R.array.category_or_company,android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySelectorBinding.companyorcategory.setAdapter(adapter);
+        categorySelectorBinding.companyorcategory.setOnItemSelectedListener(this);
         return categorySelectorBinding.getRoot();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        setter=position;
+        setAdapter(setter);
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        setter=0;
+        setAdapter(setter);
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
+    private void setAdapter(int position) {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+
+        switch (position) {
+            case 0:
+                categorySelectorBinding.productsSelectorRecyclerView.setLayoutManager(layoutManager);
+                categorySelectorBinding.productsSelectorRecyclerView.setAdapter(categorySelectionAdapter);
+                break;
+            case 1:
+                categorySelectorBinding.productsSelectorRecyclerView.setLayoutManager(layoutManager);
+                categorySelectorBinding.productsSelectorRecyclerView.setAdapter(companySelectionAdapter);
+                break;
+
+
+        }
+    }
 
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.btnRight){
-            prevData = categorySelectionAdapter.returnSelectedCategories();
             Structure structure = setStructureViewModel.getStructure().getValue();
-            structure.updateProductList(pageId,viewCode,prevData);
+            if(setter==0)
+             prevData = categorySelectionAdapter.returnSelectedCategories();
+            else {
+                prevData = companySelectionAdapter.returnSelectedCategories();
+                view.setFields("compname");
+            }
+            view.setData(prevData);
+
+            if(code%10==2){
+                int height = 50*(prevData.size()%3==0?prevData.size()/3:1+prevData.size()/3);
+                view.setHeight(height);
+            }
+
+            if(isFirst)
+                structure.getPage(pageId).addNewView(view,code);
+            else
+                structure.updateProductList(pageId,view.getViewCode(),prevData);
             setStructureViewModel.setStructure(structure);
             ((SetShopStructure) Objects.requireNonNull(getActivity())).returnToPage(pageId);
         }

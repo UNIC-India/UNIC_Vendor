@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.zxing.WriterException;
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.commons.Helpers;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 import com.unic.unic_vendor_final_1.views.nav_fragments.QRFragment;
@@ -51,8 +53,8 @@ public class ShopQRAdapter  extends RecyclerView.Adapter<ShopQRAdapter.ViewHolde
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView ivShopImage;
-        TextView tvShopName;
+        ImageView ivShopImage,noImage;
+        TextView tvShopName,tv_no_image;
         ImageButton ibShopQR;
         Button btnGenerateQR;
 
@@ -62,6 +64,8 @@ public class ShopQRAdapter  extends RecyclerView.Adapter<ShopQRAdapter.ViewHolde
             tvShopName = itemView.findViewById(R.id.qr_shop_name);
             ibShopQR = itemView.findViewById(R.id.ib_qr_dialog);
             btnGenerateQR = itemView.findViewById(R.id.btn_shop_generate_qr);
+            noImage=itemView.findViewById(R.id.no_image);
+            tv_no_image=itemView.findViewById(R.id.tv_no_image);
         }
     }
 
@@ -76,14 +80,54 @@ public class ShopQRAdapter  extends RecyclerView.Adapter<ShopQRAdapter.ViewHolde
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         holder.tvShopName.setText(shops.get(position).getName());
-        Glide
-                .with(context)
-                .load(shops.get(position).getImageLink())
-                .into(holder.ivShopImage);
+        if(shops.get(position).getImageLink().toString().length()>=3) {
+            holder.noImage.setVisibility(View.GONE);
+            holder.tv_no_image.setVisibility(View.GONE);
+            holder.ivShopImage.setVisibility(View.VISIBLE);
+            Glide
+                    .with(context)
+                    .load(shops.get(position).getImageLink())
+                    .into(holder.ivShopImage);
+        }
+        else{
+            int p=position;
+            holder.ivShopImage.setVisibility(View.GONE);
+            holder.noImage.setVisibility(View.VISIBLE);
+            holder.tv_no_image.setVisibility(View.VISIBLE);
+            holder.tv_no_image.setText(shops.get(position).getName().toString().substring(0,1).toUpperCase());
+            switch (p%3){
+                case 0:
+                    holder.noImage.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.colorTertiary)));
+                    holder.tv_no_image.setTextColor(context.getResources().getColor(R.color.white));
+
+                    break;
+                case 1:
+                    holder.noImage.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.colorSecondary)));
+                    holder.tv_no_image.setTextColor(context.getResources().getColor(R.color.black));
+                    break;
+
+                case 2:
+                    holder.noImage.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.colorPrimary)));
+                    holder.tv_no_image.setTextColor(context.getResources().getColor(R.color.white));
+
+                    break;
+            }
+        }
+
+
         holder.btnGenerateQR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userShopsViewModel.buildSubscribeLink(shops.get(position).getId(),shops.get(position).getName());
+
+                //userShopsViewModel.buildSubscribeLink(shops.get(position).getId(),shops.get(position).getName(),shops.get(position).getImageLink());
+
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, shops.get(position).getDynSubscribeLink());
+                sendIntent.setType("text/plain");
+
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                context.startActivity(shareIntent);
             }
         });
         holder.ibShopQR.setOnClickListener((View.OnClickListener) v -> {
@@ -137,7 +181,7 @@ public class ShopQRAdapter  extends RecyclerView.Adapter<ShopQRAdapter.ViewHolde
 
     @Override
     public int getItemCount() {
-        return shops.size();
+        return shops==null?0:shops.size();
     }
 
     public void setShops(List<Shop> shops) {

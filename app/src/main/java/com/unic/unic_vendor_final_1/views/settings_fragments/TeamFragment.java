@@ -1,4 +1,4 @@
-package com.unic.unic_vendor_final_1.views.helpers;
+package com.unic.unic_vendor_final_1.views.settings_fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -19,9 +19,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.google.rpc.Help;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.TeamAdapter;
+import com.unic.unic_vendor_final_1.commons.Helpers;
 import com.unic.unic_vendor_final_1.databinding.FragmentTeamBinding;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 
@@ -104,7 +107,15 @@ public class TeamFragment extends Fragment implements View.OnClickListener {
                 dialog.findViewById(R.id.btnDone).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                      userShopsViewModel.addMember(((EditText)dialog.findViewById(R.id.editText)).getText().toString(),role,shopId);
+                        if(((EditText) dialog.findViewById(R.id.editText)).getText().toString().trim().length()==10)
+                        {
+                            userShopsViewModel.addMember(((EditText) dialog.findViewById(R.id.editText)).getText().toString(), role, shopId);
+                            dialog.dismiss();
+                        }
+                        else
+                        {
+                            Toast.makeText(getContext(), "Wrong Number!", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 dialog.show();

@@ -25,11 +25,9 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
 
         Button btnSignUp = findViewById(R.id.btnSignUp);
         btnSignUp.setOnClickListener(this);
-        Helpers.buttonEffect(btnSignUp);
 
         Button btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(this);
-        Helpers.buttonEffect(btnLogin);
     }
 
     @Override

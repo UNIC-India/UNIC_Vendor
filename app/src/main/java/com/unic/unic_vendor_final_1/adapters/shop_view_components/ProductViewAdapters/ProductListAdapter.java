@@ -8,12 +8,17 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
+import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +29,19 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private Context mContext;
     private List<Map<String,Object>> products = new ArrayList<>();
     private List<Map<String,Object>> checkedProducts = new ArrayList<>();
-    int demo=0;
+    int demo;
+    int which;
+    private SetStructureViewModel setStructureViewModel;
 
-    public ProductListAdapter(Context context){
+    public ProductListAdapter(Context context,int which){
         this.mContext = context;
         demo=0;
+        this.which = which;
+        setStructureViewModel = new ViewModelProvider((FragmentActivity)mContext).get(SetStructureViewModel.class);
     }
     public ProductListAdapter(int demo){
         this.demo=demo;
+        which = 1;
     }
 
     class CheckBoxListener implements View.OnClickListener {
@@ -59,8 +69,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvProductName,tvCompany,tvPrice,tvCategory;;
-        ImageView ivProductPhoto,imageView2;
+        ImageView ivProductPhoto;
         CheckBox cbCheck;
+        ImageView addToCart,btnDelete;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -70,8 +81,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             ivProductPhoto = itemView.findViewById(R.id.product_image);
             tvCompany=itemView.findViewById(R.id.product_company_name);
             tvPrice=itemView.findViewById(R.id.product_price);
-            tvCategory=itemView.findViewById(R.id.tvCategory);
-            imageView2=itemView.findViewById(R.id.imageView2);
+            tvCategory=itemView.findViewById(R.id.product_category);
+            addToCart = itemView.findViewById(R.id.product_list_add_to_cart);
+            btnDelete=itemView.findViewById(R.id.btnDelete);
+
             cbCheck.setChecked(false);
 
         }
@@ -81,6 +94,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_details_list_item,parent,false);
+        if(which==3||which==2) {
+            view.findViewById(R.id.product_list_add_to_cart).setVisibility(View.GONE);
+            view.findViewById(R.id.product_checkbox).setVisibility(View.GONE);
+        }
+        if(which==3){
+            view.findViewById(R.id.btnDelete).setVisibility(View.VISIBLE);
+        }
         return new ViewHolder(view);
     }
 
@@ -89,32 +109,49 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         if(demo==0){
             holder.tvProductName.setText(products.get(position).get("name").toString());
-            holder.tvPrice.setText(products.get(position).get("price").toString());
+            holder.tvPrice.setText("\u20B9"+products.get(position).get("price").toString());
             holder.tvCompany.setText(products.get(position).get("category").toString());
             holder.tvCategory.setText(products.get(position).get("company").toString());
-            holder.imageView2.setVisibility(View.GONE);
+           if(products.get(position).get("imageId").toString().length()<=3)
+               holder.ivProductPhoto.setVisibility(View.GONE);
             Glide
                     .with(mContext)
                     .load(products.get(position).get("imageId").toString())
                     .into(holder.ivProductPhoto);
+            holder.addToCart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(mContext, "Product can only be added by a customer.", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+            holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setStructureViewModel.deleteProduct(products.get(position).get("shopId").toString(),products.get(position).get("firestoreId").toString());
+                }
+            });
 
 
-            if(checkedProducts!=null&&checkedProducts.contains(products.get(position)))
-                holder.cbCheck.setChecked(true);
-            else
-                holder.cbCheck.setChecked(false);
+            switch (which){
+                case 1:
+                    if(checkedProducts!=null&&checkedProducts.contains(products.get(position)))
+                        holder.cbCheck.setChecked(true);
+                    else
+                        holder.cbCheck.setChecked(false);
 
-            holder.cbCheck.setOnClickListener(new CheckBoxListener(position));
-
+                    holder.cbCheck.setOnClickListener(new CheckBoxListener(position));
+                    break;
+                case 2:
+                case 3:
+                    holder.cbCheck.setVisibility(View.GONE);
+                    break;
+            }
         }
         else{
             holder.tvProductName.setText("Demo Product");
             holder.ivProductPhoto.setImageResource(R.drawable.demo_product);
             holder.cbCheck.setVisibility(View.GONE);
-            holder.imageView2.setVisibility(View.VISIBLE);
-
-
-
         }
     }
 
@@ -122,7 +159,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     public int getItemCount() {
         if(demo==0)
             if(products!=null)
-                return products.size();
+                return products==null?0:products.size();
             else
                 return 0;
         else

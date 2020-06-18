@@ -20,6 +20,7 @@ public class AddShopViewModel extends ViewModel {
     private MutableLiveData<Shop> shop = new MutableLiveData<>();
 
     private MutableLiveData<Integer> shopAddStatus = new MutableLiveData<>();
+    public MutableLiveData<Integer> logoStatus=new MutableLiveData<>();
 
     private FirebaseRepository firebaseRepository=new FirebaseRepository();
 
@@ -91,6 +92,7 @@ public class AddShopViewModel extends ViewModel {
         firebaseRepository.setShopImage(shop.getValue().getId(),shop.getValue().getImageLink()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                buildSubscribeLink();
                 shopAddStatus.setValue(4);
             }
         })
@@ -100,6 +102,44 @@ public class AddShopViewModel extends ViewModel {
                 shopAddStatus.setValue(-4);
             }
         });
+    }
+    public void saveShopLogo(String shopId,byte[] data){
+        firebaseRepository.saveShopLogo(shopId,data)
+                .addOnSuccessListener(taskSnapshot -> logoStatus.setValue(3))
+                .addOnFailureListener(e -> {
+                    e.printStackTrace();
+                    logoStatus.setValue(-2);
+                });
+    }
+
+    public void setShopLogoLink(String shopId){
+        firebaseRepository.getLogoLink(shopId).addOnSuccessListener(uri -> setLogoLink(shopId,uri.toString()))
+                .addOnFailureListener(e -> {
+                    e.printStackTrace();
+                    logoStatus.setValue(-3);
+                });
+    }
+
+    private void setLogoLink(String shopId, String logoLink){
+        firebaseRepository.setShopLogo(shopId,logoLink)
+                .addOnSuccessListener(aVoid -> logoStatus.setValue(4))
+                .addOnFailureListener(e -> logoStatus.setValue(-1));
+    }
+
+    public void buildSubscribeLink(){
+        firebaseRepository.createSubscribeLink(shop.getValue().getId(),shop.getValue().getName(),shop.getValue().getImageLink())
+                .addOnSuccessListener(shortDynamicLink -> updateSubscribeLink(shortDynamicLink.getShortLink()))
+                .addOnFailureListener(e -> e.printStackTrace());
+    }
+
+    private void updateSubscribeLink(Uri link){
+
+        firebaseRepository.setSubscribeLink(shop.getValue().getId(),link)
+                .addOnFailureListener(e -> {
+                    e.printStackTrace();
+                    shopAddStatus.setValue(-1);
+                })
+                .addOnSuccessListener(aVoid -> shopAddStatus.setValue(5));
     }
 
     public LiveData<Integer> getShopAddStatus(){
