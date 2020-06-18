@@ -46,6 +46,8 @@ public class UserShopsViewModel extends ViewModel {
     private MutableLiveData<DocumentSnapshot> lastOrderDoc = new MutableLiveData<>();
     public MutableLiveData<Boolean> isOrderUpdating =new MutableLiveData<>();
 
+    public MutableLiveData<Boolean> isMyAppsLoading = new MutableLiveData<>();
+
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
     public void getAllShops() {
@@ -338,5 +340,9 @@ public class UserShopsViewModel extends ViewModel {
 
             }
         });
+    }
+
+    public MutableLiveData<Boolean> getIsMyAppsLoading() {
+        return isMyAppsLoading;
     }
 }

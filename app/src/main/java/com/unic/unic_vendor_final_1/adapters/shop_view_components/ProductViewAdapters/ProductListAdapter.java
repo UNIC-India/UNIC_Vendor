@@ -63,7 +63,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvProductName,tvCompany,tvPrice,tvCategory;;
-        ImageView ivProductPhoto,imageView2;
+        ImageView ivProductPhoto;
         CheckBox cbCheck;
         ImageView addToCart;
 
@@ -76,8 +76,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             tvCompany=itemView.findViewById(R.id.product_company_name);
             tvPrice=itemView.findViewById(R.id.product_price);
             tvCategory=itemView.findViewById(R.id.product_category);
-            imageView2=itemView.findViewById(R.id.product_image);
-            addToCart=itemView.findViewById(R.id.product_list_add_to_cart);
             cbCheck.setChecked(false);
 
         }
@@ -87,6 +85,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_details_list_item,parent,false);
+        if(which==3||which==2) {
+            view.findViewById(R.id.product_list_add_to_cart).setVisibility(View.GONE);
+            view.findViewById(R.id.product_checkbox).setVisibility(View.GONE);
+        }
         return new ViewHolder(view);
     }
 
@@ -99,7 +101,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder.tvCompany.setText(products.get(position).get("category").toString());
             holder.tvCategory.setText(products.get(position).get("company").toString());
            if(products.get(position).get("imageId").toString().length()<=3)
-               holder.imageView2.setVisibility(View.GONE);
+               holder.ivProductPhoto.setVisibility(View.GONE);
             Glide
                     .with(mContext)
                     .load(products.get(position).get("imageId").toString())
@@ -122,9 +124,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                     holder.cbCheck.setOnClickListener(new CheckBoxListener(position));
                     break;
                 case 2:
-                    holder.cbCheck.setVisibility(View.GONE);
-                    holder.imageView2.setVisibility(View.GONE);
-                    break;
                 case 3:
                     holder.cbCheck.setVisibility(View.GONE);
                     break;
@@ -134,7 +133,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder.tvProductName.setText("Demo Product");
             holder.ivProductPhoto.setImageResource(R.drawable.demo_product);
             holder.cbCheck.setVisibility(View.GONE);
-            holder.imageView2.setVisibility(View.VISIBLE);
         }
     }
 
