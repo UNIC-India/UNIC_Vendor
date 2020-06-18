@@ -125,6 +125,13 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
         setShopStructureBinding.shopDrawerPagesLoader.setAdapter(shopDrawerAdapter);
 
+        setStructureViewModel.getCloseDrawers().observe(this,aBoolean -> {
+            if(aBoolean){
+                setShopStructureBinding.drawerLayout.closeDrawers();
+                setStructureViewModel.getCloseDrawers().setValue(false);
+            }
+        });
+
         option = getIntent().getIntExtra("template", 0);
 
         updateStatus(0);
@@ -501,25 +508,27 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     @Override
     public void onBackPressed() {
 
-        Fragment fg=getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader);
-        if(fg!=null) {
-            if (fg.getClass() == ProductSelector.class || fg.getClass() == CategorySelector.class || fg.getClass() == ProductDescriptionFragment.class || fg.getClass() == ImagePicker.class)
-                getSupportFragmentManager().popBackStack();
-            else if (fg.getClass() == ShopPageFragment.class) {
-                if (doubleBackToExitPressedOnce) {
-                    super.onBackPressed();
-                    return;
-                }
-                this.doubleBackToExitPressedOnce = true;
-                Toast.makeText(this, "Please save or your changes will be lost.", Toast.LENGTH_SHORT).show();
 
-                new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
-            }
-            else if (fg.getClass()==NoProductsFragment.class){
+        Fragment fg=getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader);
+
+        if (fg==null)
+            return;
+
+        if (fg.getClass() == ProductSelector.class || fg.getClass() == CategorySelector.class || fg.getClass() == ProductDescriptionFragment.class || fg.getClass() == ImagePicker.class)
+            getSupportFragmentManager().popBackStack();
+        else if (fg.getClass() == ShopPageFragment.class) {
+            if (doubleBackToExitPressedOnce) {
                 super.onBackPressed();
+                return;
             }
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please save or your changes will be lost.", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
         }
-        super.onBackPressed();
+        else if (fg.getClass()==NoProductsFragment.class){
+            super.onBackPressed();
+        }
     }
 
     @Override

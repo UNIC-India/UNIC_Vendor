@@ -2,6 +2,7 @@ package com.unic.unic_vendor_final_1.adapters.shop_view_components;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.datamodels.Page;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
+import com.unic.unic_vendor_final_1.views.activities.UserHome;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ShopPageFragment;
 
 import java.util.Collections;
@@ -88,6 +90,7 @@ public class ShopDrawerAdapter extends RecyclerView.Adapter<ShopDrawerAdapter.Vi
         @Override
         public void onClick(View v) {
             final EditText etPageName = new EditText(context);
+            etPageName.setText(pages.get(position).getPageName());
             final AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle("Enter Page Name");
             builder.setMessage("");
@@ -113,8 +116,25 @@ public class ShopDrawerAdapter extends RecyclerView.Adapter<ShopDrawerAdapter.Vi
 
         @Override
         public void onClick(View v) {
-            pages.remove(position);
-            notifyItemRemoved(position);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                    .setTitle("CONFIRM YOUR ACTIONS")
+                    .setMessage("Are you sure you want to delete " + pages.get(position).getPageId())
+                    .setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            deletePage(position);
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
     }
 
@@ -128,6 +148,7 @@ public class ShopDrawerAdapter extends RecyclerView.Adapter<ShopDrawerAdapter.Vi
 
         @Override
         public void onClick(View v) {
+            setStructureViewModel.getCloseDrawers().setValue(true);
             ((FragmentActivity) context).getSupportFragmentManager().beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .replace(R.id.shop_pages_loader, new ShopPageFragment(pages.get(position)), pages.get(position).getPageName())
@@ -200,4 +221,31 @@ public class ShopDrawerAdapter extends RecyclerView.Adapter<ShopDrawerAdapter.Vi
     public void setPages(List<Page> pages) {
         this.pages = pages;
     }
+
+    private void deletePage(int position){
+        if(((FragmentActivity) context).getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader).getClass()==ShopPageFragment.class&&((ShopPageFragment) ((FragmentActivity) context).getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader)).getPageId()==pages.get(position).getPageId()){
+
+            if(position==0&&pages.size()>1){
+                ((FragmentActivity) context).getSupportFragmentManager().beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .replace(R.id.shop_pages_loader, new ShopPageFragment(pages.get(position+1)), pages.get(position+1).getPageName())
+                        .commit();
+            }
+
+            else if(position>0) {
+                ((FragmentActivity) context).getSupportFragmentManager().beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .replace(R.id.shop_pages_loader, new ShopPageFragment(pages.get(position - 1)), pages.get(position - 1).getPageName())
+                        .commit();
+            }
+            else if(pages.size()==1){
+                Toast.makeText(context, "Can't delete the only page in your structure", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+        pages.remove(position);
+        notifyItemRemoved(position);
+    }
+
 }
