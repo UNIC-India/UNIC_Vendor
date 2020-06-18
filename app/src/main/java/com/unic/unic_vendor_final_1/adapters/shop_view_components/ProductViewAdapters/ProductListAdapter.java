@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private List<Map<String,Object>> checkedProducts = new ArrayList<>();
     int demo;
     int which;
+    UserShopsViewModel userShopsViewModel;
 
     public ProductListAdapter(Context context,int which){
         this.mContext = context;
@@ -77,6 +79,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             tvPrice=itemView.findViewById(R.id.product_price);
             tvCategory=itemView.findViewById(R.id.product_category);
             addToCart = itemView.findViewById(R.id.product_list_add_to_cart);
+            btnDelete=itemView.findViewById(R.id.btnDelete);
 
             cbCheck.setChecked(false);
 
@@ -90,6 +93,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         if(which==3||which==2) {
             view.findViewById(R.id.product_list_add_to_cart).setVisibility(View.GONE);
             view.findViewById(R.id.product_checkbox).setVisibility(View.GONE);
+        }
+        if(which==3){
+            view.findViewById(R.id.btnDelete).setVisibility(View.VISIBLE);
         }
         return new ViewHolder(view);
     }
@@ -115,6 +121,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
                 }
             });
+            holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
 
             switch (which){
                 case 1:

@@ -149,6 +149,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
                     public void onClick(View v) {
 
                         final LatLng mapTargetLatLng = mapboxMap.getCameraPosition().target;
+                        selectLocationButton.setEnabled(false);
 
                         if (style.getLayer(DROPPED_MARKER_LAYER_ID) != null) {
                             GeoJsonSource source = style.getSourceAs("dropped-marker-source-id");

@@ -33,7 +33,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
-import static com.unic.unic_vendor_final_1.commons.Helpers.buttonEffect;
 import static com.unic.unic_vendor_final_1.commons.Helpers.enableDisableViewGroup;
 
 /**
@@ -74,7 +73,6 @@ public class AddShopFrag extends Fragment implements View.OnClickListener {
 
         addShopBinding.btnAddShopImage.setOnClickListener(this);
         addShopBinding.addShopStep2.setOnClickListener(this);
-        buttonEffect(addShopBinding.addShopStep2);
         addShopBinding.shopLocationSelect.setOnClickListener(this);
         addShopViewModel = new ViewModelProvider(getActivity()).get(AddShopViewModel.class);
         addShopViewModel.getShopAddStatus().observe(getViewLifecycleOwner(), this::statusUpdate);
