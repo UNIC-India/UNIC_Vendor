@@ -38,7 +38,7 @@ import java.util.Objects;
  * A simple {@link Fragment} subclass.
  */
 public class ViewSelector extends Fragment implements  View.OnClickListener {
-    private int pageId,code;
+    public int pageId,code;
     private SetStructureViewModel setStructureViewModel;
     private FragmentViewSelectorBinding viewSelectorBinding;
     private Adapter_setViews adapter_setViews;
