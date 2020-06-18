@@ -110,14 +110,13 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
                 }
             }
             else {
-                Intent intent = new Intent(this, SetShopStructure.class);
-                intent.putExtra("shopId",shop.getId());
-                intent.putExtra("template",Integer.valueOf(1));
-                startActivity(intent);
-                finish();
+                setStatus(6);
             }
         }
         else if (status==5){
+            addNewShopViewModel.buildSubscribeLink();
+        }
+        else if(status==6){
             enableDisableViewGroup(addNewShopBinding.getRoot(),true);
             ((ViewGroup)addNewShopBinding.getRoot()).removeView(coverView);
             addNewShopBinding.addShopProgressBar.setVisibility(View.GONE);

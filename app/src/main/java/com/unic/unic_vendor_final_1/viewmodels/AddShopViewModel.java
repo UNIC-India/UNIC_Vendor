@@ -126,7 +126,7 @@ public class AddShopViewModel extends ViewModel {
                 .addOnFailureListener(e -> logoStatus.setValue(-1));
     }
 
-    private void buildSubscribeLink(){
+    public void buildSubscribeLink(){
         firebaseRepository.createSubscribeLink(shop.getValue().getId(),shop.getValue().getName(),shop.getValue().getImageLink())
                 .addOnSuccessListener(shortDynamicLink -> updateSubscribeLink(shortDynamicLink.getShortLink()))
                 .addOnFailureListener(e -> e.printStackTrace());
