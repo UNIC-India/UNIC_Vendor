@@ -42,9 +42,9 @@ public class OrderDetails extends Fragment {
         fragmentOrderDetailsBinding=FragmentOrderDetailsBinding.inflate(getLayoutInflater());
         fragmentOrderDetailsBinding.tvGST.setText("Not Specified");
         if(order.getPickUp()==1){
-            fragmentOrderDetailsBinding.tvOrgName.setText("Personal/Pick Up");
+            fragmentOrderDetailsBinding.tvOrgName.setVisibility(View.GONE);
             fragmentOrderDetailsBinding.tvCity.setText("Pick Up");
-            fragmentOrderDetailsBinding.tvPincode.setText("Pick Up");
+            fragmentOrderDetailsBinding.tvPincode.setVisibility(View.GONE);
 
             fragmentOrderDetailsBinding.tvAddress.setText("Pick Up");
         }

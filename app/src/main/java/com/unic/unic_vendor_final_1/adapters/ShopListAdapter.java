@@ -73,6 +73,14 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ViewHo
 
             holder.tvShopName2.setText(shops.get(position).getName());
             if(from==0){
+                if(shops.size()==1){
+                    ((AppCompatActivity)context).getSupportFragmentManager()
+                            .beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .replace(R.id.home_fragment,new ProductViewFragment(shops.get(position).getId()))
+                            .addToBackStack(null)
+                            .commit();
+                }
                 holder.tvShopName2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -86,6 +94,37 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ViewHo
                 });
             }
             else if(from==1){
+                if(shops.size()==1){
+                    Dialog dialog=new Dialog(context);
+                    dialog.setContentView(R.layout.fragment_write_nofication);
+                    dialog.findViewById(R.id.loading).setVisibility(View.GONE);
+                    ((TextView)dialog.findViewById(R.id.tvShopName)).setText("Name: "+shops.get(position).getName());
+                    ((Button)dialog.findViewById(R.id.btncancel)).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    ((Button)dialog.findViewById(R.id.btnsend)).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String title=((EditText)dialog.findViewById(R.id.etTitle)).getText().toString();
+                            String message=((EditText)dialog.findViewById(R.id.etMessage)).getText().toString();
+                            ((Button)dialog.findViewById(R.id.btnsend)).setEnabled(false);
+                            ((UserHome)context).sendNotification(title,shops.get(position).getId(),message);
+                            dialog.dismiss();
+
+
+                        }
+                    });
+                    Helpers.buttonEffect((Button)dialog.findViewById(R.id.btnsend));
+                    Helpers.buttonEffect((Button)dialog.findViewById(R.id.btncancel));
+                    dialog.show();
+                    Window window= dialog.getWindow();
+                    window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+
+
+                }
                 holder.tvShopName2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -123,6 +162,14 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ViewHo
                 });
             }
             else if(from==2){
+                if(shops.size()==1){
+                    ((AppCompatActivity)context).getSupportFragmentManager()
+                            .beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .replace(R.id.home_fragment,new TeamFragment(shops.get(position).getId(),shops.get(position).getName()))
+                            .addToBackStack(null)
+                            .commit();
+                }
                 holder.tvShopName2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -137,6 +184,14 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ViewHo
                 });
             }
             else if(from==3){
+                if(shops.size()==1){
+                    ((AppCompatActivity)context).getSupportFragmentManager()
+                            .beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .replace(R.id.home_fragment,new LogoFragment(shops.get(position).getId(),shops.get(position).getLogoLink()))
+                            .addToBackStack(null)
+                            .commit();
+                }
                 holder.tvShopName2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

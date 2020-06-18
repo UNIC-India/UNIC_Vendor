@@ -54,7 +54,7 @@ public class ProductListWithoutImagesAdapter extends RecyclerView.Adapter<Produc
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if(demo==0){
             holder.tvProductName.setText(products.get(position).get("name").toString());
-            holder.tvProductPrice.setText(products.get(position).get("price").toString());
+            holder.tvProductPrice.setText("\u20B9"+products.get(position).get("price").toString());
             holder.tvCategory.setText(products.get(position).get("category").toString());
             holder.tvCompany.setText(products.get(position).get("company").toString());
             holder.extraInfo2.setVisibility(View.INVISIBLE);
@@ -63,7 +63,7 @@ public class ProductListWithoutImagesAdapter extends RecyclerView.Adapter<Produc
         }
         else{
             holder.tvProductName.setText("Product Name"+position);
-            holder.tvProductPrice.setText("Rs:2104");
+            holder.tvProductPrice.setText("\u20B9:2104");
             holder.tvCompany.setText("UNIC");
 
         }

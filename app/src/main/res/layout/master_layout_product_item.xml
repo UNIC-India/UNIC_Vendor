@@ -90,13 +90,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:hint="Rs. 20"
-                android:textColor="@color/colorPrimary"
-                android:textColorHint="@color/colorPrimary"
-                android:textSize="15dp"
-                android:maxLines="1"
                 android:ellipsize="end"
+                android:fontFamily="@font/montserrat_bold"
+                android:hint="\u20B920"
+                android:maxLines="1"
+                android:textColor="@color/green"
+                android:textColorHint="@color/green"
+                android:textSize="15dp"
 
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/product_company_name"></TextView>
@@ -109,7 +109,7 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 app:layout_constraintBottom_toBottomOf="@+id/product_company_name"
-                app:layout_constraintEnd_toStartOf="@+id/imageView2"
+                app:layout_constraintEnd_toStartOf="@+id/addToCart"
                 app:layout_constraintStart_toEndOf="@+id/product_company_name" />
 
             <TextView
@@ -125,9 +125,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/product_company_name" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/addToCart"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:tint="@color/colorPrimary"
                 app:layout_constraintBottom_toTopOf="@+id/product_price"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
