@@ -23,6 +23,7 @@
 
         <Button
             android:id="@+id/btnCancel"
+            style="@style/StandardButton"
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_marginEnd="8dp"
@@ -39,6 +40,7 @@
 
         <Button
             android:id="@+id/btnDone"
+            style="@style/StandardButton"
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:background="@drawable/std_button"
@@ -53,6 +55,7 @@
 
         <Button
             android:id="@+id/btnAvailability"
+            style="@style/StandardButton"
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_marginEnd="8dp"

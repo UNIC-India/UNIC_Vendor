@@ -8,7 +8,7 @@
     tools:context=".views.helpers.OrderDetails">
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/textorganisation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -26,7 +26,7 @@
         android:layout_marginTop="8dp"
         android:textColor="#000000"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/textView10"
+        app:layout_constraintStart_toEndOf="@+id/textorganisation"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -35,36 +35,36 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:textColor="#000000"
-        app:layout_constraintStart_toEndOf="@+id/textView15"
-        app:layout_constraintTop_toTopOf="@+id/textView15" />
+        app:layout_constraintStart_toEndOf="@+id/textCity"
+        app:layout_constraintTop_toTopOf="@+id/textCity" />
 
     <TextView
-        android:id="@+id/textView15"
+        android:id="@+id/textCity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="City:"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/textView10"
+        app:layout_constraintStart_toStartOf="@+id/textorganisation"
         app:layout_constraintTop_toBottomOf="@+id/tvOrgName" />
 
     <TextView
-        android:id="@+id/textview20"
+        android:id="@+id/textPincode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Pincode:"
-        app:layout_constraintStart_toStartOf="@+id/textView19"
+        app:layout_constraintStart_toStartOf="@+id/textAddress"
         app:layout_constraintTop_toBottomOf="@+id/tvAddress" />
 
     <TextView
-        android:id="@+id/textView19"
+        android:id="@+id/textAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Address:"
-        app:layout_constraintStart_toStartOf="@+id/textView15"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintStart_toStartOf="@+id/textCity"
+        app:layout_constraintTop_toBottomOf="@+id/textCity" />
 
     <TextView
         android:id="@+id/tvPincode"
@@ -72,8 +72,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:textColor="#000000"
-        app:layout_constraintStart_toEndOf="@+id/textview20"
-        app:layout_constraintTop_toTopOf="@+id/textview20" />
+        app:layout_constraintStart_toEndOf="@+id/textPincode"
+        app:layout_constraintTop_toTopOf="@+id/textPincode" />
 
     <TextView
         android:id="@+id/tvAddress"
@@ -82,8 +82,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:textColor="#000000"
-        app:layout_constraintStart_toEndOf="@+id/textView19"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintStart_toEndOf="@+id/textAddress"
+        app:layout_constraintTop_toBottomOf="@+id/textCity" />
 
     <TextView
         android:id="@+id/tvGST"
@@ -92,17 +92,17 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:textColor="#000000"
-        app:layout_constraintStart_toEndOf="@+id/textView22"
-        app:layout_constraintTop_toBottomOf="@+id/textView24" />
+        app:layout_constraintStart_toEndOf="@+id/textGSTIN"
+        app:layout_constraintTop_toBottomOf="@+id/textPhone" />
 
     <TextView
-        android:id="@+id/textView22"
+        android:id="@+id/textGSTIN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="GST IN"
-        app:layout_constraintStart_toStartOf="@+id/textView19"
-        app:layout_constraintTop_toBottomOf="@+id/textView24" />
+        app:layout_constraintStart_toStartOf="@+id/textAddress"
+        app:layout_constraintTop_toBottomOf="@+id/textPhone" />
 
     <TextView
         android:id="@+id/tvPhone"
@@ -111,15 +111,15 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:textColor="#000000"
-        app:layout_constraintStart_toEndOf="@+id/textView24"
-        app:layout_constraintTop_toBottomOf="@+id/textview20" />
+        app:layout_constraintStart_toEndOf="@+id/textPhone"
+        app:layout_constraintTop_toBottomOf="@+id/textPincode" />
 
     <TextView
-        android:id="@+id/textView24"
+        android:id="@+id/textPhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Phone:"
-        app:layout_constraintStart_toStartOf="@+id/textView19"
-        app:layout_constraintTop_toBottomOf="@+id/textview20" />
+        app:layout_constraintStart_toStartOf="@+id/textAddress"
+        app:layout_constraintTop_toBottomOf="@+id/textPincode" />
 </androidx.constraintlayout.widget.ConstraintLayout>

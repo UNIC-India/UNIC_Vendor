@@ -30,13 +30,14 @@
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/beunicvendor" />
+
     <Button
         android:id="@+id/btnLogin"
         style="@style/StandardButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="50dp"
-        android:background="@drawable/std_button_normal"
+        android:background="@drawable/std_button"
         android:text="@string/login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnSignUp"
@@ -50,7 +51,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="50dp"
-        android:background="@drawable/std_button_normal"
+        android:background="@drawable/std_button"
         android:text="@string/sign_up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

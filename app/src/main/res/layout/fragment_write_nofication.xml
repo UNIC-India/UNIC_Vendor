@@ -110,11 +110,12 @@
 
                 <Button
                     android:id="@+id/btnsend"
+                    style="@style/StandardButton"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="8dp"
-                    android:background="@drawable/roundbutton"
+                    android:background="@drawable/std_button"
                     android:text="Send"
                     android:textColor="#FFFFFF" />
             </LinearLayout>
