@@ -21,8 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.datamodels.Page;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
-import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
-import com.unic.unic_vendor_final_1.views.activities.UserHome;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ShopPageFragment;
 
 import java.util.Collections;
@@ -159,7 +157,7 @@ public class ShopDrawerAdapter extends RecyclerView.Adapter<ShopDrawerAdapter.Vi
     static class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView tvPageName;
-        ImageButton ibMovePageUp,ibMovePageDown,ibPageDelete;
+        ImageButton ibMovePageUp,ibMovePageDown,ibPageDelete,ibEditPageName;
         ConstraintLayout bounding;
 
         public ViewHolder(View itemView){
@@ -169,6 +167,7 @@ public class ShopDrawerAdapter extends RecyclerView.Adapter<ShopDrawerAdapter.Vi
             ibMovePageUp = itemView.findViewById(R.id.button_move_page_up);
             ibMovePageDown = itemView.findViewById(R.id.button_move_page_down);
             ibPageDelete = itemView.findViewById(R.id.shop_page_delete);
+            ibEditPageName = itemView.findViewById(R.id.edit_page_name);
             bounding = itemView.findViewById(R.id.shop_drawer_item_bounding);
         }
     }
@@ -205,7 +204,7 @@ public class ShopDrawerAdapter extends RecyclerView.Adapter<ShopDrawerAdapter.Vi
 
         holder.ibMovePageUp.setOnClickListener(new MovePageUpListener(position));
         holder.ibMovePageDown.setOnClickListener(new MovePageDownListener(position));
-        holder.tvPageName.setOnClickListener(new ChangePageNameListener(position));
+        holder.ibEditPageName.setOnClickListener(new ChangePageNameListener(position));
         holder.ibPageDelete.setOnClickListener(new DeletePageListener(position));
         holder.bounding.setOnClickListener(new PageSelectedListener(position));
 
