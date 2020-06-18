@@ -76,6 +76,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             tvCompany=itemView.findViewById(R.id.product_company_name);
             tvPrice=itemView.findViewById(R.id.product_price);
             tvCategory=itemView.findViewById(R.id.product_category);
+            addToCart = itemView.findViewById(R.id.product_list_add_to_cart);
             cbCheck.setChecked(false);
 
         }
