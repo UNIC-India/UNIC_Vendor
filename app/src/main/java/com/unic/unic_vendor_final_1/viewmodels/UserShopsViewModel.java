@@ -48,6 +48,7 @@ public class UserShopsViewModel extends ViewModel {
     public MutableLiveData<Boolean> isVisible= new MutableLiveData<>();
 
     public MutableLiveData<Boolean> isMyAppsLoading = new MutableLiveData<>();
+    public MutableLiveData<Boolean> setProductsUpdating = new MutableLiveData<>();
 
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
 
@@ -350,6 +351,13 @@ public class UserShopsViewModel extends ViewModel {
 
             }
         });
+    }
+
+    public void deleteProduct(String shopId,String productId){
+        firebaseRepository.deleteProducts(shopId,productId)
+                .addOnSuccessListener( s -> {
+                    setProductsUpdating.setValue(true);
+                });
     }
 
     public MutableLiveData<Boolean> getIsMyAppsLoading() {

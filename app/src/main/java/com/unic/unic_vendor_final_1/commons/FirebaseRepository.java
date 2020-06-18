@@ -203,6 +203,18 @@ public class FirebaseRepository {
                 });
     }
 
+    public Task<String> deleteProducts(String shopId, String productId){
+        Map<String,Object> data = new HashMap<>();
+        data.put("shopId",shopId);
+        data.put("productId",productId);
+
+        return mFunctions.getHttpsCallable("removeProduct")
+                .call(data)
+                .continueWith(task -> {
+                    return (String) task.getResult().getData();
+                });
+    }
+
     public Task<String> prepareProduct(String shopId, String company, String category, String subcategory){
         Map<String,Object> data = new HashMap<>();
         data.put("shopId",shopId);
