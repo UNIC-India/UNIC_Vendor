@@ -11,8 +11,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat"
-        android:drawableStart="@drawable/ic_baseline_edit_24"
-        android:drawableTint="@color/black"
         android:textColor="@color/black"
         android:hint="PAGE NAME"
         android:textSize="18sp"
@@ -46,6 +44,19 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
         android:background="@drawable/ic_delete_black_24dp"/>
+
+    <ImageButton
+        android:id="@+id/edit_page_name"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_baseline_edit_20"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="@id/shop_page_delete"
+        app:layout_constraintBottom_toBottomOf="@id/shop_page_delete"
+        app:layout_constraintEnd_toStartOf="@id/shop_page_delete"
+        android:layout_marginEnd="5dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

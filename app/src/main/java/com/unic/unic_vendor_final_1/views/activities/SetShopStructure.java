@@ -314,7 +314,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
     void updateMenu(){
         shopDrawerAdapter.setPages(structure.getPages());
-        shopDrawerAdapter.notifyItemChanged(structure.getPages().size()-1);
+        shopDrawerAdapter.notifyItemRangeChanged(structure.getPages().size()-2,2);
     }
 
     void addPage(){
@@ -404,7 +404,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     public void selectView(int pageId,int code){
 
         currentPageId = pageId;
-        if(code!=5)
+        if(code!=4)
         currentViewCode = code;
         else code=-1;
 
