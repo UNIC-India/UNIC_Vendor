@@ -130,6 +130,8 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.iv2.setEnabled(false);
                 fragmentOrderItemsBinding.iv3.setEnabled(false);
                 fragmentOrderItemsBinding.iv4.setEnabled(false);
+                fragmentOrderItemsBinding.ccButtons.setVisibility(View.GONE);
+
 
                 break;
             case 0:
@@ -138,8 +140,6 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.tv1.setTextColor(context.getResources().getColor(R.color.yellow));
                 fragmentOrderItemsBinding.textView5.setBackgroundColor(context.getResources().getColor(R.color.yellow));
                 fragmentOrderItemsBinding.textView5.setText("Order pending from"+order.getUpdateTime().toString().substring(11,16)+" on "+order.getUpdateTime().toString().substring(8,10)+" "+order.getUpdateTime().toString().substring(4,7)+order.getUpdateTime().toString().substring(29,34));
-
-
                 break;
             case 1:
                 fragmentOrderItemsBinding.iv1.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green2)));
@@ -150,6 +150,8 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.tv2.setText("Preparing");
                 fragmentOrderItemsBinding.tv2.setTextColor(context.getResources().getColor(R.color.yellow));
                 fragmentOrderItemsBinding.iv1.setEnabled(false);
+                fragmentOrderItemsBinding.ccButtons.setVisibility(View.GONE);
+
                 break;
             case 2:
                 fragmentOrderItemsBinding.iv1.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green2)));
@@ -165,6 +167,8 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.tv3.setTextColor(context.getResources().getColor(R.color.yellow));
                 fragmentOrderItemsBinding.iv1.setEnabled(false);
                 fragmentOrderItemsBinding.iv2.setEnabled(false);
+                fragmentOrderItemsBinding.ccButtons.setVisibility(View.GONE);
+
 
                 break;
             case 3:
@@ -186,6 +190,8 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.iv1.setEnabled(false);
                 fragmentOrderItemsBinding.iv2.setEnabled(false);
                 fragmentOrderItemsBinding.iv3.setEnabled(false);
+                fragmentOrderItemsBinding.ccButtons.setVisibility(View.GONE);
+
                 break;
             case 4:
                 fragmentOrderItemsBinding.iv1.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green2)));
@@ -207,6 +213,8 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.iv2.setEnabled(false);
                 fragmentOrderItemsBinding.iv3.setEnabled(false);
                 fragmentOrderItemsBinding.iv4.setEnabled(false);
+                fragmentOrderItemsBinding.ccButtons.setVisibility(View.GONE);
+
                 break;
             case 5:
                 fragmentOrderItemsBinding.iv1.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green2)));
@@ -217,6 +225,7 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.tv2.setText("Preparing");
                 fragmentOrderItemsBinding.tv2.setTextColor(context.getResources().getColor(R.color.yellow));
                 fragmentOrderItemsBinding.iv1.setEnabled(false);
+                fragmentOrderItemsBinding.ccButtons.setVisibility(View.GONE);
                 break;
         }
     }
