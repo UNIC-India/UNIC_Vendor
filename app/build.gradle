@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
+android.buildTypes.release.ndk.debugSymbolLevel = 'FULL'
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -11,17 +13,18 @@ android {
         applicationId "com.unic.unic_vendor_final_1"
         minSdkVersion 26
         targetSdkVersion 29
-        versionCode 1
-        versionName "beta v1.0.0"
+        versionCode 4
+        versionName "beta v1.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
     }
 
+
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
