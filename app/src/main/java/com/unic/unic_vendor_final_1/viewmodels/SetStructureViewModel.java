@@ -209,25 +209,25 @@ public class SetStructureViewModel extends ViewModel {
 
     public void deleteProduct(String shopId,String productId){
         firebaseRepository.deleteProducts(shopId,productId)
-                .addOnSuccessListener( s -> {
-                    setProductsUpdating.setValue(true);
-                });
+                .addOnSuccessListener( result -> setProductsUpdating.setValue(true));
     }
 
     public void saveShopStructure(){
         firebaseRepository.saveShopStructure(Objects.requireNonNull(structure.getValue()))
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        status.setValue(4);
-                    }
-                })
+                .addOnSuccessListener(aVoid -> setShopReady())
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         status.setValue(-1);
                     }
                 });
+    }
+
+    private void setShopReady(){
+        firebaseRepository.setShopReady(shop.getValue().getId(),true)
+                .addOnSuccessListener(aVoid -> status.setValue(4))
+                .addOnFailureListener(e -> status.setValue(-1));
+
     }
 
     public void searchProductsByName(String nameKey){

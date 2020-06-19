@@ -114,6 +114,7 @@ public class UserShopsViewModel extends ViewModel {
         List<Order> ordersList = new ArrayList<>();
 
         for (Shop shop : shops.getValue()) {
+
             firebaseRepository.getOrders(shop.getId()).addSnapshotListener((queryDocumentSnapshots, e) -> {
 
                 List<DocumentChange> documentChanges = queryDocumentSnapshots.getDocumentChanges();
@@ -147,8 +148,10 @@ public class UserShopsViewModel extends ViewModel {
 
     public void getPaginatedOrders(boolean isFirst,DocumentSnapshot lastDoc){
 
-        if (shopids.getValue()==null||shopids.getValue().size()==0)
+        if (shopids.getValue()==null||shopids.getValue().size()==0) {
+            orders.setValue(new ArrayList<>());
             return;
+        }
         List<Order> orderList ;
 
         if(isFirst)
@@ -163,7 +166,7 @@ public class UserShopsViewModel extends ViewModel {
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (queryDocumentSnapshots==null||queryDocumentSnapshots.getDocuments().size()==0) {
                         lastOrderDoc.setValue(null);
-                        orders.setValue(null);
+                        orders.setValue(orderList);
                         return;
                     }
                     for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()){

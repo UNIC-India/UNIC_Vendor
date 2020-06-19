@@ -54,13 +54,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         public void onClick(View v) {
 
-
-
             if (((CheckBox) v).isChecked()) {
                 checkedProducts.add(products.get(position));
             } else {
                 if(checkedProducts.contains(products.get(position)))
-                    checkedProducts.remove(products.get(position));            }
+                    checkedProducts.remove(products.get(position));
+            }
             notifyDataSetChanged();
         }
 
@@ -98,7 +97,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             view.findViewById(R.id.product_list_add_to_cart).setVisibility(View.GONE);
             view.findViewById(R.id.product_checkbox).setVisibility(View.GONE);
         }
-        if(which==3){
+        if(which==2){
             view.findViewById(R.id.btnDelete).setVisibility(View.VISIBLE);
         }
         return new ViewHolder(view);

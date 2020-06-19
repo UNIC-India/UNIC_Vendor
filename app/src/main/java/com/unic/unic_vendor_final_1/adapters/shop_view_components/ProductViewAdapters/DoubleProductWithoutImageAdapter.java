@@ -20,21 +20,21 @@ import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ProductDescrip
 import java.util.List;
 import java.util.Map;
 
-public class DoubleProductwoImageAdapter extends RecyclerView.Adapter<DoubleProductwoImageAdapter.ViewHolder> {
+public class DoubleProductWithoutImageAdapter extends RecyclerView.Adapter<DoubleProductWithoutImageAdapter.ViewHolder> {
 
     private Context mContext;
     private List<Map<String,Object>> products;
     int demo=0;
 
-    public DoubleProductwoImageAdapter(Context context){
+    public DoubleProductWithoutImageAdapter(Context context){
         this.mContext = context;
     }
-    public DoubleProductwoImageAdapter(int demo){
+    public DoubleProductWithoutImageAdapter(int demo){
 
         this.demo=demo;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder{
         TextView tvProductName;
         TextView tvProductPrice,tvCompany,tvDiscount,tvWithoutDiscount,tvCategory, tvExtraInfo1;
         Button addToCart;
@@ -58,13 +58,13 @@ public class DoubleProductwoImageAdapter extends RecyclerView.Adapter<DoubleProd
 
     @NonNull
     @Override
-    public DoubleProductwoImageAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DoubleProductWithoutImageAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.double_product_without_image_view_item,parent,false);
-        return new DoubleProductwoImageAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DoubleProductwoImageAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DoubleProductWithoutImageAdapter.ViewHolder holder, int position) {
         if(demo==0){
             if(products.get(position).get("discount")!=null && (Double.parseDouble(products.get(position).get("discount").toString()))!=0.0){
                 holder.tvDiscount.setText(products.get(position).get("discount").toString()+"% OFF");
@@ -87,7 +87,7 @@ public class DoubleProductwoImageAdapter extends RecyclerView.Adapter<DoubleProd
             }
             holder.tvCompany.setText(products.get(position).get("company").toString());
             holder.tvExtraInfo1.setText((products.get(position).get("extraInfo1")!=null&&!products.get(position).get("extraInfo1").toString().equals("null"))?products.get(position).get("extraInfo1").toString():"");
-            holder.tvCategory.setText((products.get(position).get("extraInfo2")!=null&&!products.get(position).get("extraInfo2").toString().equals("null"))?products.get(position).get("extraInfo2").toString():"category: "+products.get(position).get("category").toString());
+            holder.tvCategory.setText(products.get(position).get("category").toString());
 
 
 

@@ -30,7 +30,6 @@
         app:lottie_rawRes="@raw/nodata"
         app:layout_constraintTop_toBottomOf="@id/noData"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
