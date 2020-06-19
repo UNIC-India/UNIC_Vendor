@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +27,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     private ActivityLoginBinding loginBinding;
 
+    private SharedPreferences prefs;
+
     private View coverView;
 
     @Override
@@ -33,6 +36,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         loginBinding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(loginBinding.getRoot());
+
+        prefs = getSharedPreferences("com.unic.unic_vendor_final_1", MODE_PRIVATE);
+
+        if(prefs.contains("phone")){
+
+            loginBinding.etphone.setText(prefs.getString("phone",""));
+
+        }
 
         coverView = new View(this);
         coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
