@@ -33,7 +33,7 @@ import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategoriesAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ImageViewAdapters.DoubleImageAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductAdapter;
-import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductwoImageAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductWithoutImageAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListWithoutImagesAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.SliderViewAdapters.SliderAdapter;
@@ -366,13 +366,13 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 tvHeader2.setText(view.getHeader());
                 doubleProductwoImages.findViewById(R.id.btn_add_products).setOnClickListener(this);
 
-                DoubleProductwoImageAdapter doubleProductwoImageAdapter = new DoubleProductwoImageAdapter(getContext());
-                doubleProductwoImageAdapter.setProducts(view.getData());
+                DoubleProductWithoutImageAdapter doubleProductWithoutImageAdapter = new DoubleProductWithoutImageAdapter(getContext());
+                doubleProductWithoutImageAdapter.setProducts(view.getData());
                 LinearLayoutManager doubleProductwoImageLayout = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL,false);
                 RecyclerView doubleProductwoImagesRecyclerView = doubleProductwoImages.findViewById(R.id.double_product_recycler_view);
                 doubleProductwoImagesRecyclerView.setLayoutManager(doubleProductwoImageLayout);
                 doubleProductwoImagesRecyclerView.setNestedScrollingEnabled(false);
-                doubleProductwoImagesRecyclerView.setAdapter(doubleProductwoImageAdapter);
+                doubleProductwoImagesRecyclerView.setAdapter(doubleProductWithoutImageAdapter);
                 doubleProductwoImagesRecyclerView.addItemDecoration(new SpacesItemDecoration(5));
                 if(isNew)
                     views.add(view42);

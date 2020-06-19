@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -22,16 +21,11 @@ import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategoriesAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ImageViewAdapters.DoubleImageAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductAdapter;
-import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductwoImageAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductWithoutImageAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.ProductListWithoutImagesAdapter;
-import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.TripleProductAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.SliderViewAdapters.SliderAdapter;
-import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 import com.unic.unic_vendor_final_1.views.helpers.AutoScrollViewPager;
-
-import java.io.DataOutputStream;
-import java.util.List;
 
 public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.ViewHolder> {
 
@@ -189,7 +183,7 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
                     holder.tvViewTitle.setText("Products with Images");
                 }
                 if(position==1){
-                    DoubleProductwoImageAdapter doubleProductwoImageAdapter =new DoubleProductwoImageAdapter(1);
+                    DoubleProductWithoutImageAdapter doubleProductWithoutImageAdapter =new DoubleProductWithoutImageAdapter(1);
                     LinearLayoutManager tripleProductLayoutManager=new LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false);
 
                     RecyclerView rv = new RecyclerView(mContext);
@@ -197,7 +191,7 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
                     ((ViewGroup)holder.rl).addView(rv,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
                     rv.setLayoutManager(tripleProductLayoutManager);
-                    rv.setAdapter(doubleProductwoImageAdapter);
+                    rv.setAdapter(doubleProductWithoutImageAdapter);
                     rv.setNestedScrollingEnabled(false);
                     holder.rdbtn.setChecked(position==lastchecked);
                     holder.tvViewTitle.setText("Products without Images");

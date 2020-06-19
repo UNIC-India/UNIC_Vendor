@@ -173,21 +173,12 @@ public class FirebaseRepository {
         return db.collection("orders").whereIn("shopId",shopIds).orderBy("time", Query.Direction.DESCENDING).limit(25).startAfter(lastDoc).get();
     }
 
-    public Task<String> deleteShop(String shopId){
+    public Task<HttpsCallableResult> deleteShop(String shopId){
         Map<String,Object> data = new HashMap<>();
         data.put("shopId",shopId);
         data.put("push",true);
         return mFunctions.getHttpsCallable("removeShop")
-                .call(data)
-                .continueWith(new Continuation<HttpsCallableResult, String>() {
-                    @Override
-                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                        // This continuation runs on either success or failure, but if the task
-                        // has failed then getResult() will throw an Exception which will be
-                        // propagated down.
-                        return (String) task.getResult().getData();
-                    }
-                });
+                .call(data);
     }
 
     public Task<String> deleteOrders(String shopId){
@@ -203,16 +194,13 @@ public class FirebaseRepository {
                 });
     }
 
-    public Task<String> deleteProducts(String shopId, String productId){
+    public Task<HttpsCallableResult> deleteProducts(String shopId, String productId){
         Map<String,Object> data = new HashMap<>();
         data.put("shopId",shopId);
         data.put("productId",productId);
 
         return mFunctions.getHttpsCallable("removeProduct")
-                .call(data)
-                .continueWith(task -> {
-                    return (String) task.getResult().getData();
-                });
+                .call(data);
     }
 
     public Task<String> prepareProduct(String shopId, String company, String category, String subcategory){
@@ -248,6 +236,12 @@ public class FirebaseRepository {
 
     public Task<Void> saveShopStructure(Structure structure) {
         return db.collection("structures").document(structure.getShopId()).set(structure);
+    }
+
+    public Task<Void> setShopReady(String shopId,Boolean ready){
+        Map<String,Object> data = new HashMap<>();
+        data.put("ready",ready);
+        return db.collection("shops").document(shopId).set(data,SetOptions.merge());
     }
 
     public Task<DocumentSnapshot> getShopStructure(String shopId) {

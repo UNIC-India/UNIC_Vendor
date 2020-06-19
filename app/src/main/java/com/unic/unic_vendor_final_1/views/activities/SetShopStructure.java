@@ -363,7 +363,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
         if(structureStatus==1||structureStatus==0){
             if(structureStatus==0){
-                structure = new Structure(shopId);
+                structure = StructureTemplates.getTemplate1(shopId);
                 setStructureViewModel.setStructure(structure);
             }
             shopDrawerAdapter.setPages(structure.getPages());

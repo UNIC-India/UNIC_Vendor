@@ -36,11 +36,20 @@ public class AddNewShopViewModel extends ViewModel {
 
     private void setShopId(String id){
         firebaseRepository.setShopId(id)
+                .addOnSuccessListener(aVoid -> setShopReady())
+                .addOnFailureListener(e -> {
+                    e.printStackTrace();
+                    status.setValue(-1);
+                });
+    }
+
+    private void setShopReady(){
+        firebaseRepository.setShopReady(shop.getValue().getId(),false)
                 .addOnSuccessListener(aVoid -> status.setValue(2))
                 .addOnFailureListener(e -> {
                     e.printStackTrace();
                     status.setValue(-1);
-                });;
+                });
     }
 
     public void uploadShopImage(byte[] data){

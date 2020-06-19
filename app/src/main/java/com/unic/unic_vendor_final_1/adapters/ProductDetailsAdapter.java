@@ -25,11 +25,9 @@ import java.util.Map;
 public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAdapter.ViewHolder> {
 
     private Map<String, Object> data;
-    private ArrayList<String> keys=new ArrayList<>();
-    private ArrayList<Object> values=new ArrayList<>();
+    private List<String> stdKeys = new ArrayList<>(Arrays.asList("name","company","category","price"));
+    private List<String> extraKeys = new ArrayList<>(Arrays.asList("subcategory","desc","tags","extraInfo1","extraInfo2"));
     private Context context;
-    private final static ArrayList<String> keysToOmit=new ArrayList<>(Arrays.asList("name","company","category","price","firestoreId","imageId","nameKeywords","shopId"));
-
 
     public ProductDetailsAdapter(Context context) {
         this.context = context;
@@ -61,45 +59,62 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
 
     @Override
     public void onBindViewHolder(@NonNull ProductDetailsAdapter.ViewHolder holder, final int position) {
-        if (position <= 3) {
-            switch (position) {
+
+        if(position<4){
+            switch (position){
                 case 0:
-                    holder.tvKey.setText("Name:");
-                    holder.tvValue.setText(data.get("name").toString());
+                    holder.tvKey.setText("Name: ");
                     break;
                 case 1:
-                    holder.tvKey.setText("Company:");
-                    holder.tvValue.setText(data.get("company").toString());
+                    holder.tvKey.setText("Company: ");
                     break;
                 case 2:
-                    holder.tvKey.setText("Price:");
-                    holder.tvValue.setText("\u20B9"+data.get("price").toString());
+                    holder.tvKey.setText("Category: ");
                     break;
                 case 3:
-                    holder.tvKey.setText("Category:");
-                    holder.tvValue.setText(data.get("category").toString());
-                    break;
+                    holder.tvKey.setText("Price: ");
             }
-        } else {
-            if (keysToOmit.contains(keys.get(position>=data.size()?(position-data.size()):position))||values.get(position).toString().equals("null")) {
-                holder.cdDetail.setLayoutParams(holder.params);
-            } else {
-                holder.tvKey.setText(keys.get(position>=data.size()?(position-data.size()):position) + ":");
-                holder.tvValue.setText(values.get(position>=data.size()?(position-data.size()):position).toString());
-            }
-
+            holder.tvValue.setText(data.get(stdKeys.get(position)).toString());
         }
+        else {
+            if(data.keySet().contains(extraKeys.get(position-stdKeys.size()))){
+                switch (extraKeys.get(position-stdKeys.size())){
+                    case "subcategory":
+                        holder.tvKey.setText("Subcategory: ");
+                        holder.tvValue.setText(data.get(extraKeys.get(position-stdKeys.size())).toString());
+                        break;
+                    case "desc":
+                        holder.tvKey.setText("Description: ");
+                        holder.tvValue.setText(data.get(extraKeys.get(position-stdKeys.size())).toString());
+                        break;
+                    case "tags":
+                        holder.tvKey.setText("Tags: ");
+                        holder.tvValue.setText(data.get(extraKeys.get(position-stdKeys.size())).toString());
+                        break;
+                    default:
+                        String[] temp = data.get(extraKeys.get(position-stdKeys.size())).toString().split(":");
+                        if(temp.length>1) {
+                            holder.tvKey.setText(temp[0].toUpperCase()+ ": ");
+                            holder.tvValue.setText(temp[1]);
+                        }
+                        else {
+                            holder.tvKey.setText("");
+                            holder.tvValue.setText(temp[0]);
+                        }
+                }
+            }
+        }
+
     }
 
     @Override
     public int getItemCount() {
-        return data == null ? 0 : data.keySet().size()+4;
+        return stdKeys.size()+extraKeys.size();
     }
 
     public void setData(Map<String, Object> data) {
         this.data = data;
-        this.keys.addAll(data.keySet());
-        this.values.addAll(data.values());
+        List<String> keys = new ArrayList<>(data.keySet());
+        extraKeys.retainAll(keys);
     }
 }
-
