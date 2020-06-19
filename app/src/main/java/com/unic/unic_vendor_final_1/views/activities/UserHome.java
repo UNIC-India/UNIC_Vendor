@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -30,12 +31,14 @@ import com.unic.unic_vendor_final_1.datamodels.User;
 import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 import com.unic.unic_vendor_final_1.views.helpers.OrderItems;
+import com.unic.unic_vendor_final_1.views.nav_fragments.AboutUsFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.ComingSoon;
 import com.unic.unic_vendor_final_1.views.nav_fragments.HomeFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyAppsFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.OrdersFragment;
 import com.unic.unic_vendor_final_1.views.helpers.IntermidiateShopList;
 import com.unic.unic_vendor_final_1.views.nav_fragments.QRFragment;
+import com.unic.unic_vendor_final_1.views.nav_fragments.SettingsFragment;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ProductDescriptionFragment;
 
 import java.util.Objects;
@@ -46,12 +49,13 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     boolean doubleBackToExitPressedOnce = false;
     public User user;
     private UserShopsViewModel userShopsViewModel;
+    private com.unic.unic_vendor_final_1.databinding.ActivityUserHomeBinding userHomeBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        com.unic.unic_vendor_final_1.databinding.ActivityUserHomeBinding userHomeBinding = ActivityUserHomeBinding.inflate(getLayoutInflater());
+        userHomeBinding = ActivityUserHomeBinding.inflate(getLayoutInflater());
         setContentView(userHomeBinding.getRoot());
 
         FirestoreDataViewModel firestoreDataViewModel = new ViewModelProvider(this).get(FirestoreDataViewModel.class);
@@ -133,18 +137,30 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
                fragment=new ComingSoon();
                 break;
             case R.id.nav_settings:
-                fragment = new ComingSoon();
+                fragment = new SettingsFragment();
                 break;
             case R.id.nav_my_qr:
                 fragment =qrFragment;
                 break;
+            case R.id.nav_about_us:
+                fragment= new AboutUsFragment();
+                break;
             case R.id.logout:
                 String Phone = Objects.requireNonNull(mAuth.getCurrentUser()).getPhoneNumber()!=null?mAuth.getCurrentUser().getPhoneNumber():" ";
-                mAuth.signOut();
-                Intent intent = new Intent(UserHome.this,Login.class);
-                intent.putExtra("Phone",Phone);
-                startActivity(intent);
-                finish();
+                new AlertDialog.Builder(this).setMessage("Are you sure you want to Sign Out?")
+                        .setPositiveButton("Yes",((dialog, which) -> {
+                            Intent intent = new Intent(UserHome.this,Login.class);
+                            intent.putExtra("Phone",Phone);
+                             mAuth.signOut();
+                            startActivity(intent);
+                            finish();}))
+                        .setNegativeButton("No",((dialog, which) ->{
+                            dialog.dismiss();
+                            userHomeBinding.drawerLayout.closeDrawers();
+                        } ))
+                        .create()
+                        .show();
+
                 break;
             default:
                 fragment = new HomeFragment();
@@ -159,6 +175,8 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
             ft.commit();
 
         }
+        if(id==R.id.logout)
+         return false;
         return true;
     }
 
@@ -215,6 +233,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
                     .replace(R.id.home_fragment,new HomeFragment())
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .commit();
+            userHomeBinding.navView.setCheckedItem(R.id.nav_home);
 
         }
        /* */

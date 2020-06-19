@@ -24,6 +24,9 @@
             android:id="@+id/nav_my_qr"
             android:title="@string/menu_qr"/>
         <item
+            android:id="@+id/nav_about_us"
+            android:title="ABOUT US"/>
+        <item
             android:id="@+id/logout"
             android:title="@string/menu_logout"/>
     </group>
