@@ -27,12 +27,13 @@
 
     <Button
         android:id="@+id/btnAddTeamMember"
+        style="@style/StandardButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
 
+        android:layout_marginBottom="5dp"
         android:background="@drawable/std_button_normal"
         android:text="Add Member"
         android:textColor="@color/white"

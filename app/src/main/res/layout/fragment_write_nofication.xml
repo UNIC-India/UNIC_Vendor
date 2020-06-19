@@ -38,7 +38,7 @@
                 android:id="@+id/cardView5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="1dp"
                 android:layout_marginEnd="5dp"
                 app:cardCornerRadius="5dp"
@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="1dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginEnd="5dp"
                 app:cardCornerRadius="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -110,11 +110,12 @@
 
                 <Button
                     android:id="@+id/btnsend"
+                    style="@style/StandardButton"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="8dp"
-                    android:background="@drawable/roundbutton"
+                    android:background="@drawable/std_button"
                     android:text="Send"
                     android:textColor="#FFFFFF" />
             </LinearLayout>

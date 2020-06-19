@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.FragmentSettingsBinding;
+import com.unic.unic_vendor_final_1.views.helpers.IntermidiateShopList;
 
 
 public class SettingsFragment extends Fragment {
@@ -31,7 +32,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.home_fragment,new MyProducts(2))
+                        .replace(R.id.home_fragment,new IntermidiateShopList(2))
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .addToBackStack(null)
                         .commit();
@@ -41,7 +42,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.home_fragment,new MyProducts(3))
+                        .replace(R.id.home_fragment,new IntermidiateShopList(3))
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .addToBackStack(null)
                         .commit();

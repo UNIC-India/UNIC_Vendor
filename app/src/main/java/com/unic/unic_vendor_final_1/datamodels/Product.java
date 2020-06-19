@@ -171,4 +171,12 @@ public class Product {
     public void setDiscount(double discount) {
         this.discount = discount;
     }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
 }

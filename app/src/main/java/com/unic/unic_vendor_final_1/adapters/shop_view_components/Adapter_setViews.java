@@ -53,8 +53,10 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
             rdbtn=itemView.findViewById(R.id.rdBtn);
             tvViewTitle=itemView.findViewById(R.id.tvViewTitle);
             rdbtn.setOnClickListener(v -> {
+                if(lastchecked!=-1)
+                    notifyItemChanged(lastchecked);
                 lastchecked=getAdapterPosition();
-                notifyDataSetChanged();
+                notifyItemChanged(getAdapterPosition());
             });
 
         }

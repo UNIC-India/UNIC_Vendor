@@ -33,6 +33,7 @@ public class OrderDetails extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if(order!=null)
          new FirebaseRepository().db.collection("users").document(order.getOwnerId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -42,9 +43,15 @@ public class OrderDetails extends Fragment {
         fragmentOrderDetailsBinding=FragmentOrderDetailsBinding.inflate(getLayoutInflater());
         fragmentOrderDetailsBinding.tvGST.setText("Not Specified");
         if(order.getPickUp()==1){
-            fragmentOrderDetailsBinding.tvOrgName.setVisibility(View.GONE);
+            fragmentOrderDetailsBinding.tvOrgName.setText("Personal");
+
             fragmentOrderDetailsBinding.tvCity.setText("Pick Up");
+            fragmentOrderDetailsBinding.textCity.setText("Mode:");
             fragmentOrderDetailsBinding.tvPincode.setVisibility(View.GONE);
+            fragmentOrderDetailsBinding.textPincode.setVisibility(View.GONE);
+            fragmentOrderDetailsBinding.textAddress.setVisibility(View.GONE);
+            fragmentOrderDetailsBinding.tvAddress.setVisibility(View.GONE);
+
 
             fragmentOrderDetailsBinding.tvAddress.setText("Pick Up");
         }

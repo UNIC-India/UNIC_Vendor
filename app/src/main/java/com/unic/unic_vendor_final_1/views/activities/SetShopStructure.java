@@ -527,6 +527,9 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         else if (fg.getClass()==NoProductsFragment.class){
             super.onBackPressed();
         }
+        else if (fg.getClass()==ViewSelector.class){
+            returnToPage(((ViewSelector)fg).pageId);
+        }
     }
 
     @Override

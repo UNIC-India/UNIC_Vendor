@@ -102,6 +102,7 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
                             holder.tvValue.setText(temp[0]);
                         }
                 }
+
             }
         }
 

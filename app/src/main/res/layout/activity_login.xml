@@ -69,6 +69,7 @@
 
             <Button
                 android:id="@+id/btnlogin"
+                style="@style/StandardButton"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="50dp"
@@ -159,6 +160,7 @@
 
             <Button
                 android:id="@+id/btnconf"
+                style="@style/StandardButton"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="16dp"
@@ -173,6 +175,7 @@
 
             <Button
                 android:id="@+id/btnres"
+                style="@style/StandardButton"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="30dp"
