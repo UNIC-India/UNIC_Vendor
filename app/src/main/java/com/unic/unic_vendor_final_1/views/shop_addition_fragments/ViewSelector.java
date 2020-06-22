@@ -1,34 +1,24 @@
 package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.unic.unic_vendor_final_1.R;
-import com.unic.unic_vendor_final_1.adapters.shop_view_components.Adapter_setViews;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.AddViewsAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentViewSelectorBinding;
-import com.unic.unic_vendor_final_1.datamodels.Structure;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
-import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ShopPageFragment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +31,7 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
     public int pageId,code;
     private SetStructureViewModel setStructureViewModel;
     private FragmentViewSelectorBinding viewSelectorBinding;
-    private Adapter_setViews adapter_setViews;
+    private AddViewsAdapter addViewsAdapter;
     public ViewSelector() {
         // Required empty public constructor
     }
@@ -73,9 +63,9 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
             viewAdder(Integer.valueOf((code+1)*10 + 1).toString());
         }
         else {
-            adapter_setViews = new Adapter_setViews(getContext());
-            adapter_setViews.setCode(code + 1);
-            viewSelectorBinding.rvDemo1.setAdapter(adapter_setViews);
+            addViewsAdapter = new AddViewsAdapter(getContext());
+            addViewsAdapter.setCode(code + 1);
+            viewSelectorBinding.rvDemo1.setAdapter(addViewsAdapter);
             viewSelectorBinding.rvDemo1.setLayoutManager(new LinearLayoutManager(getContext()));
         }
     }
@@ -84,7 +74,7 @@ public class ViewSelector extends Fragment implements  View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnRight:
-                viewAdder(Integer.valueOf((code+1)*10 + adapter_setViews.lastchecked+1).toString());
+                viewAdder(Integer.valueOf((code+1)*10 + addViewsAdapter.lastchecked+1).toString());
                 break;
             case R.id.btnleft:
                 getActivity().getSupportFragmentManager().popBackStack();

@@ -62,9 +62,9 @@ public class ProductListWithoutImagesAdapter extends RecyclerView.Adapter<Produc
 
         }
         else{
-            holder.tvProductName.setText("Product Name"+position);
-            holder.tvProductPrice.setText("\u20B9:2104");
-            holder.tvCompany.setText("UNIC");
+            holder.tvProductName.setText("Product Name " + (position+1));
+            holder.tvProductPrice.setText("\u20B9 2104");
+            holder.tvCompany.setText("Company");
 
         }
 

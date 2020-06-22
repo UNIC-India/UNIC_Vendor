@@ -27,14 +27,14 @@ import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAda
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.SliderViewAdapters.SliderAdapter;
 import com.unic.unic_vendor_final_1.views.helpers.AutoScrollViewPager;
 
-public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.ViewHolder> {
+public class AddViewsAdapter extends RecyclerView.Adapter<AddViewsAdapter.ViewHolder> {
 
     public int lastchecked=-1;
     int code=0;
     Context mContext;
 
 
-    public Adapter_setViews(Context mContext){
+    public AddViewsAdapter(Context mContext){
         this.mContext=mContext;
     }
 
@@ -77,6 +77,8 @@ public class Adapter_setViews extends RecyclerView.Adapter<Adapter_setViews.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+        holder.rl.removeAllViews();
 
         switch(code){
             case 0:
