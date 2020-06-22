@@ -59,7 +59,6 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         setContentView(addNewProductBinding.getRoot());
 
         shopId = getIntent().getStringExtra("shopId");
-        Toast.makeText(AddNewProduct.this, shopId, Toast.LENGTH_SHORT).show();
         assert shopId != null;
         addNewProductBinding.btnAddProductImage.setOnClickListener(this);
         addNewProductBinding.btnConfirmProductAddition.setOnClickListener(this);

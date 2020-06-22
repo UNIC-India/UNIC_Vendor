@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,7 +45,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         which = 1;
     }
 
-    class CheckBoxListener implements View.OnClickListener {
+    private class CheckBoxListener implements View.OnClickListener {
 
         int position;
 
@@ -127,7 +128,15 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             holder.btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setStructureViewModel.deleteProduct(products.get(position).get("shopId").toString(),products.get(position).get("firestoreId").toString());
+
+                    new AlertDialog.Builder(mContext).setMessage("Are you sure you want to delete " +  products.get(position).get("name").toString())
+                            .setPositiveButton("YES",((dialog, which1) -> {
+                                setStructureViewModel.deleteProduct(products.get(position).get("shopId").toString(),products.get(position).get("firestoreId").toString());
+                                dialog.dismiss();
+                            }))
+                            .setNegativeButton("NO",((dialog, which1) -> dialog.dismiss()))
+                            .create().show();
+
                 }
             });
 

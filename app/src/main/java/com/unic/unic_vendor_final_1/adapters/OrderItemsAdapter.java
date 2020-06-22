@@ -36,6 +36,31 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
         this.mContext = context;
     }
 
+    private class AvailabilityListener implements View.OnClickListener{
+
+        private int position;
+
+        public AvailabilityListener(int position){
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (!reset) {
+                if (((CheckBox)v).isChecked()) {
+                    order.getItems().get(position).put("availability", -1);
+                } else {
+                    order.getItems().get(position).put("availability", 1);
+                }
+            }
+            else{
+                order.getItems().get(position).put("availability", 1);
+            }
+
+            notifyItemChanged(position);
+
+        }
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView tvProductName,tvCompany,tvPrice, tvTotal,tvQty, tvExtraInfo1,tvExtraInfo2;
@@ -85,32 +110,18 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
             switch (Integer.parseInt(order.getItems().get(position).get("availability").toString())){
                 case -1:
                     holder.cdProduct.setCardBackgroundColor(ColorStateList.valueOf(mContext.getResources().getColor(R.color.grey3)));
+                    holder.checkBox.setChecked(true);
                     break;
                 case 1:
                     holder.cdProduct.setCardBackgroundColor(ColorStateList.valueOf(mContext.getResources().getColor(R.color.white)));
+                    holder.checkBox.setChecked(false);
+                    break;
+
             }
         }
         else
             order.getItems().get(position).put("availability",1);
-        holder.checkBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!reset) {
-                    if (holder.checkBox.isChecked()) {
-                        order.getItems().get(position).put("availability", -1);
-                        holder.cdProduct.setCardBackgroundColor(ColorStateList.valueOf(mContext.getResources().getColor(R.color.grey3)));
-                    } else {
-                        order.getItems().get(position).put("availability", 1);
-                        holder.cdProduct.setCardBackgroundColor(ColorStateList.valueOf(mContext.getResources().getColor(R.color.white)));
-
-                    }
-                }
-                else{
-                    order.getItems().get(position).put("availability", 1);
-                }
-            }
-
-        });
+        holder.checkBox.setOnClickListener(new AvailabilityListener(position));
 
         holder.cdProduct.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,7 +149,6 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
     @Override
     public int getItemCount() {
         return order==null||order.getItems()==null?0:order.getItems().size();
-
     }
 
     public void setProducts(Order order){

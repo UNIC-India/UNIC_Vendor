@@ -1,7 +1,9 @@
 package com.unic.unic_vendor_final_1.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.commons.FirebaseRepository;
@@ -27,7 +30,9 @@ import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 import com.unic.unic_vendor_final_1.views.helpers.OrderItems;
 import com.unic.unic_vendor_final_1.views.nav_fragments.OrdersFragment;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.ViewHolder> {
 
@@ -41,6 +46,22 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
         this.context = context;
         this.fragment=fragment;
 
+    }
+
+    private class PhoneNumberListener implements View.OnClickListener{
+
+        int position;
+
+        public PhoneNumberListener(int position){
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse("tel:" + orders.get(position).getPhoneNo()));
+            context.startActivity(callIntent);
+        }
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -121,9 +142,14 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
             }
         });
 
-        String date = orders.get(position).getTime().toString().substring(8,10)+" "+orders.get(position).getTime().toString().substring(4,7)+orders.get(position).getTime().toString().substring(29,34);
+        Timestamp time = new Timestamp(orders.get(position).getTime());
+
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("IST"));
+        cal.setTimeInMillis((time.getSeconds()+19800)*1000);
+
+        String date = cal.get(Calendar.DAY_OF_MONTH) + " " + getMonth(cal.get(Calendar.MONTH)) + " " + cal.get(Calendar.YEAR);
         holder.tvDate.setText(date);
-        holder.tvTime.setText(orders.get(position).getTime().toString().substring(11,16));
+        holder.tvTime.setText(cal.get(Calendar.HOUR_OF_DAY) + ":" + (cal.get(Calendar.MINUTE)/10>0?cal.get(Calendar.MINUTE):"0" + cal.get(Calendar.MINUTE)));
         holder.tvNoOfItems.setText(Integer.valueOf(orders.get(position).getNo_of_items()).toString());
        // holder.tvCustomer.setText((orders.get(position).getOrgName()==null||orders.get(position).toString().equals(" "))||orders.get(position).getOrgName().toString().length()==0?"Personal":orders.get(position).getOrgName().toString());
         holder.tvGST.setText((orders.get(position).getGSTIN()==null||orders.get(position).getGSTIN().toString().equals(" "))?"GSTIN:"+"Not Specified":"GSTIN: "+orders.get(position).getGSTIN().toString());
@@ -202,7 +228,7 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
         holder.tvPhone.setText(""+orders.get(position).getPhoneNo());
         holder.tvOrderId.setText(" "+orders.get(position).getId());
 
-
+        holder.tvPhone.setOnClickListener(new PhoneNumberListener(position));
 
     }
 
@@ -219,6 +245,24 @@ public class AllOrdersAdapter extends RecyclerView.Adapter<AllOrdersAdapter.View
     public void updateOrder(int position, int status){
         orders.get(position).setOrderStatus(status);
         notifyItemChanged(position);
+    }
+
+    private String getMonth(int i){
+        switch (i){
+            case 0: return "January";
+            case 1: return "February";
+            case 2: return "March";
+            case 3: return "April";
+            case 4: return "May";
+            case 5: return "June";
+            case 6: return "July";
+            case 7: return "August";
+            case 8: return "September";
+            case 9: return "October";
+            case 10: return "November";
+            case 11: return "December";
+        }
+        return "NULL";
     }
 
 }

@@ -91,7 +91,7 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
 
         if(status==2){
 
-            if(imageUri!=null) {
+            if(imageUri!=null&&userWantsImage) {
 
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
@@ -102,10 +102,11 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
                     addNewShopViewModel.uploadShopImage(data);
                 } catch (IOException e) {
                     e.printStackTrace();
+                    setStatus(5);
                 }
             }
             else {
-                setStatus(6);
+                setStatus(5);
             }
         }
         else if (status==5){
