@@ -6,6 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:layout_constraintVertical_weight="1"
+
     android:id="@+id/cdshop"
 
     android:layout_marginLeft="15dp"

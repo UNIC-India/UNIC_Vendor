@@ -35,6 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_margin="8dp"
+        android:fontFamily="@font/abeezee"
         android:background="@drawable/curved_corners"
         android:backgroundTint="@color/colorPrimary"
         android:text="Select this Location"

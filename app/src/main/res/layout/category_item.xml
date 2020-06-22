@@ -4,10 +4,11 @@
     android:id="@+id/cdCat"
     android:layout_width="120dp"
     android:layout_height="37dp"
-    android:layout_marginLeft="3dp"
+    android:layout_marginLeft="2dp"
     android:layout_marginTop="5dp"
     android:layout_marginRight="3dp"
     android:layout_marginBottom="5dp"
+    app:layout_constraintHorizontal_weight="1"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="auto"
@@ -23,11 +24,12 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="2dp"
         android:ellipsize="end"
-        android:fontFamily="@font/montserrat_normal"
+        android:fontFamily="@font/abeezee"
         android:maxLines="2"
         android:paddingTop="0dp"
         android:paddingRight="0dp"
         android:text="Category"
         android:textColor="#000000"
         android:textSize="11sp" />
+
 </androidx.cardview.widget.CardView>

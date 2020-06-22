@@ -8,6 +8,7 @@
     android:background="@color/white"
     tools:context=".views.activities.SetShopStructure">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -29,8 +30,10 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="2dp"
                 android:layout_weight="1"
-                android:background="#FFFFFF"
-                android:fontFamily="@font/montserrat"
+                android:background="#ffffff"
+                android:textColor="#000000"
+                android:elevation="2dp"
+                android:fontFamily="@font/abeezee"
                 android:text="Add Page"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -42,7 +45,7 @@
                 android:layout_marginTop="2dp"
                 android:layout_weight="1"
                 android:background="@color/colorPrimary"
-                android:fontFamily="@font/montserrat"
+                android:fontFamily="@font/abeezee"
                 android:text="Add View"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
@@ -67,7 +70,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:fontFamily="@font/montserrat_bold"
+                        android:fontFamily="@font/abeezee"
+                        android:textStyle="bold"
+                        android:textColorHint="#ffffff"
+                        android:hint="D Mart"
                         android:maxLines="1"
                         android:textColor="#FFFFFF"
 
@@ -85,16 +91,22 @@
                         android:background="@drawable/std_button"
                         android:drawableEnd="@drawable/ic_arrow_forward_black_24dp"
                         android:drawableTint="#FFFFFF"
+                        android:fontFamily="@font/abeezee"
                         android:text="Save"
                         android:textColor="#FFFFFF"
-                        android:textStyle="bold"
                         android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintRight_toRightOf="@id/gd1"
                         app:layout_constraintTop_toTopOf="parent" />
 
-
-
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gd1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintGuide_percent="0.97"></androidx.constraintlayout.widget.Guideline>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>

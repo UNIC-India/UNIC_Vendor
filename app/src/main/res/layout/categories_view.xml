@@ -12,7 +12,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintHorizontal_weight="3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/category_item"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
