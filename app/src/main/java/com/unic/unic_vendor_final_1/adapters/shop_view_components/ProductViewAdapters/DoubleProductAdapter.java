@@ -205,12 +205,12 @@ public class ViewHolder extends RecyclerView.ViewHolder {
                 }
             });
         } else {
-            holder.tvProductName.setText("Product Name" + position);
+            holder.tvProductName.setText("Product Name " + (position+1));
             holder.tvProductPrice.setText("\u20B92104");
             holder.tv_no_image.setVisibility(View.GONE);
             holder.noImage.setVisibility(View.GONE);
             holder.ivProductImage.setImageResource(R.drawable.demo_product);
-            holder.tvCompany.setText("Company" + position);
+            holder.tvCompany.setText("Company");
             holder.tvDiscount.setText("20% OFF");
             holder.tvDiscount.setVisibility(View.VISIBLE);
             holder.tvWithoutDiscount.setText("\u20B92524.8");

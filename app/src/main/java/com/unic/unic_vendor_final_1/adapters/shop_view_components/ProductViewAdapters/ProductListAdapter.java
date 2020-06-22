@@ -157,7 +157,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             }
         }
         else{
-            holder.tvProductName.setText("Demo Product");
+            holder.tvProductName.setText("Product name " + (position+1));
+            holder.tvCompany.setText("Company");
+            holder.tvPrice.setText("1103");
             holder.ivProductPhoto.setImageResource(R.drawable.demo_product);
             holder.cbCheck.setVisibility(View.GONE);
         }

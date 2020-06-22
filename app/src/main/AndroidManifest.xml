@@ -5,6 +5,8 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <uses-feature android:name="android.hardware.screen.portrait" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/app_logo"
@@ -14,30 +16,40 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".views.activities.AddNewProduct"
-            android:configChanges="orientation"/>
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity android:name=".views.activities.AddShop"
-            android:configChanges="orientation"/>
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity android:name=".views.shop_addition_fragments.LocationSelector"
-            android:configChanges="orientation"/>
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity android:name=".views.activities.SetShopStructure"
-            android:configChanges="orientation"/>
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity android:name=".views.activities.Login"
-            android:configChanges="orientation"/>
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity android:name=".views.activities.SignUp"
-            android:configChanges="orientation"/>
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity android:name=".views.activities.UserHome"
-            android:configChanges="orientation"/>
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".views.helpers.Welcome"
-            android:configChanges="orientation"/>
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity android:name=".views.helpers.SplashScreen"
-            android:configChanges="orientation">
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".messaging_service.MyFirebaseMessagingService"
             android:exported="false">
