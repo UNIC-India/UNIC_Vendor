@@ -132,8 +132,6 @@ public class ShopQRAdapter  extends RecyclerView.Adapter<ShopQRAdapter.ViewHolde
         });
         holder.ibShopQR.setOnClickListener((View.OnClickListener) v -> {
             if(shops.get(position).getDynSubscribeLink()!=null) {
-                Toast.makeText(context, shops.get(position).getDynSubscribeLink(), Toast.LENGTH_SHORT).show();
-
 
                 Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.qr_dialog_layout);

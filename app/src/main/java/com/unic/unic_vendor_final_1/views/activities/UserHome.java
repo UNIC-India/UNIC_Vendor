@@ -94,10 +94,9 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        Intent intent = getIntent();
 
-        if (intent.hasExtra("load")){
-            if(intent.getStringExtra("load").equals("order")){
+        if (getIntent().hasExtra("load")){
+            if(getIntent().getStringExtra("load").equals("order")){
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 ft.replace(R.id.home_fragment,new OrdersFragment());

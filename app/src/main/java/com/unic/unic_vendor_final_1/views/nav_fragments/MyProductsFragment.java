@@ -74,7 +74,7 @@ public class MyProductsFragment extends Fragment implements AdapterView.OnItemSe
         setStructureViewModel.getShopData(shopId);
         setStructureViewModel.getSetProductsUpdating().observe(getViewLifecycleOwner(),aBoolean -> {
             if(aBoolean){
-                myProductsBinding.myProductsSwipe.setRefreshing(true);
+                setStructureViewModel.getPaginatedProductData(true, null, 3);
                 setStructureViewModel.getSetProductsUpdating().setValue(false);
             }
         });

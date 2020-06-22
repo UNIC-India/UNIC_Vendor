@@ -68,7 +68,7 @@ public class FirebaseRepository {
 
     public Task<Void> saveUser(User user) {
         mUser = FirebaseAuth.getInstance().getCurrentUser();
-        return db.collection("users").document(user.getId()).set(user);
+        return db.collection("users").document(user.getId()).set(user,SetOptions.merge());
     }
 
     public DocumentReference getUser() {
@@ -261,6 +261,10 @@ public class FirebaseRepository {
     public Task<Void> setOrderStatus(String orderId, int orderStatus){
         return db.collection("orders").document(orderId).update("updateTime", FieldValue.serverTimestamp(),
                 "orderStatus",orderStatus);
+    }
+
+    public Task<Void> updateOrderTotal(String orderId, double total){
+        return db.collection("orders").document(orderId).update("total",total);
     }
 
     public Query getOrders(String shopId){

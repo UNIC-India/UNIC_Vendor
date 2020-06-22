@@ -110,6 +110,9 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
 
     private void inflateViews(){
 
+        if(page==null)
+            return;
+
         parent.removeAllViews();
         views.clear();
 
@@ -238,7 +241,17 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
 
                 CategoriesAdapter categoriesAdapter2=new CategoriesAdapter(getContext());
                 categoriesAdapter2.setCategories(view.getData());
-                RecyclerView.LayoutManager categoriesLayoutManager2=new GridLayoutManager(getContext(),3);
+                RecyclerView.LayoutManager categoriesLayoutManager2=new GridLayoutManager(getContext(),3){
+                    @Override
+                    public boolean canScrollVertically() {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean canScrollHorizontally() {
+                        return false;
+                    }
+                };
                 RecyclerView categoriesRecyclerView2=categoriesView2.findViewById(R.id.categories_recycler_view);
                 categoriesRecyclerView2.setLayoutManager(categoriesLayoutManager2);
                 categoriesRecyclerView2.setAdapter(categoriesAdapter2);
