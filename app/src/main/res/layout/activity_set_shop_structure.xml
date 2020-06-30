@@ -13,16 +13,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/horizontal1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.92" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/horizontal2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.077" />
+
         <LinearLayout
             android:id="@+id/structure_buttons"
 
             android:layout_width="match_parent"
-            android:layout_height="62dp"
+            android:layout_height="0dp"
             android:elevation="6dp"
 
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/horizontal1">
 
             <Button
                 android:id="@+id/btnleft"
@@ -31,10 +46,10 @@
                 android:layout_marginTop="2dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
-                android:textColor="#000000"
                 android:elevation="2dp"
                 android:fontFamily="@font/abeezee"
                 android:text="Add Page"
+                android:textColor="#000000"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -56,11 +71,14 @@
             android:id="@+id/set_structure_app_bar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:layout_constraintBottom_toTopOf="@+id/horizontal2"
             app:layout_constraintTop_toTopOf="parent">
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/set_structure_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -71,13 +89,13 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:fontFamily="@font/abeezee"
-                        android:textStyle="bold"
-                        android:textColorHint="#ffffff"
                         android:hint="D Mart"
                         android:maxLines="1"
                         android:textColor="#FFFFFF"
-
+                        android:textColorHint="#ffffff"
                         android:textSize="24sp"
+
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/confirm_shop_structure"
                         app:layout_constraintStart_toStartOf="parent"
@@ -99,14 +117,14 @@
                         app:layout_constraintRight_toRightOf="@id/gd1"
                         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gd1"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintGuide_percent="0.97"></androidx.constraintlayout.widget.Guideline>
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/gd1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.97"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"></androidx.constraintlayout.widget.Guideline>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
