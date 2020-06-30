@@ -36,7 +36,7 @@
             android:id="@+id/details"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
+            >
 
             <ImageView
                 android:id="@+id/icon2"
@@ -129,7 +129,7 @@
             android:id="@+id/loginOTP"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/icon2_1"

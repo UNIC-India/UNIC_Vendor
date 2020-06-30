@@ -2,6 +2,7 @@ package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -42,13 +44,22 @@ public class ProductDescriptionFragment extends Fragment {
         setStructureViewModel= new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
         setStructureViewModel.setCurrentFrag(getActivity().getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader));
         if(product.get("imageId").toString().length()<=2){
-            fragmentProductDescriptionBinding.ivProdutcPhoto.setVisibility(View.GONE);
+            fragmentProductDescriptionBinding.ivProductPhoto.setVisibility(View.GONE);
         }
         else{
             Glide
                     .with(getContext())
                     .load(product.get("imageId"))
-                    .into(fragmentProductDescriptionBinding.ivProdutcPhoto);
+                    .into(fragmentProductDescriptionBinding.ivProductPhoto);
+        }
+
+        if(product.get("Availability")==null||Integer.parseInt(product.get("availability").toString())==-1) {
+            fragmentProductDescriptionBinding.productAvailabilitySwitch.setText("Unavailable");
+            fragmentProductDescriptionBinding.productAvailabilitySwitch.setChecked(true);
+        }
+        else {
+            fragmentProductDescriptionBinding.productAvailabilitySwitch.setText("Available");
+            fragmentProductDescriptionBinding.productAvailabilitySwitch.setChecked(false);
         }
 
         Map<String,Object> load = new HashMap<>();
@@ -68,7 +79,17 @@ public class ProductDescriptionFragment extends Fragment {
             }
         });
 
-
+        fragmentProductDescriptionBinding.productAvailabilitySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                new AlertDialog.Builder(getContext())
+                        .setMessage("Set " + product.get("name").toString() + "'s status to" + (isChecked?"unavailable":"available") + "?")
+                        .setPositiveButton("YES",((dialog, which) -> {
+                            fragmentProductDescriptionBinding.productAvailabilitySwitch.setText(isChecked?"Unavailable":"Available");
+                            setStructureViewModel.setProductAvailability(product.get("firestoreId").toString(),!isChecked);
+                        }));
+            }
+        });
 
         return fragmentProductDescriptionBinding.getRoot();
     }

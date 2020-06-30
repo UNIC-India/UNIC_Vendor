@@ -15,7 +15,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:lottie_autoPlay="true"
-        app:lottie_loop="true"
         app:lottie_rawRes="@raw/weareopen"
         android:visibility="gone"/>
 

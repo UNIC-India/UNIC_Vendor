@@ -62,7 +62,7 @@
     <style name="StandardButton" parent="Widget.AppCompat.Button">
         <item name="textAllCaps">true</item>
         <item name="android:textSize">15sp</item>
-        <item name="background">@drawable/roundbutton</item>
+        <item name="background">@drawable/std_button</item>
         <item name="fontFamily">@font/montserrat_bold_normal</item>
         <item name="android:textColor">@color/white</item>
     </style>
