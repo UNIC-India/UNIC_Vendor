@@ -60,6 +60,7 @@ public class OrdersFragment extends Fragment {
         myOrdersBinding.orderRefresh.setColorScheme(R.color.colorPrimary,R.color.colorSecondary,R.color.colorTertiary);
 
         userShopsViewModel.getPaginatedOrders(true,null);
+        userShopsViewModel.titleSetter.setValue(1);
 
         userShopsViewModel.isOrderUpdating.observe(getViewLifecycleOwner(),aBoolean -> {
             isUpdating=aBoolean;

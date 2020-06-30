@@ -8,6 +8,7 @@
     tools:context=".views.activities.UserHome">
 
     <include
+        android:id="@+id/titleBar"
         layout="@layout/app_bar_home"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize" />

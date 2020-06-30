@@ -1,6 +1,5 @@
 package com.unic.unic_vendor_final_1.adapters;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -26,7 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.zxing.WriterException;
 import com.unic.unic_vendor_final_1.R;
-import com.unic.unic_vendor_final_1.commons.Helpers;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 import com.unic.unic_vendor_final_1.views.nav_fragments.QRFragment;
@@ -56,14 +54,14 @@ public class ShopQRAdapter  extends RecyclerView.Adapter<ShopQRAdapter.ViewHolde
         ImageView ivShopImage,noImage;
         TextView tvShopName,tv_no_image;
         ImageButton ibShopQR;
-        Button btnGenerateQR;
+        ImageView btnGenerateQR;
 
         ViewHolder(View itemView){
             super(itemView);
             ivShopImage = itemView.findViewById(R.id.qr_shop_image);
             tvShopName = itemView.findViewById(R.id.qr_shop_name);
             ibShopQR = itemView.findViewById(R.id.ib_qr_dialog);
-            btnGenerateQR = itemView.findViewById(R.id.btn_shop_generate_qr);
+            btnGenerateQR = itemView.findViewById(R.id.dialog_shop_generate_qr);
             noImage=itemView.findViewById(R.id.no_image);
             tv_no_image=itemView.findViewById(R.id.tv_no_image);
         }
@@ -142,14 +140,14 @@ public class ShopQRAdapter  extends RecyclerView.Adapter<ShopQRAdapter.ViewHolde
                 } catch (WriterException e) {
                     e.printStackTrace();
                 }
-                ((Button) dialog.findViewById(R.id.qr_dialog_done)).setOnClickListener(new View.OnClickListener() {
+                ((ImageView) dialog.findViewById(R.id.qr_dialog_done)).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();
                     }
                 });
 
-                ((Button) dialog.findViewById(R.id.qr_dialog_share_link)).setOnClickListener(new View.OnClickListener() {
+                ((ImageView) dialog.findViewById(R.id.qr_dialog_share_link)).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent sendIntent = new Intent();
@@ -162,7 +160,7 @@ public class ShopQRAdapter  extends RecyclerView.Adapter<ShopQRAdapter.ViewHolde
                     }
                 });
 
-                ((Button) dialog.findViewById(R.id.dialog_share_qr)).setOnClickListener(new View.OnClickListener() {
+                ((ImageView) dialog.findViewById(R.id.qr_dialog_share_link)).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         try {

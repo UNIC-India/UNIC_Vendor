@@ -50,6 +50,7 @@ public class QRFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         shopsViewModel = new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
+        shopsViewModel.titleSetter.setValue(4);
         qrAdapter = new ShopQRAdapter(getContext(),this);
         shopsViewModel.getShops().observe(getViewLifecycleOwner(), new Observer<List<Shop>>() {
             @Override

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -23,6 +24,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<com.unic.unic_vendor
     private List<Map<String,Object>> categories;
     private List<Map<String,Object>> products;
     int demo=0;
+    int width=0;
 
     public CategoriesAdapter(Context context){
         this.mContext = context;
@@ -31,14 +33,21 @@ public class CategoriesAdapter extends RecyclerView.Adapter<com.unic.unic_vendor
 
         this.demo=demo;
     }
+    public CategoriesAdapter(Context context, int width){
+        this.mContext = context;
+        this.width=width;
+    }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView tvCategory;
+        CardView cdCat;
 
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
             tvCategory = itemView.findViewById(R.id.tvCategory);
+            cdCat=itemView.findViewById(R.id.cdCat);
 
         }
     }
@@ -52,6 +61,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<com.unic.unic_vendor
 
     @Override
     public void onBindViewHolder(@NonNull com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategoriesAdapter.ViewHolder holder, int position) {
+
         if(demo==0){
             holder.tvCategory.setText((categories.get(position).get("cname")!=null?categories.get(position).get("cname").toString():categories.get(position).get("compname").toString()));
         }
