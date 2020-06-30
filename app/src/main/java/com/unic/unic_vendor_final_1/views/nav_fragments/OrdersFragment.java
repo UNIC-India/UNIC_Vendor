@@ -59,11 +59,15 @@ public class OrdersFragment extends Fragment {
 
         myOrdersBinding.orderRefresh.setColorScheme(R.color.colorPrimary,R.color.colorSecondary,R.color.colorTertiary);
 
+
         userShopsViewModel.getShopIds().observe(getViewLifecycleOwner(),strings -> {
             if(strings==null||strings.size()==0)
                 return;
             userShopsViewModel.getPaginatedOrders(true,null);
         });
+
+
+        userShopsViewModel.titleSetter.setValue(1);
 
 
         userShopsViewModel.isOrderUpdating.observe(getViewLifecycleOwner(),aBoolean -> {

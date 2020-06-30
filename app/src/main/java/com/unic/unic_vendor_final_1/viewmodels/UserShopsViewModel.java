@@ -46,6 +46,8 @@ public class UserShopsViewModel extends ViewModel {
     private MutableLiveData<DocumentSnapshot> lastOrderDoc = new MutableLiveData<>();
     public MutableLiveData<Boolean> isOrderUpdating =new MutableLiveData<>();
     public MutableLiveData<Boolean> isVisible= new MutableLiveData<>();
+    public MutableLiveData<Integer> titleSetter=new MutableLiveData<>();
+
 
     public MutableLiveData<Boolean> isMyAppsLoading = new MutableLiveData<>();
 

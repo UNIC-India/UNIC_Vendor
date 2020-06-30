@@ -72,8 +72,15 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         });
 
         userShopsViewModel = new ViewModelProvider(this).get(UserShopsViewModel.class);
+        userShopsViewModel.titleSetter.setValue(0);
 
         userShopsViewModel.getAllShops();
+        userShopsViewModel.titleSetter.observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                setTitle(integer);
+            }
+        });
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -111,6 +118,51 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         }
     }
 
+    public void setTitle(int titleSetter){
+        switch(titleSetter){
+            case 0:
+                userHomeBinding.titleBar.ivLogo.setVisibility(View.VISIBLE);
+                userHomeBinding.titleBar.tvTitle.setVisibility(View.GONE);
+                break;
+            case 1:
+                userHomeBinding.titleBar.ivLogo.setVisibility(View.GONE);
+                userHomeBinding.titleBar.tvTitle.setVisibility(View.VISIBLE);
+                userHomeBinding.titleBar.tvTitle.setText("My Orders");
+                break;
+            case 2:
+                userHomeBinding.titleBar.ivLogo.setVisibility(View.GONE);
+                userHomeBinding.titleBar.tvTitle.setVisibility(View.VISIBLE);
+                userHomeBinding.titleBar.tvTitle.setText("My Shops");
+                break;
+            case 3:
+                userHomeBinding.titleBar.ivLogo.setVisibility(View.GONE);
+                userHomeBinding.titleBar.tvTitle.setVisibility(View.VISIBLE);
+                userHomeBinding.titleBar.tvTitle.setText("Settings");
+                break;
+            case 4:
+                userHomeBinding.titleBar.ivLogo.setVisibility(View.GONE);
+                userHomeBinding.titleBar.tvTitle.setVisibility(View.VISIBLE);
+                userHomeBinding.titleBar.tvTitle.setText("My QR");
+                break;
+            case 5:
+                userHomeBinding.titleBar.ivLogo.setVisibility(View.GONE);
+                userHomeBinding.titleBar.tvTitle.setVisibility(View.VISIBLE);
+                userHomeBinding.titleBar.tvTitle.setText("Notifications");
+                break;
+            case 6:
+                userHomeBinding.titleBar.ivLogo.setVisibility(View.GONE);
+                userHomeBinding.titleBar.tvTitle.setVisibility(View.VISIBLE);
+                userHomeBinding.titleBar.tvTitle.setText("My Products");
+                break;
+            case 7:
+                userHomeBinding.titleBar.ivLogo.setVisibility(View.GONE);
+                userHomeBinding.titleBar.tvTitle.setVisibility(View.VISIBLE);
+                userHomeBinding.titleBar.tvTitle.setText("My Report");
+                break;
+
+        }
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -129,6 +181,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         switch (id){
             case R.id.nav_home:
                 fragment = homeFragment;
+                userShopsViewModel.titleSetter.setValue(0);
                 break;
             case R.id.nav_my_apps:
                 fragment = appsFragment;
@@ -233,6 +286,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .commit();
             userHomeBinding.navView.setCheckedItem(R.id.nav_home);
+            userShopsViewModel.titleSetter.setValue(0);
 
         }
        /* */
@@ -246,4 +300,5 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
+
 }

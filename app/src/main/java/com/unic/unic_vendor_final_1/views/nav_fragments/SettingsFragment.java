@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +12,13 @@ import android.view.ViewGroup;
 
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.FragmentSettingsBinding;
+import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 import com.unic.unic_vendor_final_1.views.helpers.IntermidiateShopList;
 
 
 public class SettingsFragment extends Fragment {
     FragmentSettingsBinding fragmentSettingsBinding;
+    UserShopsViewModel userShopsViewModel;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -28,6 +31,8 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentSettingsBinding= FragmentSettingsBinding.inflate(getLayoutInflater(), container,false);
+        userShopsViewModel=new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
+        userShopsViewModel.titleSetter.setValue(3);
         fragmentSettingsBinding.cdManageTeam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,6 +43,7 @@ public class SettingsFragment extends Fragment {
                         .commit();
             }
         });
+
         fragmentSettingsBinding.cdAddLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

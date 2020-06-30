@@ -211,12 +211,12 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 setShopStructureBinding.confirmShopStructure.setVisibility(View.VISIBLE);
                 setShopStructureBinding.btnRight.setText("Add View");
                 setShopStructureBinding.btnleft.setText("Add Page");
-                setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorTertiary));
             }
 
             else if(currentFragment.getClass()== ViewSelector.class){
                 setShopStructureBinding.tvTitle.setText("Select a View");
-                setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
+                setShopStructureBinding.confirmShopStructure.setVisibility(View.INVISIBLE);
                 setShopStructureBinding.btnRight.setText("Confirm");
                 setShopStructureBinding.btnleft.setText("Cancel");
                 setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
@@ -224,7 +224,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
             else if(currentFragment.getClass()== ProductSelector.class){
                 setShopStructureBinding.tvTitle.setText("Select Products");
-                setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
+                setShopStructureBinding.confirmShopStructure.setVisibility(View.INVISIBLE);
                 setShopStructureBinding.btnRight.setText("Confirm");
                 setShopStructureBinding.btnleft.setText("Cancel");
                 setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
@@ -232,7 +232,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
             else if(currentFragment.getClass()== CategorySelector.class){
                 setShopStructureBinding.tvTitle.setText("Select Categories");
-                setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
+                setShopStructureBinding.confirmShopStructure.setVisibility(View.INVISIBLE);
                 setShopStructureBinding.btnRight.setText("Confirm");
                 setShopStructureBinding.btnleft.setText("Cancel");
                 setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
@@ -240,7 +240,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
             else if(currentFragment.getClass()==ImagePicker.class){
                 setShopStructureBinding.tvTitle.setText("Select Images");
-                setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
+                setShopStructureBinding.confirmShopStructure.setVisibility(View.INVISIBLE);
                 setShopStructureBinding.btnRight.setText("Confirm");
                 setShopStructureBinding.btnleft.setText("Cancel");
                 setShopStructureBinding.btnRight.setBackgroundColor(getResources().getColor(R.color.colorSecondary));

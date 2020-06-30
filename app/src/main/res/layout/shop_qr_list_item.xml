@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:layout_marginLeft="5dp"
@@ -12,6 +13,41 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:fontFamily="@font/abeezee"
+            android:text="Display QR"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/ib_qr_dialog"
+            app:layout_constraintStart_toStartOf="@+id/ib_qr_dialog"
+            app:layout_constraintTop_toBottomOf="@+id/ib_qr_dialog"></TextView>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:fontFamily="@font/abeezee"
+            android:text="Share Link"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/dialog_shop_generate_qr"
+            app:layout_constraintStart_toStartOf="@+id/dialog_shop_generate_qr"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_shop_generate_qr"></TextView>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/dialog_shop_generate_qr"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/circulerborder"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/ib_qr_dialog"
+            app:layout_constraintStart_toEndOf="@+id/qr_shop_image" />
 
         <ImageView
             android:id="@+id/qr_shop_image"
@@ -40,6 +76,7 @@
             android:text="N"
             android:textAllCaps="true"
             android:textColor="@color/white"
+            android:fontFamily="@font/abeezee"
             android:textSize="40sp"
             app:layout_constraintBottom_toBottomOf="@+id/no_image"
             app:layout_constraintEnd_toEndOf="@+id/no_image"
@@ -52,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:ellipsize="end"
-            android:fontFamily="@font/montserrat_bold"
+            android:fontFamily="@font/abeezee"
             android:maxLines="1"
             android:text="Shop name"
             android:textColor="@color/black"
@@ -61,31 +98,16 @@
             app:layout_constraintStart_toEndOf="@+id/qr_shop_image"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btn_shop_generate_qr"
-            style="@style/StandardButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/std_button"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            android:text="Share Link"
-            app:layout_constraintStart_toEndOf="@+id/qr_shop_image"
-            app:layout_constraintTop_toBottomOf="@id/qr_shop_name" />
-
         <ImageButton
             android:id="@+id/ib_qr_dialog"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginStart="25dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="28dp"
             android:background="@color/white"
             android:src="@drawable/qrscannerlogo"
-            app:layout_constraintBottom_toBottomOf="@id/btn_shop_generate_qr"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btn_shop_generate_qr"
-            app:layout_constraintTop_toTopOf="@id/btn_shop_generate_qr" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

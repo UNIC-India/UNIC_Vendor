@@ -15,6 +15,7 @@ import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.FragmentHomeBinding;
 import com.unic.unic_vendor_final_1.datamodels.User;
 import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
+import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 import com.unic.unic_vendor_final_1.views.helpers.IntermidiateShopList;
 
 import org.jetbrains.annotations.NotNull;
@@ -22,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private FragmentHomeBinding fragmentHomeBinding;
+    private UserShopsViewModel userShopsViewModel;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -34,7 +36,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater,container,false);
         fragmentHomeBinding.cardViewApps.setOnClickListener(this);
         FirestoreDataViewModel firestoreDataViewModel = new ViewModelProvider(this).get(FirestoreDataViewModel.class);
+        userShopsViewModel=new ViewModelProvider(this).get(UserShopsViewModel.class);
         firestoreDataViewModel.getUserData();
+        userShopsViewModel.titleSetter.setValue(0);
         firestoreDataViewModel.getUser().observe(getViewLifecycleOwner(), new Observer<User>() {
             @Override
             public void onChanged(User user) {

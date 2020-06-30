@@ -43,6 +43,7 @@ public class NotificationsFragment extends Fragment {
                              Bundle savedInstanceState) {
         notificationsBinding=FragmentNotificationsBinding.inflate(inflater,container,false);
         userShopsViewModel=new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
+        userShopsViewModel.titleSetter.setValue(5);
 
         userShopsViewModel.notificationStatus.setValue(2);
         notificationsAdapter=new NotificationsAdapter(getContext());
