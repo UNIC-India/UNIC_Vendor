@@ -53,7 +53,7 @@
     <string name="nav_to_home">Back to Home</string>
     <string name="confirmation">Confirmation</string>
     <string name="received_orders">Orders Received</string>
-    <string name="view_orders">You can see your orders here</string>
+    <string name="view_orders">View all your orders here.</string>
     <string name="my_qr">My QR</string>
     <string name="special_qr">Your specialised QR code</string>
     <string name="my_products">My Products</string>
@@ -62,8 +62,8 @@
     <string name="analysis">Detailed analysis of your sales</string>
     <string name="management">Manage notifications, order limit, etc</string>
     <string name="settings">Settings</string>
-    <string name="my_apps">My Apps</string>
-    <string name="see_apps">View all your shops in one place</string>
+    <string name="my_apps">My Shops</string>
+    <string name="see_apps">View all your shops here.</string>
     <string name="msg_token_fmt">Got string</string>
     <string-array name="what_to_do">
         <item>Add Images</item>

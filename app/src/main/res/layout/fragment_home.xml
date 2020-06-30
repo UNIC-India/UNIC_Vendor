@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,10 +18,45 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/vertical1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.478" />
+            <androidx.constraintlayout.widget.Guideline
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/vertical2"
+                app:layout_constraintGuide_percent="0.5"
+                android:orientation="vertical"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/vertical3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.522" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/vertical4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/vertical5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
             <TextView
                 android:id="@+id/tvWorkspace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:fontFamily="@font/abeezee"
                 android:text="Workspace"
                 android:textColor="#000000"
@@ -33,18 +69,23 @@
                 android:id="@+id/card_view"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginLeft="25dp"
                 android:layout_marginTop="10dp"
-                android:elevation="5dp"
                 android:clickable="true"
+                android:elevation="5dp"
                 android:foreground="?android:attr/selectableItemBackground"
 
 
                 app:cardCornerRadius="15dp"
+                app:layout_constraintEnd_toStartOf="@+id/vertical1"
                 app:layout_constraintHeight_percent="0.222"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvWorkspace"
-                app:layout_constraintWidth_percent="0.425">
+                app:layout_constraintStart_toStartOf="@+id/vertical4"
+                app:layout_constraintTop_toBottomOf="@id/tvWorkspace">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/horizontal1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
 
                 <View
                     android:layout_width="106dp"
@@ -77,13 +118,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center|center_horizontal"
+                    android:layout_gravity="center"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="75dp"
                     android:layout_marginEnd="5dp"
                     android:elevation="2dp"
                     android:text="@string/view_orders"
-                    android:textColor="#222222"
+                    android:textColor="#555555"
                     android:textSize="11sp" />
 
             </androidx.cardview.widget.CardView>
@@ -92,7 +133,6 @@
                 android:id="@+id/card_view_apps"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginLeft="12dp"
                 android:layout_marginTop="10dp"
 
                 android:elevation="5dp"
@@ -100,10 +140,10 @@
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardCornerRadius="15dp"
+                app:layout_constraintEnd_toStartOf="@+id/vertical5"
                 app:layout_constraintHeight_percent="0.222"
-                app:layout_constraintLeft_toRightOf="@id/card_view"
-                app:layout_constraintTop_toBottomOf="@id/tvWorkspace"
-                app:layout_constraintWidth_percent="0.425">
+                app:layout_constraintStart_toStartOf="@+id/vertical3"
+                app:layout_constraintTop_toBottomOf="@id/tvWorkspace">
 
                 <View
                     android:layout_width="106dp"
@@ -119,7 +159,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="60dp"
                     android:elevation="2dp"
-                    android:src="@drawable/material_apps"/>
+                    android:src="@drawable/material_apps" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -135,13 +175,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center|center_horizontal"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="75dp"
                     android:layout_marginRight="5dp"
                     android:elevation="2dp"
                     android:text="@string/see_apps"
-                    android:textColor="#222222"
+                    android:textColor="#555555"
                     android:textSize="11sp" />
 
             </androidx.cardview.widget.CardView>
@@ -151,17 +191,16 @@
                 android:id="@+id/card_view3"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginLeft="25dp"
                 android:layout_marginTop="20dp"
                 android:clickable="true"
+                android:elevation="5dp"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:elevation="5dp"
                 app:cardCornerRadius="15dp"
+                app:layout_constraintEnd_toStartOf="@+id/vertical1"
                 app:layout_constraintHeight_percent="0.222"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/card_view"
-                app:layout_constraintWidth_percent="0.425">
+                app:layout_constraintStart_toStartOf="@+id/vertical4"
+                app:layout_constraintTop_toBottomOf="@+id/card_view">
 
                 <View
                     android:layout_width="106dp"
@@ -195,11 +234,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginLeft="3dp"
                     android:layout_marginTop="78dp"
+                    android:layout_marginRight="3dp"
                     android:elevation="2dp"
                     android:text="@string/management"
                     android:textAlignment="center"
-                    android:textColor="#222222"
+                    android:textColor="#555555"
                     android:textSize="11sp" />
 
             </androidx.cardview.widget.CardView>
@@ -208,17 +249,16 @@
                 android:id="@+id/card_view_qr"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginLeft="12dp"
+                android:layout_marginTop="20dp"
                 android:clickable="true"
+                android:elevation="5dp"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:layout_marginTop="20dp"
-                android:elevation="5dp"
                 app:cardCornerRadius="15dp"
+                app:layout_constraintEnd_toStartOf="@+id/vertical5"
                 app:layout_constraintHeight_percent="0.222"
-                app:layout_constraintLeft_toRightOf="@id/card_view3"
-                app:layout_constraintTop_toBottomOf="@id/card_view_apps"
-                app:layout_constraintWidth_percent="0.425">
+                app:layout_constraintStart_toStartOf="@+id/vertical3"
+                app:layout_constraintTop_toBottomOf="@id/card_view_apps">
 
                 <View
                     android:layout_width="106dp"
@@ -256,7 +296,7 @@
                     android:elevation="2dp"
                     android:text="@string/special_qr"
                     android:textAlignment="center"
-                    android:textColor="#222222"
+                    android:textColor="#555555"
                     android:textSize="11sp" />
 
             </androidx.cardview.widget.CardView>
@@ -266,17 +306,16 @@
                 android:id="@+id/card_view5"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginLeft="25dp"
                 android:layout_marginTop="20dp"
                 android:clickable="true"
+                android:elevation="5dp"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:elevation="5dp"
                 app:cardCornerRadius="15dp"
+                app:layout_constraintEnd_toStartOf="@+id/vertical1"
                 app:layout_constraintHeight_percent="0.222"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/card_view3"
-                app:layout_constraintWidth_percent="0.425">
+                app:layout_constraintStart_toStartOf="@+id/vertical4"
+                app:layout_constraintTop_toBottomOf="@id/card_view3">
 
                 <View
                     android:layout_width="106dp"
@@ -314,7 +353,7 @@
                     android:elevation="2dp"
                     android:text="Notify your customers."
                     android:textAlignment="center"
-                    android:textColor="#222222"
+                    android:textColor="#555555"
                     android:textSize="11sp" />
 
             </androidx.cardview.widget.CardView>
@@ -323,17 +362,16 @@
                 android:id="@+id/card_view6"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginLeft="12dp"
+                android:layout_marginTop="20dp"
                 android:clickable="true"
+                android:elevation="5dp"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:layout_marginTop="20dp"
-                android:elevation="5dp"
                 app:cardCornerRadius="15dp"
+                app:layout_constraintEnd_toStartOf="@+id/vertical5"
                 app:layout_constraintHeight_percent="0.222"
-                app:layout_constraintLeft_toRightOf="@id/card_view5"
-                app:layout_constraintTop_toBottomOf="@id/card_view_qr"
-                app:layout_constraintWidth_percent="0.425">
+                app:layout_constraintStart_toStartOf="@+id/vertical3"
+                app:layout_constraintTop_toBottomOf="@id/card_view_qr">
 
                 <View
                     android:layout_width="106dp"
@@ -368,11 +406,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginLeft="3dp"
                     android:layout_marginTop="78dp"
+                    android:layout_marginRight="3dp"
                     android:elevation="2dp"
                     android:text="@string/edit_products"
                     android:textAlignment="center"
-                    android:textColor="#222222"
+                    android:textColor="#555555"
                     android:textSize="11sp" />
 
             </androidx.cardview.widget.CardView>
@@ -381,17 +421,16 @@
                 android:id="@+id/card_view7"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginLeft="25dp"
+                android:layout_marginTop="20dp"
                 android:clickable="true"
+                android:elevation="5dp"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:layout_marginTop="20dp"
-                android:elevation="5dp"
                 app:cardCornerRadius="15dp"
-                app:layout_constraintHeight_percent="0.225"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/card_view5"
-                app:layout_constraintWidth_percent="0.425">
+                app:layout_constraintEnd_toStartOf="@+id/vertical2"
+                app:layout_constraintHeight_percent="0.222"
+                app:layout_constraintStart_toStartOf="@+id/vertical4"
+                app:layout_constraintTop_toBottomOf="@id/card_view5">
 
                 <View
                     android:layout_width="106dp"
@@ -429,7 +468,7 @@
                     android:elevation="2dp"
                     android:text="@string/analysis"
                     android:textAlignment="center"
-                    android:textColor="#222222"
+                    android:textColor="#555555"
                     android:textSize="11sp" />
 
             </androidx.cardview.widget.CardView>
