@@ -95,7 +95,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
                 holder.tvProductPrice.setText("\u20B9" + (Double.parseDouble(products.get(position).get("price").toString()) * (100 - Double.parseDouble(products.get(position).get("discount").toString())) / 100) + "");
             } else {
                 holder.tvDiscount.setText("");
-                holder.tvDiscount.setVisibility(View.VISIBLE);
+                holder.tvDiscount.setVisibility(View.GONE);
                 holder.tvProductPrice.setText("\u20B9" + products.get(position).get("price").toString());
             }
             holder.tvProductName.setText(products.get(position).get("name").toString());

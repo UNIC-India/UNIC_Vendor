@@ -75,7 +75,7 @@ public class DoubleProductWithoutImageAdapter extends RecyclerView.Adapter<Doubl
             }
             else{
                 holder.tvDiscount.setText("");
-                holder.tvDiscount.setVisibility(View.VISIBLE);
+                holder.tvDiscount.setVisibility(View.GONE);
                 holder.tvProductPrice.setText("\u20B9"+products.get(position).get("price").toString());
                 holder.tvProductPrice.setPaintFlags(holder.tvWithoutDiscount.getPaintFlags());
 
