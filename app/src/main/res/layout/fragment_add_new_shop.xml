@@ -104,6 +104,7 @@
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:ems="10"
+        android:hint="name"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/abeezee"
         android:textColor="@color/black"
@@ -133,6 +134,9 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/abeezee"
         android:textColor="@color/black"
+        android:hint="address"
+        android:paddingBottom="0dp"
+
         android:ems="10"
         android:inputType="textMultiLine"
         app:layout_constraintLeft_toLeftOf="@id/gd1"
