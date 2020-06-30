@@ -393,11 +393,12 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                     fragmentOrderItemsBinding.ivShowMore.setVisibility(View.GONE);
                     fragmentOrderItemsBinding.llDetails.setTag(R.id.ivShowLess);
                     fragmentOrderItemsBinding.detailsFrag.setVisibility(View.VISIBLE);
-                    getActivity().getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.detailsFrag,orderDetails)
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                            .commit();
+                    if(getActivity().getSupportFragmentManager().findFragmentById(R.id.detailsFrag)!=null)
+                        getActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.detailsFrag,orderDetails)
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .commit();
                 }
                 else if((int)fragmentOrderItemsBinding.llDetails.getTag()==R.id.ivShowLess) {
                     fragmentOrderItemsBinding.ivShowLess.setVisibility(View.GONE);

@@ -204,6 +204,15 @@ public class UserShopsViewModel extends ViewModel {
         setOrderStatus(orderId, orderStatus,0.0);
     }
 
+    public void reportUser(String shopId,String userId,String orderId){
+
+        firebaseRepository.reportUser(shopId,userId)
+                .addOnSuccessListener(result -> {
+                    firebaseRepository.updateReport(orderId);
+                });
+
+    }
+
     public void setOrderStatus(String orderId, int orderStatus,double total) {
 
         firebaseRepository.setOrderStatus(orderId, orderStatus)

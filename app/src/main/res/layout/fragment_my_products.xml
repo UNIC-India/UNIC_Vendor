@@ -59,7 +59,7 @@
             android:textSize="16sp"
             android:visibility="gone"
             android:text="No Products added. Add products or contact 6354334006 or 9033892829 to import them directly from excel/spreadsheets."
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardView7"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="10dp"
