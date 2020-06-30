@@ -87,6 +87,7 @@ public class SetStructureViewModel extends ViewModel {
                         lastProductSelectionDoc.setValue(null);
                         lastProductDoc.setValue(null);
                         lastMyProductDoc.setValue(null);
+                        products.setValue(productData);
                         return;
                     }
                     for(DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
@@ -277,6 +278,10 @@ public class SetStructureViewModel extends ViewModel {
         });
     }
 
+    public void setProductAvailability(String productId,boolean available){
+        firebaseRepository.setAvailability(shop.getValue().getId(),productId,available);
+    }
+
     public void searchProductsByCategoryList(List<String> categories){
 
         List<Map<String,Object>> data = new ArrayList<>();
@@ -327,6 +332,7 @@ public class SetStructureViewModel extends ViewModel {
             }
         });
     }
+
     public void clearSearch(){
         searchResults.setValue(null);
     }

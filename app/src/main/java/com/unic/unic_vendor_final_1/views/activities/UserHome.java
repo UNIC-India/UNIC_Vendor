@@ -36,6 +36,7 @@ import com.unic.unic_vendor_final_1.views.nav_fragments.AboutUsFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.ComingSoon;
 import com.unic.unic_vendor_final_1.views.nav_fragments.HomeFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyAppsFragment;
+import com.unic.unic_vendor_final_1.views.nav_fragments.MyProductsFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.OrdersFragment;
 import com.unic.unic_vendor_final_1.views.helpers.IntermidiateShopList;
 import com.unic.unic_vendor_final_1.views.nav_fragments.QRFragment;
@@ -207,6 +208,10 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     public void onBackPressed() {
         Fragment fg=getSupportFragmentManager().findFragmentById(R.id.home_fragment);
+
+        if(fg==null)
+            return;
+
         if(fg.getClass()==HomeFragment.class){
             if(doubleBackToExitPressedOnce){
                 moveTaskToBack(true);
@@ -223,8 +228,8 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
                 }
             }, 2000);
         }
-        else if(fg.getClass()== OrderItems.class||fg.getClass()== ProductDescriptionFragment.class){
-            getSupportFragmentManager().popBackStack();
+        else if(fg.getClass()== OrderItems.class||fg.getClass()== ProductDescriptionFragment.class||fg.getClass()== MyProductsFragment.class){
+            super.onBackPressed();
         }
         else{
             getSupportFragmentManager()

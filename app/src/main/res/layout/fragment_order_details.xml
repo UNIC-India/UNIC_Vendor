@@ -30,15 +30,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvCity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textColor="#000000"
-        app:layout_constraintStart_toEndOf="@+id/textCity"
-        app:layout_constraintTop_toTopOf="@+id/textCity" />
-
-    <TextView
         android:id="@+id/textCity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,13 +40,13 @@
         app:layout_constraintTop_toBottomOf="@+id/tvOrgName" />
 
     <TextView
-        android:id="@+id/textPincode"
+        android:id="@+id/tvCity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Pincode:"
-        app:layout_constraintStart_toStartOf="@+id/textAddress"
-        app:layout_constraintTop_toBottomOf="@+id/tvAddress" />
+        android:layout_marginStart="8dp"
+        android:textColor="#000000"
+        app:layout_constraintStart_toEndOf="@+id/textCity"
+        app:layout_constraintTop_toTopOf="@+id/textCity" />
 
     <TextView
         android:id="@+id/textAddress"
@@ -65,15 +56,6 @@
         android:text="Address:"
         app:layout_constraintStart_toStartOf="@+id/textCity"
         app:layout_constraintTop_toBottomOf="@+id/textCity" />
-
-    <TextView
-        android:id="@+id/tvPincode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textColor="#000000"
-        app:layout_constraintStart_toEndOf="@+id/textPincode"
-        app:layout_constraintTop_toTopOf="@+id/textPincode" />
 
     <TextView
         android:id="@+id/tvAddress"
@@ -86,23 +68,33 @@
         app:layout_constraintTop_toBottomOf="@+id/textCity" />
 
     <TextView
-        android:id="@+id/tvGST"
+        android:id="@+id/textPincode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Pincode:"
+        app:layout_constraintStart_toStartOf="@+id/textAddress"
+        app:layout_constraintTop_toBottomOf="@+id/tvAddress" />
+
+
+
+    <TextView
+        android:id="@+id/tvPincode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:textColor="#000000"
-        app:layout_constraintStart_toEndOf="@+id/textGSTIN"
-        app:layout_constraintTop_toBottomOf="@+id/textPhone" />
+        app:layout_constraintStart_toEndOf="@+id/textPincode"
+        app:layout_constraintTop_toTopOf="@+id/textPincode" />
 
     <TextView
-        android:id="@+id/textGSTIN"
+        android:id="@+id/textPhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="GST IN"
+        android:text="Phone:"
         app:layout_constraintStart_toStartOf="@+id/textAddress"
-        app:layout_constraintTop_toBottomOf="@+id/textPhone" />
+        app:layout_constraintTop_toBottomOf="@+id/textPincode" />
 
     <TextView
         android:id="@+id/tvPhone"
@@ -115,11 +107,34 @@
         app:layout_constraintTop_toBottomOf="@+id/textPincode" />
 
     <TextView
-        android:id="@+id/textPhone"
+        android:id="@+id/textGSTIN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Phone:"
+        android:text="GST IN"
         app:layout_constraintStart_toStartOf="@+id/textAddress"
-        app:layout_constraintTop_toBottomOf="@+id/textPincode" />
+        app:layout_constraintTop_toBottomOf="@+id/textPhone" />
+
+    <TextView
+        android:id="@+id/tvGST"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="#000000"
+        app:layout_constraintStart_toEndOf="@+id/textGSTIN"
+        app:layout_constraintTop_toBottomOf="@+id/textPhone" />
+
+    <TextView
+        android:id="@+id/report_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:alpha=".7"
+        android:text="Report User?"
+        android:drawableStart="@drawable/ic_privacy_tip_black_24dp"
+        app:layout_constraintTop_toBottomOf="@id/textGSTIN"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="20dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

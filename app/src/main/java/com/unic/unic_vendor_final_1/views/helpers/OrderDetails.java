@@ -3,6 +3,7 @@ package com.unic.unic_vendor_final_1.views.helpers;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.unic.unic_vendor_final_1.databinding.FragmentOrderDetailsBinding;
 import com.unic.unic_vendor_final_1.commons.FirebaseRepository;
 import com.unic.unic_vendor_final_1.datamodels.Order;
+import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
+import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,13 +36,17 @@ public class OrderDetails extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if(order!=null)
-         new FirebaseRepository().db.collection("users").document(order.getOwnerId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                fragmentOrderDetailsBinding.tvPhone.setText(documentSnapshot.get("phoneNo").toString());
-            }
-        });
+        fragmentOrderDetailsBinding.tvPhone.setText(order.getPhoneNo());
+        if(order.isReported())
+            fragmentOrderDetailsBinding.reportUser.setText("Reported");
+        else {
+            fragmentOrderDetailsBinding.reportUser.setText("Report User?");
+            fragmentOrderDetailsBinding.reportUser.setOnClickListener(v -> {
+                fragmentOrderDetailsBinding.reportUser.setEnabled(false);
+                UserShopsViewModel userShopsViewModel = new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
+                userShopsViewModel.reportUser(order.getShopId(),order.getOwnerId(),order.getId());
+            });
+        }
         fragmentOrderDetailsBinding=FragmentOrderDetailsBinding.inflate(getLayoutInflater());
         fragmentOrderDetailsBinding.tvGST.setText("Not Specified");
         if(order.getPickUp()==1){
@@ -51,8 +58,6 @@ public class OrderDetails extends Fragment {
             fragmentOrderDetailsBinding.textPincode.setVisibility(View.GONE);
             fragmentOrderDetailsBinding.textAddress.setVisibility(View.GONE);
             fragmentOrderDetailsBinding.tvAddress.setVisibility(View.GONE);
-
-
             fragmentOrderDetailsBinding.tvAddress.setText("Pick Up");
         }
         else{

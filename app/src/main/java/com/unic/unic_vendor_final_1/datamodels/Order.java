@@ -29,9 +29,12 @@ public class Order {
     private String phoneNo;
     private String instructions;
     private String GSTIN;
+    private boolean reported;
 
 
-    public Order(){}
+    public Order(){
+        reported = false;
+    }
     
 
     public Order(String shopId, List<Map<String, Object>> items, List<Integer> quantity, int no_of_items) {
@@ -46,7 +49,7 @@ public class Order {
         this.total=0;
         this.instructions=" ";
         this.GSTIN=" ";
-
+        this.reported = false;
     }
     public static Comparator<Order> compareByDate=new Comparator<Order>() {
         @Override
@@ -177,5 +180,13 @@ public class Order {
 
     public void setGSTIN(String GSTIN) {
         this.GSTIN = GSTIN;
+    }
+
+    public boolean isReported() {
+        return reported;
+    }
+
+    public void setReported(boolean reported) {
+        this.reported = reported;
     }
 }
