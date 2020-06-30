@@ -125,7 +125,7 @@
                     android:fontFamily="@font/abeezee"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="8dp"
-                    android:layout_marginRight=""
+                    android:layout_marginRight="0dp"
                     android:background="@drawable/std_button"
                     android:text="Send"
                     android:textColor="#FFFFFF" />
