@@ -55,6 +55,7 @@
         android:id="@+id/btn_add_shop_image"
         android:layout_width="0dp"
         android:layout_height="153dp"
+        android:src="@drawable/ic_image"
         app:layout_constraintTop_toBottomOf="@id/tv_shop_info"
         android:layout_marginTop="30dp"
         app:layout_constraintLeft_toLeftOf="@id/gd1"
@@ -63,6 +64,7 @@
         android:id="@+id/shop_location_select"
         android:layout_width="0dp"
         android:layout_height="153dp"
+        android:src="@drawable/ic_location"
         app:layout_constraintTop_toBottomOf="@id/tv_shop_info"
         android:layout_marginTop="30dp"
         app:layout_constraintLeft_toLeftOf="@id/gd3"
@@ -111,14 +113,13 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_add_shop_name"
         android:background="@drawable/transparent_backgrounf"/>
 
-    <view
+    <View
         android:layout_width="0dp"
         android:layout_height="1dp"
         app:layout_constraintLeft_toLeftOf="@id/gd1"
         app:layout_constraintRight_toRightOf="@id/gd4"
         app:layout_constraintBottom_toBottomOf="@id/et_add_shop_name"
-        android:background="@drawable/underline"
-        android:backgroundTint="@color/colorPrimary"/>
+        android:background="@color/colorPrimary"/>
 
     <TextView
         android:id="@+id/tv_add_shop_address"
@@ -147,14 +148,13 @@
         app:layout_constraintRight_toRightOf="@id/gd4"
         app:layout_constraintTop_toBottomOf="@+id/tv_add_shop_address"
         android:background="@drawable/transparent_backgrounf"/>
-    <view
+    <View
         android:layout_width="0dp"
         android:layout_height="1dp"
         app:layout_constraintLeft_toLeftOf="@id/gd1"
         app:layout_constraintRight_toRightOf="@id/gd4"
         app:layout_constraintBottom_toBottomOf="@id/et_add_shop_address"
-        android:background="@drawable/underline"
-        android:backgroundTint="@color/colorPrimary"/>
+        android:background="@color/colorPrimary"/>
     <TextView
         android:id="@+id/tv_add_shop_city"
         android:layout_width="wrap_content"
@@ -180,14 +180,13 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_add_shop_city"
         android:background="@drawable/transparent_backgrounf"/>
 
-    <view
+    <View
         android:layout_width="0dp"
         android:layout_height="1dp"
         app:layout_constraintLeft_toLeftOf="@id/gd1"
         app:layout_constraintRight_toRightOf="@id/gd4"
         app:layout_constraintBottom_toBottomOf="@id/et_add_shop_city"
-        android:background="@drawable/underline"
-        android:backgroundTint="@color/colorPrimary"/>
+        android:background="@color/colorPrimary"/>
 
     <TextView
         android:id="@+id/tv_add_shop_locality"
@@ -213,14 +212,13 @@
         app:layout_constraintRight_toRightOf="@id/gd4"
         app:layout_constraintTop_toBottomOf="@+id/tv_add_shop_locality"
         android:background="@drawable/transparent_backgrounf"/>
-    <view
+    <View
         android:layout_width="0dp"
         android:layout_height="1dp"
         app:layout_constraintLeft_toLeftOf="@id/gd1"
         app:layout_constraintRight_toRightOf="@id/gd4"
         app:layout_constraintBottom_toBottomOf="@id/et_add_shop_locality"
-        android:background="@drawable/underline"
-        android:backgroundTint="@color/colorPrimary"/>
+        android:background="@color/colorPrimary"/>
 
     <Button
         android:id="@+id/add_shop_step_2"

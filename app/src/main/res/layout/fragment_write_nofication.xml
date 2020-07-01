@@ -66,14 +66,13 @@
                     android:textStyle="bold"
                     android:inputType="textPersonName"
                     android:textSize="20sp" />
-            <view
+            <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 app:layout_constraintLeft_toLeftOf="@id/gd1"
                 app:layout_constraintRight_toRightOf="@id/gd4"
                 app:layout_constraintBottom_toBottomOf="@id/etTitle"
-                android:background="@drawable/underline"
-                android:backgroundTint="@color/colorPrimary"/>
+                android:background="@color/colorPrimary"/>
 
               <EditText
                     android:id="@+id/etMessage"
@@ -92,14 +91,13 @@
                     android:inputType="textMultiLine"
                     android:textSize="16sp" />
 
-            <view
+            <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 app:layout_constraintLeft_toLeftOf="@id/gd1"
                 app:layout_constraintRight_toRightOf="@id/gd4"
                 app:layout_constraintBottom_toBottomOf="@id/etMessage"
-                android:background="@drawable/underline"
-                android:backgroundTint="@color/colorPrimary"/>
+                android:background="@color/colorPrimary"/>
 
 
             <TextView
