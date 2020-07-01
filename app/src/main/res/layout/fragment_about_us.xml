@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="To create your app with UNIC or for any queries feel free to contact our customer care numbers on:"
+                android:text="To create your app with UNIC or for any queries feel free to contact us through our customer care numbers given below."
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

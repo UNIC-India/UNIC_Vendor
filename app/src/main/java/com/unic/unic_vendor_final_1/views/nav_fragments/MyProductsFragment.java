@@ -25,6 +25,7 @@ import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAda
 import com.unic.unic_vendor_final_1.databinding.FragmentMyProductsBinding;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
+import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 import com.unic.unic_vendor_final_1.views.activities.AddNewProduct;
 
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class MyProductsFragment extends Fragment implements AdapterView.OnItemSe
     private SetStructureViewModel setStructureViewModel;
     private boolean isFirst;
     private DocumentSnapshot lastDoc;
+    UserShopsViewModel userShopsViewModel;
 
     private boolean isAtBottom = false;
 
@@ -63,6 +65,8 @@ public class MyProductsFragment extends Fragment implements AdapterView.OnItemSe
 
         myProductsBinding = FragmentMyProductsBinding.inflate(inflater, container, false);
         productListAdapter = new ProductListAdapter(getContext(), 2);
+        userShopsViewModel=new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
+        userShopsViewModel.titleSetter.setValue(6);
 
         ArrayAdapter<CharSequence> selectionAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.spinner_array, android.R.layout.simple_spinner_item);
         selectionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

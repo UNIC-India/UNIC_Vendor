@@ -4,15 +4,18 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+
+
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/montserrat_normal"
+        android:fontFamily="@font/abeezee"
         android:text="What Do You Want To Do?"
         android:textColor="#000000"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginLeft="4dp"/>
 
     <ListView
         android:id="@+id/listWhatDo"

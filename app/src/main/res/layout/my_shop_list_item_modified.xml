@@ -6,6 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:layout_constraintVertical_weight="1"
+
     android:id="@+id/cdshop"
 
     android:layout_marginLeft="15dp"
@@ -21,16 +23,29 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/horizontal1"
+            app:layout_constraintGuide_percent="0.2"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/vertical1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.03" />
+
 
         <LinearLayout
             android:id="@+id/linearLayout4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/shop_photo"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="@+id/horizontal1">
 
             <TextView
                 android:id="@+id/shop_name"
@@ -79,14 +94,13 @@
             android:id="@+id/shop_photo"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:elevation="2dp"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_percent="0.84"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="@+id/vertical1"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.38" />
 
@@ -139,16 +153,19 @@
 
         <LinearLayout
             android:id="@+id/edit_shop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/StandardButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginRight="5dp"
             android:layout_marginBottom="2dp"
-            android:background="@color/colorTertiary"
+            android:background="@drawable/std_button"
             android:gravity="center"
             android:paddingLeft="7dp"
             android:paddingRight="5dp"
             app:layout_constraintBottom_toBottomOf="@id/shop_photo"
-            app:layout_constraintRight_toRightOf="parent">
+            app:layout_constraintHeight_percent="0.18"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintWidth_percent="0.2">
 
             <TextView
                 android:layout_width="wrap_content"

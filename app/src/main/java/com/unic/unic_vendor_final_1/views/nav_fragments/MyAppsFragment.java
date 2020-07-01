@@ -53,6 +53,7 @@ public class MyAppsFragment extends Fragment implements View.OnClickListener{
                 myAppsBinding.myAppsLoading.playAnimation();
             }
         });
+        shopsViewModel.titleSetter.setValue(2);
         shopsViewModel.getShops().observe(getViewLifecycleOwner(), shops -> {
             adapter.setShops(shops);
             adapter.notifyDataSetChanged();

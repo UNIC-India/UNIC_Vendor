@@ -11,7 +11,7 @@
     android:layout_marginBottom="3dp"
     android:clickable="true"
     android:paddingBottom="3dp"
-    app:cardBackgroundColor="@color/colorTertiary"
+    app:cardBackgroundColor="#8cd3ff"
     app:cardCornerRadius="8dp"
     app:cardElevation="5dp">
 
@@ -26,6 +26,8 @@
             android:paddingLeft="16dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:textColor="#FFFFFF"
+            android:textColorHint="#000000"
+            android:textColor="#000000"
             android:textSize="18sp"/>
 </androidx.cardview.widget.CardView>
+
