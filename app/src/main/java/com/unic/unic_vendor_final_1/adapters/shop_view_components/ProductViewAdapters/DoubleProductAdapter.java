@@ -95,7 +95,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
                 holder.tvProductPrice.setText("\u20B9" + (Double.parseDouble(products.get(position).get("price").toString()) * (100 - Double.parseDouble(products.get(position).get("discount").toString())) / 100) + "");
             } else {
                 holder.tvDiscount.setText("");
-                holder.tvDiscount.setVisibility(View.VISIBLE);
+                holder.tvDiscount.setVisibility(View.GONE);
                 holder.tvProductPrice.setText("\u20B9" + products.get(position).get("price").toString());
             }
             holder.tvProductName.setText(products.get(position).get("name").toString());
@@ -205,12 +205,12 @@ public class ViewHolder extends RecyclerView.ViewHolder {
                 }
             });
         } else {
-            holder.tvProductName.setText("Product Name" + position);
+            holder.tvProductName.setText("Product Name " + (position+1));
             holder.tvProductPrice.setText("\u20B92104");
             holder.tv_no_image.setVisibility(View.GONE);
             holder.noImage.setVisibility(View.GONE);
             holder.ivProductImage.setImageResource(R.drawable.demo_product);
-            holder.tvCompany.setText("Company" + position);
+            holder.tvCompany.setText("Company");
             holder.tvDiscount.setText("20% OFF");
             holder.tvDiscount.setVisibility(View.VISIBLE);
             holder.tvWithoutDiscount.setText("\u20B92524.8");

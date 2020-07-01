@@ -25,7 +25,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.077" />
+            app:layout_constraintGuide_percent="0.067" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/horizontal3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.006" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/horizontal4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.06" />
 
         <LinearLayout
             android:id="@+id/structure_buttons"
@@ -59,7 +71,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="2dp"
                 android:layout_weight="1"
-                android:background="@color/colorPrimary"
+                android:background="@color/colorTertiary"
                 android:fontFamily="@font/abeezee"
                 android:text="Add View"
                 android:textColor="#FFFFFF"
@@ -70,7 +82,8 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/set_structure_app_bar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="0dp"
+            android:background="#FFFFFF"
             app:layout_constraintBottom_toTopOf="@+id/horizontal2"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -89,13 +102,13 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:fontFamily="@font/abeezee"
+                        android:gravity="center_horizontal"
                         android:hint="D Mart"
                         android:maxLines="1"
-                        android:textColor="#FFFFFF"
-                        android:textColorHint="#ffffff"
-                        android:textSize="24sp"
+                        android:textColor="#000000"
+                        android:textColorHint="#000000"
 
-                        android:textStyle="bold"
+                        android:textSize="24sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/confirm_shop_structure"
                         app:layout_constraintStart_toStartOf="parent"
@@ -105,9 +118,8 @@
                         android:id="@+id/confirm_shop_structure"
                         style="@style/StandardButton"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:background="@drawable/std_button"
-                        android:drawableEnd="@drawable/ic_arrow_forward_black_24dp"
                         android:drawableTint="#FFFFFF"
                         android:fontFamily="@font/abeezee"
                         android:text="Save"

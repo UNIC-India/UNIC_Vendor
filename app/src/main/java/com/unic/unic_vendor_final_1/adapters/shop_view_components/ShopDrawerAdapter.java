@@ -117,7 +117,7 @@ public class ShopDrawerAdapter extends RecyclerView.Adapter<ShopDrawerAdapter.Vi
 
             AlertDialog.Builder builder = new AlertDialog.Builder(context)
                     .setTitle("CONFIRM YOUR ACTIONS")
-                    .setMessage("Are you sure you want to delete " + pages.get(position).getPageId())
+                    .setMessage("Are you sure you want to delete " + pages.get(position).getPageName())
                     .setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

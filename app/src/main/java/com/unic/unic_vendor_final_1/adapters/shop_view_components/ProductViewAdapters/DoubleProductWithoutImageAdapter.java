@@ -75,7 +75,7 @@ public class DoubleProductWithoutImageAdapter extends RecyclerView.Adapter<Doubl
             }
             else{
                 holder.tvDiscount.setText("");
-                holder.tvDiscount.setVisibility(View.VISIBLE);
+                holder.tvDiscount.setVisibility(View.GONE);
                 holder.tvProductPrice.setText("\u20B9"+products.get(position).get("price").toString());
                 holder.tvProductPrice.setPaintFlags(holder.tvWithoutDiscount.getPaintFlags());
 
@@ -151,7 +151,7 @@ public class DoubleProductWithoutImageAdapter extends RecyclerView.Adapter<Doubl
             });
         }
         else{
-            holder.tvProductName.setText("Product Name"+position);
+            holder.tvProductName.setText("Product Name " + (position+1));
             holder.tvProductPrice.setText("\u20B92104");
             holder.tvCategory.setText("Category");
             holder.tvExtraInfo1.setText("ExtraInfo1");

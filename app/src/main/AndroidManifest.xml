@@ -5,38 +5,51 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <uses-feature android:name="android.hardware.screen.portrait" />
+
     <application
         android:allowBackup="true"
-        android:icon="@drawable/logonotext"
+        android:icon="@drawable/app_logo"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/logonotext"
+        android:roundIcon="@drawable/app_logo"
         android:hardwareAccelerated="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".views.activities.AddNewProduct"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
-        <activity android:name=".views.activities.AddShop" />
-        <activity android:name=".views.shop_addition_fragments.LocationSelector" />
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".views.activities.AddShop"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".views.shop_addition_fragments.LocationSelector"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity android:name=".views.activities.SetShopStructure"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
-        <activity android:name=".views.activities.Login" />
-        <activity android:name=".views.activities.SignUp" />
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".views.activities.Login"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".views.activities.SignUp"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity android:name=".views.activities.UserHome"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".views.helpers.Welcome"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity android:name=".views.helpers.SplashScreen"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity">
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".messaging_service.MyFirebaseMessagingService"
             android:exported="false">

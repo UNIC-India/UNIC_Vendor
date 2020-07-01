@@ -68,7 +68,7 @@ public class FirebaseRepository {
 
     public Task<Void> saveUser(User user) {
         mUser = FirebaseAuth.getInstance().getCurrentUser();
-        return db.collection("users").document(user.getId()).set(user);
+        return db.collection("users").document(user.getId()).set(user,SetOptions.merge());
     }
 
     public DocumentReference getUser() {
@@ -194,13 +194,8 @@ public class FirebaseRepository {
                 });
     }
 
-    public Task<HttpsCallableResult> deleteProducts(String shopId, String productId){
-        Map<String,Object> data = new HashMap<>();
-        data.put("shopId",shopId);
-        data.put("productId",productId);
-
-        return mFunctions.getHttpsCallable("removeProduct")
-                .call(data);
+    public Task<Void> deleteProducts(String shopId, String productId){
+        return db.collection("shops").document(shopId).collection("products").document(productId).delete();
     }
 
     public Task<String> prepareProduct(String shopId, String company, String category, String subcategory){
@@ -263,6 +258,10 @@ public class FirebaseRepository {
                 "orderStatus",orderStatus);
     }
 
+    public Task<Void> updateOrderTotal(String orderId, double total){
+        return db.collection("orders").document(orderId).update("total",total);
+    }
+
     public Query getOrders(String shopId){
         return db.collection("orders").whereEqualTo("shopId",shopId);
     }
@@ -290,12 +289,32 @@ public class FirebaseRepository {
         return mRef.child(mUser.getUid()).child("images").child(ts).putBytes(baos.toByteArray());
     }
 
+    public Task<Void> setAvailability(String shopId,String productId,boolean availabile){
+        HashMap<String,Object> data = new HashMap<>();
+        data.put("availability",availabile?1:-1);
+        return db.collection("shops").document(shopId).collection("products").document(productId).set(data,SetOptions.merge());
+    }
+
     public Task<QuerySnapshot> getProductsFromCategories(String shopId, List<String> categories){
         return db.collection("shops").document(shopId).collection("products").whereIn("category",categories).orderBy("name", Query.Direction.ASCENDING).get();
     }
 
     public Task<QuerySnapshot> getProductsFromCompanies(String shopId, List<String> companies){
         return db.collection("shops").document(shopId).collection("products").whereIn("company",companies).orderBy("name", Query.Direction.ASCENDING).get();
+    }
+
+    public Task<HttpsCallableResult> reportUser(String shopId,String userId){
+        Map<String,Object> data = new HashMap<>();
+        data.put("shopId",shopId);
+        data.put("userId",userId);
+        return mFunctions.getHttpsCallable("reportUser")
+                .call(data);
+    }
+
+    public void updateReport(String orderId){
+        Map<String,Object> data = new HashMap<>();
+        data.put("reported",true);
+        db.collection("orders").document(orderId).set(data,SetOptions.merge());
     }
 
     public Task<ShortDynamicLink> createSubscribeLink(String shopId, String shopName,String  imageLink){

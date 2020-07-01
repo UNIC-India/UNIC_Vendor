@@ -31,8 +31,32 @@
             android:textSize="20sp" />
     </androidx.cardview.widget.CardView>
 
+    <TextView
+        android:id="@+id/tv_text_availability"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Availability"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:fontFamily="@font/montserrat_bold"
+        app:layout_constraintTop_toBottomOf="@id/cardView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@android:color/transparent"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="5dp"/>
+
+    <Switch
+        android:id="@+id/product_availability_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:thumbTint="@color/colorPrimary"
+        android:text="Available"
+        app:layout_constraintTop_toBottomOf="@id/tv_text_availability"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"/>
     <ImageView
-        android:id="@+id/iv_produtc_photo"
+        android:id="@+id/iv_product_photo"
         android:layout_width="300dp"
         android:layout_height="0dp"
         android:src="@drawable/demo_product"
@@ -42,13 +66,14 @@
         app:layout_constraintHeight_min="200dp"
         app:layout_constraintHeight_percent="0.3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+        app:layout_constraintTop_toBottomOf="@+id/product_availability_switch" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvDetails"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_produtc_photo">
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_product_photo">
 
     </androidx.recyclerview.widget.RecyclerView>
 

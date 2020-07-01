@@ -39,7 +39,7 @@ public class UserShopsViewModel extends ViewModel {
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private MutableLiveData<List<Shop>> shops = new MutableLiveData<>();
     private MutableLiveData<User> mUser = new MutableLiveData<>();
-    private MutableLiveData<List<String>> shopids = new MutableLiveData<>();
+    private MutableLiveData<List<String>> shopIds = new MutableLiveData<>();
     private MutableLiveData<User> customer = new MutableLiveData<>();
     private MutableLiveData<Map<String,String>> qrLinks = new MutableLiveData<>();
     private MutableLiveData<Boolean> isFirstOrder = new MutableLiveData<>();
@@ -70,7 +70,7 @@ public class UserShopsViewModel extends ViewModel {
             }
 
             shops.setValue(data);
-            shopids.setValue(ids);
+            shopIds.setValue(ids);
 
             if(ids.size()>0) {
                 getAllNotifications();
@@ -105,6 +105,10 @@ public class UserShopsViewModel extends ViewModel {
 
     public LiveData<List<Shop>> getShops() {
         return shops;
+    }
+
+    public LiveData<List<String>> getShopIds() {
+        return shopIds;
     }
 
     //==============For Orders==============//
@@ -150,7 +154,7 @@ public class UserShopsViewModel extends ViewModel {
 
     public void getPaginatedOrders(boolean isFirst,DocumentSnapshot lastDoc){
 
-        if (shopids.getValue()==null||shopids.getValue().size()==0) {
+        if (shopIds.getValue()==null||shopIds.getValue().size()==0) {
             orders.setValue(new ArrayList<>());
             return;
         }
@@ -164,7 +168,7 @@ public class UserShopsViewModel extends ViewModel {
         if(!isFirst &&lastDoc==null)
             return;
 
-        firebaseRepository.getPaginatedOrders(shopids.getValue(),lastDoc,isFirst)
+        firebaseRepository.getPaginatedOrders(shopIds.getValue(),lastDoc,isFirst)
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (queryDocumentSnapshots==null||queryDocumentSnapshots.getDocuments().size()==0) {
                         lastOrderDoc.setValue(null);
@@ -196,16 +200,36 @@ public class UserShopsViewModel extends ViewModel {
         });
     }
 
-    public void setOrderStatus(String  orderId, int orderStatus) {
+    public void setOrderStatus(String orderId,int orderStatus){
+        setOrderStatus(orderId, orderStatus,0.0);
+    }
+
+    public void reportUser(String shopId,String userId,String orderId){
+
+        firebaseRepository.reportUser(shopId,userId)
+                .addOnSuccessListener(result -> {
+                    firebaseRepository.updateReport(orderId);
+                });
+
+    }
+
+    public void setOrderStatus(String orderId, int orderStatus,double total) {
 
         firebaseRepository.setOrderStatus(orderId, orderStatus)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        isOrderUpdating.setValue(Boolean.FALSE);
+                        if(orderStatus!=5)
+                            isOrderUpdating.setValue(Boolean.FALSE);
+                        else updateOrderTotal(orderId,total);
                     }
                 })
                 .addOnFailureListener(e -> Timber.e(e, e.toString()));
+    }
+
+    public void updateOrderTotal(String orderId,double total){
+        firebaseRepository.updateOrderTotal(orderId,total)
+                .addOnSuccessListener(aVoid -> isOrderUpdating.setValue(Boolean.FALSE));
     }
 
     public MutableLiveData<Order> listenToOrder(Order order) {
@@ -244,7 +268,7 @@ public class UserShopsViewModel extends ViewModel {
     }
 
     private void getAllNotifications(){
-        firebaseRepository.db.collection("notifications").whereIn("shopId",shopids.getValue()).orderBy("time", Query.Direction.DESCENDING).limit(30).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        firebaseRepository.db.collection("notifications").whereIn("shopId",shopIds.getValue()).orderBy("time", Query.Direction.DESCENDING).limit(30).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 if(queryDocumentSnapshots==null)

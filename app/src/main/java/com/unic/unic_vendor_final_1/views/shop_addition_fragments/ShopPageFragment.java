@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.google.android.material.tabs.TabLayout;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategoriesAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategoriesAdapter2;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ImageViewAdapters.DoubleImageAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductWithoutImageAdapter;
@@ -109,6 +110,9 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
     }
 
     private void inflateViews(){
+
+        if(page==null)
+            return;
 
         parent.removeAllViews();
         views.clear();
@@ -209,7 +213,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 if(isNew)
                     views.add(view21);
 
-                CategoriesAdapter categoriesAdapter=new CategoriesAdapter(getContext());
+                CategoriesAdapter2 categoriesAdapter=new CategoriesAdapter2(getContext());
                 categoriesAdapter.setCategories(view.getData());
                 LinearLayoutManager categoriesLayoutManager=new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL,false);
                 RecyclerView categoriesRecyclerView=categoriesView.findViewById(R.id.categories_recycler_view);
@@ -238,7 +242,17 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
 
                 CategoriesAdapter categoriesAdapter2=new CategoriesAdapter(getContext());
                 categoriesAdapter2.setCategories(view.getData());
-                RecyclerView.LayoutManager categoriesLayoutManager2=new GridLayoutManager(getContext(),3);
+                RecyclerView.LayoutManager categoriesLayoutManager2=new GridLayoutManager(getContext(),3){
+                    @Override
+                    public boolean canScrollVertically() {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean canScrollHorizontally() {
+                        return false;
+                    }
+                };
                 RecyclerView categoriesRecyclerView2=categoriesView2.findViewById(R.id.categories_recycler_view);
                 categoriesRecyclerView2.setLayoutManager(categoriesLayoutManager2);
                 categoriesRecyclerView2.setAdapter(categoriesAdapter2);

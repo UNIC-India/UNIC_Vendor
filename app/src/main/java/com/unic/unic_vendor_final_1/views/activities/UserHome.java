@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -35,6 +36,7 @@ import com.unic.unic_vendor_final_1.views.nav_fragments.AboutUsFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.ComingSoon;
 import com.unic.unic_vendor_final_1.views.nav_fragments.HomeFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyAppsFragment;
+import com.unic.unic_vendor_final_1.views.nav_fragments.MyProductsFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.OrdersFragment;
 import com.unic.unic_vendor_final_1.views.helpers.IntermidiateShopList;
 import com.unic.unic_vendor_final_1.views.nav_fragments.QRFragment;
@@ -50,6 +52,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     public User user;
     private UserShopsViewModel userShopsViewModel;
     private com.unic.unic_vendor_final_1.databinding.ActivityUserHomeBinding userHomeBinding;
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,8 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
 
         userHomeBinding = ActivityUserHomeBinding.inflate(getLayoutInflater());
         setContentView(userHomeBinding.getRoot());
+
+        prefs = getSharedPreferences("com.unic.unic_vendor_final_1", MODE_PRIVATE);
 
         FirestoreDataViewModel firestoreDataViewModel = new ViewModelProvider(this).get(FirestoreDataViewModel.class);
         firestoreDataViewModel.getUserData();
@@ -97,10 +102,9 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        Intent intent = getIntent();
 
-        if (intent.hasExtra("load")){
-            if(intent.getStringExtra("load").equals("order")){
+        if (getIntent().hasExtra("load")){
+            if(getIntent().getStringExtra("load").equals("order")){
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 ft.replace(R.id.home_fragment,new OrdersFragment());
@@ -199,13 +203,11 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
                 fragment= new AboutUsFragment();
                 break;
             case R.id.logout:
-                String Phone = Objects.requireNonNull(mAuth.getCurrentUser()).getPhoneNumber()!=null?mAuth.getCurrentUser().getPhoneNumber():" ";
                 new AlertDialog.Builder(this).setMessage("Are you sure you want to Sign Out?")
                         .setPositiveButton("Yes",((dialog, which) -> {
-                            Intent intent = new Intent(UserHome.this,Login.class);
-                            intent.putExtra("Phone",Phone);
-                             mAuth.signOut();
-                            startActivity(intent);
+                            prefs.edit().putString("phone",user.getPhoneNo()).apply();
+                            mAuth.signOut();
+                            startActivity(new Intent(UserHome.this,Login.class));
                             finish();}))
                         .setNegativeButton("No",((dialog, which) ->{
                             dialog.dismiss();
@@ -228,9 +230,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
             ft.commit();
 
         }
-        if(id==R.id.logout)
-         return false;
-        return true;
+        return id != R.id.logout;
     }
 
     public void setUser(User user) {
@@ -261,6 +261,10 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     public void onBackPressed() {
         Fragment fg=getSupportFragmentManager().findFragmentById(R.id.home_fragment);
+
+        if(fg==null)
+            return;
+
         if(fg.getClass()==HomeFragment.class){
             if(doubleBackToExitPressedOnce){
                 moveTaskToBack(true);
@@ -277,8 +281,8 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
                 }
             }, 2000);
         }
-        else if(fg.getClass()== OrderItems.class||fg.getClass()== ProductDescriptionFragment.class){
-            getSupportFragmentManager().popBackStack();
+        else if(fg.getClass()== OrderItems.class||fg.getClass()== ProductDescriptionFragment.class||fg.getClass()== MyProductsFragment.class){
+            super.onBackPressed();
         }
         else{
             getSupportFragmentManager()

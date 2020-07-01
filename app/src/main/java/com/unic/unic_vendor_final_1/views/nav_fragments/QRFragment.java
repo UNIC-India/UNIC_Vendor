@@ -15,13 +15,11 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
-import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.ShopQRAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentQrBinding;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
@@ -32,7 +30,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import timber.log.Timber;
 
 public class QRFragment extends Fragment {
 

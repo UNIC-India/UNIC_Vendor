@@ -16,12 +16,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.Timestamp;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.OrderItemsAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentOrderItemsBinding;
 import com.unic.unic_vendor_final_1.datamodels.Order;
 import com.unic.unic_vendor_final_1.datamodels.User;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
+
+import java.util.Calendar;
+import java.util.TimeZone;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -121,6 +125,19 @@ public class OrderItems extends Fragment implements View.OnClickListener {
     }
 
     public void setStatus(int orderStatus){
+
+        String orderDate = "",orderTime = "";
+
+        if(order.getUpdateTime()!=null){
+            Timestamp time = new Timestamp(order.getUpdateTime());
+
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("IST"));
+            cal.setTimeInMillis((time.getSeconds()+19800)*1000);
+
+            orderDate = cal.get(Calendar.DAY_OF_MONTH) + " " + getMonth(cal.get(Calendar.MONTH)) + " " + cal.get(Calendar.YEAR);
+            orderTime = cal.get(Calendar.HOUR_OF_DAY) + ":" + (cal.get(Calendar.MINUTE)/10>0?cal.get(Calendar.MINUTE):"0" + cal.get(Calendar.MINUTE));
+        }
+
         switch(orderStatus){
             case -1:
                 fragmentOrderItemsBinding.iv1.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.colorPrimary)));
@@ -139,7 +156,7 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.tv1.setText("Pending");
                 fragmentOrderItemsBinding.tv1.setTextColor(context.getResources().getColor(R.color.yellow));
                 fragmentOrderItemsBinding.textView5.setBackgroundColor(context.getResources().getColor(R.color.yellow));
-                fragmentOrderItemsBinding.textView5.setText("Order pending from"+order.getUpdateTime().toString().substring(11,16)+" on "+order.getUpdateTime().toString().substring(8,10)+" "+order.getUpdateTime().toString().substring(4,7)+order.getUpdateTime().toString().substring(29,34));
+                fragmentOrderItemsBinding.textView5.setText("Order pending from "+ orderTime+" on "+orderDate);
                 break;
             case 1:
                 fragmentOrderItemsBinding.iv1.setImageTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.green2)));
@@ -231,34 +248,47 @@ public class OrderItems extends Fragment implements View.OnClickListener {
     }
 
     public void setUpdateTime(int status){
+
+        String orderDate = "",orderTime = "";
+
+        if(order.getUpdateTime()!=null){
+            Timestamp time = new Timestamp(order.getUpdateTime());
+
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("IST"));
+            cal.setTimeInMillis((time.getSeconds()+19800)*1000);
+
+            orderDate = cal.get(Calendar.DAY_OF_MONTH) + " " + getMonth(cal.get(Calendar.MONTH)) + " " + cal.get(Calendar.YEAR);
+            orderTime = cal.get(Calendar.HOUR_OF_DAY) + ":" + (cal.get(Calendar.MINUTE)/10>0?cal.get(Calendar.MINUTE):"0" + cal.get(Calendar.MINUTE));
+        }
+
         switch(status){
             case -1:
                 fragmentOrderItemsBinding.textView5.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
-                fragmentOrderItemsBinding.textView5.setText(order.getUpdateTime()==null?"Order rejected "+"recently.":"Order rejected at"+order.getUpdateTime().toString().substring(11,16)+" on "+order.getUpdateTime().toString().substring(8,10)+" "+order.getUpdateTime().toString().substring(4,7)+order.getUpdateTime().toString().substring(29,34));
+                fragmentOrderItemsBinding.textView5.setText(order.getUpdateTime()==null?"Order rejected "+"recently.":"Order rejected at"+orderTime+" on "+orderDate);
 
                 break;
             case 0:
                 break;
             case 1:
                 fragmentOrderItemsBinding.textView5.setBackgroundColor(context.getResources().getColor(R.color.green));
-                fragmentOrderItemsBinding.textView5.setText(order.getUpdateTime()==null?"Order accepted "+"recently.":"Order accepted at "+order.getUpdateTime().toString().substring(11,16)+" on "+order.getUpdateTime().toString().substring(8,10)+" "+order.getUpdateTime().toString().substring(4,7)+order.getUpdateTime().toString().substring(29,34));
+                fragmentOrderItemsBinding.textView5.setText(order.getUpdateTime()==null?"Order accepted "+"recently.":"Order accepted at "+orderTime+" on "+orderDate);
 
                 break;
             case 2:
                 fragmentOrderItemsBinding.textView5.setBackgroundColor(context.getResources().getColor(R.color.green));
-                fragmentOrderItemsBinding.textView5.setText(order.getUpdateTime()==null?"Order Prepared "+"recently.":"Order prepared at "+order.getUpdateTime().toString().substring(11,16)+" on "+order.getUpdateTime().toString().substring(8,10)+" "+order.getUpdateTime().toString().substring(4,7)+order.getUpdateTime().toString().substring(29,34));
+                fragmentOrderItemsBinding.textView5.setText(order.getUpdateTime()==null?"Order Prepared "+"recently.":"Order prepared at "+orderTime+" on "+orderDate);
                 break;
             case 3:
                 fragmentOrderItemsBinding.textView5.setBackgroundColor(context.getResources().getColor(R.color.green));
-                fragmentOrderItemsBinding.textView5.setText(order.getUpdateTime()==null?"Order Dispatched "+"recently.":"Order Dispatched at "+order.getUpdateTime().toString().substring(11,16)+" on "+order.getUpdateTime().toString().substring(8,10)+" "+order.getUpdateTime().toString().substring(4,7)+order.getUpdateTime().toString().substring(29,34));
+                fragmentOrderItemsBinding.textView5.setText(order.getUpdateTime()==null?"Order Dispatched "+"recently.":"Order Dispatched at "+orderTime+" on "+orderDate);
                 break;
             case 4:
                 fragmentOrderItemsBinding.textView5.setBackgroundColor(context.getResources().getColor(R.color.green));
-                fragmentOrderItemsBinding.textView5.setText(order.getUpdateTime()==null?"Order Delivered "+"recently.":"Order Delivered at "+order.getUpdateTime().toString().substring(11,16)+" on "+order.getUpdateTime().toString().substring(8,10)+" "+order.getUpdateTime().toString().substring(4,7)+order.getUpdateTime().toString().substring(29,34));
+                fragmentOrderItemsBinding.textView5.setText(order.getUpdateTime()==null?"Order Delivered "+"recently.":"Order Delivered at "+orderTime+" on "+orderDate);
                 break;
             case 5:
                 fragmentOrderItemsBinding.textView5.setBackgroundColor(context.getResources().getColor(R.color.green));
-                fragmentOrderItemsBinding.textView5.setText(order.getUpdateTime()==null?"Order partially accepted "+"recently.":"Order partially accepted at "+order.getUpdateTime().toString().substring(11,16)+" on "+order.getUpdateTime().toString().substring(8,10)+" "+order.getUpdateTime().toString().substring(4,7)+order.getUpdateTime().toString().substring(29,34));
+                fragmentOrderItemsBinding.textView5.setText(order.getUpdateTime()==null?"Order partially accepted "+"recently.":"Order partially accepted at "+orderTime+" on "+orderDate);
 
                 break;
         }
@@ -363,11 +393,12 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                     fragmentOrderItemsBinding.ivShowMore.setVisibility(View.GONE);
                     fragmentOrderItemsBinding.llDetails.setTag(R.id.ivShowLess);
                     fragmentOrderItemsBinding.detailsFrag.setVisibility(View.VISIBLE);
-                    getActivity().getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.detailsFrag,orderDetails)
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                            .commit();
+                    if(getActivity().getSupportFragmentManager().findFragmentById(R.id.detailsFrag)!=null)
+                        getActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.detailsFrag,orderDetails)
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .commit();
                 }
                 else if((int)fragmentOrderItemsBinding.llDetails.getTag()==R.id.ivShowLess) {
                     fragmentOrderItemsBinding.ivShowLess.setVisibility(View.GONE);
@@ -391,14 +422,35 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 userShopsViewModel.isVisible.setValue(false);
                 break;
             case R.id.btnDone:
+                int rejectedItems = (int) order.getItems().stream().filter(product -> product.get("availability") != null && Integer.parseInt(product.get("availability").toString()) == -1).count();
+
+
                 builder=new AlertDialog.Builder(getActivity());
                 builder.setTitle("Status Update");
-                builder.setMessage("Change order status to Partially Accepted?");
+                if(rejectedItems==0)
+                    builder.setMessage("Change order status to Accepted?");
+                else if(rejectedItems==order.getNo_of_items())
+                    builder.setMessage("Change order status to Rejected?");
+                else
+                    builder.setMessage("Change order status to Partially Accepted?");
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         fragmentOrderItemsBinding.iv1.setEnabled(false);
-                        userShopsViewModel.setOrderStatus(order.getId(),5);
+
+                        order.getItems().forEach(product -> {
+                            if(product.get("availability")!=null&&Integer.parseInt(product.get("availability").toString())==-1) {
+                                order.setTotal(order.getTotal() - Double.parseDouble(product.get("price").toString())*Integer.parseInt(product.get("orderQuantity").toString()));
+                            }
+                        });
+
+                        if(rejectedItems==0)
+                            userShopsViewModel.setOrderStatus(order.getId(),1);
+                        else if(rejectedItems==order.getNo_of_items())
+                            userShopsViewModel.setOrderStatus(order.getId(),-1);
+                        else
+                            userShopsViewModel.setOrderStatus(order.getId(),5,order.getTotal());
+
                         userShopsViewModel.isVisible.setValue(false);
 
                     }
@@ -423,5 +475,23 @@ public class OrderItems extends Fragment implements View.OnClickListener {
 
     public void setCustomer(User customer) {
         this.customer = customer;
+    }
+
+    private String getMonth(int i){
+        switch (i){
+            case 0: return "January";
+            case 1: return "February";
+            case 2: return "March";
+            case 3: return "April";
+            case 4: return "May";
+            case 5: return "June";
+            case 6: return "July";
+            case 7: return "August";
+            case 8: return "September";
+            case 9: return "October";
+            case 10: return "November";
+            case 11: return "December";
+        }
+        return "NULL";
     }
 }
