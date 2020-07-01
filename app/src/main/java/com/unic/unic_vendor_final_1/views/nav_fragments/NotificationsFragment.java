@@ -17,7 +17,7 @@ import com.unic.unic_vendor_final_1.adapters.NotificationsAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentNotificationsBinding;
 import com.unic.unic_vendor_final_1.datamodels.Notification;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
-import com.unic.unic_vendor_final_1.views.helpers.IntermidiateShopList;
+import com.unic.unic_vendor_final_1.views.helpers.IntermediateShopList;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -74,7 +74,7 @@ public class NotificationsFragment extends Fragment {
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .replace(R.id.home_fragment,new IntermidiateShopList(1))
+                        .replace(R.id.home_fragment,new IntermediateShopList(1))
                         .addToBackStack(null)
                         .commit();
             }

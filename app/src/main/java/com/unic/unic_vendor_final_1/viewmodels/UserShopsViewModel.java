@@ -42,6 +42,8 @@ public class UserShopsViewModel extends ViewModel {
     private MutableLiveData<List<String>> shopIds = new MutableLiveData<>();
     private MutableLiveData<User> customer = new MutableLiveData<>();
     private MutableLiveData<Map<String,String>> qrLinks = new MutableLiveData<>();
+    private MutableLiveData<Map<String,List<Map<String,String >>>> userRequests = new MutableLiveData<>();
+
     private MutableLiveData<Boolean> isFirstOrder = new MutableLiveData<>();
     private MutableLiveData<DocumentSnapshot> lastOrderDoc = new MutableLiveData<>();
     public MutableLiveData<Boolean> isOrderUpdating =new MutableLiveData<>();
@@ -381,7 +383,42 @@ public class UserShopsViewModel extends ViewModel {
         });
     }
 
+    public void getUserPermissions(String shopId){
+        firebaseRepository.getUserPermissions(shopId).addOnSuccessListener(doc -> {
+            if(!doc.exists()){
+                userRequests.setValue(null);
+                return;
+            }
+
+            Map<String,List<Map<String,String>>> data = new HashMap<>();
+
+            if(doc.get("pending")!=null)
+                data.put("pending", ((List<Map<String ,String>>) doc.get("pending")));
+
+            if(doc.get("approved")!=null)
+                data.put("approved",((List<Map<String ,String>>) doc.get("approved")));
+
+            userRequests.setValue(data);
+        });
+    }
+
+    public void allowUserAccess(String shopId, String userId){
+        firebaseRepository.allowUserAccess(userId,shopId).addOnSuccessListener(result -> {
+
+        });
+    }
+
+    public void revokeUserAccess(String shopId, String userId){
+        firebaseRepository.revokeUserAccess(userId,shopId).addOnSuccessListener( result -> {
+
+        });
+    }
+
     public MutableLiveData<Boolean> getIsMyAppsLoading() {
         return isMyAppsLoading;
+    }
+
+    public MutableLiveData<Map<String, List<Map<String, String >>>> getUserRequests() {
+        return userRequests;
     }
 }
