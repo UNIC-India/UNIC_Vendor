@@ -3,9 +3,6 @@ package com.unic.unic_vendor_final_1.commons;
 
 import android.net.Uri;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.auth.FirebaseAuth;
@@ -282,6 +279,10 @@ public class FirebaseRepository {
         return db.collection("shops").document(shopId).collection("extraData");
     }
 
+    public Task<DocumentSnapshot> getUserPermissions(String shopId){
+        return db.collection("shops").document(shopId).collection("extraData").document("userPermissions").get();
+    }
+
     public UploadTask uploadSelectedImage(ByteArrayOutputStream baos){
         int time = (int) (System.currentTimeMillis());
         Timestamp tsTemp = new java.sql.Timestamp(time);
@@ -289,9 +290,9 @@ public class FirebaseRepository {
         return mRef.child(mUser.getUid()).child("images").child(ts).putBytes(baos.toByteArray());
     }
 
-    public Task<Void> setAvailability(String shopId,String productId,boolean availabile){
+    public Task<Void> setAvailability(String shopId,String productId,boolean available){
         HashMap<String,Object> data = new HashMap<>();
-        data.put("availability",availabile?1:-1);
+        data.put("availability",available?1:-1);
         return db.collection("shops").document(shopId).collection("products").document(productId).set(data,SetOptions.merge());
     }
 
@@ -308,6 +309,22 @@ public class FirebaseRepository {
         data.put("shopId",shopId);
         data.put("userId",userId);
         return mFunctions.getHttpsCallable("reportUser")
+                .call(data);
+    }
+
+    public Task<HttpsCallableResult> allowUserAccess(String userId, String shopId){
+        Map<String,Object> data = new HashMap<>();
+        data.put("shopId",shopId);
+        data.put("userId",userId);
+        return  mFunctions.getHttpsCallable("allowViewShop")
+                .call(data);
+    }
+
+    public Task<HttpsCallableResult> revokeUserAccess(String userId,String shopId){
+        Map<String,Object> data = new HashMap<>();
+        data.put("shopId",shopId);
+        data.put("userId",userId);
+        return mFunctions.getHttpsCallable("revokeShopViewPermissions")
                 .call(data);
     }
 

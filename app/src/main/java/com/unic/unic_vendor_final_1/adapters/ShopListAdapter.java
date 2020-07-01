@@ -22,6 +22,7 @@ import com.unic.unic_vendor_final_1.views.activities.UserHome;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyProductsFragment;
 import com.unic.unic_vendor_final_1.views.settings_fragments.LogoFragment;
 import com.unic.unic_vendor_final_1.views.settings_fragments.TeamFragment;
+import com.unic.unic_vendor_final_1.views.settings_fragments.UserPermissionsFragment;
 
 import java.util.List;
 
@@ -191,6 +192,29 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ViewHo
                     }
                 });
 
+            }
+
+            else if(from==4){
+                if(shops.size()==1){
+                    ((AppCompatActivity)context).getSupportFragmentManager()
+                            .beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .replace(R.id.home_fragment,new UserPermissionsFragment(shops.get(position).getId(),shops.get(position).getName()))
+                            .addToBackStack(null)
+                            .commit();
+                }
+                holder.tvShopName2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((AppCompatActivity)context).getSupportFragmentManager()
+                                .beginTransaction()
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .replace(R.id.home_fragment,new UserPermissionsFragment(shops.get(position).getId(),shops.get(position).getName()))
+                                .addToBackStack(null)
+                                .commit();
+
+                    }
+                });
             }
 
     }

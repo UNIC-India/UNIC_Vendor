@@ -15,7 +15,7 @@ import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.FragmentHomeBinding;
 import com.unic.unic_vendor_final_1.datamodels.User;
 import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
-import com.unic.unic_vendor_final_1.views.helpers.IntermidiateShopList;
+import com.unic.unic_vendor_final_1.views.helpers.IntermediateShopList;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -85,7 +85,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.card_view6:
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.home_fragment,new IntermidiateShopList())
+                        .replace(R.id.home_fragment,new IntermediateShopList())
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .commit();
                 break;

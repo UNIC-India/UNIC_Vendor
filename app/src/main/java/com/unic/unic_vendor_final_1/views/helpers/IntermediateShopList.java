@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class IntermidiateShopList extends Fragment {
+public class IntermediateShopList extends Fragment {
     private UserShopsViewModel shopsViewModel;
 
 
@@ -39,10 +39,10 @@ public class IntermidiateShopList extends Fragment {
     FragmentIntermediateShopListBinding intermediateShopListBinding;
     int from=0;
 
-    public IntermidiateShopList() {
+    public IntermediateShopList() {
         // Required empty public constructor
     }
-    public IntermidiateShopList(int from){
+    public IntermediateShopList(int from){
         this.from=from;
     }
 

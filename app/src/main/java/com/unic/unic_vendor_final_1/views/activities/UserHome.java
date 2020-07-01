@@ -38,12 +38,10 @@ import com.unic.unic_vendor_final_1.views.nav_fragments.HomeFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyAppsFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyProductsFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.OrdersFragment;
-import com.unic.unic_vendor_final_1.views.helpers.IntermidiateShopList;
+import com.unic.unic_vendor_final_1.views.helpers.IntermediateShopList;
 import com.unic.unic_vendor_final_1.views.nav_fragments.QRFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.SettingsFragment;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ProductDescriptionFragment;
-
-import java.util.Objects;
 
 public class UserHome extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private NavigationView navigationView;
@@ -126,7 +124,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         Fragment appsFragment = new MyAppsFragment();
         Fragment ordersFragment = new OrdersFragment();
         Fragment qrFragment = new QRFragment();
-        Fragment productsFragment=new IntermidiateShopList();
+        Fragment productsFragment=new IntermediateShopList();
         switch (id){
             case R.id.nav_home:
                 fragment = homeFragment;
