@@ -30,6 +30,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -66,14 +68,15 @@
                     android:textStyle="bold"
                     android:inputType="textPersonName"
                     android:textSize="20sp" />
-            <view
+
+            <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                app:layout_constraintLeft_toLeftOf="@id/gd1"
-                app:layout_constraintRight_toRightOf="@id/gd4"
-                app:layout_constraintBottom_toBottomOf="@id/etTitle"
                 android:background="@drawable/underline"
-                android:backgroundTint="@color/colorPrimary"/>
+                android:backgroundTint="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@id/etTitle"
+                app:layout_constraintLeft_toLeftOf="@id/gd1"
+                app:layout_constraintRight_toRightOf="@id/gd4" />
 
               <EditText
                     android:id="@+id/etMessage"
@@ -92,7 +95,7 @@
                     android:inputType="textMultiLine"
                     android:textSize="16sp" />
 
-            <view
+            <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 app:layout_constraintLeft_toLeftOf="@id/gd1"

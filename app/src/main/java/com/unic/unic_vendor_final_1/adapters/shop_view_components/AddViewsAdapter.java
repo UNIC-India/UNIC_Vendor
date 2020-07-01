@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.tabs.TabLayout;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategoriesAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategoriesAdapter2;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ImageViewAdapters.DoubleImageAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductWithoutImageAdapter;
@@ -102,7 +103,7 @@ public class AddViewsAdapter extends RecyclerView.Adapter<AddViewsAdapter.ViewHo
 
             case 2:
                 if(position==0){
-                    CategoriesAdapter categoriesAdapter=new CategoriesAdapter(1);
+                    CategoriesAdapter2 categoriesAdapter=new CategoriesAdapter2(1);
                     LinearLayoutManager categoriesLayoutManager= new LinearLayoutManager(mContext,RecyclerView.HORIZONTAL,false);
 
                     RecyclerView rv = new RecyclerView(mContext);
