@@ -53,28 +53,37 @@
               <EditText
                     android:id="@+id/etTitle"
                     android:layout_width="0dp"
-                    android:layout_height="60dp"
+                    android:layout_height="30dp"
                     android:ems="10"
                     app:layout_constraintTop_toBottomOf="@id/tvShopName"
                     android:layout_marginTop="20dp"
                     android:gravity="start|top"
-                    android:background="@drawable/underline"
+                    android:background="@drawable/transparent_backgrounf"
                     app:layout_constraintLeft_toLeftOf="@id/gd1"
                     app:layout_constraintRight_toRightOf="@id/gd4"
                     android:hint="Title"
                     android:fontFamily="@font/abeezee"
-                  android:textStyle="bold"
+                    android:textStyle="bold"
                     android:inputType="textPersonName"
                     android:textSize="20sp" />
+            <view
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                app:layout_constraintLeft_toLeftOf="@id/gd1"
+                app:layout_constraintRight_toRightOf="@id/gd4"
+                app:layout_constraintBottom_toBottomOf="@id/etTitle"
+                android:background="@drawable/underline"
+                android:backgroundTint="@color/colorPrimary"/>
 
               <EditText
                     android:id="@+id/etMessage"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
+                  android:paddingBottom="20dp"
                     android:ems="10"
                     app:layout_constraintLeft_toLeftOf="@id/gd1"
                     app:layout_constraintRight_toRightOf="@id/gd4"
-                    android:background="@drawable/underline"
+                    android:background="@drawable/transparent_backgrounf"
                     android:fontFamily="@font/abeezee"
                     app:layout_constraintTop_toBottomOf="@id/etTitle"
                     android:layout_marginTop="20dp"
@@ -82,6 +91,15 @@
                     android:hint="Message"
                     android:inputType="textMultiLine"
                     android:textSize="16sp" />
+
+            <view
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                app:layout_constraintLeft_toLeftOf="@id/gd1"
+                app:layout_constraintRight_toRightOf="@id/gd4"
+                app:layout_constraintBottom_toBottomOf="@id/etMessage"
+                android:background="@drawable/underline"
+                android:backgroundTint="@color/colorPrimary"/>
 
 
             <TextView

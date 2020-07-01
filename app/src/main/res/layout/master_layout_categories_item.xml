@@ -11,7 +11,7 @@
     android:layout_marginBottom="3dp"
     android:clickable="true"
     android:paddingBottom="3dp"
-    app:cardBackgroundColor="#f3f3f3"
+    app:cardBackgroundColor="#8cd3ff"
     app:cardCornerRadius="8dp"
     app:cardElevation="5dp">
 
