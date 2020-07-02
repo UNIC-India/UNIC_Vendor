@@ -6,6 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".views.nav_fragments.SettingsFragment">
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cdAddLogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        app:cardElevation="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="Add Shop Logo"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cdManageTeam"
@@ -33,25 +56,26 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cdAddLogo"
+        android:id="@+id/cdManagePermissions"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="2dp"
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
         app:cardElevation="5dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/cdManageTeam">
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/tvManagePermissions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            android:text="Add Shop Logo"
+            android:text="Manage User Permissions"
             android:textColor="#000000"
             android:textSize="18sp" />
     </androidx.cardview.widget.CardView>
