@@ -279,19 +279,10 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
                 }
             }, 2000);
         }
-        else if(fg.getClass()== OrderItems.class||fg.getClass()== ProductDescriptionFragment.class||fg.getClass()== MyProductsFragment.class){
-            super.onBackPressed();
-        }
-        else{
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.home_fragment,new HomeFragment())
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .commit();
-            userHomeBinding.navView.setCheckedItem(R.id.nav_home);
-            userShopsViewModel.titleSetter.setValue(0);
 
-        }
+        else
+            super.onBackPressed();
+
        /* */
 
     }
