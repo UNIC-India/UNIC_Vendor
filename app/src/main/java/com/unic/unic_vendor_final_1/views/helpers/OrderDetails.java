@@ -36,6 +36,9 @@ public class OrderDetails extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        fragmentOrderDetailsBinding = FragmentOrderDetailsBinding.inflate(inflater,container,false);
+
         fragmentOrderDetailsBinding.tvPhone.setText(order.getPhoneNo());
         if(order.isReported())
             fragmentOrderDetailsBinding.reportUser.setText("Reported");
@@ -47,7 +50,6 @@ public class OrderDetails extends Fragment {
                 userShopsViewModel.reportUser(order.getShopId(),order.getOwnerId(),order.getId());
             });
         }
-        fragmentOrderDetailsBinding=FragmentOrderDetailsBinding.inflate(getLayoutInflater());
         fragmentOrderDetailsBinding.tvGST.setText("Not Specified");
         if(order.getPickUp()==1){
             fragmentOrderDetailsBinding.tvOrgName.setText("Personal");

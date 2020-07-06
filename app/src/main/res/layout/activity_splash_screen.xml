@@ -15,7 +15,7 @@
         android:layout_width="199dp"
         android:layout_height="176dp"
         android:layout_marginEnd="16dp"
-        android:src="@drawable/uniclogobusinessblue_2"
+        android:src="@drawable/unic_buisness_splash_screen_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

@@ -16,7 +16,7 @@ import com.unic.unic_vendor_final_1.databinding.FragmentHomeBinding;
 import com.unic.unic_vendor_final_1.datamodels.User;
 import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
-import com.unic.unic_vendor_final_1.views.helpers.IntermidiateShopList;
+import com.unic.unic_vendor_final_1.views.helpers.IntermediateShopList;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -34,7 +34,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater,container,false);
-        fragmentHomeBinding.cardViewApps.setOnClickListener(this);
         FirestoreDataViewModel firestoreDataViewModel = new ViewModelProvider(this).get(FirestoreDataViewModel.class);
         userShopsViewModel=new ViewModelProvider(this).get(UserShopsViewModel.class);
         firestoreDataViewModel.getUserData();
@@ -50,12 +49,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
         });
         firestoreDataViewModel.getError().observe(getViewLifecycleOwner(),e -> Toast.makeText(getContext(), e.toString(), Toast.LENGTH_SHORT).show());
-        fragmentHomeBinding.cardView.setOnClickListener(this);
-        fragmentHomeBinding.cardView6.setOnClickListener(this);
-        fragmentHomeBinding.cardView3.setOnClickListener(this);
-        fragmentHomeBinding.cardViewQr.setOnClickListener(this);
-        fragmentHomeBinding.cardView5.setOnClickListener(this);
-        fragmentHomeBinding.cardView7.setOnClickListener(this);
+
+        fragmentHomeBinding.cvMenuOrders.setOnClickListener(this);
+        fragmentHomeBinding.cvMenuMyApps.setOnClickListener(this);
+        fragmentHomeBinding.cvMenuSettings.setOnClickListener(this);
+        fragmentHomeBinding.cvMenuQr.setOnClickListener(this);
+        fragmentHomeBinding.cvMenuNotifications.setOnClickListener(this);
+        fragmentHomeBinding.cvMenuMyProducts.setOnClickListener(this);
+        fragmentHomeBinding.cvMenuReport.setOnClickListener(this);
+
         return fragmentHomeBinding.getRoot();
 
     }
@@ -63,46 +65,52 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.card_view:
+            case R.id.cv_menu_orders:
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.home_fragment,new OrdersFragment())
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .addToBackStack(null)
                         .commit();
                 break;
-            case R.id.card_view_apps:
+            case R.id.cv_menu_my_apps:
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.home_fragment,new MyAppsFragment())
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .addToBackStack(null)
                         .commit();
                 break;
-            case R.id.card_view_qr:
+            case R.id.cv_menu_qr:
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.home_fragment,new QRFragment())
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .addToBackStack(null)
                         .commit();
                 break;
-            case R.id.card_view5:
+            case R.id.cv_menu_notifications:
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.home_fragment,new NotificationsFragment())
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .commit();
                 break;
-            case R.id.card_view6:
+            case R.id.cv_menu_my_products:
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.home_fragment,new IntermediateShopList())
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .addToBackStack(null)
                         .commit();
                 break;
-            case R.id.card_view3:
+            case R.id.cv_menu_settings:
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.home_fragment,new SettingsFragment())
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .addToBackStack(null)
                         .commit();
                 break;
             default:
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.home_fragment, new ComingSoon())
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .addToBackStack(null)
                         .commit();
                 break;
 

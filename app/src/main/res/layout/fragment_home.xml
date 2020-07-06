@@ -66,7 +66,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card_view"
+                android:id="@+id/cv_menu_orders"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="10dp"
@@ -130,7 +130,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card_view_apps"
+                android:id="@+id/cv_menu_my_apps"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="10dp"
@@ -188,7 +188,7 @@
 
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card_view3"
+                android:id="@+id/cv_menu_settings"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="20dp"
@@ -200,7 +200,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/vertical1"
                 app:layout_constraintHeight_percent="0.222"
                 app:layout_constraintStart_toStartOf="@+id/vertical4"
-                app:layout_constraintTop_toBottomOf="@+id/card_view">
+                app:layout_constraintTop_toBottomOf="@+id/cv_menu_orders">
 
                 <View
                     android:layout_width="106dp"
@@ -246,7 +246,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card_view_qr"
+                android:id="@+id/cv_menu_qr"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="20dp"
@@ -258,7 +258,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/vertical5"
                 app:layout_constraintHeight_percent="0.222"
                 app:layout_constraintStart_toStartOf="@+id/vertical3"
-                app:layout_constraintTop_toBottomOf="@id/card_view_apps">
+                app:layout_constraintTop_toBottomOf="@id/cv_menu_my_apps">
 
                 <View
                     android:layout_width="106dp"
@@ -303,7 +303,7 @@
 
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card_view5"
+                android:id="@+id/cv_menu_notifications"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="20dp"
@@ -315,7 +315,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/vertical1"
                 app:layout_constraintHeight_percent="0.222"
                 app:layout_constraintStart_toStartOf="@+id/vertical4"
-                app:layout_constraintTop_toBottomOf="@id/card_view3">
+                app:layout_constraintTop_toBottomOf="@id/cv_menu_settings">
 
                 <View
                     android:layout_width="106dp"
@@ -359,7 +359,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card_view6"
+                android:id="@+id/cv_menu_my_products"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="20dp"
@@ -371,7 +371,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/vertical5"
                 app:layout_constraintHeight_percent="0.222"
                 app:layout_constraintStart_toStartOf="@+id/vertical3"
-                app:layout_constraintTop_toBottomOf="@id/card_view_qr">
+                app:layout_constraintTop_toBottomOf="@id/cv_menu_qr">
 
                 <View
                     android:layout_width="106dp"
@@ -418,7 +418,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card_view7"
+                android:id="@+id/cv_menu_report"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="20dp"
@@ -430,7 +430,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/vertical2"
                 app:layout_constraintHeight_percent="0.222"
                 app:layout_constraintStart_toStartOf="@+id/vertical4"
-                app:layout_constraintTop_toBottomOf="@id/card_view5">
+                app:layout_constraintTop_toBottomOf="@id/cv_menu_notifications">
 
                 <View
                     android:layout_width="106dp"
