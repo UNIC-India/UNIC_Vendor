@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.google.android.material.tabs.TabLayout;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategoriesAdapter;
+import com.unic.unic_vendor_final_1.adapters.shop_view_components.CategoryViewsAdapters.CategoriesAdapter2;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ImageViewAdapters.DoubleImageAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductViewAdapters.DoubleProductWithoutImageAdapter;
@@ -212,7 +213,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 if(isNew)
                     views.add(view21);
 
-                CategoriesAdapter categoriesAdapter=new CategoriesAdapter(getContext());
+                CategoriesAdapter2 categoriesAdapter=new CategoriesAdapter2(getContext());
                 categoriesAdapter.setCategories(view.getData());
                 LinearLayoutManager categoriesLayoutManager=new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL,false);
                 RecyclerView categoriesRecyclerView=categoriesView.findViewById(R.id.categories_recycler_view);
