@@ -123,14 +123,13 @@
                 android:paddingBottom="2dp"
                 app:layout_constraintTop_toBottomOf="@id/tv_product_name" />
 
-            <view
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 app:layout_constraintBottom_toBottomOf="@id/edt_product_name"
-                android:background="@drawable/underline"
-                android:backgroundTint="@color/colorPrimary"/>
+                android:background="@color/colorPrimary"/>
 
             <TextView
                 android:id="@+id/tv_product_desc"
@@ -161,14 +160,13 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_product_desc" />
 
 
-            <view
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 app:layout_constraintBottom_toBottomOf="@id/edt_product_desc"
-                android:background="@drawable/underline"
-                android:backgroundTint="@color/colorPrimary"/>
+                android:background="@color/colorPrimary"/>
 
 
             <TextView
@@ -199,14 +197,13 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_product_company" />
 
 
-            <view
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 app:layout_constraintBottom_toBottomOf="@id/edt_product_company"
-                android:background="@drawable/underline"
-                android:backgroundTint="@color/colorPrimary"/>
+                android:background="@color/colorPrimary"/>
 
             <TextView
                 android:id="@+id/tv_product_price"
@@ -236,14 +233,13 @@
                 android:background="@drawable/transparent_backgrounf"/>
 
 
-            <view
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 app:layout_constraintBottom_toBottomOf="@id/edt_product_price"
-                android:background="@drawable/underline"
-                android:backgroundTint="@color/colorPrimary"/>
+               android:background="@color/colorPrimary"/>
 
             <TextView
                 android:id="@+id/tv_product_category"
@@ -271,14 +267,13 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/transparent_backgrounf"/>
 
-            <view
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 app:layout_constraintBottom_toBottomOf="@id/edt_product_category"
-                android:background="@drawable/underline"
-                android:backgroundTint="@color/colorPrimary"/>
+                android:background="@color/colorPrimary"/>
 
             <TextView
                 android:id="@+id/tv_product_sub_category"
@@ -307,14 +302,13 @@
                 android:background="@drawable/transparent_backgrounf"/>
 
 
-            <view
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 app:layout_constraintBottom_toBottomOf="@id/edt_product_sub_category"
-                android:background="@drawable/underline"
-                android:backgroundTint="@color/colorPrimary"/>
+                android:background="@color/colorPrimary"/>
 
             <TextView
                 android:id="@+id/tv_product_tags"
@@ -343,14 +337,13 @@
                 android:background="@drawable/transparent_backgrounf"/>
 
 
-            <view
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 app:layout_constraintBottom_toBottomOf="@id/edt_product_tags"
-                android:background="@drawable/underline"
-                android:backgroundTint="@color/colorPrimary"/>
+                android:background="@color/colorPrimary"/>
 
             <TextView
                 android:id="@+id/tv_product_discount"
@@ -380,14 +373,13 @@
                 tools:layout_editor_absoluteX="10dp" />
 
 
-            <view
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 app:layout_constraintBottom_toBottomOf="@id/edt_product_discount"
-                android:background="@drawable/underline"
-                android:backgroundTint="@color/colorPrimary"/>
+                android:background="@color/colorPrimary"/>
 
             <TextView
                 android:id="@+id/tv_product_extrainfo1"
@@ -416,14 +408,13 @@
                 android:background="@drawable/transparent_backgrounf"/>
 
 
-            <view
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 app:layout_constraintBottom_toBottomOf="@id/edt_product_extrainfo1"
-                android:background="@drawable/underline"
-                android:backgroundTint="@color/colorPrimary"/>
+                android:background="@color/colorPrimary"/>
 
             <TextView
                 android:id="@+id/tv_product_extrainfo2"
@@ -452,14 +443,13 @@
                 android:background="@drawable/transparent_backgrounf"/>
 
 
-            <view
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 app:layout_constraintBottom_toBottomOf="@id/edt_product_extrainfo2"
-                android:background="@drawable/underline"
-                android:backgroundTint="@color/colorPrimary"/>
+                android:background="@color/colorPrimary"/>
 
             <Button
                 android:id="@+id/btn_confirm_product_addition"

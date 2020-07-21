@@ -15,7 +15,7 @@
         android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_marginLeft="4dp"/>
+        android:layout_marginLeft="9dp"/>
 
     <ListView
         android:id="@+id/listWhatDo"

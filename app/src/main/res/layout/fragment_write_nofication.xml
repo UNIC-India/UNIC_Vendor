@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.helpers.WriteNofication">
+    tools:context=".views.helpers.WriteNotification">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/loading"
@@ -29,6 +29,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -66,40 +68,39 @@
                     android:textStyle="bold"
                     android:inputType="textPersonName"
                     android:textSize="20sp" />
-            <view
+
+            <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 app:layout_constraintLeft_toLeftOf="@id/gd1"
                 app:layout_constraintRight_toRightOf="@id/gd4"
                 app:layout_constraintBottom_toBottomOf="@id/etTitle"
-                android:background="@drawable/underline"
-                android:backgroundTint="@color/colorPrimary"/>
+                android:background="@color/colorPrimary"/>
 
-              <EditText
-                    android:id="@+id/etMessage"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                  android:paddingBottom="20dp"
-                    android:ems="10"
-                    app:layout_constraintLeft_toLeftOf="@id/gd1"
-                    app:layout_constraintRight_toRightOf="@id/gd4"
-                    android:background="@drawable/transparent_backgrounf"
-                    android:fontFamily="@font/abeezee"
-                    app:layout_constraintTop_toBottomOf="@id/etTitle"
-                    android:layout_marginTop="20dp"
-                    android:gravity="start|top"
-                    android:hint="Message"
-                    android:inputType="textMultiLine"
-                    android:textSize="16sp" />
+            <EditText
+                android:id="@+id/etMessage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingBottom="20dp"
+                android:ems="10"
+                app:layout_constraintLeft_toLeftOf="@id/gd1"
+                app:layout_constraintRight_toRightOf="@id/gd4"
+                android:background="@drawable/transparent_backgrounf"
+                android:fontFamily="@font/abeezee"
+                app:layout_constraintTop_toBottomOf="@id/etTitle"
+                android:layout_marginTop="20dp"
+                android:gravity="start|top"
+                android:hint="Message"
+                android:inputType="textMultiLine"
+                android:textSize="16sp" />
 
-            <view
+            <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 app:layout_constraintLeft_toLeftOf="@id/gd1"
                 app:layout_constraintRight_toRightOf="@id/gd4"
                 app:layout_constraintBottom_toBottomOf="@id/etMessage"
-                android:background="@drawable/underline"
-                android:backgroundTint="@color/colorPrimary"/>
+                android:background="@color/colorPrimary"/>
 
 
             <TextView
@@ -129,7 +130,7 @@
                     android:layout_height="40dp"
                     android:fontFamily="@font/abeezee"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginEnd="8dp"
                     android:background="@drawable/roundbutton"
                     android:backgroundTint="@color/colorPrimary"
                     android:text="CANCEL"
@@ -142,11 +143,12 @@
                     android:layout_height="40dp"
                     android:fontFamily="@font/abeezee"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="0dp"
                     android:background="@drawable/std_button"
                     android:text="Send"
                     android:textColor="#FFFFFF" />
+
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
