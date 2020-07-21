@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.firestore.GeoPoint;
 import com.unic.unic_vendor_final_1.R;
 
 import com.unic.unic_vendor_final_1.databinding.ActivityAddShopBinding;
@@ -230,6 +231,8 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
                     Map<String,Double> location = new HashMap<>();
                     location.put("latitude",data.getDoubleExtra("latitude",0.0));
                     location.put("longitude",data.getDoubleExtra("longitude",0.0));
+                    GeoPoint geoPoint = new GeoPoint(data.getDoubleExtra("latitude",0.0),data.getDoubleExtra("longitude",0.0));
+                    shop.setGeoLocation(geoPoint);
                     shop.setLocation(location);
                     addNewShopViewModel.getShop().setValue(shop);
                     addressUri = data.getData();

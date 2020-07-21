@@ -21,18 +21,12 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
-import com.unic.unic_vendor_final_1.databinding.FragmentAddShopBinding;
 import com.unic.unic_vendor_final_1.databinding.FragmentLogoBinding;
-import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.viewmodels.AddShopViewModel;
-import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
-import com.unic.unic_vendor_final_1.views.shop_addition_fragments.LocationSelector;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
 import static com.unic.unic_vendor_final_1.commons.Helpers.enableDisableViewGroup;

@@ -1,6 +1,7 @@
 package com.unic.unic_vendor_final_1.datamodels;
 
 import com.google.firebase.firestore.DocumentId;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ public class Shop {
     private int noOfProducts,noOfSubscribers;
     private List<String> nameKeywords;
     private Map<String,Double> location;
+    private GeoPoint geoLocation;
 
     public Shop(){
         this.id = "null";
@@ -22,7 +24,7 @@ public class Shop {
         this.dynSubscribeLink = "null";
     }
 
-    public Shop(String name,String address,String locality,String city,Map<String,Double> location){
+    public Shop(String name,String address,String locality,String city,Map<String,Double> location,GeoPoint geoLocation){
         this.id = " ";
         this.name = name;
         this.address = address;
@@ -34,6 +36,7 @@ public class Shop {
         this.noOfProducts = 0;
         this.noOfSubscribers = 0;
         this.location = location;
+        this.geoLocation = geoLocation;
         this.nameKeywords = new ArrayList<>();
         for(String key : name.split(" "))
             if(key.length()>1)
@@ -143,4 +146,13 @@ public class Shop {
     public void setLocation(Map<String, Double> location) {
         this.location = location;
     }
+
+    public GeoPoint getGeoLocation() {
+        return geoLocation;
+    }
+
+    public void setGeoLocation(GeoPoint geoLocation) {
+        this.geoLocation = geoLocation;
+    }
+
 }
