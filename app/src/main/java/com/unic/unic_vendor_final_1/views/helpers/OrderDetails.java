@@ -36,7 +36,6 @@ public class OrderDetails extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         fragmentOrderDetailsBinding = FragmentOrderDetailsBinding.inflate(inflater,container,false);
 
         fragmentOrderDetailsBinding.tvPhone.setText(order.getPhoneNo());

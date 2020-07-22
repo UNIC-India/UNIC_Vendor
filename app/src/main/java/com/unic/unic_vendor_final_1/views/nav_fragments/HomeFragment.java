@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
@@ -29,13 +30,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater,container,false);
+        return fragmentHomeBinding.getRoot();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         FirestoreDataViewModel firestoreDataViewModel = new ViewModelProvider(this).get(FirestoreDataViewModel.class);
-        userShopsViewModel=new ViewModelProvider(this).get(UserShopsViewModel.class);
+        userShopsViewModel = new ViewModelProvider(this).get(UserShopsViewModel.class);
         firestoreDataViewModel.getUserData();
         userShopsViewModel.titleSetter.setValue(0);
         firestoreDataViewModel.getUser().observe(getViewLifecycleOwner(), new Observer<User>() {
@@ -57,8 +69,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         fragmentHomeBinding.cvMenuNotifications.setOnClickListener(this);
         fragmentHomeBinding.cvMenuMyProducts.setOnClickListener(this);
         fragmentHomeBinding.cvMenuReport.setOnClickListener(this);
-
-        return fragmentHomeBinding.getRoot();
 
     }
 

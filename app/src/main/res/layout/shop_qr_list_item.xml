@@ -43,6 +43,7 @@
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_marginStart="20dp"
+            android:src="@drawable/ic_link"
             android:background="@drawable/circulerborder"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"

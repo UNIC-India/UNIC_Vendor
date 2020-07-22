@@ -25,6 +25,8 @@
     <string name="menu_help">HELP</string>
     <string name="menu_settings">SETTINGS</string>
     <string name="menu_qr">MY QR</string>
+    <string name="menu_notifications">NOTIFICATIONS</string>
+    <string name="menu_my_products">MY PRODUCTS</string>
     <string name="menu_logout">SIGN OUT</string>
 
     <string name="menu_about_us">ABOUT US</string>

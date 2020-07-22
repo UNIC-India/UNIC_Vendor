@@ -21,15 +21,15 @@ import com.unic.unic_vendor_final_1.views.nav_fragments.HomeFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.NotificationsFragment;
 
 
-public class WriteNofication extends Fragment implements View.OnClickListener{
+public class WriteNotification extends Fragment implements View.OnClickListener{
     FragmentWriteNoficationBinding writeNoficationBinding;
     UserShopsViewModel userShopsViewModel;
     String shopId;
     String shopName;
-    public WriteNofication() {
+    public WriteNotification() {
         // Required empty public constructor
     }
-    public WriteNofication(String shopId, String shopName){
+    public WriteNotification(String shopId, String shopName){
         this.shopId=shopId;
         this.shopName=shopName;
     }
