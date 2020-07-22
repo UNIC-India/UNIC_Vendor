@@ -37,11 +37,18 @@ import com.unic.unic_vendor_final_1.views.nav_fragments.ComingSoon;
 import com.unic.unic_vendor_final_1.views.nav_fragments.HomeFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyAppsFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyProductsFragment;
+import com.unic.unic_vendor_final_1.views.nav_fragments.NotificationsFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.OrdersFragment;
 import com.unic.unic_vendor_final_1.views.helpers.IntermediateShopList;
 import com.unic.unic_vendor_final_1.views.nav_fragments.QRFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.SettingsFragment;
+import com.unic.unic_vendor_final_1.views.settings_fragments.LogoFragment;
+import com.unic.unic_vendor_final_1.views.settings_fragments.TeamFragment;
+import com.unic.unic_vendor_final_1.views.settings_fragments.UserPermissionsFragment;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ProductDescriptionFragment;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserHome extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private NavigationView navigationView;
@@ -51,6 +58,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     private UserShopsViewModel userShopsViewModel;
     private com.unic.unic_vendor_final_1.databinding.ActivityUserHomeBinding userHomeBinding;
     private SharedPreferences prefs;
+    private Map<String,Fragment> navBarFragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +66,14 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
 
         userHomeBinding = ActivityUserHomeBinding.inflate(getLayoutInflater());
         setContentView(userHomeBinding.getRoot());
+
+        navBarFragments = new HashMap<>();
+        navBarFragments.put("home",new HomeFragment());
+        navBarFragments.put(getResources().getString(R.string.menu_my_apps),new MyAppsFragment());
+        navBarFragments.put(getResources().getString(R.string.menu_qr),new QRFragment());
+        navBarFragments.put(getResources().getString(R.string.menu_settings),new SettingsFragment());
+        navBarFragments.put(getResources().getString(R.string.menu_notifications),new NotificationsFragment());
+        navBarFragments.put(getResources().getString(R.string.menu_about_us),new AboutUsFragment());
 
         prefs = getSharedPreferences("com.unic.unic_vendor_final_1", MODE_PRIVATE);
 
@@ -172,11 +188,14 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Fragment fragment = null;
         int id = menuItem.getItemId();
-        Fragment homeFragment = new HomeFragment();
-        Fragment appsFragment = new MyAppsFragment();
+        Fragment homeFragment = navBarFragments.get("home");
+        Fragment appsFragment = navBarFragments.get(getResources().getString(R.string.menu_my_apps));
         Fragment ordersFragment = new OrdersFragment();
-        Fragment qrFragment = new QRFragment();
+        Fragment qrFragment = navBarFragments.get(getResources().getString(R.string.menu_qr));
+        Fragment settingsFragment = navBarFragments.get(getResources().getString(R.string.menu_settings));
         Fragment productsFragment=new IntermediateShopList();
+        Fragment notificationsFragment = new NotificationsFragment();
+        Fragment aboutUsFragment = navBarFragments.get(getResources().getString(R.string.menu_about_us));
         switch (id){
             case R.id.nav_home:
                 fragment = homeFragment;
@@ -188,17 +207,20 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
             case R.id.mav_my_orders:
                 fragment = ordersFragment;
                 break;
-            case R.id.nav_help:
-               fragment=new ComingSoon();
-                break;
             case R.id.nav_settings:
-                fragment = new SettingsFragment();
+                fragment = settingsFragment;
                 break;
             case R.id.nav_my_qr:
-                fragment =qrFragment;
+                fragment = qrFragment;
+                break;
+            case R.id.nav_notifications:
+                fragment = notificationsFragment;
+                break;
+            case R.id.nav_my_products:
+                fragment = productsFragment;
                 break;
             case R.id.nav_about_us:
-                fragment= new AboutUsFragment();
+                fragment = aboutUsFragment;
                 break;
             case R.id.logout:
                 new AlertDialog.Builder(this).setMessage("Are you sure you want to Sign Out?")
@@ -222,10 +244,10 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         if(fragment!=null){
             DrawerLayout drawer = findViewById(R.id.drawer_layout);
             drawer.closeDrawers();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.home_fragment,fragment);
-            ft.commit();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.home_fragment,fragment)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .commit();
 
         }
         return id != R.id.logout;
@@ -279,19 +301,23 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
                 }
             }, 2000);
         }
-        else if(fg.getClass()== OrderItems.class||fg.getClass()== ProductDescriptionFragment.class||fg.getClass()== MyProductsFragment.class){
-            super.onBackPressed();
-        }
-        else{
-            getSupportFragmentManager()
-                    .beginTransaction()
+
+        else if(fg.getClass()==MyAppsFragment.class||fg.getClass()== NotificationsFragment.class||fg.getClass()==OrdersFragment.class||fg.getClass()==QRFragment.class||fg.getClass()==MyProductsFragment.class){
+            getSupportFragmentManager().popBackStackImmediate(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            getSupportFragmentManager().beginTransaction()
                     .replace(R.id.home_fragment,new HomeFragment())
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .commit();
-            userHomeBinding.navView.setCheckedItem(R.id.nav_home);
-            userShopsViewModel.titleSetter.setValue(0);
-
         }
+
+        else if ((fg.getClass()== LogoFragment.class||fg.getClass()== TeamFragment.class||fg.getClass()==MyProductsFragment.class||fg.getClass()== UserPermissionsFragment.class)&&userShopsViewModel.getShops().getValue()!=null&&userShopsViewModel.getShops().getValue().size()==1){
+            getSupportFragmentManager().popBackStack();
+            getSupportFragmentManager().popBackStack();
+        }
+
+        else
+            super.onBackPressed();
+
        /* */
 
     }
