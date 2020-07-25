@@ -10,10 +10,11 @@ public class Product {
     private String category, company, name, id, imageId, tags, shopId, subcategory,firestoreId,desc,extraInfo1,extraInfo2;
     private double price,discount;
     private List<String> nameKeywords;
+    private List<String> imageLinks;
     @ServerTimestamp
     Date time;
 
-    public Product(String  shopId) {
+    public Product(String shopId) {
 
         this.category = "null";
         this.extraInfo1="null";
@@ -29,6 +30,7 @@ public class Product {
         this.subcategory="null";
         this.desc = "null";
         this.nameKeywords = new ArrayList<>();
+        this.imageLinks = new ArrayList<>();
 
 
     }
@@ -178,5 +180,17 @@ public class Product {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public List<String> getImageLinks() {
+        return imageLinks;
+    }
+
+    public void setImageLinks(List<String> imageLinks) {
+        this.imageLinks = imageLinks;
+    }
+
+    public void addToImageLinks(String link){
+        imageLinks.add(link);
     }
 }
