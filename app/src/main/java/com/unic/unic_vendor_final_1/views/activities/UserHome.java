@@ -119,6 +119,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
 
         if (getIntent().hasExtra("load")){
             if(getIntent().getStringExtra("load").equals("order")){
+                userShopsViewModel.titleSetter.setValue(1);
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 ft.replace(R.id.home_fragment,new OrdersFragment());
@@ -126,6 +127,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
             }
         }
         else {
+            userShopsViewModel.titleSetter.setValue(0);
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction ft = fragmentManager.beginTransaction();
             ft.replace(R.id.home_fragment,new HomeFragment());
@@ -308,7 +310,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
 
             getSupportFragmentManager().popBackStackImmediate(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.home_fragment,navBarFragments.get("home")!=null?navBarFragments.get("home"):new HomeFragment())
+                    .replace(R.id.home_fragment,navBarFragments.get("home"))
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .commit();
         }

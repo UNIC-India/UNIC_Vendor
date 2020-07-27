@@ -136,6 +136,13 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
         updateStatus(0);
 
+        setShopStructureBinding.privateSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+
+            setStructureViewModel.setShopPrivacy(isChecked);
+
+            buttonView.setText(isChecked?"Private":"Public");
+        });
+
     }
 
     @Override
@@ -287,16 +294,15 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
             case 1:
 
                 if(shop.getNoOfProducts()==0){
-                    if(shop.getNoOfProducts()==0){
-                        setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
-                        getSupportFragmentManager().beginTransaction()
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .replace(R.id.shop_pages_loader,new NoProductsFragment())
-                                .commit();
-                        return;
-                    }
+                    setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
+                    getSupportFragmentManager().beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .replace(R.id.shop_pages_loader,new NoProductsFragment())
+                            .commit();
+                    return;
                 }
 
+                setShopStructureBinding.privateSwitch.setChecked(shop.getIsPrivate());
                 populateHeader();
                 setTemplate(option);
                 break;

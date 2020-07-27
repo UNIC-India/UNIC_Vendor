@@ -209,6 +209,10 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
             }
         }
 
+        else if (v.getId() == addNewShopBinding.btnCancel.getId()) {
+            finish();
+        }
+
     }
 
     @Override

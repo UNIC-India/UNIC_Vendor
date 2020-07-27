@@ -320,6 +320,12 @@ public class FirebaseRepository {
                 .call(data);
     }
 
+    public void setShopPrivacy(String shopId, boolean isPrivate) {
+        Map<String,Object> data = new HashMap<>();
+        data.put("isPrivate",isPrivate);
+        db.collection("shops").document(shopId).set(data, SetOptions.merge());
+    }
+
     public Task<HttpsCallableResult> revokeUserAccess(String userId,String shopId){
         Map<String,Object> data = new HashMap<>();
         data.put("shopId",shopId);
