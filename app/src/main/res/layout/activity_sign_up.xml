@@ -39,7 +39,7 @@
                 android:layout_width="53dp"
                 android:layout_height="47dp"
                 android:layout_marginTop="41dp"
-                android:src="@drawable/logonotext"
+                android:src="@drawable/unic_logo"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -158,7 +158,7 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginTop="98dp"
-                android:src="@drawable/logonotext"
+                android:src="@drawable/unic_logo"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

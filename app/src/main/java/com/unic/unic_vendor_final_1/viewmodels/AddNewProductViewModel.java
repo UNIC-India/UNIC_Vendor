@@ -61,6 +61,8 @@ public class AddNewProductViewModel extends ViewModel {
                         product.getValue().setImageId(uri.toString());
 
                     product.getValue().addToImageLinks(uri.toString());
+
+                    imageUploadStatus.setValue(true);
                 })
                 .addOnFailureListener(e -> {
                     productStatus.setValue(-1);

@@ -18,6 +18,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.firestore.GeoPoint;
 import com.unic.unic_vendor_final_1.R;
 
@@ -71,20 +73,10 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
 
 
         addNewShopBinding.addShopStep2.setOnClickListener(this);
-        addNewShopBinding.addShopStep3.setOnClickListener(this);
         addNewShopBinding.btnAddShopImage.setOnClickListener(this);
-        addNewShopBinding.addressView.setOnClickListener(this);
-        addNewShopBinding.tvSelectAddress.setOnClickListener(this);
+        addNewShopBinding.shopLocationSelect.setOnClickListener(this);
+        addNewShopBinding.btnCancel.setOnClickListener(this);
 
-        addNewShopBinding.addShopPage1.setVisibility(View.VISIBLE);
-        addNewShopBinding.addShopPage2.setVisibility(View.GONE);
-
-    }
-
-    public void nextStep(){
-        shop.setName(addNewShopBinding.etAddShopName.getText().toString());
-        addNewShopBinding.addShopPage1.setVisibility(View.GONE);
-        addNewShopBinding.addShopPage2.setVisibility(View.VISIBLE);
     }
 
     public void setStatus(int status) {
@@ -133,16 +125,42 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
 
-        if(v.getId()==addNewShopBinding.addShopStep2.getId()){
+        if(v.getId()==addNewShopBinding.btnAddShopImage.getId()){
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("image/*");
+            startActivityForResult(intent,GALLERY_INTENT);
+        }
+        else if(v.getId()==addNewShopBinding.shopLocationSelect.getId()){
+
+            Intent locationIntent = new Intent(AddShop.this, LocationSelector.class);
+            if(addNewShopBinding.etAddShopCity.getText().toString().trim().length()>0){
+                locationIntent.putExtra("type",Integer.valueOf(1));
+                if (addNewShopBinding.etAddShopLocality.getText().toString().trim().length()>0)
+                    locationIntent.putExtra("address",addNewShopBinding.etAddShopLocality.getText().toString().trim()+" "+addNewShopBinding.etAddShopCity.getText().toString().trim());
+                else
+                    locationIntent.putExtra("address",addNewShopBinding.etAddShopCity.getText().toString().trim());
+            }
+            else
+                locationIntent.putExtra("type",Integer.valueOf(0));
+            startActivityForResult(locationIntent,LOCATION_SELECTOR);
+        }
+        else if (v.getId()==addNewShopBinding.addShopStep2.getId()){
+            boolean done = true;
+
             if(addNewShopBinding.etAddShopName.getText().length()==0){
                 addNewShopBinding.etAddShopName.setError("This field is mandatory");
+                done = false;
             }
-            else if(imageUri==null&&userWantsImage){
+            else {
+                shop.setName(addNewShopBinding.etAddShopName.getText().toString());
+            }
+
+            if(imageUri==null&&userWantsImage){
+                done = false;
                 AlertDialog.Builder builder = new AlertDialog.Builder(AddShop.this);
                 builder.setMessage("Are you sure you don't want to set a shop image?")
                         .setPositiveButton("YES",(dialog, which) -> {
                             userWantsImage = false;
-                            nextStep();
                         })
                         .setNegativeButton("GO BACK",(dialog, which) -> dialog.dismiss());
                 Dialog dialog = builder.create();
@@ -150,51 +168,28 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
             }
             else{
                 addNewShopViewModel.getShopImageUri().setValue(imageUri);
-                nextStep();
             }
-        }
-        else if(v.getId()==addNewShopBinding.btnAddShopImage.getId()){
-            Intent intent = new Intent(Intent.ACTION_PICK);
-            intent.setType("image/*");
-            startActivityForResult(intent,GALLERY_INTENT);
-        }
-        else if(v.getId()==addNewShopBinding.addressView.getId()||v.getId()==addNewShopBinding.tvAddShopAddress.getId()){
 
-            Intent locationIntent = new Intent(AddShop.this, LocationSelector.class);
-            if(addNewShopBinding.etShopAddCity.getText().toString().trim().length()>0){
-                locationIntent.putExtra("type",Integer.valueOf(1));
-                if (addNewShopBinding.etShopAddLocality.getText().toString().trim().length()>0)
-                    locationIntent.putExtra("address",addNewShopBinding.etShopAddLocality.getText().toString().trim()+" "+addNewShopBinding.etShopAddCity.getText().toString().trim());
-                else
-                    locationIntent.putExtra("address",addNewShopBinding.etShopAddCity.getText().toString().trim());
-            }
-            else
-                locationIntent.putExtra("type",Integer.valueOf(0));
-            startActivityForResult(locationIntent,LOCATION_SELECTOR);
-        }
-        else if (v.getId()==addNewShopBinding.addShopStep3.getId()){
-            boolean done = true;
-
-            if(addNewShopBinding.etShopAddCity.getText().length()==0){
-                addNewShopBinding.etShopAddCity.setError("This field is mandatory");
+            if(addNewShopBinding.etAddShopCity.getText().length()==0){
+                addNewShopBinding.etAddShopCity.setError("This field is mandatory");
                 done = false;
             }
             else
-                shop.setCity(addNewShopBinding.etShopAddCity.getText().toString());
+                shop.setCity(addNewShopBinding.etAddShopCity.getText().toString());
 
-            if (addNewShopBinding.etShopAddLocality.getText().length()==0){
-                addNewShopBinding.etShopAddLocality.setError("This field is mandatory");
+            if (addNewShopBinding.etAddShopLocality.getText().length()==0){
+                addNewShopBinding.etAddShopLocality.setError("This field is mandatory");
                 done = false;
             }
             else
-                shop.setLocality(addNewShopBinding.etShopAddLocality.getText().toString());
+                shop.setLocality(addNewShopBinding.etAddShopLocality.getText().toString());
 
-            if(addNewShopBinding.etAddShopAddressLine1.getText().length()==0&&addNewShopBinding.etAddShopAddressLine2.getText().length()==0){
+            if(addNewShopBinding.etAddShopAddressLine1.getText().length()==0){
                 addNewShopBinding.etAddShopAddressLine1.setError("This filed is mandatory");
                 done = false;
             }
             else
-                shop.setAddress(addNewShopBinding.etAddShopAddressLine1.getText().toString()+", "+addNewShopBinding.etAddShopAddressLine2.getText().toString());
+                shop.setAddress(addNewShopBinding.etAddShopAddressLine1.getText().toString());
 
             if(addressUri==null){
                 done = false;
@@ -237,17 +232,20 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
                     addNewShopViewModel.getShop().setValue(shop);
                     addressUri = data.getData();
                     addNewShopViewModel.getAddressImageUri().setValue(addressUri);
-                    addNewShopBinding.addressView.setAlpha(1f);
+                    addNewShopBinding.shopLocationSelect.setAlpha(1f);
                     Glide
                             .with(this)
                             .load(addressUri)
-                            .into(addNewShopBinding.addressView);
-                    addNewShopBinding.tvSelectAddress.setVisibility(View.GONE);
+                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                            .apply(RequestOptions.skipMemoryCacheOf(true))
+                            .into(addNewShopBinding.shopLocationSelect);
                     break;
                 case CROP_IMAGE:
                     Glide
                             .with(this)
                             .load(imageUri)
+                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                            .apply(RequestOptions.skipMemoryCacheOf(true))
                             .into(addNewShopBinding.btnAddShopImage);
 
                     addNewShopViewModel.getShopImageUri().setValue(imageUri);
@@ -273,15 +271,5 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
 
     public void setShop(Shop shop) {
         this.shop = shop;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if(addNewShopBinding.addShopPage1.getVisibility()==View.VISIBLE)
-            super.onBackPressed();
-        else {
-            addNewShopBinding.addShopPage1.setVisibility(View.VISIBLE);
-            addNewShopBinding.addShopPage2.setVisibility(View.GONE);
-        }
     }
 }

@@ -302,16 +302,18 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
             }, 2000);
         }
 
-        else if(fg.getClass()==MyAppsFragment.class||fg.getClass()== NotificationsFragment.class||fg.getClass()==OrdersFragment.class||fg.getClass()==QRFragment.class||fg.getClass()==MyProductsFragment.class){
+        else if(fg.getClass()==MyAppsFragment.class||fg.getClass()== NotificationsFragment.class||fg.getClass()==OrdersFragment.class||fg.getClass()==QRFragment.class){
+
+            userShopsViewModel.titleSetter.setValue(0);
+
             getSupportFragmentManager().popBackStackImmediate(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.home_fragment,new HomeFragment())
+                    .replace(R.id.home_fragment,navBarFragments.get("home")!=null?navBarFragments.get("home"):new HomeFragment())
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .commit();
         }
 
-        else if ((fg.getClass()== LogoFragment.class||fg.getClass()== TeamFragment.class||fg.getClass()==MyProductsFragment.class||fg.getClass()== UserPermissionsFragment.class)&&userShopsViewModel.getShops().getValue()!=null&&userShopsViewModel.getShops().getValue().size()==1){
-            getSupportFragmentManager().popBackStack();
+        else if ((fg.getClass()== LogoFragment.class||fg.getClass()== TeamFragment.class||fg.getClass()==MyProductsFragment.class||fg.getClass()== UserPermissionsFragment.class||fg.getClass()==MyProductsFragment.class)&&userShopsViewModel.getShops().getValue()!=null&&userShopsViewModel.getShops().getValue().size()==1){
             getSupportFragmentManager().popBackStack();
         }
 

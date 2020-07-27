@@ -18,186 +18,265 @@
         app:lottie_rawRes="@raw/weareopen"
         android:visibility="gone"/>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <ScrollView android:layout_height="match_parent"
+        android:layout_width="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/add_shop_page_1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            tools:context=".FragmentAddNewShop">
+
+            <TextView
+                android:id="@+id/tv_shop_info"
+                android:layout_width="wrap_content"
+                android:layout_height="30sp"
+                android:textSize="25sp"
+                android:text="Shop Info"
+                android:textColor="@color/black"
+                android:fontFamily="@font/abeezee"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="15dp"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gd1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gd2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.45"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gd3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.55"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gd4"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95"/>
             <ImageButton
                 android:id="@+id/btn_add_shop_image"
-                android:layout_height="300dp"
                 android:layout_width="0dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHeight_percent="0.7281"
-                app:layout_constraintWidth_percent="0.7281"
-                android:layout_marginBottom="200dp"
-                android:src="@drawable/ic_baseline_photo_camera_150"/>
+                android:layout_height="153dp"
+                android:src="@drawable/ic_add_a_photo_black_80dp"
+                android:tint="@color/yellow"
+                app:layout_constraintTop_toBottomOf="@id/tv_shop_info"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/round_border"
+                android:backgroundTint="@color/lightGrey"
+                app:layout_constraintLeft_toLeftOf="@id/gd1"
+                app:layout_constraintRight_toRightOf="@id/gd2" />
+            <ImageButton
+                android:id="@+id/shop_location_select"
+                android:layout_width="0dp"
+                android:layout_height="153dp"
+                android:src="@drawable/ic_location_80"
+                android:tint="@color/yellow"
+                app:layout_constraintTop_toBottomOf="@id/tv_shop_info"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/round_border"
+                android:backgroundTint="@color/lightGrey"
+                app:layout_constraintLeft_toLeftOf="@id/gd3"
+                app:layout_constraintRight_toRightOf="@id/gd4"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:text="Add Shop"
+                app:layout_constraintLeft_toLeftOf="@id/gd1"
+                app:layout_constraintRight_toRightOf="@id/gd2"
+                app:layout_constraintTop_toBottomOf="@id/btn_add_shop_image"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:text="Add Location"
+                app:layout_constraintLeft_toLeftOf="@id/gd3"
+                app:layout_constraintRight_toRightOf="@id/gd4"
+                app:layout_constraintTop_toBottomOf="@id/shop_location_select"/>
 
             <TextView
                 android:id="@+id/tv_add_shop_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="15sp"
                 app:layout_constraintTop_toBottomOf="@id/btn_add_shop_image"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="70dp"
-                android:layout_marginStart="20dp"
-                android:textSize="22sp"
-                android:text="Shop Name:"/>
+                android:layout_marginTop="30dp"
+                android:text="Name"
+                android:textColor="#232323"
+                android:fontFamily="@font/abeezee"
+                app:layout_constraintLeft_toLeftOf="@id/gd1"/>
 
             <EditText
                 android:id="@+id/et_add_shop_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_add_shop_name"
-                app:layout_constraintWidth_percent="0.5825" />
+                android:textSize="18sp"
+                android:ems="10"
+                android:fontFamily="@font/abeezee"
+                android:textColor="@color/black"
+                app:layout_constraintLeft_toLeftOf="@id/gd1"
+                app:layout_constraintRight_toRightOf="@id/gd4"
+                app:layout_constraintTop_toBottomOf="@+id/tv_add_shop_name"
+                android:background="@drawable/transparent_backgrounf"/>
 
-            <Button
-                android:id="@+id/add_shop_step_2"
-                style="@style/StandardButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="50dp"
-                android:layout_marginEnd="50dp"
-                android:background="@drawable/std_button"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
-                android:text="Next Step"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/add_shop_page_2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
-
-            <ImageView
-                android:id="@+id/address_view"
-                android:layout_width="300dp"
-                android:layout_height="200dp"
-                android:layout_marginTop="100dp"
-                android:alpha="0.2"
-                android:background="@drawable/curved_corneres_2"
-                android:backgroundTint="@color/light_gray"
-                android:clickable="true"
-                android:src="@drawable/ic_map"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_select_address"
+            <View
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/black_border"
-                android:clickable="true"
-                android:gravity="center"
-                android:text="Select address"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="@id/address_view"
-                app:layout_constraintStart_toStartOf="@id/address_view"
-                app:layout_constraintTop_toBottomOf="@id/address_view" />
+                android:layout_height="1dp"
+                app:layout_constraintLeft_toLeftOf="@id/gd1"
+                app:layout_constraintRight_toRightOf="@id/gd4"
+                app:layout_constraintBottom_toBottomOf="@id/et_add_shop_name"
+                android:background="@color/colorPrimary"/>
 
             <TextView
                 android:id="@+id/tv_add_shop_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="30dp"
-                android:text="Address:"
-                android:textColor="#000000"
-                android:textSize="22sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_select_address" />
-
-            <EditText
-                android:id="@+id/et_add_shop_address_line1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_add_shop_address"
-                app:layout_constraintWidth_percent="0.582524" />
-
-            <EditText
-                android:id="@+id/et_add_shop_address_line2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/et_add_shop_name"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et_add_shop_address_line1"
-                app:layout_constraintWidth_percent="0.582524" />
-
-            <TextView
-                android:id="@+id/tv_shop_locality"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:text="Locality:"
-                android:textColor="#000000"
-                android:textSize="22sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et_add_shop_address_line2" />
+                android:gravity="start|top"
+                android:text="Address"
+                android:textColor="#232323"
+                android:fontFamily="@font/abeezee"
+                app:layout_constraintLeft_toLeftOf="@id/gd1"/>
 
             <EditText
-                android:id="@+id/et_shop_add_locality"
+                android:id="@+id/et_add_shop_address_line_1"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_shop_locality"
-                app:layout_constraintWidth_percent="0.582524" />
+                android:layout_height="90dp"
+                android:textSize="18sp"
+                android:fontFamily="@font/abeezee"
+                android:textColor="@color/black"
+                android:paddingBottom="0dp"
+                android:ems="10"
+                android:inputType="textMultiLine"
+                app:layout_constraintLeft_toLeftOf="@id/gd1"
+                app:layout_constraintRight_toRightOf="@id/gd4"
+                app:layout_constraintTop_toBottomOf="@+id/tv_add_shop_address"
+                android:background="@drawable/transparent_backgrounf"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                app:layout_constraintLeft_toLeftOf="@id/gd1"
+                app:layout_constraintRight_toRightOf="@id/gd4"
+                app:layout_constraintBottom_toBottomOf="@id/et_add_shop_address_line_1"
+                android:background="@color/colorPrimary"/>
 
             <TextView
                 android:id="@+id/tv_add_shop_city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/et_add_shop_address_line_1"
                 android:layout_marginTop="20dp"
-                android:text="City:"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et_shop_add_locality" />
+                android:text="City"
+                android:textColor="#232323"
+                android:fontFamily="@font/abeezee"
+                app:layout_constraintLeft_toLeftOf="@id/gd1"/>
 
             <EditText
-                android:id="@+id/et_shop_add_city"
+                android:id="@+id/et_add_shop_city"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_add_shop_city"
-                app:layout_constraintWidth_percent="0.582524" />
+                android:textSize="18sp"
+                android:fontFamily="@font/abeezee"
+                android:textColor="@color/black"
+                android:ems="10"
+                app:layout_constraintLeft_toLeftOf="@id/gd1"
+                app:layout_constraintRight_toRightOf="@id/gd4"
+                app:layout_constraintTop_toBottomOf="@+id/tv_add_shop_city"
+                android:background="@drawable/transparent_backgrounf"/>
 
-            <Button
-                android:id="@+id/add_shop_step_3"
-                style="@style/StandardButton"
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                app:layout_constraintLeft_toLeftOf="@id/gd1"
+                app:layout_constraintRight_toRightOf="@id/gd4"
+                app:layout_constraintBottom_toBottomOf="@id/et_add_shop_city"
+                android:background="@color/colorPrimary"/>
+
+            <TextView
+                android:id="@+id/tv_add_shop_locality"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="50dp"
-                android:layout_marginBottom="50dp"
-                android:background="@drawable/std_button"
-                android:drawableEnd="@drawable/ic_baseline_arrow_forward_24"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
-                android:text="Next Step"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/et_add_shop_city"
+                android:layout_marginTop="20dp"
+                android:text="Locality"
+                android:textColor="#232323"
+                android:fontFamily="@font/abeezee"
+                app:layout_constraintLeft_toLeftOf="@id/gd1"/>
+
+            <EditText
+                android:id="@+id/et_add_shop_locality"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:fontFamily="@font/abeezee"
+                android:ems="10"
+                android:textColor="@color/black"
+                app:layout_constraintLeft_toLeftOf="@id/gd1"
+                app:layout_constraintRight_toRightOf="@id/gd4"
+                app:layout_constraintTop_toBottomOf="@+id/tv_add_shop_locality"
+                android:background="@drawable/transparent_backgrounf"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                app:layout_constraintLeft_toLeftOf="@id/gd1"
+                app:layout_constraintRight_toRightOf="@id/gd4"
+                app:layout_constraintBottom_toBottomOf="@id/et_add_shop_locality"
+                android:background="@color/colorPrimary"/>
+
+            <Button
+                android:id="@+id/add_shop_step_2"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                app:layout_constraintLeft_toLeftOf="@id/gd1"
+                app:layout_constraintRight_toRightOf="@id/gd2"
+                app:layout_constraintTop_toBottomOf="@id/et_add_shop_locality"
+                android:layout_marginTop="30dp"
+                android:textColor="@color/white"
+                android:background="@drawable/curved_corners"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="cancel"/>
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                app:layout_constraintLeft_toLeftOf="@id/gd3"
+                app:layout_constraintRight_toRightOf="@id/gd4"
+                app:layout_constraintTop_toBottomOf="@id/et_add_shop_locality"
+                android:layout_marginTop="30dp"
+                android:textColor="@color/white"
+                android:background="@drawable/curved_corners"
+                android:backgroundTint="@color/colorTertiary"
+                android:text="proceed"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </FrameLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
