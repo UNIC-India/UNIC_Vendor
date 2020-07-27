@@ -12,7 +12,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
+import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ProductDescriptionFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +48,34 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         this.demo=demo;
         which = 1;
     }
+    class ProductDetailsListener implements View.OnClickListener {
+        private  int position;
 
-    private class CheckBoxListener implements View.OnClickListener {
+        ProductDetailsListener(int position){
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if(which==1)
+            ((AppCompatActivity)mContext).getSupportFragmentManager()
+                    .beginTransaction().replace(R.id.shop_pages_loader,new ProductDescriptionFragment(products.get(position)))
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .addToBackStack(null)
+                    .commit();
+            else if(which==2)
+                ((AppCompatActivity)mContext).getSupportFragmentManager()
+                        .beginTransaction().replace(R.id.home_fragment,new ProductDescriptionFragment(products.get(position)))
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .addToBackStack(null)
+                        .commit();
+        }
+    }
+
+
+
+
+private class CheckBoxListener implements View.OnClickListener {
 
         int position;
 
@@ -72,6 +102,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         ImageView ivProductPhoto;
         CheckBox cbCheck;
         ImageView addToCart,btnDelete;
+        CardView bounding;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -84,6 +115,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             tvCategory=itemView.findViewById(R.id.product_category);
             addToCart = itemView.findViewById(R.id.product_list_add_to_cart);
             btnDelete=itemView.findViewById(R.id.btnDelete);
+            bounding=itemView.findViewById(R.id.product_details_list_card);
 
             cbCheck.setChecked(false);
 
@@ -139,7 +171,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
                 }
             });
-
+            holder.bounding.setOnClickListener(new ProductDetailsListener(position));
 
             switch (which){
                 case 1:
