@@ -13,6 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.views.activities.AddNewProduct;
 
@@ -57,14 +60,25 @@ public class AddProductImageAdapter extends RecyclerView.Adapter<AddProductImage
         }
 
         else {
-            try {
-                holder.productImage.setImageBitmap(MediaStore.Images.Media.getBitmap(context.getContentResolver(),imageUris.get(position)));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+            holder.productImage.setBackgroundTintList(null);
+            holder.productImage.setBackgroundResource(0);
 
             holder.productImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-            holder.productImage.setOnClickListener(null);
+            holder.productImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    View view = new ImageView(context);
+                }
+            });
+
+            Glide
+                    .with(context)
+                    .load(imageUris.get(position))
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                    .apply(RequestOptions.skipMemoryCacheOf(true))
+                    .into(holder.productImage);
+
         }
 
     }
@@ -76,5 +90,6 @@ public class AddProductImageAdapter extends RecyclerView.Adapter<AddProductImage
 
     public void setImageUris(List<Uri> imageUris) {
         this.imageUris = imageUris;
+        notifyDataSetChanged();
     }
 }

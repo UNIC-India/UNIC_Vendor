@@ -18,6 +18,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.firestore.GeoPoint;
 import com.unic.unic_vendor_final_1.R;
 
@@ -241,6 +243,8 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
                     Glide
                             .with(this)
                             .load(addressUri)
+                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                            .apply(RequestOptions.skipMemoryCacheOf(true))
                             .into(addNewShopBinding.addressView);
                     addNewShopBinding.tvSelectAddress.setVisibility(View.GONE);
                     break;
@@ -248,6 +252,8 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
                     Glide
                             .with(this)
                             .load(imageUri)
+                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                            .apply(RequestOptions.skipMemoryCacheOf(true))
                             .into(addNewShopBinding.btnAddShopImage);
 
                     addNewShopViewModel.getShopImageUri().setValue(imageUri);

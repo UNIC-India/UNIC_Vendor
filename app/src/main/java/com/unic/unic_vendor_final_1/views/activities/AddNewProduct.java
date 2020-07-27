@@ -1,21 +1,16 @@
 package com.unic.unic_vendor_final_1.views.activities;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -24,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.AddProductImageAdapter;
 import com.unic.unic_vendor_final_1.databinding.ActivityAddNewProductBinding;
@@ -276,7 +270,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
                     imageUris.add(currentImageUri);
 
                     productImageAdapter.setImageUris(imageUris);
-                    productImageAdapter.notifyDataSetChanged();
+//                    productImageAdapter.notifyDataSetChanged();
 
             }
 
@@ -325,12 +319,14 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
 
     private void uploadImage(int position){
 
+        addNewProductViewModel.getImageUploadStatus().setValue(false);
+
         if(position == imageUris.size()) {
             statusUpdate(3);
             return;
         }
 
-        Bitmap bitmap = null;
+        Bitmap bitmap;
         try {
             bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUris.get(position));
             bitmap = getResizedBitmap(bitmap, 300);
