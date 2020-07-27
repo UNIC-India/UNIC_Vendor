@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.ProductDetailsAdapter;
+import com.unic.unic_vendor_final_1.commons.BlurTransformation;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ProductDescriptionFragment;
 
 import java.util.List;
@@ -59,7 +60,7 @@ public DoubleProductAdapter(int demo) {
 
 public class ViewHolder extends RecyclerView.ViewHolder {
     TextView tvProductName;
-    ImageView ivProductImage, noImage;
+    ImageView ivProductImage, ivProductImageBackground, noImage;
     TextView tvProductPrice, tvCompany, tvDiscount, tvWithoutDiscount, tv_no_image;
     Button addToCart;
 
@@ -67,6 +68,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         tvProductName = itemView.findViewById(R.id.double_product_name);
         ivProductImage = itemView.findViewById(R.id.double_product_view);
+        ivProductImageBackground = itemView.findViewById(R.id.double_product_background);
         tvProductPrice = itemView.findViewById(R.id.double_product_price);
         addToCart = itemView.findViewById(R.id.double_product_cart);
         tvCompany = itemView.findViewById(R.id.tvCompany);
@@ -113,6 +115,12 @@ public class ViewHolder extends RecyclerView.ViewHolder {
                         .with(mContext)
                         .load(products.get(position).get("imageId"))
                         .into(holder.ivProductImage);
+
+                Glide
+                        .with(mContext)
+                        .load(products.get(position).get("imageId").toString())
+                        .transform(new BlurTransformation(mContext))
+                        .into(holder.ivProductImageBackground);
             } else {
                 int p = position;
                 holder.ivProductImage.setVisibility(View.GONE);

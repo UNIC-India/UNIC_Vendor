@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
@@ -175,7 +176,7 @@ public class OrderItems extends Fragment implements View.OnClickListener {
                 fragmentOrderItemsBinding.tv1.setText("Accepted");
                 fragmentOrderItemsBinding.tv1.setTextColor(context.getResources().getColor(R.color.green2));
                 fragmentOrderItemsBinding.v1.setBackgroundColor(context.getResources().getColor(R.color.green2));
-                fragmentOrderItemsBinding.iv2.setImageTintList(ColorStateList.valueOf(context.getColor(R.color.green2)));
+                fragmentOrderItemsBinding.iv2.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(context,R.color.green2)));
                 fragmentOrderItemsBinding.tv2.setText("Prepared");
                 fragmentOrderItemsBinding.tv2.setTextColor(context.getResources().getColor(R.color.green2));
                 fragmentOrderItemsBinding.v2.setBackgroundColor(context.getResources().getColor(R.color.green2));

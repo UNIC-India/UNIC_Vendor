@@ -467,7 +467,7 @@
                 style="@style/StandardButton"
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="450dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/std_button"
                 android:text="Done"
                 android:textColor="@color/white"

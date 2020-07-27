@@ -16,12 +16,14 @@ public class Shop {
     private List<String> nameKeywords;
     private Map<String,Double> location;
     private GeoPoint geoLocation;
+    private boolean isPrivate;
 
     public Shop(){
         this.id = "null";
         this.imageLink = "null";
         this.logoLink = "null";
         this.dynSubscribeLink = "null";
+        this.isPrivate = false;
     }
 
     public Shop(String name,String address,String locality,String city,Map<String,Double> location,GeoPoint geoLocation){
@@ -38,6 +40,7 @@ public class Shop {
         this.location = location;
         this.geoLocation = geoLocation;
         this.nameKeywords = new ArrayList<>();
+        this.isPrivate = false;
         for(String key : name.split(" "))
             if(key.length()>1)
                 nameKeywords.add(key.substring(0,2).toLowerCase());
@@ -155,4 +158,11 @@ public class Shop {
         this.geoLocation = geoLocation;
     }
 
+    public boolean getIsPrivate() {
+        return isPrivate;
+    }
+
+    public void setIsPrivate(boolean aPrivate) {
+        isPrivate = aPrivate;
+    }
 }
