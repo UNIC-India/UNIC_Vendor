@@ -16,6 +16,8 @@ import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.ProductDetailsAdapter;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ProductDescriptionImageAdapter;
@@ -105,6 +107,7 @@ public class ProductDescriptionFragment extends Fragment {
                     fragmentProductDescriptionBinding.ivProductDetailsPhotoSlider.setVisibility(View.INVISIBLE);
                     fragmentProductDescriptionBinding.ivProductDetailsPhoto.setVisibility(View.VISIBLE);
                     fragmentProductDescriptionBinding.ivProductDetailsBackgroundPhoto.setVisibility(View.VISIBLE);
+                    fragmentProductDescriptionBinding.sliderImagesTab.setVisibility(View.GONE);
                     Glide
                             .with(getContext())
                             .load(imageLinks.get(0))
@@ -120,6 +123,9 @@ public class ProductDescriptionFragment extends Fragment {
                     fragmentProductDescriptionBinding.ivProductDetailsPhotoSlider.setVisibility(View.VISIBLE);
                     fragmentProductDescriptionBinding.ivProductDetailsPhoto.setVisibility(View.INVISIBLE);
                     fragmentProductDescriptionBinding.ivProductDetailsBackgroundPhoto.setVisibility(View.INVISIBLE);
+                    TabLayout sliderTabs = fragmentProductDescriptionBinding.sliderImagesTab;
+                    TabLayoutMediator tabLayoutMediator=new TabLayoutMediator(sliderTabs,fragmentProductDescriptionBinding.ivProductDetailsPhotoSlider,true,((tab, position) -> {}));
+                    tabLayoutMediator.attach();
 
                     ProductDescriptionImageAdapter productDescriptionImageAdapter = new ProductDescriptionImageAdapter(getContext(), imageLinks);
                     fragmentProductDescriptionBinding.ivProductDetailsPhotoSlider.setAdapter(productDescriptionImageAdapter);
@@ -132,6 +138,7 @@ public class ProductDescriptionFragment extends Fragment {
                 fragmentProductDescriptionBinding.ivProductDetailsPhotoSlider.setVisibility(View.INVISIBLE);
                 fragmentProductDescriptionBinding.ivProductDetailsPhoto.setVisibility(View.VISIBLE);
                 fragmentProductDescriptionBinding.ivProductDetailsBackgroundPhoto.setVisibility(View.VISIBLE);
+                fragmentProductDescriptionBinding.sliderImagesTab.setVisibility(View.GONE);
 
                 Glide
                         .with(getContext())
