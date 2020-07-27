@@ -7,33 +7,43 @@
         android:id="@+id/nav_features">
         <item
             android:id="@+id/nav_home"
-            android:title="@string/menu_home"/>
+            android:title="@string/menu_home"
+            android:icon="@drawable/ic_home_24"/>
         <item
             android:id="@+id/mav_my_orders"
-            android:title="@string/menu_my_orders"/>
+            android:title="@string/menu_my_orders"
+            android:icon="@drawable/ic_clipboard_list"/>
         <item
             android:id="@+id/nav_my_apps"
-            android:title="@string/menu_my_apps"/>
+            android:title="@string/menu_my_apps"
+            android:icon="@drawable/material_apps"/>
         <item
             android:id="@+id/nav_settings"
-            android:title="@string/menu_settings"/>
+            android:title="@string/menu_settings"
+            android:icon="@drawable/ic_settings"/>
         <item
             android:id="@+id/nav_my_qr"
-            android:title="@string/menu_qr"/>
+            android:title="@string/menu_qr"
+            android:icon="@drawable/ic_qr_code"/>
         <item
             android:id="@+id/nav_notifications"
-            android:title="@string/menu_notifications"/>
+            android:title="@string/menu_notifications"
+            android:icon="@drawable/notifications_icon"/>
         <item
             android:id="@+id/nav_my_products"
-            android:title="@string/menu_my_products"/>
+            android:title="@string/menu_my_products"
+            android:icon="@drawable/ic_shopping_bag"/>
+
+        <item
+            android:id="@+id/logout"
+            android:title="@string/menu_logout"
+            android:icon="@drawable/ic_exit_to_app"/>
+    </group>
+
+    <group>
         <item
             android:id="@+id/nav_about_us"
             android:title="@string/menu_about_us"/>
-        <item
-            android:id="@+id/logout"
-            android:title="@string/menu_logout"/>
     </group>
-
-
 
 </menu>

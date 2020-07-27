@@ -20,8 +20,9 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         android:backgroundTint="@color/offWhite"
-        app:itemTextAppearance="@style/MontserratTextViewStyle"
-        app:itemTextColor="@color/colorTertiary"
+        app:itemTextAppearance="@font/montserrat_bold"
+        app:itemTextColor="@color/black"
+        app:itemIconTint="@color/black"
         app:headerLayout="@layout/nav_header_home"
         app:menu="@menu/activity_home_drawer" />
 
