@@ -105,8 +105,8 @@ public class FirebaseRepository {
         return mRef.child("shops").child(shopId).child("shopimage").putBytes(data);
     }
 
-    public UploadTask saveProductImage(String shopId,String productId, byte[] data){
-        return mRef.child("shops").child(shopId).child("products").child(productId).putBytes(data);
+    public UploadTask saveProductImage(String shopId,String productId, byte[] data,int position){
+        return mRef.child("shops").child(shopId).child("products").child(productId + "_" + Integer.valueOf(position).toString()).putBytes(data);
     }
 
     public UploadTask saveViewImage(String shopId, int pageId, int viewCode,int position, byte[] data){
@@ -125,16 +125,16 @@ public class FirebaseRepository {
         return mRef.child("shops").child(shopId).child("shopimage").getDownloadUrl();
     }
 
-    public Task<Uri> getProductImageLink(String shopId,String productId){
-        return mRef.child("shops").child(shopId).child("products").child(productId).getDownloadUrl();
+    public Task<Uri> getProductImageLink(String shopId,String productId,int position){
+        return mRef.child("shops").child(shopId).child("products").child(productId + "_" + Integer.valueOf(position).toString()).getDownloadUrl();
     }
 
     public Task<Void> setShopImage(String shopId, String imageLink) {
         return db.collection("shops").document(shopId).update("imageLink", imageLink);
     }
 
-    public Task<Void> setProductImage(String shopId,String ProductId, String imageId){
-        return db.collection("shops").document(shopId).collection("products").document(ProductId).update("imageId",imageId);
+    public Task<Void> setProductImage(String shopId,String ProductId, String imageId,List<String> imageLinks){
+        return db.collection("shops").document(shopId).collection("products").document(ProductId).update("imageId",imageId,"imageLinks",imageLinks);
     }
 
     public UploadTask saveShopLogo(String shopId, byte[] data) {
@@ -318,6 +318,12 @@ public class FirebaseRepository {
         data.put("userId",userId);
         return  mFunctions.getHttpsCallable("allowViewShop")
                 .call(data);
+    }
+
+    public void setShopPrivacy(String shopId, boolean isPrivate) {
+        Map<String,Object> data = new HashMap<>();
+        data.put("isPrivate",isPrivate);
+        db.collection("shops").document(shopId).set(data, SetOptions.merge());
     }
 
     public Task<HttpsCallableResult> revokeUserAccess(String userId,String shopId){

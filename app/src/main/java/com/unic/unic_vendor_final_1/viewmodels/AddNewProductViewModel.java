@@ -18,6 +18,8 @@ public class AddNewProductViewModel extends ViewModel {
     private MutableLiveData<Integer> productStatus= new MutableLiveData<>();
     private String shopId;
 
+    private MutableLiveData<Boolean> imageUploadStatus = new MutableLiveData<>();
+
     public void saveProduct(){
         firebaseRepository.saveProduct(shopId,product.getValue())
                 .addOnSuccessListener(documentReference -> {
@@ -41,11 +43,10 @@ public class AddNewProductViewModel extends ViewModel {
                 });
     }
 
-    public void uploadImage(byte[] data){
-        firebaseRepository.saveProductImage(shopId,product.getValue().getFirestoreId(),data)
+    public void uploadImage(byte[] data, int position){
+        firebaseRepository.saveProductImage(shopId,product.getValue().getFirestoreId(),data,position)
                 .addOnSuccessListener(taskSnapshot -> {
-                    productStatus.setValue(3);
-                    setProductImageLink();
+                    setProductImageLink(position);
                 })
                 .addOnFailureListener(e -> {
                     productStatus.setValue(-1);
@@ -53,11 +54,15 @@ public class AddNewProductViewModel extends ViewModel {
                 });
     }
 
-    public void setProductImageLink(){
-        firebaseRepository.getProductImageLink(shopId,product.getValue().getFirestoreId())
+    public void setProductImageLink(int position){
+        firebaseRepository.getProductImageLink(shopId,product.getValue().getFirestoreId(),position)
                 .addOnSuccessListener(uri -> {
-                    product.getValue().setImageId(uri.toString());
-                    setProductImageLinkOnFirebase();
+                    if(position==0)
+                        product.getValue().setImageId(uri.toString());
+
+                    product.getValue().addToImageLinks(uri.toString());
+
+                    imageUploadStatus.setValue(true);
                 })
                 .addOnFailureListener(e -> {
                     productStatus.setValue(-1);
@@ -66,7 +71,7 @@ public class AddNewProductViewModel extends ViewModel {
     }
 
     public void setProductImageLinkOnFirebase(){
-        firebaseRepository.setProductImage(shopId,product.getValue().getFirestoreId(),product.getValue().getImageId())
+        firebaseRepository.setProductImage(shopId,product.getValue().getFirestoreId(),product.getValue().getImageId(),product.getValue().getImageLinks())
                 .addOnSuccessListener(aVoid -> productStatus.setValue(4))
                 .addOnFailureListener(e -> {
                     productStatus.setValue(-1);
@@ -89,6 +94,7 @@ public class AddNewProductViewModel extends ViewModel {
         return productStatus;
     }
 
-
-
+    public MutableLiveData<Boolean> getImageUploadStatus() {
+        return imageUploadStatus;
+    }
 }

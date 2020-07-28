@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
 
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:background="@color/offWhite">
 
 
     <ScrollView
@@ -13,11 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true">
+
         <RelativeLayout
             android:id="@+id/shop_view_parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
     </ScrollView>
 
 </FrameLayout>

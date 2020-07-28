@@ -282,6 +282,10 @@ public class SetStructureViewModel extends ViewModel {
         firebaseRepository.setAvailability(shop.getValue().getId(),productId,available);
     }
 
+    public void setShopPrivacy(boolean isPrivate){
+        firebaseRepository.setShopPrivacy(shop.getValue().getId(),isPrivate);
+    }
+
     public void searchProductsByCategoryList(List<String> categories){
 
         List<Map<String,Object>> data = new ArrayList<>();

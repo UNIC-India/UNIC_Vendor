@@ -17,30 +17,15 @@ import java.util.Map;
 
 public class ProductListWithoutImagesAdapter extends RecyclerView.Adapter<ProductListWithoutImagesAdapter.ViewHolder> {
 
+    int demo=0;
     private Context mContext;
     private List<Map<String,Object>> products;
-    int demo=0;
 
     public ProductListWithoutImagesAdapter(Context context){
         this.mContext = context;
     }
     public ProductListWithoutImagesAdapter(int demo){
         this.demo=demo;
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView tvProductName,tvProductPrice,tvCompany,tvCategory,extraInfo2;
-        Button addToCart;
-
-        public ViewHolder(@NonNull View itemView){
-            super(itemView);
-            tvProductName = itemView.findViewById(R.id.product_name);
-            tvProductPrice = itemView.findViewById(R.id.tvPrice);
-            addToCart = itemView.findViewById(R.id.add_to_cart);
-            tvCompany=itemView.findViewById(R.id.company);
-            tvCategory = itemView.findViewById(R.id.category);
-            extraInfo2 = itemView.findViewById(R.id.textView4);
-        }
     }
 
     @NonNull
@@ -81,6 +66,21 @@ public class ProductListWithoutImagesAdapter extends RecyclerView.Adapter<Produc
 
     public void setProducts(List<Map<String,Object>> products){
         this.products = products;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
+        TextView tvProductName,tvProductPrice,tvCompany,tvCategory,extraInfo2;
+        Button addToCart;
+
+        public ViewHolder(@NonNull View itemView){
+            super(itemView);
+            tvProductName = itemView.findViewById(R.id.product_name);
+            tvProductPrice = itemView.findViewById(R.id.tvPrice);
+            addToCart = itemView.findViewById(R.id.add_to_cart);
+            tvCompany=itemView.findViewById(R.id.company);
+            tvCategory = itemView.findViewById(R.id.category);
+            extraInfo2 = itemView.findViewById(R.id.textView4);
+        }
     }
 
 }

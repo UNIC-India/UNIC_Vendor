@@ -55,25 +55,39 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"/>
+
     <ImageView
-        android:id="@+id/iv_product_photo"
-        android:layout_width="300dp"
-        android:layout_height="0dp"
+        android:id="@+id/iv_product_details_background_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
         android:src="@drawable/demo_product"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_max="300dp"
-        app:layout_constraintHeight_min="200dp"
-        app:layout_constraintHeight_percent="0.3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/product_availability_switch" />
+
+    <ImageView
+        android:id="@+id/iv_product_details_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:src="@drawable/demo_product"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/product_availability_switch" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/iv_product_details_photo_slider"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintTop_toBottomOf="@+id/product_availability_switch"/>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvDetails"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_product_photo">
+        app:layout_constraintTop_toBottomOf="@+id/slider_images_tab">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -94,6 +108,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rvDetails" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/slider_images_tab"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/iv_product_details_background_photo"
+        app:tabBackground="@drawable/tab_selector"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

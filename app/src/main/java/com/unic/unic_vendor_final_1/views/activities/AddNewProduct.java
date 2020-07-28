@@ -1,30 +1,31 @@
 package com.unic.unic_vendor_final_1.views.activities;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.adapters.AddProductImageAdapter;
 import com.unic.unic_vendor_final_1.databinding.ActivityAddNewProductBinding;
 import com.unic.unic_vendor_final_1.datamodels.Product;
 import com.unic.unic_vendor_final_1.viewmodels.AddNewProductViewModel;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -39,17 +40,39 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
     private AddNewProductViewModel addNewProductViewModel;
     private ActivityAddNewProductBinding addNewProductBinding;
     private Product product;
-
-
     private View coverView;
+    private AddProductImageAdapter productImageAdapter;
 
     private static final int GALLERY_INTENT = 1001;
     private static final int CROP_IMAGE = 1002;
     public static final int ADD_PRODUCTS = 5010;
 
-    private Uri imageUri;
+    private List<Uri> imageUris;
+    private Uri currentImageUri;
 
     private boolean userWantsImage = true;
+
+    private int currentPosition = 0;
+
+    static class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
+
+        SpacesItemDecoration(int space) {
+            this.space = space;
+        }
+
+        @Override
+        public void getItemOffsets(@NotNull Rect outRect, @NotNull View view,
+                                   RecyclerView parent, @NotNull RecyclerView.State state) {
+
+            if (parent.getChildLayoutPosition(view) == 0) {
+                outRect.left = 0;
+            } else {
+                outRect.left = space;
+            }
+
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +86,18 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         addNewProductBinding.btnAddProductImage.setOnClickListener(this);
         addNewProductBinding.btnConfirmProductAddition.setOnClickListener(this);
         addNewProductViewModel.setShopId(shopId);
-
-
         addNewProductViewModel.getProductStatus().observe(this, this::statusUpdate);
         addNewProductViewModel.getProduct().observe(this,this::setProduct);
+
+        productImageAdapter = new AddProductImageAdapter(imageUris,this);
+        addNewProductBinding.addProductImageSlider.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL,false));
+        addNewProductBinding.addProductImageSlider.setAdapter(productImageAdapter);
+        addNewProductBinding.addProductImageSlider.addItemDecoration(new SpacesItemDecoration((int)dpToPx(20)));
+
+        addNewProductViewModel.getImageUploadStatus().observe(this,aBoolean -> {
+           if(aBoolean)
+               uploadImage(currentPosition);
+        });
     }
 
     @Override
@@ -79,7 +110,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         }
 
         else if(v.getId()==addNewProductBinding.btnConfirmProductAddition.getId()){
-            if(userWantsImage&&imageUri==null){
+            if(userWantsImage&&imageUris==null){
                 AlertDialog.Builder builder = new AlertDialog.Builder(this)
                         .setMessage("No product image selected. Do you want to select one?")
                         .setPositiveButton("Yes", (dialog, which) -> {
@@ -108,28 +139,19 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         switch(i){
 
             case 2:
-                if(imageUri!=null){
+                if(imageUris!=null){
 
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                    uploadImage(currentPosition);
 
-                        bitmap = getResizedBitmap(bitmap, 300);
-
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-
-                        byte[] stream = baos.toByteArray();
-
-                        addNewProductViewModel.uploadImage(stream);
-                    }
-                    catch (IOException e){
-                        e.printStackTrace();
-                    }
                 }
                 else {
                     setResult(RESULT_OK);
                     finish();
                 }
+                break;
+
+            case 3:
+                addNewProductViewModel.setProductImageLinkOnFirebase();
                 break;
 
             case 4:
@@ -242,20 +264,13 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
 
                 case CROP_IMAGE:
 
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imageUri);
+                    addNewProductBinding.addProductImageSlider.setVisibility(View.VISIBLE);
+                    addNewProductBinding.btnAddProductImage.setVisibility(View.INVISIBLE);
 
-                        addNewProductBinding.btnAddProductImage.setImageBitmap(bitmap);
+                    imageUris.add(currentImageUri);
 
-                        /*Glide
-                                .with(this)
-                                .load(imageUri)
-                                .into(addNewProductBinding.btnAddProductImage);*/
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
+                    productImageAdapter.setImageUris(imageUris);
+//                    productImageAdapter.notifyDataSetChanged();
 
             }
 
@@ -269,14 +284,19 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         cropIntent.putExtra("aspectX", 1);
         cropIntent.putExtra("aspectY", 1);
         cropIntent.putExtra("return-data", true);
-        File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "new-product-image" + ".jpg");
-        imageUri = Uri.fromFile(file);
-        cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-        cropIntent.putExtra("output",imageUri);
+
+        if(imageUris==null)
+            imageUris = new ArrayList<>();
+
+        File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "new-product-image-" + Integer.valueOf(imageUris.size()).toString() + ".jpg");
+
+        currentImageUri = Uri.fromFile(file);
+        cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, currentImageUri);
+        cropIntent.putExtra("output",currentImageUri);
         startActivityForResult(cropIntent, CROP_IMAGE);
     }
 
-    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+    private Bitmap getResizedBitmap(Bitmap image, int maxSize) {
         int width = image.getWidth();
         int height = image.getHeight();
 
@@ -289,6 +309,47 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
             width = (int) (height * bitmapRatio);
         }
         return Bitmap.createScaledBitmap(image, width, height, true);
+    }
+
+    public void addImage(){
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent,GALLERY_INTENT);
+    }
+
+    private void uploadImage(int position){
+
+        addNewProductViewModel.getImageUploadStatus().setValue(false);
+
+        if(position == imageUris.size()) {
+            statusUpdate(3);
+            return;
+        }
+
+        Bitmap bitmap;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUris.get(position));
+            bitmap = getResizedBitmap(bitmap, 300);
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+            byte[] stream = baos.toByteArray();
+
+            addNewProductViewModel.uploadImage(stream,currentPosition++);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private float dpToPx(int dp){
+        return TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                getResources().getDisplayMetrics()
+        );
     }
 
 }
