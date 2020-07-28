@@ -117,8 +117,9 @@
                     <Button
                         android:id="@+id/confirm_shop_structure"
                         style="@style/StandardButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_width="70dp"
+                        android:layout_height="30dp"
+                        android:textSize="13sp"
                         android:background="@drawable/std_button"
                         android:drawableTint="#FFFFFF"
                         android:fontFamily="@font/abeezee"

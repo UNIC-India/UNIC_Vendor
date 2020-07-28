@@ -92,7 +92,7 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_marginTop="97dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/facebook"
 
                 app:layout_constraintRight_toLeftOf="@id/glcenterverti"
@@ -102,7 +102,7 @@
                 android:id="@+id/btngoogle"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="97dp"
                 android:background="@drawable/googleicom"
                 app:layout_constraintLeft_toRightOf="@id/glcenterverti"

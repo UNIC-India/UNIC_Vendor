@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -112,7 +116,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/mission"
         android:layout_width="0dp"
-        android:layout_height="275dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@drawable/curved_corneres_2"
         android:elevation="5dp"
@@ -182,6 +186,7 @@
                 android:text="Our customer base is two-fold. We serve both the businesses as well as their customers. Our platform enables businesses to create their own app-like interface without coding; by only using simple tools like excel-sheets. This will reduce the daily communication overheads of Businesses. Businesses can easily get orders, advertise their products and notify customers about offers. Customers are now only a single click away."
                 android:textColor="#232323"
                 android:textSize="15sp"
+                android:paddingBottom="8dp"
                 app:layout_constraintLeft_toLeftOf="@id/gd6"
                 app:layout_constraintRight_toRightOf="@id/gd7"
                 app:layout_constraintTop_toBottomOf="@+id/title_mission" />
@@ -274,3 +279,4 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
