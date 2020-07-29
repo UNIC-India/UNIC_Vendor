@@ -24,6 +24,7 @@
             android:clickable="true"
             android:gravity="center_vertical"
             android:hint="Category"
+            android:fontFamily="@font/abeezee"
             android:paddingLeft="16dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"

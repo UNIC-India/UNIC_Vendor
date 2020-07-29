@@ -56,10 +56,10 @@
 
             <TextView
                 android:id="@+id/product_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:fontFamily="@font/montserrat_normal"
+                android:fontFamily="@font/abeezee"
                 android:hint="MASTI DAHI"
                 android:padding="2dp"
                 android:textAllCaps="true"
@@ -69,6 +69,8 @@
                 android:textColorHint="#000000"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:layout_marginRight="8dp"
+                app:layout_constraintRight_toLeftOf="@id/addToCart"
                 app:layout_constraintLeft_toRightOf="@id/product_image"
                 app:layout_constraintTop_toTopOf="@id/product_image"></TextView>
 
@@ -77,7 +79,7 @@
                 android:id="@+id/product_company_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="8dp"
                 android:hint="Amul"
                 android:textColor="@color/grey4"
                 android:textColorHint="@color/grey4"
@@ -97,7 +99,6 @@
                 android:textColor="@color/green"
                 android:textColorHint="@color/green"
                 android:textSize="15dp"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/product_company_name"></TextView>
 
@@ -109,14 +110,13 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 app:layout_constraintBottom_toBottomOf="@+id/product_company_name"
-                app:layout_constraintEnd_toStartOf="@+id/addToCart"
-                app:layout_constraintStart_toEndOf="@+id/product_company_name" />
+                app:layout_constraintLeft_toLeftOf="@id/tvExtrainfo2" />
 
             <TextView
                 android:id="@+id/tvCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="8dp"
                 android:text="Category"
                 android:maxLines="1"
                 android:ellipsize="end"

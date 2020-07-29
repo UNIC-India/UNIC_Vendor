@@ -32,8 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
-
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="7dp"
         android:background="@drawable/std_button_normal"
         android:text="Add Member"
         android:textColor="@color/white"
