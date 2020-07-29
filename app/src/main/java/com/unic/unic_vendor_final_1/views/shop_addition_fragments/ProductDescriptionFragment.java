@@ -124,14 +124,16 @@ public class ProductDescriptionFragment extends Fragment {
                     fragmentProductDescriptionBinding.ivProductDetailsPhoto.setVisibility(View.INVISIBLE);
                     fragmentProductDescriptionBinding.ivProductDetailsBackgroundPhoto.setVisibility(View.INVISIBLE);
                     TabLayout sliderTabs = fragmentProductDescriptionBinding.sliderImagesTab;
-                    TabLayoutMediator tabLayoutMediator=new TabLayoutMediator(sliderTabs,fragmentProductDescriptionBinding.ivProductDetailsPhotoSlider,true,((tab, position) -> {}));
-                    tabLayoutMediator.attach();
 
                     ProductDescriptionImageAdapter productDescriptionImageAdapter = new ProductDescriptionImageAdapter(getContext(), imageLinks);
                     fragmentProductDescriptionBinding.ivProductDetailsPhotoSlider.setAdapter(productDescriptionImageAdapter);
                     fragmentProductDescriptionBinding.ivProductDetailsPhotoSlider.setPageTransformer(pageTransformer);
                     fragmentProductDescriptionBinding.ivProductDetailsPhotoSlider.setOffscreenPageLimit(1);
                     fragmentProductDescriptionBinding.ivProductDetailsPhotoSlider.addItemDecoration(new ShopPageFragment.SpacesItemDecoration((int) dpToPx(45)));
+
+                    TabLayoutMediator tabLayoutMediator=new TabLayoutMediator(sliderTabs,fragmentProductDescriptionBinding.ivProductDetailsPhotoSlider,true,((tab, position) -> {}));
+                    tabLayoutMediator.attach();
+
                 }
             }
             else if(product.containsKey("imageId")) {
