@@ -17,6 +17,7 @@
         android:id="@+id/ccButtons"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvInstructions">
@@ -50,13 +51,14 @@
             android:textColor="#FFFFFF"
             android:textSize="12sp"
             android:visibility="gone"
+            android:layout_marginRight="3dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btnAvailability"
             style="@style/StandardButton"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="32dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/std_button"
@@ -64,7 +66,7 @@
             android:paddingEnd="8dp"
             android:text="Select Unavailable Items"
             android:textColor="#FFFFFF"
-            android:textSize="12sp"
+            android:textSize="11sp"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -75,6 +77,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text='""'
+        android:layout_marginLeft="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
 
@@ -123,6 +126,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/constraintLayout">
 
@@ -137,14 +142,15 @@
 
             <ImageView
                 android:id="@+id/ivShowMore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/order_drop_down" />
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/order_drop_down"
+                android:visibility="visible"/>
 
             <ImageView
                 android:id="@+id/ivShowLess"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="19dp"
+                android:layout_height="19dp"
                 android:src="@drawable/minus"
                 android:visibility="gone" />
 
