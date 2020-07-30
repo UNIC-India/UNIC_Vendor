@@ -113,7 +113,12 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
             spinner.setSelection(Integer.parseInt(view.getData().get(0).get("default").toString()));
         else
             spinner.setSelection(0);
-
+        masterLayoutBinding.imageView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spinner.performClick();
+            }
+        });
         masterLayoutBinding.getRoot().setEnabled(false);
 
         return masterLayoutBinding.getRoot();
