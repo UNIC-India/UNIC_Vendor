@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -21,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.firestore.GeoPoint;
+import com.theartofdev.edmodo.cropper.CropImage;
 import com.unic.unic_vendor_final_1.R;
 
 import com.unic.unic_vendor_final_1.databinding.ActivityAddShopBinding;
@@ -30,7 +32,11 @@ import com.unic.unic_vendor_final_1.views.shop_addition_fragments.LocationSelect
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -259,21 +265,47 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
     }
 
     private void cropImage(Uri uri){
-        Intent cropIntent = new Intent("com.android.camera.action.CROP");
-        cropIntent.setDataAndType(uri, "image/*");
-        cropIntent.putExtra("crop", "true");
-        cropIntent.putExtra("aspectX", 1);
-        cropIntent.putExtra("aspectY", 1);
-        cropIntent.putExtra("return-data", true);
-        File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "new-shop-image-" + ".jpg");
+        File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "new-shop-image" + ".jpg");
         imageUri = Uri.fromFile(file);
+
+        /*Intent cropIntent = new Intent(this, CropImage.class);
+        cropIntent.putExtra(CropImage.IMAGE_PATH,imageUri.getEncodedPath());
+        cropIntent.putExtra(CropImage.SCALE, false);
+        cropIntent.putExtra(CropImage.ASPECT_X, 1);
+        cropIntent.putExtra(CropImage.ASPECT_Y, 1);*/
+
+//
+        Intent cropIntent = CropImage.activity(uri)
+                .setAspectRatio(1,1)
+                .getIntent(this);
+
         cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-        cropIntent.putExtra("output",imageUri);
+
         startActivityForResult(cropIntent, CROP_IMAGE);
+
         Toast.makeText(this, "Cropping image", Toast.LENGTH_SHORT).show();
     }
 
     public void setShop(Shop shop) {
         this.shop = shop;
+    }
+
+    public void copy(Uri src, File dst) throws IOException {
+        InputStream in = this.getContentResolver().openInputStream(src);
+        try {
+            OutputStream out = new FileOutputStream(dst);
+            try {
+                // Transfer bytes from in to out
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+            } finally {
+                out.close();
+            }
+        } finally {
+            in.close();
+        }
     }
 }
