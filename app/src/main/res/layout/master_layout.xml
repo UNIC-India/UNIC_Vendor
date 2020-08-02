@@ -20,11 +20,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="605dp"
                 android:layout_marginTop="8dp"
-                tools:listitem="@layout/master_layout_categories_item"
                 app:layout_constraintTop_toBottomOf="@id/cardView6"
-                />
-
-
+                tools:listitem="@layout/master_layout_categories_item" />
 
 
             <androidx.cardview.widget.CardView
@@ -43,12 +40,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/filtericon"
+                        android:tint="#000000"
+                        android:translationZ="10dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/spinner"
+                        app:layout_constraintEnd_toEndOf="@+id/spinner"
+                        app:layout_constraintStart_toStartOf="@+id/spinner" />
+
                     <Spinner
                         android:id="@+id/spinner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/filtericon"
+                        style="@style/Widget.AppCompat.Spinner"
+                        android:layout_width="1dp"
+                        android:layout_height="1dp"
                         android:layout_marginRight="10dp"
+                        android:visibility="invisible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -58,19 +67,21 @@
                         android:layout_width="1dp"
                         android:layout_height="34dp"
                         android:background="#000000"
-                        android:layout_marginRight="10dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/spinner"
+                        app:layout_constraintStart_toEndOf="@+id/autoCompleteTextView"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <AutoCompleteTextView
                         android:id="@+id/autoCompleteTextView"
                         android:layout_width="0dp"
                         android:layout_height="45dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="#FFFFFF"
                         android:drawableStart="@drawable/ic_search_black_24dp"
                         android:drawableTint="#d4d4d4"
                         android:hint="  Search "
-                        app:layout_constraintEnd_toStartOf="@+id/view"
+                        android:paddingLeft="4dp"
+                        app:layout_constraintEnd_toStartOf="@+id/spinner"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>

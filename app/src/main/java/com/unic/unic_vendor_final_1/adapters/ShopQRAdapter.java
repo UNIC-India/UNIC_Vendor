@@ -53,7 +53,8 @@ public class ShopQRAdapter  extends RecyclerView.Adapter<ShopQRAdapter.ViewHolde
     static class ViewHolder extends RecyclerView.ViewHolder{
         ImageView ivShopImage,noImage;
         TextView tvShopName,tv_no_image;
-        ImageButton ibShopQR;
+        ImageView
+                ibShopQR;
         ImageView btnGenerateQR;
 
         ViewHolder(View itemView){
