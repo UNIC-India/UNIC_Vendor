@@ -12,7 +12,9 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.unic.unic_vendor_final_1.R;
@@ -75,8 +77,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     public void sendRegistrationToServer(String token){
         Map<String,String> data = new HashMap<>();
-        data.put("token",token);
-        FirebaseFirestore.getInstance().collection("userTokens").document(token).set(data);
+        data.put("vendorInstanceId",token);
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        if(mAuth.getUid() != null)
+            FirebaseFirestore.getInstance().collection("users").document(mAuth.getUid()).set(data, SetOptions.merge());
     }
 
 }

@@ -19,6 +19,7 @@ import com.unic.unic_vendor_final_1.views.helpers.UserRequests;
 public class UserPermissionsFragment extends Fragment {
 
     private String shopId,name;
+    private boolean isPrivate;
     private FragmentUserPermissionsBinding userPermissionsBinding;
     private UserShopsViewModel userShopsViewModel;
 
@@ -26,9 +27,10 @@ public class UserPermissionsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public UserPermissionsFragment(String shopId,String name) {
+    public UserPermissionsFragment(String shopId,String name,boolean isPrivate) {
         this.shopId = shopId;
         this.name = name;
+        this.isPrivate = isPrivate;
     }
 
     @Override
@@ -45,6 +47,9 @@ public class UserPermissionsFragment extends Fragment {
 
         userShopsViewModel = new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
         userShopsViewModel.getUserPermissions(shopId);
+
+        userPermissionsBinding.shopPrivacySpinner.setChecked(isPrivate);
+        userPermissionsBinding.shopPrivacySpinner.setText(isPrivate?"Private":"Public");
 
         userShopsViewModel.getUserRequests().observe(getViewLifecycleOwner(),stringListMap -> {
             if(stringListMap==null){
@@ -74,6 +79,11 @@ public class UserPermissionsFragment extends Fragment {
                         .addToBackStack(null)
                         .commit()
         );
+
+        userPermissionsBinding.shopPrivacySpinner.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            userShopsViewModel.setShopPrivacy(shopId,isChecked);
+            userPermissionsBinding.shopPrivacySpinner.setText(isChecked?"Private":"Public");
+        });
 
         return userPermissionsBinding.getRoot();
     }

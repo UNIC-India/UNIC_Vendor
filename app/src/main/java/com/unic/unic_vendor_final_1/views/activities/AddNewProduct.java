@@ -277,7 +277,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void cropImage(Uri uri){
+    private void cropImage(Uri uri) {
         Intent cropIntent = new Intent("com.android.camera.action.CROP");
         cropIntent.setDataAndType(uri, "image/*");
         cropIntent.putExtra("crop", "true");
@@ -285,15 +285,23 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         cropIntent.putExtra("aspectY", 1);
         cropIntent.putExtra("return-data", true);
 
-        if(imageUris==null)
+        if (imageUris == null)
             imageUris = new ArrayList<>();
 
         File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "new-product-image-" + Integer.valueOf(imageUris.size()).toString() + ".jpg");
 
         currentImageUri = Uri.fromFile(file);
         cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, currentImageUri);
-        cropIntent.putExtra("output",currentImageUri);
-        startActivityForResult(cropIntent, CROP_IMAGE);
+        cropIntent.putExtra("output", currentImageUri);
+
+        if (cropIntent.resolveActivity(getPackageManager()) != null) {
+            Toast.makeText(this, "Cropping...", Toast.LENGTH_SHORT).show();
+            startActivityForResult(cropIntent, CROP_IMAGE);
+        }
+        else {
+            imageUris.add(uri);
+            productImageAdapter.setImageUris(imageUris);
+        }
     }
 
     private Bitmap getResizedBitmap(Bitmap image, int maxSize) {
@@ -308,6 +316,10 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
             height = maxSize;
             width = (int) (height * bitmapRatio);
         }
+
+        if(image.getWidth()>=300||image.getHeight()>=300)
+            return image;
+
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
 

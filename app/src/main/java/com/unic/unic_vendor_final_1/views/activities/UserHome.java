@@ -176,6 +176,10 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
                 userHomeBinding.titleBar.tvTitle.setVisibility(View.VISIBLE);
                 userHomeBinding.titleBar.tvTitle.setText("My Report");
                 break;
+            case 8:
+                userHomeBinding.titleBar.ivLogo.setVisibility(View.GONE);
+                userHomeBinding.titleBar.tvTitle.setVisibility(View.VISIBLE);
+                userHomeBinding.titleBar.tvTitle.setText("About Us");
 
         }
     }

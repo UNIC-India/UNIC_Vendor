@@ -199,7 +199,7 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ViewHo
                     ((AppCompatActivity)context).getSupportFragmentManager()
                             .beginTransaction()
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                            .replace(R.id.home_fragment,new UserPermissionsFragment(shops.get(position).getId(),shops.get(position).getName()))
+                            .replace(R.id.home_fragment,new UserPermissionsFragment(shops.get(position).getId(),shops.get(position).getName(),shops.get(position).getIsPrivate()))
                             .addToBackStack(null)
                             .commit();
                 }
@@ -209,7 +209,7 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ViewHo
                         ((AppCompatActivity)context).getSupportFragmentManager()
                                 .beginTransaction()
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .replace(R.id.home_fragment,new UserPermissionsFragment(shops.get(position).getId(),shops.get(position).getName()))
+                                .replace(R.id.home_fragment,new UserPermissionsFragment(shops.get(position).getId(),shops.get(position).getName(),shops.get(position).getIsPrivate()))
                                 .addToBackStack(null)
                                 .commit();
 

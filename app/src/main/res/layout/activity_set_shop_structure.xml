@@ -145,17 +145,6 @@
                         app:layout_constraintRight_toRightOf="@id/gd8"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <Switch
-                        android:id="@+id/private_switch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Public"
-                        android:textSize="18sp"
-                        android:fontFamily="@font/abeezee"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"/>
-
                     <Button
                         android:id="@+id/confirm_shop_structure"
                         style="@style/StandardButton"

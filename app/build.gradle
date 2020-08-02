@@ -11,8 +11,8 @@ android {
         applicationId "com.unic.unic_vendor_final_1"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 11
-        versionName "beta v1.2.0"
+        versionCode 12
+        versionName "beta v1.2.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
@@ -24,6 +24,8 @@ android {
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            ndk.debugSymbolLevel = 'FULL'
         }
     }
 
@@ -38,6 +40,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 }
 
 dependencies {

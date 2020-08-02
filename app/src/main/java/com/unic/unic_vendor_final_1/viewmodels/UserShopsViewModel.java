@@ -421,4 +421,8 @@ public class UserShopsViewModel extends ViewModel {
     public MutableLiveData<Map<String, List<Map<String, String >>>> getUserRequests() {
         return userRequests;
     }
+
+    public void setShopPrivacy(String shopId,boolean isPrivate){
+        firebaseRepository.setShopPrivacy(shopId,isPrivate);
+    }
 }

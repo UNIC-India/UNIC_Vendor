@@ -52,11 +52,13 @@ public class AddProductImageAdapter extends RecyclerView.Adapter<AddProductImage
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         if(position == imageUris.size()){
+
             holder.productImage.setImageResource(R.drawable.ic_add_a_photo_black_80dp);
             holder.productImage.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.light_gray)));
             holder.productImage.setBackground(context.getResources().getDrawable(R.drawable.round_border));
             holder.productImage.setOnClickListener(v -> ((AddNewProduct)context).addImage());
             holder.productImage.setScaleType(ImageView.ScaleType.CENTER);
+
         }
 
         else {

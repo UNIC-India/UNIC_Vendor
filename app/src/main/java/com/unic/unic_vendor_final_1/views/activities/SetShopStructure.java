@@ -136,13 +136,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
         updateStatus(0);
 
-        setShopStructureBinding.privateSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-
-            setStructureViewModel.setShopPrivacy(isChecked);
-
-            buttonView.setText(isChecked?"Private":"Public");
-        });
-
     }
 
     @Override
@@ -302,7 +295,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                     return;
                 }
 
-                setShopStructureBinding.privateSwitch.setChecked(shop.getIsPrivate());
                 populateHeader();
                 setTemplate(option);
                 break;

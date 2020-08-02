@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.firestore.GeoPoint;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -248,6 +249,7 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
                             .load(addressUri)
                             .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                             .apply(RequestOptions.skipMemoryCacheOf(true))
+                            .apply(new RequestOptions().fitCenter())
                             .into(addNewShopBinding.shopLocationSelect);
                     break;
                 case CROP_IMAGE:
@@ -256,6 +258,7 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
                             .load(imageUri)
                             .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                             .apply(RequestOptions.skipMemoryCacheOf(true))
+                            .apply(new RequestOptions().fitCenter())
                             .into(addNewShopBinding.btnAddShopImage);
 
                     addNewShopViewModel.getShopImageUri().setValue(imageUri);
@@ -265,25 +268,34 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
     }
 
     private void cropImage(Uri uri){
+        Intent cropIntent = new Intent("com.android.camera.action.CROP");
+        cropIntent.setDataAndType(uri, "image/*");
+        cropIntent.putExtra("crop", "true");
+        cropIntent.putExtra("aspectX", 1);
+        cropIntent.putExtra("aspectY", 1);
+        cropIntent.putExtra("return-data", true);
         File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "new-shop-image" + ".jpg");
+
         imageUri = Uri.fromFile(file);
-
-        /*Intent cropIntent = new Intent(this, CropImage.class);
-        cropIntent.putExtra(CropImage.IMAGE_PATH,imageUri.getEncodedPath());
-        cropIntent.putExtra(CropImage.SCALE, false);
-        cropIntent.putExtra(CropImage.ASPECT_X, 1);
-        cropIntent.putExtra(CropImage.ASPECT_Y, 1);*/
-
-//
-        Intent cropIntent = CropImage.activity(uri)
-                .setAspectRatio(1,1)
-                .getIntent(this);
-
         cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        cropIntent.putExtra("output",imageUri);
 
-        startActivityForResult(cropIntent, CROP_IMAGE);
+        if(cropIntent.resolveActivity(getPackageManager())!=null) {
+            Toast.makeText(this, "Cropping image", Toast.LENGTH_SHORT).show();
+            startActivityForResult(cropIntent, CROP_IMAGE);
+        }
+        else {
+            Glide
+                    .with(this)
+                    .load(uri)
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                    .apply(RequestOptions.skipMemoryCacheOf(true))
+                    .apply(new RequestOptions().fitCenter())
+                    .into(addNewShopBinding.btnAddShopImage);
 
-        Toast.makeText(this, "Cropping image", Toast.LENGTH_SHORT).show();
+            addNewShopViewModel.getShopImageUri().setValue(uri);
+        }
+
     }
 
     public void setShop(Shop shop) {
