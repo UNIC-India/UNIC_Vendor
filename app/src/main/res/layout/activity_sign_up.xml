@@ -32,7 +32,7 @@
             android:id="@+id/signupmain"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/icon1"
@@ -53,7 +53,8 @@
                 android:layout_marginEnd="24dp"
                 android:drawableStart="@drawable/ic_person_black_24dp"
                 android:drawableTint="#EC4156"
-                android:hint="   Full Name"
+                android:drawablePadding="10dp"
+                android:hint="Full Name"
                 android:paddingTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +68,8 @@
                 android:drawableStart="@drawable/ic_email_black_24dp"
                 android:drawableLeft="@drawable/ic_email_black_24dp"
                 android:drawableTint="#EC4156"
-                android:hint="   E-Mail"
+                android:drawablePadding="10dp"
+                android:hint="E-Mail"
                 android:paddingTop="5dp"
                 app:layout_constraintEnd_toEndOf="@+id/edtfullname"
                 app:layout_constraintStart_toStartOf="@+id/edtfullname"
@@ -81,7 +83,8 @@
                 android:drawableStart="@drawable/ic_phone_black_24dp"
                 android:drawableLeft="@drawable/ic_phone_black_24dp"
                 android:drawableTint="#EC4156"
-                android:hint="   Phone"
+                android:drawablePadding="10dp"
+                android:hint="Phone"
                 android:paddingTop="5dp"
                 app:layout_constraintEnd_toEndOf="@+id/edtfullname"
                 app:layout_constraintStart_toStartOf="@+id/edtfullname"
@@ -158,7 +161,7 @@
             android:id="@+id/signuppin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/unic_icon"

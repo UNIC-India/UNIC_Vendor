@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:layout_height="match_parent"
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gd1"
         android:layout_width="wrap_content"
@@ -147,7 +147,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.02"
+                app:layout_constraintGuide_end="364dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -272,6 +272,119 @@
         app:layout_constraintRight_toRightOf="@id/gd2"
         android:textColor="@color/colorTertiary"
         android:text="unic.india19@gmail.com" />
+
+    <View
+        android:id="@+id/view10"
+        android:layout_width="0dp"
+        android:layout_height="1.5dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="2dp"
+        android:background="@color/colorSecondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+
+    <TextView
+        android:id="@+id/tvteam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/textView23"
+        app:layout_constraintLeft_toLeftOf="@id/gd1"
+        app:layout_constraintRight_toRightOf="@id/gd2"
+        android:text="Unic is co-founded by a team of 5 members"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/abeezee"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gd8"
+        android:layout_width="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="match_parent"
+        app:layout_constraintGuide_percent="0.333"
+        android:orientation="vertical"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gd9"
+        android:layout_width="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="match_parent"
+        app:layout_constraintGuide_percent="0.666"
+        android:orientation="vertical"/>
+
+    <TextView
+        android:id="@+id/name_Nisarg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nisarg Vora"
+        android:fontFamily="@font/abeezee"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@id/tvteam"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@id/gd8"/>
+
+    <TextView
+        android:id="@+id/name_Pratham"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pratham Katiyar"
+        android:fontFamily="@font/abeezee"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@id/tvteam"
+        app:layout_constraintLeft_toLeftOf="@id/gd8"
+        app:layout_constraintRight_toRightOf="@id/gd9"/>
+
+    <TextView
+        android:id="@+id/name_Mihir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mihir Shah"
+        android:fontFamily="@font/abeezee"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@id/tvteam"
+        app:layout_constraintLeft_toLeftOf="@id/gd9"
+        app:layout_constraintRight_toRightOf="parent"/>
+    <TextView
+        android:id="@+id/name_Margi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Margi Vithalani"
+        android:fontFamily="@font/abeezee"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/name_Nisarg"
+        app:layout_constraintLeft_toLeftOf="@id/gd1"
+        app:layout_constraintRight_toLeftOf="@id/name_Nehil"/>
+
+    <TextView
+        android:id="@+id/name_Nehil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nehil Agrawal"
+        android:fontFamily="@font/abeezee"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/name_Mihir"
+        app:layout_constraintLeft_toRightOf="@id/name_Margi"
+        app:layout_constraintRight_toRightOf="@id/gd2"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/name_Nehil"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="15dp"/>
+
+
+
 
 
 
