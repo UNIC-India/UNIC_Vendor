@@ -67,6 +67,7 @@
     <string name="my_apps">My Shops</string>
     <string name="see_apps">View all your shops here.</string>
     <string name="msg_token_fmt">Got string</string>
+
     <string-array name="what_to_do">
         <item>Add Images</item>
         <item>Display Categories</item>

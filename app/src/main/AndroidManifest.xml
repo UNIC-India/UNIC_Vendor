@@ -4,6 +4,8 @@
     package="com.unic.unic_vendor_final_1">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <uses-feature android:name="android.hardware.screen.portrait" />
 
@@ -15,6 +17,8 @@
         android:hardwareAccelerated="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
         <activity android:name=".views.activities.AddNewProduct"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
@@ -63,7 +67,7 @@
             android:resource="@array/preloaded_fonts" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/unic_logo" />
+            android:resource="@drawable/app_logo" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorTertiary" />
