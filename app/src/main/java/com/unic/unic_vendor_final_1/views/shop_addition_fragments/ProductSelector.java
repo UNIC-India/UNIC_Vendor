@@ -48,7 +48,7 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
 
     private List<Map<String,Object>> searchResults = new ArrayList<>();
 
-    private Map<String,List<String>> extraData = new HashMap<>();
+    private Map<String,Map<String,List<String>>> extraData = new HashMap<>();
 
     private boolean isFirst = true;
     private DocumentSnapshot lastDoc;
@@ -115,7 +115,7 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
 
                         List<String> refinedCategories = new ArrayList<>();
 
-                        for(String category : extraData.get("categories")){
+                        for(String category : extraData.get("categories").keySet()){
                             if(category.toLowerCase().contains(s.toString().toLowerCase()))
                                 refinedCategories.add(category);
                         }
@@ -124,7 +124,7 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
                         break;
                     case 2:
                         List<String> refinedCompanies = new ArrayList<>();
-                        for(String company : extraData.get("companies")){
+                        for(String company : extraData.get("companies").keySet()){
                             if (company.toLowerCase().contains(s.toString().toLowerCase()))
                                 refinedCompanies.add(company);
                         }
@@ -231,7 +231,7 @@ public class ProductSelector extends Fragment implements View.OnClickListener,Ad
         this.lastDoc = lastDoc;
     }
 
-    public void setExtraData(Map<String, List<String>> extraData) {
+    public void setExtraData(Map<String, Map<String, List<String>>> extraData) {
         this.extraData = extraData;
     }
 

@@ -16,6 +16,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
@@ -35,7 +37,7 @@ import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
 
-public class MyProductsFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class MyProductsFragment extends Fragment implements AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
 
     private FragmentMyProductsBinding myProductsBinding;
     private ProductListAdapter productListAdapter;
@@ -46,8 +48,11 @@ public class MyProductsFragment extends Fragment implements AdapterView.OnItemSe
     UserShopsViewModel userShopsViewModel;
 
     private boolean isAtBottom = false;
+    private boolean isSelectorOpen = false;
 
-    private Map<String, List<String>> extraData = new HashMap<>();
+    private Animation slideUp,slideDown,immediateSlideUp;
+
+    private Map<String,Map<String,List<String>>> extraData = new HashMap<>();
 
     private int queryType;
 
@@ -68,13 +73,20 @@ public class MyProductsFragment extends Fragment implements AdapterView.OnItemSe
         userShopsViewModel=new ViewModelProvider(getActivity()).get(UserShopsViewModel.class);
         userShopsViewModel.titleSetter.setValue(6);
 
-        ArrayAdapter<CharSequence> selectionAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.spinner_array, android.R.layout.simple_spinner_item);
+        slideUp = AnimationUtils.loadAnimation(getContext(), R.anim.slide_up);
+        slideDown = AnimationUtils.loadAnimation(getContext(),R.anim.slide_down);
+        immediateSlideUp = AnimationUtils.loadAnimation(getContext(),R.anim.immediate_slide_up);
+
+        ArrayAdapter<CharSequence> selectionAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.spinner_array, R.layout.simple_textbox);
         selectionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        myProductsBinding.productSpinner.setAdapter(selectionAdapter);
-        myProductsBinding.productSpinner.setOnItemSelectedListener(this);
+        myProductsBinding.myProductFilterList.setAdapter(selectionAdapter);
+        myProductsBinding.myProductFilterList.setOnItemClickListener(this);
 
-        setStructureViewModel = new ViewModelProvider(this).get(SetStructureViewModel.class);
+        /*myProductsBinding.productSpinner.setAdapter(selectionAdapter);
+        myProductsBinding.productSpinner.setOnItemSelectedListener(this);*/
+
+        setStructureViewModel = new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
         setStructureViewModel.getShopData(shopId);
         setStructureViewModel.getSetProductsUpdating().observe(getViewLifecycleOwner(),aBoolean -> {
             if(aBoolean){
@@ -114,7 +126,7 @@ public class MyProductsFragment extends Fragment implements AdapterView.OnItemSe
 
                         List<String> refinedCategories = new ArrayList<>();
 
-                        for(String category : extraData.get("categories")){
+                        for(String category : extraData.get("categories").keySet()){
                             if(category.toLowerCase().contains(s.toString().toLowerCase()))
                                 refinedCategories.add(category);
                         }
@@ -123,7 +135,7 @@ public class MyProductsFragment extends Fragment implements AdapterView.OnItemSe
                         break;
                     case 2:
                         List<String> refinedCompanies = new ArrayList<>();
-                        for(String company : extraData.get("companies")){
+                        for(String company : extraData.get("companies").keySet()){
                             if (company.toLowerCase().contains(s.toString().toLowerCase()))
                                 refinedCompanies.add(company);
                         }
@@ -201,7 +213,18 @@ public class MyProductsFragment extends Fragment implements AdapterView.OnItemSe
             }
         });
 
-
+        myProductsBinding.myProductFilter.setOnClickListener(v -> {
+            if(isSelectorOpen) {
+                myProductsBinding.myProductFilterList.startAnimation(slideDown);
+                myProductsBinding.myProductFilterList.setVisibility(View.GONE);
+                isSelectorOpen = false;
+            }
+            else {
+                myProductsBinding.myProductFilterList.setVisibility(View.VISIBLE);
+                myProductsBinding.myProductFilterList.startAnimation(slideUp);
+                isSelectorOpen = true;
+            }
+        });
 
         // Inflate the layout for this fragment
         return myProductsBinding.getRoot();
@@ -233,12 +256,19 @@ public class MyProductsFragment extends Fragment implements AdapterView.OnItemSe
         this.queryType = queryType;
     }
 
-    public void setExtraData(Map<String, List<String>> extraData) {
+    public void setExtraData(Map<String, Map<String, List<String>>> extraData) {
         this.extraData = extraData;
     }
 
     @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        setQueryType(position);
+    }
+
+    @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        myProductsBinding.myProductFilterList.startAnimation(slideUp);
+        myProductsBinding.myProductFilterList.setVisibility(View.GONE);
         setQueryType(position);
     }
 

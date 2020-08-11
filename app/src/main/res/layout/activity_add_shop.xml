@@ -136,7 +136,7 @@
                 app:layout_constraintLeft_toLeftOf="@id/gd1"
                 app:layout_constraintRight_toRightOf="@id/gd4"
                 app:layout_constraintTop_toBottomOf="@+id/tv_add_shop_name"
-                android:background="@drawable/transparent_backgrounf"/>
+                android:background="@drawable/transparent_background"/>
 
             <View
                 android:layout_width="0dp"
@@ -172,7 +172,7 @@
                 app:layout_constraintLeft_toLeftOf="@id/gd1"
                 app:layout_constraintRight_toRightOf="@id/gd4"
                 app:layout_constraintTop_toBottomOf="@+id/tv_add_shop_address"
-                android:background="@drawable/transparent_backgrounf"/>
+                android:background="@drawable/transparent_background"/>
 
             <View
                 android:layout_width="0dp"
@@ -205,7 +205,7 @@
                 app:layout_constraintLeft_toLeftOf="@id/gd1"
                 app:layout_constraintRight_toRightOf="@id/gd4"
                 app:layout_constraintTop_toBottomOf="@+id/tv_add_shop_city"
-                android:background="@drawable/transparent_backgrounf"/>
+                android:background="@drawable/transparent_background"/>
 
             <View
                 android:layout_width="0dp"
@@ -238,7 +238,7 @@
                 app:layout_constraintLeft_toLeftOf="@id/gd1"
                 app:layout_constraintRight_toRightOf="@id/gd4"
                 app:layout_constraintTop_toBottomOf="@+id/tv_add_shop_locality"
-                android:background="@drawable/transparent_backgrounf"/>
+                android:background="@drawable/transparent_background"/>
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"

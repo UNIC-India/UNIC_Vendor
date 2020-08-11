@@ -1,152 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cart_item"
+    android:id="@+id/master_product_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="1dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="1dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="5dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
-    android:layout_marginTop="5dp"
-
-    android:backgroundTint="@color/offWhite"
-    android:elevation="5dp">
-
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cdProduct"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="3dp"
-        app:cardElevation="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <CheckBox
+            android:id="@+id/master_product_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/master_product_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/master_product_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="7dp"
+            android:elevation="2dp"
+            android:scaleType="fitCenter"
+            android:src="@color/colourQuaternary"
+            app:layout_constraintLeft_toRightOf="@id/master_product_checkbox"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/master_product_name"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
-
-            <CheckBox
-                android:id="@+id/product_checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/product_image"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/product_image"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginLeft="7dp"
-                android:elevation="2dp"
-                android:maxLines="1"
-                android:ellipsize="end"
-
-                android:src="@color/colourQuaternary"
-                android:visibility="gone"
-                app:layout_constraintLeft_toRightOf="@id/product_checkbox"
-                app:layout_constraintTop_toTopOf="parent"></ImageView>
-
-            <TextView
-                android:id="@+id/product_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:fontFamily="@font/abeezee"
-                android:hint="MASTI DAHI"
-                android:padding="2dp"
-                android:textAllCaps="true"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textColor="#000000"
-                android:textColorHint="#000000"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginRight="8dp"
-                app:layout_constraintRight_toLeftOf="@id/addToCart"
-                app:layout_constraintLeft_toRightOf="@id/product_image"
-                app:layout_constraintTop_toTopOf="@id/product_image"></TextView>
+            android:ellipsize="end"
+            android:fontFamily="@font/abeezee"
+            android:hint="MASTI DAHI"
+            android:padding="2dp"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:textAllCaps="true"
+            android:textColor="#000000"
+            android:textColorHint="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@id/master_product_image"
+            app:layout_constraintTop_toTopOf="@id/master_product_image"
+            app:layout_constraintWidth_percent="0.7" />
 
 
-            <TextView
-                android:id="@+id/product_company_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:hint="Amul"
-                android:textColor="@color/grey4"
-                android:textColorHint="@color/grey4"
-                android:textSize="14sp"
-                app:layout_constraintLeft_toRightOf="@id/product_image"
-                app:layout_constraintTop_toBottomOf="@+id/product_name"></TextView>
+        <TextView
+            android:id="@+id/master_product_company"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:hint="Amul"
+            android:textColor="@color/grey4"
+            android:fontFamily="@font/abeezee"
 
-            <TextView
-                android:id="@+id/product_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/montserrat_bold"
-                android:hint="\u20B920"
-                android:maxLines="1"
-                android:textColor="@color/green"
-                android:textColorHint="@color/green"
-                android:textSize="15dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/product_company_name"></TextView>
+            android:textColorHint="@color/grey4"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toRightOf="@id/master_product_image"
+            app:layout_constraintTop_toBottomOf="@+id/master_product_name" />
 
-            <TextView
-                android:id="@+id/tvExtrainfo1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ExtraIfo1"
-                android:maxLines="1"
-                android:ellipsize="end"
-                app:layout_constraintBottom_toBottomOf="@+id/product_company_name"
-                app:layout_constraintLeft_toLeftOf="@id/tvExtrainfo2" />
+        <TextView
+            android:id="@+id/master_product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:fontFamily="@font/abeezee"
+            android:hint="Rs. 20"
+            android:textColor="@color/black"
+            android:textColorHint="@color/green"
+            android:textSize="15dp"
+            android:ellipsize="end"
+            android:maxLines="1"
 
-            <TextView
-                android:id="@+id/tvCategory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:text="Category"
-                android:maxLines="1"
-                android:ellipsize="end"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/product_image"
-                app:layout_constraintTop_toBottomOf="@+id/product_company_name" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/master_product_company" />
 
-            <ImageView
-                android:id="@+id/addToCart"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:tint="@color/colorPrimary"
-                app:layout_constraintBottom_toTopOf="@+id/product_price"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/addtocart" />
+        <TextView
+            android:id="@+id/master_product_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="Category"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/master_product_image"
+            app:layout_constraintTop_toBottomOf="@+id/master_product_company" />
 
-            <TextView
-                android:id="@+id/tvExtrainfo2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Extrainfo2"
-                android:maxLines="1"
-                android:ellipsize="end"
-                app:layout_constraintEnd_toStartOf="@+id/product_price"
-                app:layout_constraintStart_toEndOf="@+id/tvCategory"
-                app:layout_constraintTop_toBottomOf="@+id/tvExtrainfo1" />
+        <ImageView
+            android:id="@+id/master_product_cart"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/curved_corners"
+            android:backgroundTint="@color/colorPrimary"
+            app:layout_constraintBottom_toTopOf="@+id/master_product_price"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_plus_24" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/master_extra_info1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:fontFamily="@font/abeezee"
 
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/master_product_price"
+            app:layout_constraintStart_toEndOf="@+id/master_product_category" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/master_extra_info2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintEnd_toStartOf="@+id/master_product_price"
+            app:layout_constraintStart_toEndOf="@+id/master_product_category"
+            app:layout_constraintBottom_toTopOf="@+id/master_extra_info1" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

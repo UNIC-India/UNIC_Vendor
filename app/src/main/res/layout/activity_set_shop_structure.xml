@@ -135,14 +135,13 @@
                         android:ellipsize="end"
                         android:fontFamily="@font/abeezee"
                         android:gravity="center_horizontal"
-                        android:hint="D Mart"
                         android:maxLines="1"
                         android:textColor="#000000"
                         android:textColorHint="#000000"
                         android:textSize="24sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="@id/gd8"
+                        app:layout_constraintRight_toLeftOf="@id/confirm_shop_structure"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <Button

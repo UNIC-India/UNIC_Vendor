@@ -57,7 +57,13 @@ public class UserRequestsAdapter extends RecyclerView.Adapter<UserRequestsAdapte
                         users.remove(position);
                         notifyItemRemoved(position);
                     }))
-                    .setNegativeButton("NO",(dialog, which) -> dialog.dismiss())
+                    .setNegativeButton("NO",(dialog, which) -> {
+                        if(type==0){
+                            userShopsViewModel.rejectUserAccess(shopId,users.get(position).get("userId"));
+                        }
+
+                        dialog.dismiss();
+                    })
                     .create().show();
 
         }

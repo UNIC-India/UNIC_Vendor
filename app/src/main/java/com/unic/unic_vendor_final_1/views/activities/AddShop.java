@@ -231,7 +231,17 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
             switch (requestCode){
                 case GALLERY_INTENT:
                     Uri uri = data.getData();
-                    cropImage(uri);
+                    imageUri = uri;
+                    Glide
+                            .with(this)
+                            .load(uri)
+                            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                            .apply(RequestOptions.skipMemoryCacheOf(true))
+                            .apply(new RequestOptions().fitCenter())
+                            .into(addNewShopBinding.btnAddShopImage);
+                    addNewShopViewModel.getShopImageUri().setValue(uri);
+
+
                     break;
                 case LOCATION_SELECTOR:
                     Map<String,Double> location = new HashMap<>();

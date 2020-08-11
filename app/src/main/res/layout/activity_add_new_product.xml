@@ -126,7 +126,7 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/transparent_backgrounf"
+                android:background="@drawable/transparent_background"
                 android:fontFamily="@font/abeezee"
                 android:textColor="@color/black"
                 android:paddingLeft="3dp"
@@ -161,7 +161,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/transparent_backgrounf"
+                android:background="@drawable/transparent_background"
                 android:fontFamily="@font/abeezee"
                 android:textColor="@color/black"
                 android:inputType="textMultiLine"
@@ -199,7 +199,7 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/transparent_backgrounf"
+                android:background="@drawable/transparent_background"
                 android:fontFamily="@font/abeezee"
                 android:textColor="@color/black"
                 android:paddingLeft="3dp"
@@ -241,7 +241,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_product_price"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/transparent_backgrounf"/>
+                android:background="@drawable/transparent_background"/>
 
 
             <View
@@ -276,7 +276,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_product_category"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/transparent_backgrounf"/>
+                android:background="@drawable/transparent_background"/>
 
             <View
                 android:layout_width="match_parent"
@@ -310,7 +310,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_product_sub_category"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/transparent_backgrounf"/>
+                android:background="@drawable/transparent_background"/>
 
 
             <View
@@ -345,7 +345,7 @@
                 android:paddingLeft="3dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/transparent_backgrounf"/>
+                android:background="@drawable/transparent_background"/>
 
 
             <View
@@ -373,10 +373,12 @@
                 android:id="@+id/edt_product_discount"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:background="@drawable/transparent_backgrounf"
+                android:background="@drawable/transparent_background"
                 android:inputType="numberDecimal"
                 android:paddingLeft="3dp"
                 android:paddingTop="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:paddingBottom="2dp"
                 android:fontFamily="@font/abeezee"
                 android:textColor="@color/black"
@@ -416,7 +418,7 @@
                 android:textColor="@color/black"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/transparent_backgrounf"/>
+                android:background="@drawable/transparent_background"/>
 
 
             <View
@@ -451,7 +453,7 @@
                 android:textColor="@color/black"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/transparent_backgrounf"/>
+                android:background="@drawable/transparent_background"/>
 
 
             <View

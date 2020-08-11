@@ -213,8 +213,12 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 if(isNew)
                     views.add(view21);
 
-                CategoriesAdapter2 categoriesAdapter=new CategoriesAdapter2(getContext());
+                CategoriesAdapter2 categoriesAdapter=new CategoriesAdapter2(getContext(),view.getFields().equals("cname")?0:1);
                 categoriesAdapter.setCategories(view.getData());
+                if(view.getFields().equals("cname"))
+                    categoriesAdapter.setSubKeys(setStructureViewModel.getShopExtras().getValue().get("categories"));
+                if(view.getFields().equals("compname"))
+                    categoriesAdapter.setSubKeys(setStructureViewModel.getShopExtras().getValue().get("companies"));
                 LinearLayoutManager categoriesLayoutManager=new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL,false);
                 RecyclerView categoriesRecyclerView=categoriesView.findViewById(R.id.categories_recycler_view);
                 categoriesRecyclerView.setLayoutManager(categoriesLayoutManager);
@@ -240,8 +244,12 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 if(isNew)
                     views.add(view22);
 
-                CategoriesAdapter categoriesAdapter2=new CategoriesAdapter(getContext());
+                CategoriesAdapter2 categoriesAdapter2=new CategoriesAdapter2(getContext(),view.getFields().equals("cname")?0:1);
                 categoriesAdapter2.setCategories(view.getData());
+                if(view.getFields().equals("cname"))
+                    categoriesAdapter2.setSubKeys(setStructureViewModel.getShopExtras().getValue().get("categories"));
+                if(view.getFields().equals("compname"))
+                    categoriesAdapter2.setSubKeys(setStructureViewModel.getShopExtras().getValue().get("companies"));
                 RecyclerView.LayoutManager categoriesLayoutManager2=new GridLayoutManager(getContext(),3){
                     @Override
                     public boolean canScrollVertically() {

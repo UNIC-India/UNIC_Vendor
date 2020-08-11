@@ -19,10 +19,14 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Transformation;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -43,7 +47,7 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MasterLayoutFragment extends Fragment implements AdapterView.OnItemSelectedListener, TextWatcher {
+public class MasterLayoutFragment extends Fragment implements AdapterView.OnItemSelectedListener, TextWatcher, AdapterView.OnItemClickListener {
     private RecyclerView rv;
     private com.unic.unic_vendor_final_1.datamodels.View view;
     private int pageId;
@@ -57,8 +61,10 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
     private AutoCompleteTextView searchTextView;
     private boolean isAtBottom = false;
     private List<Map<String,Object>> searchResults = new ArrayList<>();
-    private Map<String,List<String>> extraData = new HashMap<>();
+    private Map<String,Map<String,List<String>>> extraData = new HashMap<>();
     private MasterLayoutBinding masterLayoutBinding;
+    boolean isSelectorOpen = false;
+    Animation slideUp,slideDown,immediateSlideUp;
 
     private boolean isFirst = true;
     private DocumentSnapshot lastDoc;
@@ -86,6 +92,9 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
         masterCompaniesAdapter=new MasterCompaniesAdapter(getContext());
         masterCategoriesAdapter= new MasterCategoriesAdapter(getContext());
 
+        slideUp = AnimationUtils.loadAnimation(getContext(), R.anim.slide_up);
+        slideDown = AnimationUtils.loadAnimation(getContext(),R.anim.slide_down);
+        immediateSlideUp = AnimationUtils.loadAnimation(getContext(),R.anim.immediate_slide_up);
         searchTextView.addTextChangedListener(this);
 
         setStructureViewModel.getProducts().observe(getActivity(), maps -> {
@@ -105,21 +114,39 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
 
         setStructureViewModel.getPaginatedProductData(true,null,2);
 
-        ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(getActivity(), R.array.spinner_array,android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(getActivity(), R.array.spinner_array,R.layout.simple_textbox);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
-        if(view!=null&&view.getData()!=null&&view.getData().size()!=0&&view.getData().get(0).get("default")!=null)
-            spinner.setSelection(Integer.parseInt(view.getData().get(0).get("default").toString()));
-        else
-            spinner.setSelection(0);
-        masterLayoutBinding.imageView2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                spinner.performClick();
+
+        masterLayoutBinding.masterTypeList.setAdapter(adapter);
+        masterLayoutBinding.masterTypeList.setOnItemClickListener(this);
+
+        /*spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);*/
+        if(view!=null&&view.getData()!=null&&view.getData().size()!=0&&view.getData().get(0).get("default")!=null) {
+            masterLayoutBinding.masterTypeList.setSelection(Integer.parseInt(view.getData().get(0).get("default").toString()));
+            //spinner.setSelection(Integer.parseInt(view.getData().get(0).get("default").toString()));
+            setAdapter(Integer.parseInt(view.getData().get(0).get("default").toString()));
+        }
+        else {
+            masterLayoutBinding.masterTypeList.setSelection(0);
+            //spinner.setSelection(0);
+            setAdapter(0);
+        }
+
+        masterLayoutBinding.getRoot().setEnabled(false);
+
+        masterLayoutBinding.masterProductFilter.setOnClickListener(v -> {
+            if(isSelectorOpen) {
+                masterLayoutBinding.masterTypeList.startAnimation(slideUp);
+                masterLayoutBinding.masterTypeList.setVisibility(View.GONE);
+                isSelectorOpen = false;
+            }
+            else {
+                masterLayoutBinding.masterTypeList.startAnimation(slideDown);
+                masterLayoutBinding.masterTypeList.setVisibility(View.VISIBLE);
+                isSelectorOpen = true;
             }
         });
-        masterLayoutBinding.getRoot().setEnabled(false);
 
         return masterLayoutBinding.getRoot();
     }
@@ -173,7 +200,7 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-      //  setter=0;
+        //  setter=0;
         // setAdapter(setter);
     }
 
@@ -243,10 +270,10 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
         masterProductAdapter.setProducts(searchResults);
         masterProductAdapter.notifyDataSetChanged();
     }
-    private void setExtraData(Map<String, List<String>> extraData) {
+    private void setExtraData(Map<String,Map<String,List<String>>> extraData) {
         this.extraData = extraData;
-        masterCategoriesAdapter.setCategories(extraData.get("categories"));
-        masterCompaniesAdapter.setCompanies(extraData.get("companies"));
+        masterCategoriesAdapter.setCategories(new ArrayList<>(extraData.get("categories").keySet()));
+        masterCompaniesAdapter.setCompanies(new ArrayList<>(extraData.get("companies").keySet()));
         masterCategoriesAdapter.notifyDataSetChanged();
         masterCompaniesAdapter.notifyDataSetChanged();
     }
@@ -278,31 +305,30 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
             case 1:
                 List<String> refinedCategories = new ArrayList<>();
                 if(s.length()!=0){
-                    for(String category : extraData.get("categories")){
+                    for(String category : extraData.get("categories").keySet()){
                         if(category.toLowerCase().contains(s.toString().toLowerCase()))
                             refinedCategories.add(category);
                     }
                     masterCategoriesAdapter.setCategories(refinedCategories);
                 }
                 else {
-                    masterCategoriesAdapter.setCategories(extraData.get("categories"));
+                    masterCategoriesAdapter.setCategories(new ArrayList<>(extraData.get("categories").keySet()));
                 }
                 masterCategoriesAdapter.notifyDataSetChanged();
                 break;
             case 2:
                 List<String> refinedCompanies = new ArrayList<>();
                 if(s.length()!=0){
-                    for(String company : extraData.get("companies")){
+                    for(String company : extraData.get("companies").keySet()){
                         if(company.toLowerCase().contains(s.toString().toLowerCase()))
                             refinedCompanies.add(company);
                     }
                     masterCompaniesAdapter.setCompanies(refinedCompanies);
-                    masterCompaniesAdapter.notifyDataSetChanged();
                 }
                 else {
-                    masterCompaniesAdapter.setCompanies(extraData.get("companies"));
-                    masterCompaniesAdapter.notifyDataSetChanged();
+                    masterCompaniesAdapter.setCompanies(new ArrayList<>(extraData.get("companies").keySet()));
                 }
+                masterCompaniesAdapter.notifyDataSetChanged();
                 break;
         }
 
@@ -323,8 +349,10 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
 
     private void refineSearchResult(CharSequence s){
 
-        if(searchResults==null||searchResults.size()==0)
+        if(searchResults==null||searchResults.size()==0) {
+            setStructureViewModel.searchProductsByName(s.toString().substring(0,2));
             return;
+        }
 
         List<Map<String,Object>> refinedProducts = new ArrayList<>();
         for(Map map : searchResults){
@@ -341,5 +369,109 @@ public class MasterLayoutFragment extends Fragment implements AdapterView.OnItem
 
     public void setLastDoc(DocumentSnapshot lastDoc) {
         this.lastDoc = lastDoc;
+    }
+
+    /*public static void expand(final View v) {
+        int matchParentMeasureSpec = View.MeasureSpec.makeMeasureSpec(((View) v.getParent()).getWidth(), View.MeasureSpec.EXACTLY);
+        int wrapContentMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        v.measure(matchParentMeasureSpec, wrapContentMeasureSpec);
+        final int targetHeight = v.getMeasuredHeight();
+
+        // Older versions of android (pre API 21) cancel animations for views with a height of 0.
+        v.getLayoutParams().height = 1;
+        v.setVisibility(View.VISIBLE);
+        Animation a = new Animation()
+        {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                v.getLayoutParams().height = interpolatedTime == 1
+                        ? ViewGroup.LayoutParams.WRAP_CONTENT
+                        : (int)(targetHeight * interpolatedTime);
+                v.requestLayout();
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+
+        // Expansion speed of 1dp/ms
+        a.setDuration((int)(targetHeight / v.getContext().getResources().getDisplayMetrics().density));
+        v.startAnimation(a);
+    }
+
+    public static void collapse(final View v) {
+        final int initialHeight = v.getMeasuredHeight();
+
+        Animation a = new Animation()
+        {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                if(interpolatedTime == 1){
+                    v.setVisibility(View.GONE);
+                }else{
+                    v.getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
+                    v.requestLayout();
+                }
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+
+        // Collapse speed of 1dp/ms
+        a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density));
+        v.startAnimation(a);
+    }*/
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+
+        if(position!=Integer.parseInt((view.getData().size()!=0)?view.getData().get(0).get("default").toString():"0") ){
+            int count = 0;
+            int height = 0;
+
+            switch (position){
+                case 0:
+                    height = 658;
+                    break;
+                case 1:
+                    count = extraData.get("categories").size();
+                    height = 53 + count*48;
+                    break;
+
+                case 2:
+                    count = extraData.get("companies").size();
+                    height = 53 + count*48;
+                    break;
+
+            }
+            Map<String,Object> heightMap = new HashMap<>();
+            heightMap.put("0",658);
+            heightMap.put("1",Math.min(53+extraData.get("categories").size()*48,658));
+            heightMap.put("2",Math.min(53+extraData.get("companies").size()*48,658));
+
+            List<Map<String, Object>> temp = new ArrayList<>();
+            Map<String, Object> d = new HashMap<>();    //Both these variables are used for setting the default view in the MasterLayout.
+            d.put("default", position);
+
+            temp.add(d);
+            temp.add(heightMap);
+            view.setData(temp);
+
+            height = Math.min(height, 658);
+            view.setHeight(height);
+
+            ((SetShopStructure)getActivity()).updateMasterLayoutHeight(pageId,view.getViewCode());
+        }
+
+        else {
+            setter = position;
+            setAdapter(setter);
+        }
+
     }
 }

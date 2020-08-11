@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.signature.ObjectKey;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.views.activities.AddNewProduct;
 
@@ -77,9 +78,9 @@ public class AddProductImageAdapter extends RecyclerView.Adapter<AddProductImage
             Glide
                     .with(context)
                     .load(imageUris.get(position))
-                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
-                    .apply(RequestOptions.skipMemoryCacheOf(true))
-                    .into(holder.productImage);
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                .into(holder.productImage);
 
         }
 

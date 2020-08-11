@@ -38,7 +38,7 @@ public class SetStructureViewModel extends ViewModel {
     private MutableLiveData<Integer> status = new MutableLiveData<>();
     private MutableLiveData<Integer> productStatus = new MutableLiveData<>();
     private MutableLiveData<Integer> structureStatus = new MutableLiveData<>();
-    private MutableLiveData<Map<String,List<String>>> shopExtras = new MutableLiveData<>();
+    private MutableLiveData<Map<String,Map<String,List<String>>>> shopExtras = new MutableLiveData<>();
     private MutableLiveData<List<Map<String,Object>>> products = new MutableLiveData<>();
     private MutableLiveData<List<Map<String,Object>>> categories = new MutableLiveData<>();
     private MutableLiveData<List<Map<String,Object>>> companies = new MutableLiveData<>();
@@ -60,7 +60,11 @@ public class SetStructureViewModel extends ViewModel {
 
     private MutableLiveData<Boolean> closeDrawers = new MutableLiveData<>();
 
+    private MutableLiveData<List<Map<String,Object>>> categoryProducts= new MutableLiveData<>();
+
     private FirebaseRepository firebaseRepository = new FirebaseRepository();
+
+    private MutableLiveData<String> currentKey = new MutableLiveData<>();
 
     public void getShopData(String shopId){
         firebaseRepository.getShop(shopId).addOnSuccessListener(documentSnapshot -> {
@@ -166,45 +170,75 @@ public class SetStructureViewModel extends ViewModel {
         }
     }
 
-    public void getShopExtras(String  shopId){
-        Map<String,List<String>> extras = new HashMap<>();
-        firebaseRepository.getShopExtras(shopId).addSnapshotListener((queryDocumentSnapshots, e) -> {
+    public void getShopExtras(String shopId){
+        Map<String,Map<String,List<String>>> extras = new HashMap<>();
+        firebaseRepository.getShopExtras(shopId).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
 
-            if (queryDocumentSnapshots==null)
-                return;
+                if (queryDocumentSnapshots==null)
+                    return;
 
-            for(DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()){
-                switch (doc.getId()){
-                    case "categories":
+                for(DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()){
+                    switch (doc.getId()){
+                        case "categories":
 
-                        List<String> categoriesList = new ArrayList<>(doc.getData().keySet());
+                            List<Object> categoriesObj = Arrays.asList(doc.getData().keySet().toArray());
 
-                        extras.put("categories",categoriesList);
+                            List<String> categoriesList = new ArrayList<>();
 
-                        List<Map<String,Object>> categoryData = new ArrayList<>();
+                            categoriesObj.forEach(o -> {
+                                categoriesList.add(o.toString());
+                            });
 
-                        for(String category : categoriesList){
-                            Map<String,Object> data = new HashMap<>();
-                            data.put("cname",category);
-                            categoryData.add(data);
-                        }
+                            Map<String,List<String>> subcategoryData = new HashMap<>();
 
-                        categories.setValue(categoryData);
+                            for(String key : doc.getData().keySet()){
+                                subcategoryData.put(key,(List<String>)doc.getData().get(key));
+                            }
 
-                    case "companies":
-                        List<String> companiesdata = new ArrayList<>(doc.getData().keySet());
-                        extras.put("companies",companiesdata);
-                        List<Map<String,Object>> companydata = new ArrayList<>();
+                            extras.put("categories",subcategoryData);
 
-                        for(String company: companiesdata){
-                            Map<String,Object> data = new HashMap<>();
-                            data.put("compname",company);
-                            companydata.add(data);
-                        }
-                        companies.setValue(companydata);
+                            List<Map<String,Object>> categoryData = new ArrayList<>();
+
+                            for(String category : categoriesList){
+                                Map<String,Object> data = new HashMap<>();
+                                data.put("cname",category);
+                                categoryData.add(data);
+                            }
+
+                            categories.setValue(categoryData);
+
+                        case "companies":
+
+                            List<Object> conpaniesObj = Arrays.asList(doc.getData().keySet().toArray());
+
+                            List<String> companiesList = new ArrayList<>();
+
+                            conpaniesObj.forEach(o -> {
+                                companiesList.add(o.toString());
+                            });
+
+                            Map<String,List<String>> catData = new HashMap<>();
+
+                            for(String key : doc.getData().keySet()){
+                                catData.put(key,(List<String>)doc.getData().get(key));
+                            }
+
+                            extras.put("companies",catData);
+
+                            List<Map<String,Object>> companydata = new ArrayList<>();
+
+                            for(String company: companiesList){
+                                Map<String,Object> data = new HashMap<>();
+                                data.put("compname",company);
+                                companydata.add(data);
+                            }
+                            companies.setValue(companydata);
+                    }
                 }
+                shopExtras.setValue(extras);
             }
-            shopExtras.setValue(extras);
         });
     }
 
@@ -337,6 +371,54 @@ public class SetStructureViewModel extends ViewModel {
         });
     }
 
+    public void getPaginatedCategoryProducts(String category, boolean isFirst, DocumentSnapshot lastDoc){
+
+        List<Map<String,Object>> data = new ArrayList<>();
+
+        firebaseRepository.getPaginatedCategoryProducts(shop.getValue().getId(),category,isFirst,lastDoc)
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    queryDocumentSnapshots.forEach(doc -> data.add(doc.getData()));
+                    categoryProducts.setValue(data);
+                });
+    }
+
+    public void getPaginatedCompanyProducts(String company, boolean isFirst, DocumentSnapshot lastDoc){
+        List<Map<String,Object>> data = new ArrayList<>();
+        firebaseRepository.getPaginatedCompanyProducts(shop.getValue().getId(),company,isFirst,lastDoc)
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    queryDocumentSnapshots.forEach(doc -> data.add(doc.getData()));
+                    categoryProducts.setValue(data);
+                });
+    }
+
+    public void searchProductsByCategoryRefineSubcategory(String category, String subcategory){
+        firebaseRepository.getProductsByCategoryRefineSubcategory(shop.getValue().getId(),category,subcategory)
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if(queryDocumentSnapshots==null)
+                        return;
+                    List<Map<String,Object>> results = new ArrayList<>();
+                    queryDocumentSnapshots.forEach(doc -> results.add(doc.getData()));
+                    searchResults.setValue(results);
+                });
+    }
+
+    public void searchProductsByCompanyRefineCategory(String company, String  category){
+        firebaseRepository.getProductsByCategoryRefineCompany(shop.getValue().getId(),company,category)
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if(queryDocumentSnapshots==null)
+                        return;
+                    List<Map<String,Object>> results = new ArrayList<>();
+                    queryDocumentSnapshots.forEach(doc -> results.add(doc.getData()));
+                    searchResults.setValue(results);
+                });
+    }
+
+    public void updateProductData(String productId,Map<String ,Object> modifiedData){
+
+        firebaseRepository.updateProductData(shop.getValue().getId(),productId,modifiedData);
+
+    }
+
     public void clearSearch(){
         searchResults.setValue(null);
     }
@@ -377,7 +459,7 @@ public class SetStructureViewModel extends ViewModel {
         return products;
     }
 
-    public LiveData<Map<String,List<String>>> getShopExtras() {
+    public MutableLiveData<Map<String, Map<String, List<String>>>> getShopExtras() {
         return shopExtras;
     }
 
@@ -435,5 +517,13 @@ public class SetStructureViewModel extends ViewModel {
 
     public MutableLiveData<Boolean> getSetProductsUpdating() {
         return setProductsUpdating;
+    }
+
+    public MutableLiveData<List<Map<String, Object>>> getCategoryProducts() {
+        return categoryProducts;
+    }
+
+    public MutableLiveData<String> getCurrentKey() {
+        return currentKey;
     }
 }

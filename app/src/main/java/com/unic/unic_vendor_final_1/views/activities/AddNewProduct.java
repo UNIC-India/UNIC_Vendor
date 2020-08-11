@@ -180,14 +180,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
             done = false;
         }
         else {
-            product.setName(addNewProductBinding.edtProductName.getText().toString());
-            List<String> keys = new ArrayList<>();
-            for(String key : product.getName().split(" ")) {
-                if (key.length() > 1)
-                    keys.add(key.substring(0, 2).toLowerCase());
-            }
-            product.setNameKeywords(keys);
-
+            product.setName(addNewProductBinding.edtProductName.getText().toString().trim());
         }
 
         if(addNewProductBinding.edtProductCompany.getText().length()==0){
@@ -195,41 +188,41 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
             done = false;
         }
         else
-            product.setCompany(addNewProductBinding.edtProductCompany.getText().toString());
+            product.setCompany(addNewProductBinding.edtProductCompany.getText().toString().trim());
 
         if(addNewProductBinding.edtProductCategory.getText().length()==0){
             addNewProductBinding.edtProductCategory.setError("This field is mandatory");
             done = false;
         }
         else
-            product.setCategory(addNewProductBinding.edtProductCategory.getText().toString());
+            product.setCategory(addNewProductBinding.edtProductCategory.getText().toString().trim());
 
         if(addNewProductBinding.edtProductPrice.getText().length()==0){
             addNewProductBinding.edtProductPrice.setError("This field is mandatory");
             done = false;
         }
         else
-            product.setPrice(Double.parseDouble(addNewProductBinding.edtProductPrice.getText().toString()));
+            product.setPrice(Double.parseDouble(addNewProductBinding.edtProductPrice.getText().toString().trim()));
 
         if(addNewProductBinding.edtProductTags.getText().length()!=0)
-            product.setTags(addNewProductBinding.edtProductTags.getText().toString());
+            product.setTags(addNewProductBinding.edtProductTags.getText().toString().trim());
 
         if(addNewProductBinding.edtProductSubCategory.getText().length()!=0){
-            product.setSubcategory(addNewProductBinding.edtProductSubCategory.getText().toString());
+            product.setSubcategory(addNewProductBinding.edtProductSubCategory.getText().toString().trim());
         }
 
         if(addNewProductBinding.edtProductDesc.getText().length()!=0)
-            product.setDesc(addNewProductBinding.edtProductDesc.getText().toString());
+            product.setDesc(addNewProductBinding.edtProductDesc.getText().toString().trim());
         if(addNewProductBinding.edtProductDiscount.getText().length()!=0)
-            if(Double.parseDouble(addNewProductBinding.edtProductDiscount.getText().toString())>=100||Double.parseDouble(addNewProductBinding.edtProductDiscount.getText().toString())<=0){
+            if(Double.parseDouble(addNewProductBinding.edtProductDiscount.getText().toString().trim())>=100||Double.parseDouble(addNewProductBinding.edtProductDiscount.getText().toString().trim())<=0){
                 Toast.makeText(this, "Discount can only be between 0.01 & 99.99", Toast.LENGTH_SHORT).show();
                 done=false;
             }
-            product.setDiscount(addNewProductBinding.edtProductDiscount.getText().toString().isEmpty()?0.0:Double.parseDouble(addNewProductBinding.edtProductDiscount.getText().toString()));
+            product.setDiscount(addNewProductBinding.edtProductDiscount.getText().toString().trim().isEmpty()?0.0:Double.parseDouble(addNewProductBinding.edtProductDiscount.getText().toString().trim()));
         if(addNewProductBinding.edtProductExtrainfo1.getText().length()!=0)
-            product.setExtraInfo1(addNewProductBinding.edtProductExtrainfo1.getText().toString());
+            product.setExtraInfo1(addNewProductBinding.edtProductExtrainfo1.getText().toString().trim());
         if(addNewProductBinding.edtProductExtrainfo2.getText().length()!=0)
-            product.setExtraInfo2(addNewProductBinding.edtProductExtrainfo2.getText().toString());
+            product.setExtraInfo2(addNewProductBinding.edtProductExtrainfo2.getText().toString().trim());
 
         if(done){
             addNewProductViewModel.setProduct(product);
@@ -259,13 +252,19 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
                 case GALLERY_INTENT:
                     Uri uri = data.getData();
 
-                    cropImage(uri);
+                    addNewProductBinding.addProductImageSlider.setVisibility(View.VISIBLE);
+                    addNewProductBinding.btnAddProductImage.setVisibility(View.INVISIBLE);
+
+                    if (imageUris == null)
+                        imageUris = new ArrayList<>();
+
+                    imageUris.add(uri);
+                    productImageAdapter.setImageUris(imageUris);
                     break;
 
                 case CROP_IMAGE:
 
-                    addNewProductBinding.addProductImageSlider.setVisibility(View.VISIBLE);
-                    addNewProductBinding.btnAddProductImage.setVisibility(View.INVISIBLE);
+
 
                     imageUris.add(currentImageUri);
 
@@ -285,8 +284,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         cropIntent.putExtra("aspectY", 1);
         cropIntent.putExtra("return-data", true);
 
-        if (imageUris == null)
-            imageUris = new ArrayList<>();
+
 
         File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "new-product-image-" + Integer.valueOf(imageUris.size()).toString() + ".jpg");
 
@@ -294,14 +292,7 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, currentImageUri);
         cropIntent.putExtra("output", currentImageUri);
 
-        if (cropIntent.resolveActivity(getPackageManager()) != null) {
-            Toast.makeText(this, "Cropping...", Toast.LENGTH_SHORT).show();
-            startActivityForResult(cropIntent, CROP_IMAGE);
-        }
-        else {
-            imageUris.add(uri);
-            productImageAdapter.setImageUris(imageUris);
-        }
+
     }
 
     private Bitmap getResizedBitmap(Bitmap image, int maxSize) {
