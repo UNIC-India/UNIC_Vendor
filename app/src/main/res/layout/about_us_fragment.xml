@@ -6,7 +6,27 @@
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gd1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gd2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gd3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.constraintlayout.widget.Guideline
@@ -380,10 +400,261 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/name_Nehil"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginTop="15dp"/>
+            android:layout_height="match_parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <View
+                android:id="@+id/view7"
+                android:layout_width="0dp"
+                android:layout_height="1.5dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:background="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_mission" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gd6"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="364dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gd7"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.98"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/title_mission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/abeezee"
+                android:text="Our Mission"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/abeezee"
+                android:gravity="center"
+                android:inputType="textMultiLine"
+                android:lineSpacingExtra="4dp"
+                android:text="Our customer base is two-fold. We serve both the businesses as well as their customers. Our platform enables businesses to create their own app-like interface without coding; by only using simple tools like excel-sheets. This will reduce the daily communication overheads of Businesses. Businesses can easily get orders, advertise their products and notify customers about offers. Customers are now only a single click away."
+                android:textColor="#232323"
+                android:textSize="15sp"
+                android:paddingBottom="8dp"
+                app:layout_constraintLeft_toLeftOf="@id/gd6"
+                app:layout_constraintRight_toRightOf="@id/gd7"
+                app:layout_constraintTop_toBottomOf="@+id/title_mission" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+   <TextView
+       android:id="@+id/contact_title"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Contact Details"
+       android:fontFamily="@font/abeezee"
+       android:textStyle="bold"
+       app:layout_constraintTop_toBottomOf="@id/mission"
+       android:layout_marginTop="20dp"
+       app:layout_constraintLeft_toLeftOf="@id/gd1"
+       app:layout_constraintRight_toRightOf="@id/gd2"
+       android:textSize="15sp"
+       android:textColor="@color/black"/>
+    <TextView
+        android:id="@+id/tv_query"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:fontFamily="@font/abeezee"
+        app:layout_constraintTop_toBottomOf="@id/contact_title"
+        app:layout_constraintLeft_toLeftOf="@id/gd1"
+        app:layout_constraintRight_toRightOf="@id/gd2"
+        android:text="To create your app with UNIC or for any queries feel free to contact us through our customer care numbers given below."/>
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textSize="13sp"
+        android:fontFamily="@font/abeezee"
+        app:layout_constraintTop_toBottomOf="@id/tv_query"
+        app:layout_constraintLeft_toLeftOf="@id/gd1"
+        app:layout_constraintRight_toRightOf="@id/gd2"
+        android:text="+91-6354334006"
+        android:textColor="@color/colorTertiary" />
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:textSize="13sp"
+        android:fontFamily="@font/abeezee"
+        app:layout_constraintTop_toBottomOf="@id/textView18"
+        app:layout_constraintLeft_toLeftOf="@id/gd1"
+        app:layout_constraintRight_toRightOf="@id/gd2"
+        android:text="+91-9033892829"
+        android:textColor="@color/colorTertiary" />
+    <TextView
+        android:id="@+id/tv_mail_query"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:fontFamily="@font/abeezee"
+        app:layout_constraintTop_toBottomOf="@id/textView20"
+        app:layout_constraintLeft_toLeftOf="@id/gd1"
+        app:layout_constraintRight_toRightOf="@id/gd2"
+        android:text="You can also write to us at:" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:gravity="center"
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_mail_query"
+        app:layout_constraintLeft_toLeftOf="@id/gd1"
+        app:layout_constraintRight_toRightOf="@id/gd2"
+        android:textColor="@color/colorTertiary"
+        android:text="unic.india19@gmail.com" />
+
+    <View
+        android:id="@+id/view10"
+        android:layout_width="0dp"
+        android:layout_height="1.5dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="2dp"
+        android:background="@color/colorSecondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+
+    <TextView
+        android:id="@+id/tvteam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/textView23"
+        app:layout_constraintLeft_toLeftOf="@id/gd1"
+        app:layout_constraintRight_toRightOf="@id/gd2"
+        android:text="Unic is co-founded by a team of 5 members"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/abeezee"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gd8"
+        android:layout_width="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="match_parent"
+        app:layout_constraintGuide_percent="0.333"
+        android:orientation="vertical"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gd9"
+        android:layout_width="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="match_parent"
+        app:layout_constraintGuide_percent="0.666"
+        android:orientation="vertical"/>
+
+    <TextView
+        android:id="@+id/name_Nisarg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nisarg Vora"
+        android:fontFamily="@font/abeezee"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@id/tvteam"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@id/gd8"/>
+
+    <TextView
+        android:id="@+id/name_Pratham"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pratham Katiyar"
+        android:fontFamily="@font/abeezee"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@id/tvteam"
+        app:layout_constraintLeft_toLeftOf="@id/gd8"
+        app:layout_constraintRight_toRightOf="@id/gd9"/>
+
+    <TextView
+        android:id="@+id/name_Mihir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mihir Shah"
+        android:fontFamily="@font/abeezee"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@id/tvteam"
+        app:layout_constraintLeft_toLeftOf="@id/gd9"
+        app:layout_constraintRight_toRightOf="parent"/>
+    <TextView
+        android:id="@+id/name_Margi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Margi Vithalani"
+        android:fontFamily="@font/abeezee"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/name_Nisarg"
+        app:layout_constraintLeft_toLeftOf="@id/gd1"
+        app:layout_constraintRight_toLeftOf="@id/name_Nehil"/>
+
+    <TextView
+        android:id="@+id/name_Nehil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nehil Agrawal"
+        android:fontFamily="@font/abeezee"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/name_Mihir"
+        app:layout_constraintLeft_toRightOf="@id/name_Margi"
+        app:layout_constraintRight_toRightOf="@id/gd2"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/name_Nehil"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="15dp"/>
+  
+</androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
