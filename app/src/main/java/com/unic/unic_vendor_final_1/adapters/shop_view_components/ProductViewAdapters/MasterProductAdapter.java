@@ -42,15 +42,15 @@ public class MasterProductAdapter extends RecyclerView.Adapter<MasterProductAdap
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvProductName = itemView.findViewById(R.id.product_name);
-            ivProductPhoto = itemView.findViewById(R.id.product_image);
-            tvCompany = itemView.findViewById(R.id.product_company_name);
-            tvPrice = itemView.findViewById(R.id.product_price);
-            tvCategory = itemView.findViewById(R.id.tvCategory);
-            cdProduct=itemView.findViewById(R.id.cdProduct);
-            tvExtrainfo1=itemView.findViewById(R.id.tvExtrainfo1);
-            tvExtrainfo2=itemView.findViewById(R.id.tvExtrainfo2);
-            addToCart=itemView.findViewById(R.id.addToCart);
+            tvProductName = itemView.findViewById(R.id.master_product_name);
+            ivProductPhoto = itemView.findViewById(R.id.master_product_image);
+            tvCompany = itemView.findViewById(R.id.master_product_company);
+            tvPrice = itemView.findViewById(R.id.master_product_price);
+            tvCategory = itemView.findViewById(R.id.master_product_category);
+            cdProduct=itemView.findViewById(R.id.master_product_card);
+            tvExtrainfo1=itemView.findViewById(R.id.master_extra_info1);
+            tvExtrainfo2=itemView.findViewById(R.id.master_extra_info2);
+            addToCart=itemView.findViewById(R.id.master_product_cart);
 
 
         }

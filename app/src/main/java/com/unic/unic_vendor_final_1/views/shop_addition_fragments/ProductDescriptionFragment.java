@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class ProductDescriptionFragment extends Fragment {
+public class ProductDescriptionFragment extends Fragment implements View.OnClickListener{
 
     Map<String,Object> product;
     FragmentProductDescriptionBinding fragmentProductDescriptionBinding;
@@ -51,7 +51,7 @@ public class ProductDescriptionFragment extends Fragment {
         setStructureViewModel= new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
         setStructureViewModel.setCurrentFrag(getActivity().getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader));
 
-        if(product.get("Availability")==null||Integer.parseInt(product.get("availability").toString())==-1) {
+        if(product.get("availability")!=null&&Integer.parseInt(product.get("availability").toString())==-1) {
             fragmentProductDescriptionBinding.productAvailabilitySwitch.setText("Unavailable");
             fragmentProductDescriptionBinding.productAvailabilitySwitch.setChecked(true);
         }
@@ -60,22 +60,15 @@ public class ProductDescriptionFragment extends Fragment {
             fragmentProductDescriptionBinding.productAvailabilitySwitch.setChecked(false);
         }
 
-        Map<String,Object> load = new HashMap<>();
-        product.keySet().forEach(key -> {
-            if(product.get(key)!=null&&!product.get(key).toString().equals("null")&&!key.equals("firestoreId")&&!key.equals("id"))
-                load.put(key,product.get(key));
-        });
+
 
         productDetailsAdapter=new ProductDetailsAdapter(getContext());
-        productDetailsAdapter.setData(load);
+        productDetailsAdapter.setData(product);
         fragmentProductDescriptionBinding.rvDetails.setLayoutManager(new LinearLayoutManager(getContext()));
         fragmentProductDescriptionBinding.rvDetails.setAdapter(productDetailsAdapter);
-        fragmentProductDescriptionBinding.btnAddToCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Cannot add to cart on Vendor App", Toast.LENGTH_SHORT).show();
-            }
-        });
+        fragmentProductDescriptionBinding.btnAddToCart.setOnClickListener(this);
+        fragmentProductDescriptionBinding.btnEditProductDetails.setOnClickListener(this);
+        fragmentProductDescriptionBinding.btnFinishEditProductDetails.setOnClickListener(this);
 
         fragmentProductDescriptionBinding.productAvailabilitySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -175,5 +168,51 @@ public class ProductDescriptionFragment extends Fragment {
                 dp,
                 getResources().getDisplayMetrics()
         );
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        if(v.getId() == fragmentProductDescriptionBinding.btnAddToCart.getId()) {
+            Toast.makeText(getActivity(), "Cannot add to cart on Vendor App", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (v.getId() == fragmentProductDescriptionBinding.btnEditProductDetails.getId()) {
+            fragmentProductDescriptionBinding.btnFinishEditProductDetails.setVisibility(View.VISIBLE);
+            fragmentProductDescriptionBinding.btnEditProductDetails.setVisibility(View.INVISIBLE);
+            fragmentProductDescriptionBinding.tvEditProductDetails.setText("Confirm Edit");
+            productDetailsAdapter.beginEditMode();
+        }
+
+        if(v.getId() == fragmentProductDescriptionBinding.btnFinishEditProductDetails.getId()) {
+            fragmentProductDescriptionBinding.btnFinishEditProductDetails.setVisibility(View.INVISIBLE);
+            fragmentProductDescriptionBinding.btnEditProductDetails.setVisibility(View.VISIBLE);
+            fragmentProductDescriptionBinding.tvEditProductDetails.setText("Edit Details");
+            updateProduct(productDetailsAdapter.endEditMode());
+        }
+
+        if(v.getId() == fragmentProductDescriptionBinding.tvEditProductDetails.getId()) {
+            if(fragmentProductDescriptionBinding.tvEditProductDetails.getText().toString().equals("Edit Details")){
+                fragmentProductDescriptionBinding.btnFinishEditProductDetails.setVisibility(View.VISIBLE);
+                fragmentProductDescriptionBinding.btnEditProductDetails.setVisibility(View.INVISIBLE);
+                fragmentProductDescriptionBinding.tvEditProductDetails.setText("Confirm Edit");
+                productDetailsAdapter.beginEditMode();
+            }
+            else {
+                fragmentProductDescriptionBinding.btnFinishEditProductDetails.setVisibility(View.INVISIBLE);
+                fragmentProductDescriptionBinding.btnEditProductDetails.setVisibility(View.VISIBLE);
+                fragmentProductDescriptionBinding.tvEditProductDetails.setText("Edit Details");
+                updateProduct(productDetailsAdapter.endEditMode());
+            }
+        }
+
+    }
+
+    private void updateProduct(Map<String ,Object> modifiedData) {
+        if(modifiedData == null)
+            return;
+
+        setStructureViewModel.updateProductData(product.get("firestoreId").toString(),modifiedData);
     }
 }

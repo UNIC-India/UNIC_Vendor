@@ -2,9 +2,12 @@ package com.unic.unic_vendor_final_1.views.shop_addition_fragments;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
@@ -89,14 +92,14 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Mapbox.getInstance(this,getString(R.string.map_api_key));
+        Mapbox.getInstance(this, getString(R.string.map_api_key));
         setContentView(R.layout.activity_location_selector);
 
         String address = getIntent().getStringExtra("address");
-        if (address !=null)
+        if (address != null)
             Geocode(address);
 
-        type = getIntent().getIntExtra("type",0);
+        type = getIntent().getIntExtra("type", 0);
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
@@ -134,6 +137,16 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
                 LocationComponent locationComponent = mapboxMap.getLocationComponent();
                 locationComponent.activateLocationComponent(LocationComponentActivationOptions.builder(
                         LocationSelector.this, style).build());
+                if (ActivityCompat.checkSelfPermission(LocationSelector.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(LocationSelector.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
                 locationComponent.setLocationComponentEnabled(true);
 
                 if (type == 0) {
@@ -183,14 +196,24 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
         ));
     }
 
-    private void initLocationFinder(){
+    private void initLocationFinder() {
         findViewById(R.id.get_location).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(PermissionsManager.areLocationPermissionsGranted(LocationSelector.this)){
+                if (PermissionsManager.areLocationPermissionsGranted(LocationSelector.this)) {
                     LocationComponent locationComponent = mapboxMap.getLocationComponent();
                     locationComponent.activateLocationComponent(LocationComponentActivationOptions.builder(
                             LocationSelector.this, Objects.requireNonNull(mapboxMap.getStyle())).build());
+                    if (ActivityCompat.checkSelfPermission(LocationSelector.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(LocationSelector.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        finish();
+                    }
                     locationComponent.setLocationComponentEnabled(true);
 
 // Set the component's camera mode
@@ -201,7 +224,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
         });
     }
 
-    private void startSnapShot(LatLngBounds latLngBounds, int height, int width,LatLng location) {
+    private void startSnapShot(LatLngBounds latLngBounds, int height, int width, LatLng location) {
         mapboxMap.getStyle(new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
@@ -230,10 +253,10 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
                         Uri bmpUri = getLocalBitmapUri(bitmapOfMapSnapshotImage);
 
                         Intent intent = new Intent();
-                        intent.putExtra("latitude",location.getLatitude());
-                        intent.putExtra("longitude",location.getLongitude());
+                        intent.putExtra("latitude", location.getLatitude());
+                        intent.putExtra("longitude", location.getLongitude());
                         intent.setData(bmpUri);
-                        setResult(RESULT_OK,intent);
+                        setResult(RESULT_OK, intent);
                         finish();
 
                         hasStartedSnapshotGeneration = false;
@@ -270,7 +293,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
     }
 
     @Override
-    @SuppressWarnings( {"MissingPermission"})
+    @SuppressWarnings({"MissingPermission"})
     protected void onStart() {
         super.onStart();
         mapView.onStart();
@@ -299,7 +322,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
     protected void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
-        if (mapboxGeocoding!=null)
+        if (mapboxGeocoding != null)
             mapboxGeocoding.cancelCall();
     }
 
@@ -309,7 +332,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
         mapView.onLowMemory();
     }
 
-    @SuppressWarnings( {"MissingPermission"})
+    @SuppressWarnings({"MissingPermission"})
     private void enableLocationPlugin() {
 // Check if permissions are enabled and if not request
         if (PermissionsManager.areLocationPermissionsGranted(this)) {
@@ -356,7 +379,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
         });
     }
 
-    private void Geocode(String address){
+    private void Geocode(String address) {
         mapboxGeocoding = MapboxGeocoding.builder()
                 .accessToken(getString(R.string.map_api_key))
                 .query(address)
@@ -376,7 +399,7 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
                     assert initPoint != null;
                     mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(
                             new CameraPosition.Builder()
-                                    .target(new LatLng(initPoint.latitude(),initPoint.longitude()))
+                                    .target(new LatLng(initPoint.latitude(), initPoint.longitude()))
                                     .zoom(14)
                                     .build()), 4000);
                     Timber.d("onResponse: %s", initPoint.toString());
@@ -386,6 +409,16 @@ public class LocationSelector extends AppCompatActivity implements PermissionsLi
                     LocationComponent locationComponent = mapboxMap.getLocationComponent();
                     locationComponent.activateLocationComponent(LocationComponentActivationOptions.builder(
                             LocationSelector.this, Objects.requireNonNull(mapboxMap.getStyle())).build());
+                    if (ActivityCompat.checkSelfPermission(LocationSelector.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(LocationSelector.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
                     locationComponent.setLocationComponentEnabled(true);
 
 // Set the component's camera mode

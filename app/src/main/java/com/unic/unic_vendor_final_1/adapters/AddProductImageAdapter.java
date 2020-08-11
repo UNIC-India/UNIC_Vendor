@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.signature.ObjectKey;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.views.activities.AddNewProduct;
 
@@ -52,11 +53,13 @@ public class AddProductImageAdapter extends RecyclerView.Adapter<AddProductImage
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         if(position == imageUris.size()){
+
             holder.productImage.setImageResource(R.drawable.ic_add_a_photo_black_80dp);
             holder.productImage.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.light_gray)));
             holder.productImage.setBackground(context.getResources().getDrawable(R.drawable.round_border));
             holder.productImage.setOnClickListener(v -> ((AddNewProduct)context).addImage());
             holder.productImage.setScaleType(ImageView.ScaleType.CENTER);
+
         }
 
         else {
@@ -75,9 +78,9 @@ public class AddProductImageAdapter extends RecyclerView.Adapter<AddProductImage
             Glide
                     .with(context)
                     .load(imageUris.get(position))
-                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
-                    .apply(RequestOptions.skipMemoryCacheOf(true))
-                    .into(holder.productImage);
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                .into(holder.productImage);
 
         }
 

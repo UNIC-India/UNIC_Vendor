@@ -403,14 +403,32 @@ public class UserShopsViewModel extends ViewModel {
     }
 
     public void allowUserAccess(String shopId, String userId){
-        firebaseRepository.allowUserAccess(userId,shopId).addOnSuccessListener(result -> {
 
+        shops.getValue().forEach(shop -> {
+            if(shop.getId().equals(shopId)) {
+                firebaseRepository.allowUserAccess(userId,shopId,shop.getName()).addOnSuccessListener(result -> {
+
+                });
+            }
+        });
+    }
+
+    public void rejectUserAccess(String shopId, String userId){
+        shops.getValue().forEach(shop -> {
+            if(shop.getId().equals(shopId)) {
+                firebaseRepository.rejectUserAccess(userId,shopId,shop.getName()).addOnSuccessListener(result -> {
+                });
+            }
         });
     }
 
     public void revokeUserAccess(String shopId, String userId){
-        firebaseRepository.revokeUserAccess(userId,shopId).addOnSuccessListener( result -> {
+        shops.getValue().forEach(shop -> {
+            if(shop.getId().equals(shopId)) {
+                firebaseRepository.revokeUserAccess(userId,shopId,shop.getName()).addOnSuccessListener(result -> {
 
+                });
+            }
         });
     }
 
@@ -420,5 +438,9 @@ public class UserShopsViewModel extends ViewModel {
 
     public MutableLiveData<Map<String, List<Map<String, String >>>> getUserRequests() {
         return userRequests;
+    }
+
+    public void setShopPrivacy(String shopId,boolean isPrivate){
+        firebaseRepository.setShopPrivacy(shopId,isPrivate);
     }
 }

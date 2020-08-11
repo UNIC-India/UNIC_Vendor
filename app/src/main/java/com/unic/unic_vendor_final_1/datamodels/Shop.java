@@ -68,6 +68,26 @@ public class Shop {
 
     public void setName(String name) {
         this.name = name;
+
+        List<String> keywords = new ArrayList<>();
+
+        String [] keys = name.split("[ -()]");
+
+        for(int i=0;i< keys.length;i++) {
+            if(keys[i].length()>=2) {
+                keywords.add(keys[i].substring(0,2).toLowerCase());
+            }
+
+            else if(keys[i].length()==1){
+                keywords.add(String.format("%-2s", keys[i]));
+                if(i<keys.length-1) {
+                    keywords.add(keys[i]+keys[i+1].substring(0,1));
+                }
+            }
+        }
+
+        this.nameKeywords = keywords;
+
     }
 
     public String getAddress() {

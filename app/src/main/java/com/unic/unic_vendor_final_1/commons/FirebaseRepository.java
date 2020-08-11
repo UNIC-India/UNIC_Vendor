@@ -304,6 +304,26 @@ public class FirebaseRepository {
         return db.collection("shops").document(shopId).collection("products").whereIn("company",companies).orderBy("name", Query.Direction.ASCENDING).get();
     }
 
+    public Task<QuerySnapshot> getPaginatedCategoryProducts(String shopId, String category,boolean isFirst, DocumentSnapshot lastDoc){
+        if(isFirst)
+            return db.collection("shops").document(shopId).collection("products").whereEqualTo("category",category).orderBy("name", Query.Direction.ASCENDING).limit(25).get();
+        return db.collection("shops").document(shopId).collection("products").whereEqualTo("category",category).orderBy("name", Query.Direction.ASCENDING).startAfter(lastDoc).limit(25).get();
+    }
+
+    public Task<QuerySnapshot> getPaginatedCompanyProducts(String shopId, String company,boolean isFirst, DocumentSnapshot lastDoc){
+        if(isFirst)
+            return db.collection("shops").document(shopId).collection("products").whereEqualTo("company",company).orderBy("name", Query.Direction.ASCENDING).limit(25).get();
+        return db.collection("shops").document(shopId).collection("products").whereEqualTo("company",company).orderBy("name", Query.Direction.ASCENDING).startAfter(lastDoc).limit(25).get();
+    }
+
+    public Task<QuerySnapshot> getProductsByCategoryRefineSubcategory(String shopId, String category, String subcategory){
+        return db.collection("shops").document(shopId).collection("products").whereEqualTo("category",category).whereEqualTo("subcategory",subcategory).get();
+    }
+
+    public Task<QuerySnapshot> getProductsByCategoryRefineCompany(String shopId, String company, String category){
+        return db.collection("shops").document(shopId).collection("products").whereEqualTo("company",company).whereEqualTo("category",category).get();
+    }
+
     public Task<HttpsCallableResult> reportUser(String shopId,String userId){
         Map<String,Object> data = new HashMap<>();
         data.put("shopId",shopId);
@@ -312,11 +332,21 @@ public class FirebaseRepository {
                 .call(data);
     }
 
-    public Task<HttpsCallableResult> allowUserAccess(String userId, String shopId){
+    public Task<HttpsCallableResult> allowUserAccess(String userId, String shopId,String shopName){
         Map<String,Object> data = new HashMap<>();
         data.put("shopId",shopId);
         data.put("userId",userId);
+        data.put("shopName",shopName);
         return  mFunctions.getHttpsCallable("allowViewShop")
+                .call(data);
+    }
+
+    public Task<HttpsCallableResult> rejectUserAccess(String userId,String shopId,String shopName) {
+        Map<String,Object> data = new HashMap<>();
+        data.put("shopId",shopId);
+        data.put("userId",userId);
+        data.put("shopName",shopName);
+        return  mFunctions.getHttpsCallable("rejectViewShop")
                 .call(data);
     }
 
@@ -326,12 +356,17 @@ public class FirebaseRepository {
         db.collection("shops").document(shopId).set(data, SetOptions.merge());
     }
 
-    public Task<HttpsCallableResult> revokeUserAccess(String userId,String shopId){
+    public Task<HttpsCallableResult> revokeUserAccess(String userId,String shopId,String shopName){
         Map<String,Object> data = new HashMap<>();
         data.put("shopId",shopId);
         data.put("userId",userId);
+        data.put("shopName",shopName);
         return mFunctions.getHttpsCallable("revokeShopViewPermissions")
                 .call(data);
+    }
+
+    public void updateProductData(String shopId,String productId,Map<String,Object> data) {
+        db.collection("shops").document(shopId).collection("products").document(productId).set(data,SetOptions.merge());
     }
 
     public void updateReport(String orderId){

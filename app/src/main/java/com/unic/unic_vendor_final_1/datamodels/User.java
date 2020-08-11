@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    private String id,fullName,email,phoneNo,instanceId;
+    private String id,fullName,email,phoneNo,vendorInstanceId;
 
     public User(){}
 
@@ -13,7 +13,7 @@ public class User {
         this.fullName = fullName;
         this.email = email;
         this.phoneNo = phoneNo;
-        this.instanceId = " ";
+        this.vendorInstanceId = " ";
     }
 
     public String getFullName() {
@@ -48,11 +48,11 @@ public class User {
         this.phoneNo = phoneNo;
     }
 
-    public String getInstanceId() {
-        return instanceId;
+    public String getVendorInstanceId() {
+        return vendorInstanceId;
     }
 
-    public void setInstanceId(String instanceId) {
-        this.instanceId = instanceId;
+    public void setVendorInstanceId(String instanceId) {
+        this.vendorInstanceId = vendorInstanceId;
     }
 }

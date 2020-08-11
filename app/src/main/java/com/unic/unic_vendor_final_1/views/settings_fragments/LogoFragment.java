@@ -152,10 +152,7 @@ public class LogoFragment extends Fragment implements View.OnClickListener {
 
             switch (requestCode){
                 case GALLERY_INTENT:
-                    Uri uri = data.getData();
-                    cropImage(uri);
-                    break;
-                case CROP_IMAGE:
+                    outputFileUri = data.getData();
                     Bitmap bitmap;
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),outputFileUri);
@@ -167,6 +164,9 @@ public class LogoFragment extends Fragment implements View.OnClickListener {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    break;
+                case CROP_IMAGE:
+
             }
 
         }
