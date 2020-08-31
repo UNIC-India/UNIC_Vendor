@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="16dp"
+        android:background="@color/offWhite"
         android:paddingTop="4dp"
         android:paddingBottom="4dp">
 
@@ -17,23 +18,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Key"
-            android:textColor="#000000"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/tv_edit_value"/>
 
         <TextView
             android:id="@+id/tvValue"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="4dp"
             android:text="Value"
             android:textColor="#000000"
-            android:textSize="18sp"
+            android:textSize="16sp"
+            android:layout_marginRight="10dp"
+            android:ellipsize="end"
             app:layout_constraintStart_toEndOf="@id/tvKey"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/tv_edit_value"/>
 
@@ -43,7 +44,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
+            android:layout_marginRight="10dp"
             android:text="Value"
+            android:inputType="textMultiLine"
+            android:maxLines="2"
+            android:gravity="top|left"
             android:textColor="#000000"
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@id/tvKey"
