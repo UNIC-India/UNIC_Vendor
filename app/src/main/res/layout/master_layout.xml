@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="650dp"
+    android:layout_height="658dp"
     tools:context=".views.shop_addition_fragments.MasterLayoutFragment">
 
     <FrameLayout
@@ -13,7 +13,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="650dp">
+            android:layout_height="658dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv"
@@ -65,10 +65,10 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:tint="@color/black"
                         android:alpha="1.0"
                         android:src="@drawable/ic_filter_24px"
-                        android:layout_marginEnd="10dp"/>
+                        android:layout_marginEnd="10dp"
+                        app:tint="@color/black" />
 
                     <View
                         android:id="@+id/view"

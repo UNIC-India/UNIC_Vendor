@@ -30,6 +30,8 @@ import com.unic.unic_vendor_final_1.datamodels.User;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -354,6 +356,53 @@ public class FirebaseRepository {
         Map<String,Object> data = new HashMap<>();
         data.put("isPrivate",isPrivate);
         db.collection("shops").document(shopId).set(data, SetOptions.merge());
+    }
+
+    public Task<QuerySnapshot> getOrderReportByDateAndStatus(String shopId, int status, Date startDate,Date endDate) {
+
+        if(status == 0)
+            return db.collection("orders").whereEqualTo("shopId",shopId).whereEqualTo("orderStatus",0).whereGreaterThanOrEqualTo("time",startDate).whereLessThanOrEqualTo("time",endDate).get();
+
+        if(status == 1)
+            return db.collection("orders").whereEqualTo("shopId",shopId).whereIn("orderStatus", Arrays.asList(1,2,3)).whereGreaterThanOrEqualTo("time",startDate).whereLessThanOrEqualTo("time",endDate).get();
+
+        if(status == 2)
+            return db.collection("orders").whereEqualTo("shopId",shopId).whereEqualTo("orderStatus",4).whereGreaterThanOrEqualTo("time",startDate).whereLessThanOrEqualTo("time",endDate).get();
+
+        if(status == 3)
+            return db.collection("orders").whereEqualTo("shopId",shopId).whereEqualTo("orderStatus",-1).whereGreaterThanOrEqualTo("time",startDate).whereLessThanOrEqualTo("time",endDate).get();
+
+        return null;
+    }
+
+    public Task<QuerySnapshot> getOrderReportByDate(String shopId,Date startDate,Date endDate) {
+
+        return  db.collection("orders").whereEqualTo("shopId",shopId).whereGreaterThanOrEqualTo("time",startDate).whereLessThanOrEqualTo("time",endDate).get();
+
+    }
+
+    public Task<QuerySnapshot> getAllOrdersReportByDateAndStatus(List<String> shopIds, int status, Date startDate,Date endDate) {
+
+        if(status == 0)
+            return db.collection("orders").whereIn("shopId",shopIds).whereEqualTo("orderStatus",0).whereGreaterThanOrEqualTo("time",startDate).whereLessThanOrEqualTo("time",endDate).get();
+
+        if(status == 1)
+            return db.collection("orders").whereIn("shopId",shopIds).whereIn("orderStatus", Arrays.asList(1,2,3)).whereGreaterThanOrEqualTo("time",startDate).whereLessThanOrEqualTo("time",endDate).get();
+
+        if(status == 2)
+            return db.collection("orders").whereIn("shopId",shopIds).whereEqualTo("orderStatus",4).whereGreaterThanOrEqualTo("time",startDate).whereLessThanOrEqualTo("time",endDate).get();
+
+        if(status == 3)
+            return db.collection("orders").whereIn("shopId",shopIds).whereEqualTo("orderStatus",-1).whereGreaterThanOrEqualTo("time",startDate).whereLessThanOrEqualTo("time",endDate).get();
+
+        return null;
+
+    }
+
+    public Task<QuerySnapshot> getAllOrdersReportByDate(List<String> shopIds, Date startDate, Date endDate) {
+
+        return  db.collection("orders").whereIn("shopId",shopIds).whereGreaterThanOrEqualTo("time",startDate).whereLessThanOrEqualTo("time",endDate).get();
+
     }
 
     public Task<HttpsCallableResult> revokeUserAccess(String userId,String shopId,String shopName){

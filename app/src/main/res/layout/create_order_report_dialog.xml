@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_create_order_report_shop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="22sp"
+                    android:text="Shop: "
+                    android:fontFamily="@font/abeezee"/>
+
+                <Spinner
+                    android:id="@+id/create_order_report_shop_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_constraintWidth_percent=".5"
+                    app:layout_constraintStart_toEndOf="@id/tv_create_order_report_shop"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="5dp"/>
+
+                <CheckBox
+                    android:id="@+id/create_order_report_all_shops_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="All shops"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/abeezee"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="3dp"/>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_baseline_calendar_today_24"
+                    android:tint="@color/black"
+                    app:layout_constraintEnd_toStartOf="@id/create_order_report_date_spinner"
+                    app:layout_constraintTop_toBottomOf="@id/tv_create_order_report_shop"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="10dp"/>
+
+                <Spinner
+                    android:id="@+id/create_order_report_date_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_constraintWidth_percent=".4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_create_order_report_shop"
+                    android:layout_marginTop="10dp"
+                    android:entries="@array/report_date_options"/>
+
+                <TextView
+                    android:id="@+id/tv_create_order_report_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/create_order_report_date_spinner"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="22sp"
+                    android:fontFamily="@font/abeezee"
+                    android:text="Order Type: "/>
+
+                <Spinner
+                    android:id="@+id/create_order_report_type_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    app:layout_constraintWidth_percent=".4"
+                    android:entries="@array/order_status_types"
+                    app:layout_constraintTop_toTopOf="@id/tv_create_order_report_type"
+                    app:layout_constraintStart_toEndOf="@id/tv_create_order_report_type"/>
+
+                <CheckBox
+                    android:id="@+id/create_order_report_all_types_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/create_order_report_type_spinner"
+                    app:layout_constraintStart_toStartOf="@id/create_order_report_all_shops_checkbox"
+                    android:text="All types"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:visibility="gone"
+                android:id="@+id/create_order_result_custom_date_picker"
+                android:layout_marginTop="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/create_order_report_custom_date_start_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/create_order_report_custom_date_start_picker"
+                    app:layout_constraintBottom_toBottomOf="@id/create_order_report_custom_date_start_picker"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="15dp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/abeezee"
+                    android:text="From:"/>
+
+                <DatePicker
+                    android:id="@+id/create_order_report_custom_date_start_picker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:datePickerMode="spinner"
+                    android:calendarViewShown="false"/>
+
+                <TextView
+                    android:id="@+id/create_order_report_custom_date_end_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/create_order_report_custom_date_end_picker"
+                    app:layout_constraintBottom_toBottomOf="@id/create_order_report_custom_date_end_picker"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="15dp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/abeezee"
+                    android:text="To:"/>
+
+                <CheckBox
+                    android:id="@+id/create_order_report_end_time_current_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/create_order_report_custom_date_end_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="5dp"
+                    android:text="Current time"/>
+
+                <DatePicker
+                    android:id="@+id/create_order_report_custom_date_end_picker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/create_order_report_custom_date_start_picker"
+                    android:datePickerMode="spinner"
+                    android:calendarViewShown="false"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/btn_generate_order_report"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                style="@style/StandardButton"
+                android:background="@drawable/std_button"
+                android:text="Generate Report"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="35dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.cardview.widget.CardView>

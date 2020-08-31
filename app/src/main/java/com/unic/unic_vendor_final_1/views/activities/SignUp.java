@@ -11,6 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
+import com.google.android.play.core.install.model.InstallStatus;
+import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.firebase.auth.FirebaseAuth;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.ActivitySignUpBinding;
@@ -30,11 +36,21 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
     private View coverView;
 
+    private AppUpdateManager appUpdateManager;
+    private InstallStateUpdatedListener installStateUpdatedListener = state -> {
+        if(state.installStatus() == InstallStatus.DOWNLOADED) {
+            createAppUpdateReadySnackbar();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         signUpBinding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(signUpBinding.getRoot());
+
+        appUpdateManager = AppUpdateManagerFactory.create(this);
+        appUpdateManager.registerListener(installStateUpdatedListener);
 
         coverView = new View(this);
         coverView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -213,5 +229,29 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
             startActivity(new Intent(SignUp.this, Welcome.class));
             finish();
         }
+    }
+
+    private void createAppUpdateReadySnackbar() {
+        Snackbar.make(signUpBinding.getRoot(),"New update downloaded",Snackbar.LENGTH_INDEFINITE)
+                .setAction("INSTALL",v -> {
+                    if(appUpdateManager!=null)
+                        appUpdateManager.completeUpdate();
+                })
+                .setActionTextColor(getResources().getColor(R.color.green))
+                .show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(appUpdateManager!=null)
+            appUpdateManager.unregisterListener(installStateUpdatedListener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(appUpdateManager!=null)
+            appUpdateManager.registerListener(installStateUpdatedListener);
     }
 }

@@ -245,7 +245,7 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
         editableData.forEach(((s, editText) -> {
             if(s.equals("price")) {
                 try {
-                    if(!Double.valueOf(data.get("price").toString()).equals(Double.valueOf(editText.getText().toString()))){
+                    if(!Double.valueOf(data.get("price").toString()).equals(Double.valueOf(editText.getText().toString().trim()))){
                         modifiedData.put(s,Double.valueOf(editText.getText().toString()));
                     }
                 }
@@ -255,7 +255,7 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
             }
             else {
                 if(!data.get(s).toString().equals(editableData.get(s).getText().toString())) {
-                    if(editableData.get(s).getText().length()<=1||editableData.get(s).getText().toString().equals("null")){
+                    if(editableData.get(s).getText().toString().trim().length()<=1||editableData.get(s).getText().toString().trim().equals("null")){
                         modifiedData.put(s,"null");
                     }
                     else
@@ -280,6 +280,8 @@ public class ProductDetailsAdapter extends RecyclerView.Adapter<ProductDetailsAd
         extraKeys.retainAll(keys);
 
         notifyDataSetChanged();
+
+        editableData.clear();
 
         if(modifiedData.size()==0)
             return null;

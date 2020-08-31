@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.FragmentNoProductsBinding;
 import com.unic.unic_vendor_final_1.viewmodels.SetStructureViewModel;
+import com.unic.unic_vendor_final_1.views.activities.AddNewProduct;
 
 
 public class NoProductsFragment extends Fragment {
@@ -32,7 +33,16 @@ public class NoProductsFragment extends Fragment {
         // Inflate the layout for this fragment
         setStructureViewModel = new ViewModelProvider(getActivity()).get(SetStructureViewModel.class);
         setStructureViewModel.setCurrentFrag(getActivity().getSupportFragmentManager().findFragmentById(R.id.shop_pages_loader));
-        return inflater.inflate(R.layout.fragment_no_products, container, false);
+
+        fragmentNoProductsBinding = FragmentNoProductsBinding.inflate(inflater,container,false);
+
+        fragmentNoProductsBinding.noProductsAddProduct.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), AddNewProduct.class);
+            intent.putExtra("shopId",setStructureViewModel.getShop().getValue().getId());
+            getActivity().startActivityForResult(intent,AddNewProduct.ADD_PRODUCTS);
+        });
+
+        return fragmentNoProductsBinding.getRoot();
     }
 
 }

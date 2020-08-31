@@ -2,9 +2,9 @@ package com.unic.unic_vendor_final_1.views.activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;import androidx.constraintlayout.widget.ConstraintLayout;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -19,6 +19,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
+import com.google.android.play.core.install.model.InstallStatus;
+import com.google.android.play.core.install.model.UpdateAvailability;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.AddProductImageAdapter;
 import com.unic.unic_vendor_final_1.databinding.ActivityAddNewProductBinding;
@@ -54,6 +60,13 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
 
     private int currentPosition = 0;
 
+    private AppUpdateManager appUpdateManager;
+    private InstallStateUpdatedListener installStateUpdatedListener = state -> {
+        if(state.installStatus() == InstallStatus.DOWNLOADED) {
+            createAppUpdateReadySnackbar();
+        }
+    };
+
     static class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
 
@@ -80,6 +93,9 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         addNewProductBinding=ActivityAddNewProductBinding.inflate(getLayoutInflater());
         addNewProductViewModel = new ViewModelProvider(this).get(AddNewProductViewModel.class);
         setContentView(addNewProductBinding.getRoot());
+
+        appUpdateManager = AppUpdateManagerFactory.create(this);
+        appUpdateManager.registerListener(installStateUpdatedListener);
 
         shopId = getIntent().getStringExtra("shopId");
         assert shopId != null;
@@ -353,6 +369,30 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
                 dp,
                 getResources().getDisplayMetrics()
         );
+    }
+
+    private void createAppUpdateReadySnackbar() {
+        Snackbar.make(addNewProductBinding.getRoot(),"New update downloaded",Snackbar.LENGTH_INDEFINITE)
+                .setAction("INSTALL",v -> {
+                    if(appUpdateManager!=null)
+                        appUpdateManager.completeUpdate();
+                })
+                .setActionTextColor(getResources().getColor(R.color.green))
+                .show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(appUpdateManager!=null)
+            appUpdateManager.unregisterListener(installStateUpdatedListener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(appUpdateManager!=null)
+            appUpdateManager.registerListener(installStateUpdatedListener);
     }
 
 }

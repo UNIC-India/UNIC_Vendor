@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="65dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/order_summary_item_image"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:scaleType="fitCenter"
+            android:layout_marginStart="5dp"/>
+
+        <TextView
+            android:id="@+id/order_summary_item_name"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent=".65"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textColorHint="@color/black"
+            android:hint="Product Name"
+
+            android:fontFamily="@font/abeezee"
+            app:layout_constraintStart_toEndOf="@id/order_summary_item_image"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="5dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+
+        <TextView
+            android:id="@+id/order_summary_item_company"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent=".35"
+            app:layout_constraintTop_toBottomOf="@id/order_summary_item_name"
+            android:textColorHint="@color/black"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:fontFamily="@font/abeezee"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintStart_toEndOf="@id/order_summary_item_image"
+            android:layout_marginStart="5dp"
+            android:hint="Company"/>
+
+        <TextView
+            android:id="@+id/order_summary_item_category"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent=".35"
+            app:layout_constraintTop_toBottomOf="@id/order_summary_item_company"
+            app:layout_constraintStart_toEndOf="@id/order_summary_item_image"
+            android:layout_marginStart="5dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="14sp"
+            android:fontFamily="@font/abeezee"
+            android:hint="Category"/>
+
+        <TextView
+            android:id="@+id/order_summary_item_individual_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent=".2"
+            app:layout_constraintStart_toEndOf="@id/order_summary_item_company"
+            app:layout_constraintTop_toTopOf="@id/order_summary_item_company"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="14sp"
+            android:fontFamily="@font/abeezee"
+            android:text="\u20b9 450"/>
+
+        <TextView
+            android:id="@+id/order_summary_item_extra_info_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent=".3"
+            app:layout_constraintStart_toEndOf="@id/order_summary_item_category"
+            app:layout_constraintTop_toTopOf="@id/order_summary_item_category"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="14sp"
+            android:hint="Extra Infio 1"
+            android:fontFamily="@font/abeezee"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+
+        <TextView
+            android:id="@+id/order_summary_item_quantity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent=".15"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="14sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:fontFamily="@font/abeezee"
+            android:hint="24"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/order_summary_item_total_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent=".15"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/order_summary_item_quantity"
+            android:textColor="@color/green2"
+            android:textSize="14sp"
+            android:textColorHint="@color/green2"
+            android:fontFamily="@font/abeezee"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:hint="\u20b9 10800"
+            android:gravity="center"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

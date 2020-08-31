@@ -33,6 +33,10 @@
             android:id="@+id/nav_my_products"
             android:title="@string/menu_my_products"
             android:icon="@drawable/ic_shopping_bag"/>
+        <item
+            android:id="@+id/nav_my_reports"
+            android:title="@string/menu_my_reports"
+            android:icon="@drawable/analytics"/>
 
         <item
             android:id="@+id/logout"
