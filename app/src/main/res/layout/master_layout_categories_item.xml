@@ -12,7 +12,7 @@
     android:layout_marginBottom="2dp"
     android:clickable="true"
     android:paddingBottom="3dp"
-    app:cardBackgroundColor="#f1f1f1"
+    app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="11dp"
     app:cardElevation="2dp">
 
