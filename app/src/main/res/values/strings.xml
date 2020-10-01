@@ -27,6 +27,7 @@
     <string name="menu_qr">MY QR</string>
     <string name="menu_notifications">NOTIFICATIONS</string>
     <string name="menu_my_products">MY PRODUCTS</string>
+    <string name="menu_my_reports">MY REPORTS</string>
     <string name="menu_logout">SIGN OUT</string>
 
     <string name="menu_about_us">ABOUT US</string>
@@ -84,7 +85,7 @@
 
     </string-array>
     <string-array name="roles">
-        <item>SalesMan</item>
+        <item>Salesman</item>
         <item>Delivery Man</item>
         <item>Dispatcher</item>
         <item>Preparer</item>
@@ -95,5 +96,19 @@
         <item>Companies</item>
     </string-array>
 
+    <string-array name="order_status_types">
+        <item>Pending</item>
+        <item>Approved</item>
+        <item>Delivered</item>
+        <item>Rejected</item>
+    </string-array>
+
+    <string-array name="report_date_options">
+        <item>Today</item>
+        <item>Past 3 days</item>
+        <item>Past week</item>
+        <item>Past month</item>
+        <item>Custom</item>
+    </string-array>
 
 </resources>

@@ -72,5 +72,8 @@
     <style name="clickTheme1" >
         <item name="colorControlHighlight">@color/light_gray</item>
     </style>
+    <style name="FOL_Theme_SnackbarWrapper" parent="@style/Theme.AppCompat">
+        <!--Insert customization here-->
+    </style>
 
 </resources>

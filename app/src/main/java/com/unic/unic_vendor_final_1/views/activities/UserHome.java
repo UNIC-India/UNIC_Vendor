@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ReportFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -24,6 +25,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
+import com.google.android.play.core.install.model.InstallStatus;
+import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.firebase.auth.FirebaseAuth;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.databinding.ActivityUserHomeBinding;
@@ -32,11 +39,13 @@ import com.unic.unic_vendor_final_1.datamodels.User;
 import com.unic.unic_vendor_final_1.viewmodels.FirestoreDataViewModel;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 import com.unic.unic_vendor_final_1.views.helpers.OrderItems;
+import com.unic.unic_vendor_final_1.views.helpers.OrderSummaryFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.AboutUsFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.ComingSoon;
 import com.unic.unic_vendor_final_1.views.nav_fragments.HomeFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyAppsFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.MyProductsFragment;
+import com.unic.unic_vendor_final_1.views.nav_fragments.MyReportsFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.NotificationsFragment;
 import com.unic.unic_vendor_final_1.views.nav_fragments.OrdersFragment;
 import com.unic.unic_vendor_final_1.views.helpers.IntermediateShopList;
@@ -60,12 +69,22 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     private SharedPreferences prefs;
     private Map<String,Fragment> navBarFragments;
 
+    private AppUpdateManager appUpdateManager;
+    private InstallStateUpdatedListener installStateUpdatedListener = state -> {
+        if(state.installStatus() == InstallStatus.DOWNLOADED) {
+            createAppUpdateReadySnackbar();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         userHomeBinding = ActivityUserHomeBinding.inflate(getLayoutInflater());
         setContentView(userHomeBinding.getRoot());
+
+        appUpdateManager = AppUpdateManagerFactory.create(this);
+        appUpdateManager.registerListener(installStateUpdatedListener);
 
         navBarFragments = new HashMap<>();
         navBarFragments.put("home",new HomeFragment());
@@ -74,6 +93,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         navBarFragments.put(getResources().getString(R.string.menu_settings),new SettingsFragment());
         navBarFragments.put(getResources().getString(R.string.menu_notifications),new NotificationsFragment());
         navBarFragments.put(getResources().getString(R.string.menu_about_us),new AboutUsFragment());
+        navBarFragments.put(getResources().getString(R.string.menu_my_reports),new MyReportsFragment());
 
         prefs = getSharedPreferences("com.unic.unic_vendor_final_1", MODE_PRIVATE);
 
@@ -183,7 +203,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
             case 7:
                 userHomeBinding.titleBar.ivLogo.setVisibility(View.GONE);
                 userHomeBinding.titleBar.tvTitle.setVisibility(View.VISIBLE);
-                userHomeBinding.titleBar.tvTitle.setText("My Report");
+                userHomeBinding.titleBar.tvTitle.setText("My Reports");
                 break;
             case 8:
                 userHomeBinding.titleBar.ivLogo.setVisibility(View.GONE);
@@ -211,6 +231,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
         Fragment productsFragment=new IntermediateShopList();
         Fragment notificationsFragment = new NotificationsFragment();
         Fragment aboutUsFragment = navBarFragments.get(getResources().getString(R.string.menu_about_us));
+        Fragment reportsFragment = navBarFragments.get(getResources().getString(R.string.menu_my_reports));
         switch (id){
             case R.id.nav_home:
                 fragment = homeFragment;
@@ -233,6 +254,9 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
                 break;
             case R.id.nav_my_products:
                 fragment = productsFragment;
+                break;
+            case R.id.nav_my_reports:
+                fragment = reportsFragment;
                 break;
             case R.id.nav_about_us:
                 fragment = aboutUsFragment;
@@ -317,7 +341,7 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
             }, 2000);
         }
 
-        else if(fg.getClass()==MyAppsFragment.class||fg.getClass()== NotificationsFragment.class||fg.getClass()==OrdersFragment.class||fg.getClass()==QRFragment.class||fg.getClass()==SettingsFragment.class||fg.getClass()==AboutUsFragment.class||fg.getClass()==ComingSoon.class){
+        else if(fg.getClass()==MyAppsFragment.class||fg.getClass()== NotificationsFragment.class||fg.getClass()==OrdersFragment.class||fg.getClass()==QRFragment.class||fg.getClass()==SettingsFragment.class||fg.getClass()==AboutUsFragment.class||fg.getClass()==ComingSoon.class||fg.getClass()== MyReportsFragment.class){
 
             userShopsViewModel.titleSetter.setValue(0);
 
@@ -338,8 +362,11 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
                 getSupportFragmentManager().popBackStack();
         }
 
-        else
+        else {
+            if(fg.getClass() == OrderSummaryFragment.class)
+                userShopsViewModel.orderReport.setValue(null);
             super.onBackPressed();
+        }
 
        /* */
 
@@ -351,6 +378,30 @@ public class UserHome extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void createAppUpdateReadySnackbar() {
+        Snackbar.make(userHomeBinding.getRoot(),"New update downloaded",Snackbar.LENGTH_INDEFINITE)
+                .setAction("INSTALL",v -> {
+                    if(appUpdateManager!=null)
+                        appUpdateManager.completeUpdate();
+                })
+                .setActionTextColor(getResources().getColor(R.color.green))
+                .show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(appUpdateManager!=null)
+            appUpdateManager.unregisterListener(installStateUpdatedListener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(appUpdateManager!=null)
+            appUpdateManager.registerListener(installStateUpdatedListener);
     }
 
 }

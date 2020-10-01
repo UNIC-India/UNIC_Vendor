@@ -24,7 +24,7 @@
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="@+id/ib_qr_dialog"
             app:layout_constraintStart_toStartOf="@+id/ib_qr_dialog"
-            app:layout_constraintTop_toBottomOf="@+id/ib_qr_dialog"></TextView>
+            app:layout_constraintTop_toBottomOf="@+id/ib_qr_dialog" />
 
         <TextView
             android:id="@+id/textView3"
@@ -36,7 +36,7 @@
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="@+id/dialog_shop_generate_qr"
             app:layout_constraintStart_toStartOf="@+id/dialog_shop_generate_qr"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_shop_generate_qr"></TextView>
+            app:layout_constraintTop_toBottomOf="@+id/dialog_shop_generate_qr" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/dialog_shop_generate_qr"

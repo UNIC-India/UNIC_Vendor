@@ -2,7 +2,6 @@ package com.unic.unic_vendor_final_1.views.helpers;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -11,24 +10,26 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
-import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.InstallState;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
 import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.InstallStatus;
 import com.google.android.play.core.install.model.UpdateAvailability;
-import com.google.android.play.core.tasks.OnFailureListener;
 import com.google.android.play.core.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.unic.unic_vendor_final_1.R;
@@ -38,18 +39,44 @@ import com.unic.unic_vendor_final_1.views.activities.UserHome;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
+import timber.log.Timber;
 
 public class SplashScreen extends AppCompatActivity implements LocationListener {
 
-    private static final String TAG = "Splash Screen";
     ActivitySplashScreenBinding splashScreenBinding;
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     LocationManager locationManager;
     private boolean isUserOnline;
+    private boolean isUpdateQueued = false;
 
     private static final int UPDATE_REQUEST = 1001;
+
+    AppUpdateManager appUpdateManager;
+
+    InstallStateUpdatedListener installStateUpdatedListener = new InstallStateUpdatedListener() {
+                @Override
+                public void onStateUpdate(InstallState state) {
+                    if (state.installStatus() == InstallStatus.DOWNLOADED){
+                        //CHECK THIS if AppUpdateType.FLEXIBLE, otherwise you can skip
+                        if (appUpdateManager != null){
+                            appUpdateManager.completeUpdate();
+                        }                    } else if (state.installStatus() == InstallStatus.INSTALLED){
+                        if (appUpdateManager != null){
+                            appUpdateManager.unregisterListener(installStateUpdatedListener);
+                        }
+
+                    } else if (state.installStatus() == InstallStatus.DOWNLOADING) {
+                        if(!isUpdateQueued) {
+                            getLocation();
+                            isUpdateQueued = true;
+                        }
+                    }
+                    else {
+                        Timber.i("InstallStateUpdatedListener: state: %s", state.installStatus());
+                    }
+                }
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,111 +94,82 @@ public class SplashScreen extends AppCompatActivity implements LocationListener 
         handler.postDelayed(() -> {
 
 
-            AppUpdateManager appUpdateManager = AppUpdateManagerFactory.create(this);
+            appUpdateManager = AppUpdateManagerFactory.create(this);
+            appUpdateManager.registerListener(installStateUpdatedListener);
             Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
             appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
-                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(SplashScreen.this);
-                    builder.setTitle("App update required")
-                            .setMessage(getResources().getString(R.string.app_name)+ " has to update to the latest version in order for it to function properly")
-                            .setPositiveButton("OKAY", (dialog, which) -> {
-                                try {
-                                    appUpdateManager.startUpdateFlowForResult(
-                                            // Pass the intent that is returned by 'getAppUpdateInfo()'.
-                                            appUpdateInfo,
-                                            // Or 'AppUpdateType.FLEXIBLE' for flexible updates.
-                                            AppUpdateType.IMMEDIATE,
-                                            // The current activity making the update request.
-                                            SplashScreen.this,
-                                            // Include a request code to later monitor this update request.
-                                            UPDATE_REQUEST);
-                                } catch (IntentSender.SendIntentException e) {
-                                    e.printStackTrace();
-                                }
+                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE   ) {
 
-                                dialog.dismiss();
-                            })
-                            .setNegativeButton("NOT NOW", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    finish();
-                                }
-                            });
+                    if(appUpdateInfo.updatePriority() == 5 || (appUpdateInfo.updatePriority() > 2 && appUpdateInfo.updatePriority() < 5 && appUpdateInfo.clientVersionStalenessDays()!=null && appUpdateInfo.clientVersionStalenessDays() >= 7) || (appUpdateInfo.updatePriority() < 3 && appUpdateInfo.clientVersionStalenessDays()!=null && appUpdateInfo.clientVersionStalenessDays() >= 14)) {
+                        try {
+                            appUpdateManager.startUpdateFlowForResult(
+                                    appUpdateInfo, AppUpdateType.IMMEDIATE, SplashScreen.this, UPDATE_REQUEST);
+                        } catch (IntentSender.SendIntentException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    else if(appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
+                        popupSnackbarForCompleteUpdate();
+                    }
+
+                    else {
+                        try {
+                            appUpdateManager.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.FLEXIBLE , this, UPDATE_REQUEST);
+
+                        } catch (IntentSender.SendIntentException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
+
+
                 }
                 else {
-
-                    if(checkLocationPermission()){
-
-                        final Looper looper = null;
-
-                        Criteria criteria = new Criteria();
-                        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-                        criteria.setPowerRequirement(Criteria.POWER_LOW);
-                        criteria.setAltitudeRequired(false);
-                        criteria.setBearingRequired(false);
-                        criteria.setSpeedRequired(false);
-                        criteria.setCostAllowed(true);
-                        criteria.setHorizontalAccuracy(Criteria.ACCURACY_HIGH);
-                        criteria.setVerticalAccuracy(Criteria.ACCURACY_HIGH);
-
-                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                            // TODO: Consider calling
-                            //    ActivityCompat#requestPermissions
-                            // here to request the missing permissions, and then overriding
-                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                            //                                          int[] grantResults)
-                            // to handle the case where the user grants the permission. See the documentation
-                            // for ActivityCompat#requestPermissions for more details.
-                            return;
-                        }
-
-                        locationEnabled();
-
-                        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-                        locationManager.requestSingleUpdate(criteria, this, looper);
-                    }
+                    getLocation();
                 }
             })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(Exception e) {
-                    e.printStackTrace();
-                    if(checkLocationPermission()){
-
-                        final Looper looper = null;
-
-                        Criteria criteria = new Criteria();
-                        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-                        criteria.setPowerRequirement(Criteria.POWER_LOW);
-                        criteria.setAltitudeRequired(false);
-                        criteria.setBearingRequired(false);
-                        criteria.setSpeedRequired(false);
-                        criteria.setCostAllowed(true);
-                        criteria.setHorizontalAccuracy(Criteria.ACCURACY_HIGH);
-                        criteria.setVerticalAccuracy(Criteria.ACCURACY_HIGH);
-
-                        if (ActivityCompat.checkSelfPermission(SplashScreen.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(SplashScreen.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                            // TODO: Consider calling
-                            //    ActivityCompat#requestPermissions
-                            // here to request the missing permissions, and then overriding
-                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                            //                                          int[] grantResults)
-                            // to handle the case where the user grants the permission. See the documentation
-                            // for ActivityCompat#requestPermissions for more details.
-                            return;
-                        }
-
-                        locationEnabled();
-
-                        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-                        locationManager.requestSingleUpdate(criteria, SplashScreen.this, looper);
-                    }
-                }
+            .addOnFailureListener(e -> {
+                e.printStackTrace();
+                getLocation();
             });
 
         }, 1500);
+    }
+
+    public void getLocation() {
+        if(checkLocationPermission()){
+
+            final Looper looper = null;
+
+            Criteria criteria = new Criteria();
+            criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+            criteria.setPowerRequirement(Criteria.POWER_LOW);
+            criteria.setAltitudeRequired(false);
+            criteria.setBearingRequired(false);
+            criteria.setSpeedRequired(false);
+            criteria.setCostAllowed(true);
+            criteria.setHorizontalAccuracy(Criteria.ACCURACY_HIGH);
+            criteria.setVerticalAccuracy(Criteria.ACCURACY_HIGH);
+
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+
+            locationEnabled();
+
+            locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+            locationManager.requestSingleUpdate(criteria, this, looper);
+        }
     }
 
     public boolean checkLocationPermission() {
@@ -200,7 +198,6 @@ public class SplashScreen extends AppCompatActivity implements LocationListener 
 
 
             } else {
-                // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         MY_PERMISSIONS_REQUEST_LOCATION);
@@ -303,5 +300,53 @@ public class SplashScreen extends AppCompatActivity implements LocationListener 
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+
+    private void popupSnackbarForCompleteUpdate() {
+
+        Snackbar snackbar = Snackbar.make(splashScreenBinding.getRoot(),"New update downloaded",Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction("INSTALL",v -> {
+            if(appUpdateManager!=null)
+                appUpdateManager.completeUpdate();
+        });
+
+        snackbar.addCallback(new Snackbar.Callback() {
+            @Override
+            public void onDismissed(Snackbar transientBottomBar, int event) {
+                if(event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
+                    getLocation();
+                }
+            }
+        });
+
+        snackbar.setActionTextColor(getResources().getColor(R.color.green));
+
+        snackbar.show();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(appUpdateManager!=null)
+            appUpdateManager.unregisterListener(installStateUpdatedListener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(appUpdateManager!=null)
+            appUpdateManager.registerListener(installStateUpdatedListener);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == UPDATE_REQUEST) {
+            if(resultCode!=RESULT_OK) {
+                getLocation();
+            }
+        }
     }
 }

@@ -28,6 +28,7 @@ import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.datamodels.User;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +51,7 @@ public class UserShopsViewModel extends ViewModel {
     public MutableLiveData<Boolean> isVisible= new MutableLiveData<>();
     public MutableLiveData<Integer> titleSetter=new MutableLiveData<>();
 
+    public MutableLiveData<List<Order>> orderReport = new MutableLiveData<>();
 
     public MutableLiveData<Boolean> isMyAppsLoading = new MutableLiveData<>();
 
@@ -373,6 +375,76 @@ public class UserShopsViewModel extends ViewModel {
         return members;
     }
 
+    public void getOrderReportByDateAndStatus(String shopId,int status, Date startDate, Date endDate) {
+
+        firebaseRepository.getOrderReportByDateAndStatus(shopId, status, startDate, endDate)
+                .addOnSuccessListener( queryDocumentSnapshots -> {
+                    if(queryDocumentSnapshots==null||queryDocumentSnapshots.size()==0) {
+                        orderReport.setValue(new ArrayList<>());
+                        return;
+                    }
+
+                    List<Order> orders = new ArrayList<>();
+
+                    queryDocumentSnapshots.forEach(queryDocumentSnapshot -> orders.add(queryDocumentSnapshot.toObject(Order.class)));
+
+                    orderReport.setValue(orders);
+
+                });
+
+    }
+
+    public void getOrderReportByDate(String shopId,Date startDate, Date endDate) {
+        firebaseRepository.getOrderReportByDate(shopId, startDate, endDate)
+                .addOnSuccessListener( queryDocumentSnapshots -> {
+                    if(queryDocumentSnapshots==null||queryDocumentSnapshots.size()==0) {
+                        orderReport.setValue(new ArrayList<>());
+                        return;
+                    }
+
+                    List<Order> orders = new ArrayList<>();
+
+                    queryDocumentSnapshots.forEach(queryDocumentSnapshot -> orders.add(queryDocumentSnapshot.toObject(Order.class)));
+
+                    orderReport.setValue(orders);
+
+                });
+    }
+
+    public void getAllOrdersReportByDateAndStatus (int status, Date startDate,Date endDate) {
+        firebaseRepository.getAllOrdersReportByDateAndStatus(shopIds.getValue(), status, startDate, endDate)
+                .addOnSuccessListener( queryDocumentSnapshots -> {
+                    if(queryDocumentSnapshots==null||queryDocumentSnapshots.size()==0) {
+                        orderReport.setValue(new ArrayList<>());
+                        return;
+                    }
+
+                    List<Order> orders = new ArrayList<>();
+
+                    queryDocumentSnapshots.forEach(queryDocumentSnapshot -> orders.add(queryDocumentSnapshot.toObject(Order.class)));
+
+                    orderReport.setValue(orders);
+
+                });
+    }
+
+    public void getAllOrdersReportByDate(Date startDate,Date endDate) {
+        firebaseRepository.getAllOrdersReportByDate(shopIds.getValue(), startDate, endDate)
+                .addOnSuccessListener( queryDocumentSnapshots -> {
+                    if(queryDocumentSnapshots==null||queryDocumentSnapshots.size()==0) {
+                        orderReport.setValue(new ArrayList<>());
+                        return;
+                    }
+
+                    List<Order> orders = new ArrayList<>();
+
+                    queryDocumentSnapshots.forEach(queryDocumentSnapshot -> orders.add(queryDocumentSnapshot.toObject(Order.class)));
+
+                    orderReport.setValue(orders);
+
+                });
+    }
+
     public void deleteMember(String phone, String role, String shopId){
         firebaseRepository.db.collection("shops").document(shopId).collection("extraData")
                 .document("team").update(role, FieldValue.arrayRemove(phone)).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -442,5 +514,9 @@ public class UserShopsViewModel extends ViewModel {
 
     public void setShopPrivacy(String shopId,boolean isPrivate){
         firebaseRepository.setShopPrivacy(shopId,isPrivate);
+    }
+
+    public LiveData<List<Order>> getOrderReport() {
+        return orderReport;
     }
 }
