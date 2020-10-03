@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.01"></androidx.constraintlayout.widget.Guideline>
+        app:layout_constraintGuide_percent="0.01" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/qr_dialog_share_link"
@@ -33,17 +33,18 @@
         android:tint="#000000"
         app:layout_constraintRight_toRightOf="@id/gd3"
         app:layout_constraintTop_toBottomOf="@id/qr_dialog_qr_code" />
- <TextView
-     android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:text="Share QR"
-     app:layout_constraintLeft_toLeftOf="@id/qr_dialog_share_link"
-     android:fontFamily="@font/abeezee"
-     android:textColor="@color/black"
-     app:layout_constraintRight_toRightOf="@id/qr_dialog_share_link"
-     app:layout_constraintTop_toBottomOf="@id/qr_dialog_share_link"
-     app:layout_constraintBottom_toBottomOf="parent"
-     android:layout_marginBottom="10dp"></TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Share Shop"
+        app:layout_constraintLeft_toLeftOf="@id/qr_dialog_share_link"
+        android:fontFamily="@font/abeezee"
+        android:textColor="@color/black"
+        app:layout_constraintRight_toRightOf="@id/qr_dialog_share_link"
+        app:layout_constraintTop_toBottomOf="@id/qr_dialog_share_link"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="10dp" />
 
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -69,7 +70,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/qr_dialog_done"
         app:layout_constraintRight_toRightOf="@id/qr_dialog_done"
-        app:layout_constraintTop_toBottomOf="@id/qr_dialog_share_link"></TextView>
+        app:layout_constraintTop_toBottomOf="@id/qr_dialog_share_link" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gd2"
@@ -78,7 +79,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.99"></androidx.constraintlayout.widget.Guideline>
+        app:layout_constraintGuide_percent="0.99" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gd3"
@@ -87,7 +88,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.4"></androidx.constraintlayout.widget.Guideline>
+        app:layout_constraintGuide_percent="0.4" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gd4"
@@ -96,7 +97,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.60"></androidx.constraintlayout.widget.Guideline>
+        app:layout_constraintGuide_percent="0.60" />
 
 
 

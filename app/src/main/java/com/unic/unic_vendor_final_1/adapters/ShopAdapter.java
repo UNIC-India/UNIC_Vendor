@@ -41,12 +41,80 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 
     }
 
+    class ShopDetailsListener implements View.OnClickListener {
+        int position;
+
+        public ShopDetailsListener(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(context,SetShopStructure.class);
+            intent.putExtra("shopId",shops.get(position).getId());
+            intent.putExtra("shopName",shops.get(position).getName());
+            intent.putExtra("template",Integer.valueOf(0));
+            intent.putExtra("NoOfProducts",Integer.valueOf(shops.get(position).getNoOfProducts()));
+            context.startActivity(intent);
+        }
+    }
+
+    class ShopDeleteListener implements View.OnClickListener {
+        int position;
+
+        public ShopDeleteListener(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                    .setTitle("CONFIRM YOUR ACTIONS")
+                    .setMessage("Are you sure you want to delete " + shops.get(position).getName())
+                    .setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ((UserHome)context).deleteShop(shops.get(position).getId());
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+    }
+
+    class ShopShareListener implements View.OnClickListener {
+        int position;
+
+        public ShopShareListener(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, shops.get(position).getDynSubscribeLink());
+            sendIntent.setType("text/plain");
+
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+            context.startActivity(shareIntent);
+        }
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvShopName,tvShopName2,tvLocality,tvSubscribers,tvProducts,tv_no_image;
         ImageView ivShopPhoto,ivShopBackground,no_image;
         LinearLayout Edit;
         CardView cdShop;
         ImageButton ibDeleteShop;
+        ImageView ivShareShop;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,6 +131,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
             cdShop=itemView.findViewById(R.id.cdshop);
             no_image=itemView.findViewById(R.id.no_image);
             tv_no_image=itemView.findViewById(R.id.tv_no_image);
+            ivShareShop = itemView.findViewById(R.id.share_shop);
         }
     }
 
@@ -85,13 +154,6 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
             holder.tvLocality.setText(shops.get(position).getLocality());
             holder.tvProducts.setText("Products: "+shops.get(position).getNoOfProducts());
             holder.tvSubscribers.setText("Subscribers: "+shops.get(position).getNoOfSubscribers());
-            holder.Edit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent=new Intent(context, SetShopStructure.class);
-                    intent.putExtra("shopId",shops.get(position).getId());
-                }
-            });
 
             if(shops.get(position).getImageLink().length()>=3) {
                 holder.no_image.setVisibility(View.GONE);
@@ -137,27 +199,10 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
                 }
             }
 
-            holder.Edit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context,SetShopStructure.class);
-                    intent.putExtra("shopId",shops.get(position).getId());
-                    intent.putExtra("template",Integer.valueOf(0));
-                    intent.putExtra("shopName",shops.get(position).getName());
-                    intent.putExtra("NoOfProducts",Integer.valueOf(shops.get(position).getNoOfProducts()));
-                    context.startActivity(intent);
-                }
-            });
-            holder.cdShop.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context,SetShopStructure.class);
-                    intent.putExtra("shopId",shops.get(position).getId());
-                    intent.putExtra("template",Integer.valueOf(0));
-                    intent.putExtra("NoOfProducts",Integer.valueOf(shops.get(position).getNoOfProducts()));
-                    context.startActivity(intent);
-                }
-            });
+            ShopDetailsListener sdl = new ShopDetailsListener(position);
+
+            holder.Edit.setOnClickListener(sdl);
+            holder.cdShop.setOnClickListener(sdl);
         }
         else{
             holder.tvShopName2.setText(shops.get(position).getName());
@@ -171,30 +216,8 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
             });
         }
 
-        holder.ibDeleteShop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(context)
-                        .setTitle("CONFIRM YOUR ACTIONS")
-                        .setMessage("Are you sure you want to delete " + shops.get(position).getName())
-                        .setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                ((UserHome)context).deleteShop(shops.get(position).getId());
-                                dialog.dismiss();
-                            }
-                        })
-                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-        });
+        holder.ibDeleteShop.setOnClickListener(new ShopDeleteListener(position));
+        holder.ivShareShop.setOnClickListener(new ShopShareListener(position));
 
     }
 

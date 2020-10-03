@@ -178,8 +178,8 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
 
                 ((ViewGroup)view12.findViewById(R.id.view_loader)).addView(doubleImageView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
 
-                view12.findViewById(R.id.view_dragger).setOnTouchListener(this::onTouch);
-                view12.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
+                view12.findViewById(R.id.view_dragger).setOnTouchListener(this);
+                view12.findViewById(R.id.view_deleter).setOnClickListener(this);
 
                 DoubleImageAdapter doubleImageAdapter = new DoubleImageAdapter(getContext());
                 doubleImageAdapter.setData(view.getData());
@@ -188,7 +188,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 doubleImageRecyclerView.setLayoutManager(doubleImageLayoutManager);
                 doubleImageRecyclerView.setAdapter(doubleImageAdapter);
                 doubleImageRecyclerView.setNestedScrollingEnabled(false);
-                doubleImageRecyclerView.addItemDecoration(new SpacesItemDecoration(10));
+                doubleImageRecyclerView.addItemDecoration(new SpacesItemDecoration((int)dpToPx(5)));
 
                 if (isNew)
                     views.add(view12);
@@ -364,7 +364,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 doubleProductRecyclerView.setLayoutManager(doubleProductLayoutManager);
                 doubleProductRecyclerView.setNestedScrollingEnabled(false);
                 doubleProductRecyclerView.setAdapter(doubleProductAdapter);
-                doubleProductRecyclerView.addItemDecoration(new SpacesItemDecoration(10));
+                doubleProductRecyclerView.addItemDecoration(new SpacesItemDecoration((int)dpToPx(5)));
 
                 if(isNew)
                     views.add(view41);
@@ -395,7 +395,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 doubleProductwoImagesRecyclerView.setLayoutManager(doubleProductwoImageLayout);
                 doubleProductwoImagesRecyclerView.setNestedScrollingEnabled(false);
                 doubleProductwoImagesRecyclerView.setAdapter(doubleProductWithoutImageAdapter);
-                doubleProductwoImagesRecyclerView.addItemDecoration(new SpacesItemDecoration(5));
+                doubleProductwoImagesRecyclerView.addItemDecoration(new SpacesItemDecoration((int)dpToPx(5)));
                 if(isNew)
                     views.add(view42);
                 break;

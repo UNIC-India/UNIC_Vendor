@@ -20,10 +20,14 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
+import com.google.android.play.core.install.model.InstallStatus;
+import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.firebase.firestore.GeoPoint;
-import com.theartofdev.edmodo.cropper.CropImage;
 import com.unic.unic_vendor_final_1.R;
 
 import com.unic.unic_vendor_final_1.databinding.ActivityAddShopBinding;
@@ -33,7 +37,6 @@ import com.unic.unic_vendor_final_1.views.shop_addition_fragments.LocationSelect
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,6 +64,13 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
     private static final int CROP_IMAGE = 1002;
     private static final int LOCATION_SELECTOR = 2001;
 
+    private AppUpdateManager appUpdateManager;
+    private InstallStateUpdatedListener installStateUpdatedListener = state -> {
+        if(state.installStatus() == InstallStatus.DOWNLOADED) {
+            createAppUpdateReadySnackbar();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +78,9 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
         addNewShopBinding = ActivityAddShopBinding.inflate(getLayoutInflater());
 
         setContentView(addNewShopBinding.getRoot());
+
+        appUpdateManager = AppUpdateManagerFactory.create(this);
+        appUpdateManager.registerListener(installStateUpdatedListener);
 
         shop = new Shop();
 
@@ -312,22 +325,27 @@ public class AddShop extends AppCompatActivity implements View.OnClickListener{
         this.shop = shop;
     }
 
-    public void copy(Uri src, File dst) throws IOException {
-        InputStream in = this.getContentResolver().openInputStream(src);
-        try {
-            OutputStream out = new FileOutputStream(dst);
-            try {
-                // Transfer bytes from in to out
-                byte[] buf = new byte[1024];
-                int len;
-                while ((len = in.read(buf)) > 0) {
-                    out.write(buf, 0, len);
-                }
-            } finally {
-                out.close();
-            }
-        } finally {
-            in.close();
-        }
+    private void createAppUpdateReadySnackbar() {
+        Snackbar.make(addNewShopBinding.getRoot(),"New update downloaded",Snackbar.LENGTH_INDEFINITE)
+                .setAction("INSTALL",v -> {
+                    if(appUpdateManager!=null)
+                        appUpdateManager.completeUpdate();
+                })
+                .setActionTextColor(getResources().getColor(R.color.green))
+                .show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(appUpdateManager!=null)
+            appUpdateManager.unregisterListener(installStateUpdatedListener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(appUpdateManager!=null)
+            appUpdateManager.registerListener(installStateUpdatedListener);
     }
 }

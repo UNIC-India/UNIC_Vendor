@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -27,6 +28,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
+import com.google.android.play.core.install.model.InstallStatus;
+import com.google.android.play.core.install.model.UpdateAvailability;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.shop_view_components.ShopDrawerAdapter;
 import com.unic.unic_vendor_final_1.commons.Helpers;
@@ -62,7 +69,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     public int currentPageId = 0;
     public int currentViewCode = 0;
 
-    private int status,structureStatus;
+    private int status;
 
     private ShopDrawerAdapter shopDrawerAdapter;
 
@@ -72,6 +79,13 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     private SetStructureViewModel setStructureViewModel;
     public ActivitySetShopStructureBinding setShopStructureBinding;
 
+    private AppUpdateManager appUpdateManager;
+    private InstallStateUpdatedListener installStateUpdatedListener = state -> {
+        if(state.installStatus() == InstallStatus.DOWNLOADED) {
+            createAppUpdateReadySnackbar();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +94,9 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
         setShopStructureBinding = ActivitySetShopStructureBinding.inflate(getLayoutInflater());
         setContentView(setShopStructureBinding.getRoot());
+
+        appUpdateManager = AppUpdateManagerFactory.create(this);
+        appUpdateManager.registerListener(installStateUpdatedListener);
 
         shopId = getIntent().getStringExtra("shopId");
         setStructureViewModel.getShop().observe(this, shop -> {
@@ -114,6 +131,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
         setShopStructureBinding.btnleft.setOnClickListener(this);
         setShopStructureBinding.btnRight.setOnClickListener(this);
         setShopStructureBinding.confirmShopStructure.setOnClickListener(this);
+        setShopStructureBinding.btnSetStructureAddProduct.setOnClickListener(this);
 
         shopDrawerAdapter = new ShopDrawerAdapter(this);
         setShopStructureBinding.shopDrawerPagesLoader.setLayoutManager(new LinearLayoutManager(this){
@@ -163,6 +181,12 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
 
             case R.id.confirm_shop_structure:
                 setStructureViewModel.saveShopStructure();
+                break;
+
+            case R.id.btn_set_structure_add_product:
+                Intent addProductIntent = new Intent(SetShopStructure.this,AddNewProduct.class);
+                addProductIntent.putExtra("shopId",shopId);
+                startActivityForResult(addProductIntent,AddNewProduct.ADD_PRODUCTS);
                 break;
 
             case R.id.btnRight:
@@ -285,6 +309,7 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                 setStructureViewModel.getShopData(shopId);
                 break;
             case 1:
+                populateHeader();
 
                 if(shop.getNoOfProducts()==0){
                     setShopStructureBinding.confirmShopStructure.setVisibility(View.GONE);
@@ -294,8 +319,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
                             .commit();
                     return;
                 }
-
-                populateHeader();
                 setTemplate(option);
                 break;
             case 2:
@@ -362,8 +385,6 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     }
 
     void setStructureStatus(int structureStatus) {
-
-        this.structureStatus = structureStatus;
 
         if(structureStatus==1||structureStatus==0){
             if(structureStatus==0){
@@ -539,5 +560,34 @@ public class SetShopStructure extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == AddNewProduct.ADD_PRODUCTS && resultCode == Activity.RESULT_OK) {
+            setTemplate(1);
+        }
+
+    }
+
+    private void createAppUpdateReadySnackbar() {
+        Snackbar.make(setShopStructureBinding.getRoot(),"New update downloaded",Snackbar.LENGTH_INDEFINITE)
+                .setAction("INSTALL",v -> {
+                    if(appUpdateManager!=null)
+                        appUpdateManager.completeUpdate();
+                })
+                .setActionTextColor(getResources().getColor(R.color.green))
+                .show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(appUpdateManager!=null)
+            appUpdateManager.unregisterListener(installStateUpdatedListener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(appUpdateManager!=null)
+            appUpdateManager.registerListener(installStateUpdatedListener);
     }
 }

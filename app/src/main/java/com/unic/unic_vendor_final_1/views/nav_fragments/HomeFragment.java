@@ -116,6 +116,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         .addToBackStack(null)
                         .commit();
                 break;
+            case R.id.cv_menu_report:
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.home_fragment,new MyReportsFragment())
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .addToBackStack(null)
+                        .commit();
+                break;
             default:
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.home_fragment, new ComingSoon())

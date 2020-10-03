@@ -199,8 +199,22 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/shop_drawer_pages_loader"
             android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/shop_drawer_header"
+            app:layout_constraintBottom_toBottomOf="@id/btn_set_structure_add_product"/>
+        <Button
+            android:id="@+id/btn_set_structure_add_product"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/shop_drawer_header"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            style="@style/StandardButton"
+            android:background="@drawable/std_button"
+            app:layout_constraintWidth_percent=".9"
+            android:text="ADD PRODUCTS"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>
