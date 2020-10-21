@@ -15,6 +15,7 @@ import com.unic.unic_vendor_final_1.adapters.UserRequestsAdapter;
 import com.unic.unic_vendor_final_1.databinding.FragmentUserRequestsBinding;
 import com.unic.unic_vendor_final_1.viewmodels.UserShopsViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

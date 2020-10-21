@@ -5,6 +5,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class Helpers {
     public static void enableDisableViewGroup(ViewGroup viewGroup, boolean enabled) {
         int childCount = viewGroup.getChildCount();
@@ -16,4 +19,13 @@ public class Helpers {
             }
         }
     }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
+
    }

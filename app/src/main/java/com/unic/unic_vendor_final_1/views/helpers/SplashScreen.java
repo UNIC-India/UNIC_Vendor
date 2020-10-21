@@ -99,8 +99,13 @@ public class SplashScreen extends AppCompatActivity implements LocationListener 
             Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
             appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
                 if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE   ) {
-
-                    if(appUpdateInfo.updatePriority() == 5 || (appUpdateInfo.updatePriority() > 2 && appUpdateInfo.updatePriority() < 5 && appUpdateInfo.clientVersionStalenessDays()!=null && appUpdateInfo.clientVersionStalenessDays() >= 7) || (appUpdateInfo.updatePriority() < 3 && appUpdateInfo.clientVersionStalenessDays()!=null && appUpdateInfo.clientVersionStalenessDays() >= 14)) {
+                    try {
+                        appUpdateManager.startUpdateFlowForResult(
+                                appUpdateInfo, AppUpdateType.IMMEDIATE, SplashScreen.this, UPDATE_REQUEST);
+                    } catch (IntentSender.SendIntentException e) {
+                        e.printStackTrace();
+                    }
+                    /*if(appUpdateInfo.updatePriority() == 5 || (appUpdateInfo.updatePriority() > 2 && appUpdateInfo.updatePriority() < 5 && appUpdateInfo.clientVersionStalenessDays()!=null && appUpdateInfo.clientVersionStalenessDays() >= 7) || (appUpdateInfo.updatePriority() < 3 && appUpdateInfo.clientVersionStalenessDays()!=null && appUpdateInfo.clientVersionStalenessDays() >= 14)) {
                         try {
                             appUpdateManager.startUpdateFlowForResult(
                                     appUpdateInfo, AppUpdateType.IMMEDIATE, SplashScreen.this, UPDATE_REQUEST);
@@ -120,10 +125,7 @@ public class SplashScreen extends AppCompatActivity implements LocationListener 
                         } catch (IntentSender.SendIntentException e) {
                             e.printStackTrace();
                         }
-                    }
-
-
-
+                    }*/
 
                 }
                 else {

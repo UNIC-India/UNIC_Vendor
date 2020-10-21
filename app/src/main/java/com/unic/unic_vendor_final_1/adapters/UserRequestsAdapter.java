@@ -46,7 +46,7 @@ public class UserRequestsAdapter extends RecyclerView.Adapter<UserRequestsAdapte
         public void onClick(View v) {
 
             new AlertDialog.Builder(context)
-                    .setMessage(type==0?"Do you wish to allow " + users.get(position).get("userName") + " to visit your shop?":"Do you wish to revoke " + users.get(position).get("userName") + "'s access to yur shop?")
+                    .setMessage(type==0?"Do you wish to allow " + users.get(position).get("userName") + " to visit your shop?":"Do you wish to revoke " + users.get(position).get("userName") + "'s access to your shop?")
                     .setPositiveButton("YES",((dialog, which) -> {
                         if(type==0){
                             userShopsViewModel.allowUserAccess(shopId,users.get(position).get("userId"));
