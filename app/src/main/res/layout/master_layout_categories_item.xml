@@ -30,6 +30,8 @@
             android:paddingBottom="10dp"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            app:autoSizeMaxTextSize="18sp"
+            app:autoSizeMinTextSize="18sp" />
 </androidx.cardview.widget.CardView>
 

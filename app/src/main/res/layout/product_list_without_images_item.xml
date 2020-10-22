@@ -31,7 +31,6 @@
         <TextView
             android:id="@+id/product_name"
             android:layout_width="0dp"
-            app:layout_constraintWidth_percent=".75"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_weight="9"
@@ -41,10 +40,13 @@
             android:text="Product Name"
             android:textColor="#000000"
             android:textSize="17sp"
-
             android:textStyle="bold"
+
+            app:autoSizeMaxTextSize="17sp"
+            app:autoSizeMinTextSize="17sp"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".75"
             app:layout_goneMarginLeft="5dp" />
 
         <Button
@@ -77,8 +79,10 @@
             android:text="company"
             android:textSize="15sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:autoSizeMaxTextSize="16sp"
 
+            app:autoSizeMinTextSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/product_name"
             app:layout_goneMarginLeft="5dp" />
 
@@ -92,6 +96,8 @@
             android:textColor="#000000"
             android:textSize="15sp"
             android:textStyle="bold"
+            app:autoSizeMaxTextSize="16sp"
+            app:autoSizeMinTextSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/add_to_cart" />
 
@@ -103,6 +109,8 @@
             android:maxLines="1"
             android:text="extrainfo1"
             android:textSize="15sp"
+            app:autoSizeMaxTextSize="16sp"
+            app:autoSizeMinTextSize="15sp"
             app:layout_constraintBottom_toBottomOf="@+id/company"
             app:layout_constraintEnd_toStartOf="@+id/textView4"
             app:layout_constraintStart_toEndOf="@+id/company" />

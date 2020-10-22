@@ -43,7 +43,6 @@
             android:id="@+id/product_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
             android:ellipsize="end"
             android:fontFamily="@font/montserrat_normal"
             android:hint="MASTI DAHI"
@@ -54,6 +53,7 @@
             android:textColorHint="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
+            app:autoSizeMinTextSize="16sp"
             app:layout_constraintLeft_toRightOf="@id/product_image"
             app:layout_constraintTop_toTopOf="@id/product_image"
             app:layout_constraintWidth_percent=".6" />

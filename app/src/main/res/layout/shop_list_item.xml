@@ -17,16 +17,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
-        android:fontFamily="@font/abeezee"
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
-        android:maxLines="1"
         android:ellipsize="end"
         android:focusable="true"
+        android:fontFamily="@font/abeezee"
+        android:maxLines="1"
         android:paddingLeft="16dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:text="TextView"
         android:textColor="#000000"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        app:autoSizeMaxTextSize="18sp"
+        app:autoSizeMinTextSize="18sp" />
 </androidx.cardview.widget.CardView>
