@@ -27,7 +27,9 @@
             android:paddingBottom="8dp"
             android:text="Add Shop Logo"
             android:textColor="#000000"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            app:autoSizeMaxTextSize="18sp"
+            app:autoSizeMinTextSize="18sp" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -52,7 +54,9 @@
             android:paddingBottom="8dp"
             android:text="Manage Team"
             android:textColor="#000000"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            app:autoSizeMaxTextSize="18sp"
+            app:autoSizeMinTextSize="18sp" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -77,7 +81,9 @@
             android:paddingBottom="8dp"
             android:text="Manage User Permissions"
             android:textColor="#000000"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            app:autoSizeMaxTextSize="18sp"
+            app:autoSizeMinTextSize="18sp" />
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

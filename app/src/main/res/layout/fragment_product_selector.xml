@@ -26,6 +26,7 @@
             android:drawableStart="@drawable/ic_search_black_24dp"
             android:drawableTint="#D3D3D3"
             android:hint="Search "
+            android:textSize="17sp"
             app:layout_constraintEnd_toStartOf="@+id/product_selection_spinner"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

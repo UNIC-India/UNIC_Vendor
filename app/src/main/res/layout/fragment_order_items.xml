@@ -66,7 +66,7 @@
             android:paddingEnd="8dp"
             android:text="Select Unavailable Items"
             android:textColor="#FFFFFF"
-            android:textSize="11sp"
+            android:textSize="11dp"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -194,7 +194,9 @@
                     android:maxLines="1"
                     android:text="Customer Name"
                     android:textColor="#000000"
-                    android:textSize="22sp" />
+                    android:textSize="22sp"
+                    app:autoSizeMaxTextSize="22sp"
+                    app:autoSizeMinTextSize="22sp" />
 
             </LinearLayout>
 
@@ -211,6 +213,8 @@
             android:textColor="@color/green2"
             android:textSize="18sp"
             android:textStyle="bold"
+            app:autoSizeMaxTextSize="18sp"
+            app:autoSizeMinTextSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -245,6 +249,8 @@
                 android:layout_height="wrap_content"
                 android:text="Accepted"
                 android:textSize="10sp"
+                app:autoSizeMaxTextSize="12sp"
+                app:autoSizeMinTextSize="10sp"
                 app:layout_constraintBottom_toTopOf="@+id/iv1"
                 app:layout_constraintEnd_toEndOf="@+id/iv1"
                 app:layout_constraintStart_toStartOf="@+id/iv1" />
@@ -255,6 +261,8 @@
                 android:layout_height="wrap_content"
                 android:text="Prepared"
                 android:textSize="10sp"
+                app:autoSizeMaxTextSize="12sp"
+                app:autoSizeMinTextSize="10sp"
                 app:layout_constraintBottom_toTopOf="@+id/iv2"
                 app:layout_constraintEnd_toEndOf="@+id/iv2"
                 app:layout_constraintStart_toStartOf="@+id/iv2" />
@@ -265,6 +273,8 @@
                 android:layout_height="wrap_content"
                 android:text="Delivered"
                 android:textSize="10sp"
+                app:autoSizeMaxTextSize="12sp"
+                app:autoSizeMinTextSize="10sp"
                 app:layout_constraintBottom_toTopOf="@+id/iv4"
                 app:layout_constraintEnd_toEndOf="@+id/iv4"
                 app:layout_constraintStart_toStartOf="@+id/iv4" />
@@ -275,6 +285,8 @@
                 android:layout_height="wrap_content"
                 android:text="Dispatched"
                 android:textSize="10sp"
+                app:autoSizeMaxTextSize="12sp"
+                app:autoSizeMinTextSize="10sp"
                 app:layout_constraintBottom_toTopOf="@+id/iv3"
                 app:layout_constraintEnd_toEndOf="@+id/iv3"
                 app:layout_constraintStart_toStartOf="@+id/iv3" />
