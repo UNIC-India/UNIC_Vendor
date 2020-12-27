@@ -281,6 +281,10 @@ public class FirebaseRepository {
         return db.collection("shops").document(shopId).collection("extraData");
     }
 
+    public Task<DocumentSnapshot> getCompanies(String shopId) {
+        return db.collection("shops").document(shopId).collection("extraData").document("companies").get();
+    }
+
     public Task<DocumentSnapshot> getUserPermissions(String shopId){
         return db.collection("shops").document(shopId).collection("extraData").document("userPermissions").get();
     }
@@ -330,6 +334,8 @@ public class FirebaseRepository {
         Map<String,Object> data = new HashMap<>();
         data.put("shopId",shopId);
         data.put("userId",userId);
+        data.put("reportType",0);
+        data.put("reportMessage", "User reported by shop owner");
         return mFunctions.getHttpsCallable("reportUser")
                 .call(data);
     }

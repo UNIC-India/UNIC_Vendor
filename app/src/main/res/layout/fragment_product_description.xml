@@ -86,11 +86,11 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:src="@drawable/ic_baseline_edit_24"
-        android:tint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/slider_images_tab"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="15dp"/>
+        android:layout_marginEnd="15dp"
+        app:tint="@color/black" />
 
     <ImageView
         android:visibility="invisible"
@@ -98,11 +98,11 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:src="@drawable/check_icon"
-        android:tint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/slider_images_tab"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="15dp"/>
+        android:layout_marginEnd="15dp"
+        app:tint="@color/black" />
 
     <TextView
         android:id="@+id/tv_edit_product_details"
@@ -115,6 +115,7 @@
         android:textColor="@color/black"
         android:text="Edit Details"
         android:layout_marginEnd="5dp"/>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvDetails"

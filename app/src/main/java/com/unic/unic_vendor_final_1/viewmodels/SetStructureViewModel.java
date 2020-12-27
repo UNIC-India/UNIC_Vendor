@@ -183,19 +183,15 @@ public class SetStructureViewModel extends ViewModel {
                     switch (doc.getId()){
                         case "categories":
 
-                            List<Object> categoriesObj = Arrays.asList(doc.getData().keySet().toArray());
-
-                            List<String> categoriesList = new ArrayList<>();
-
-                            categoriesObj.forEach(o -> {
-                                categoriesList.add(o.toString());
-                            });
-
                             Map<String,List<String>> subcategoryData = new HashMap<>();
+                            List<String> categoriesList = new ArrayList<>(doc.getData().keySet());
+                            categoriesList.remove("count");
 
-                            for(String key : doc.getData().keySet()){
-                                subcategoryData.put(key,(List<String>)doc.getData().get(key));
-                            }
+                            categoriesList.forEach(key -> {
+                                List<String> keys = new ArrayList<>(((Map<String,String>)doc.getData().get(key)).keySet());
+                                keys.remove("count");
+                                subcategoryData.put(key,keys);
+                            });
 
                             extras.put("categories",subcategoryData);
 
@@ -211,20 +207,16 @@ public class SetStructureViewModel extends ViewModel {
 
                         case "companies":
 
-                            List<Object> conpaniesObj = Arrays.asList(doc.getData().keySet().toArray());
-
-                            List<String> companiesList = new ArrayList<>();
-
-                            conpaniesObj.forEach(o -> {
-                                companiesList.add(o.toString());
-                            });
+                            List<String> companiesList = new ArrayList<>(doc.getData().keySet());
+                            companiesList.remove("count");
 
                             Map<String,List<String>> catData = new HashMap<>();
 
-                            for(String key : doc.getData().keySet()){
-                                catData.put(key,(List<String>)doc.getData().get(key));
-                            }
-
+                            companiesList.forEach(key -> {
+                                List<String> keys = new ArrayList<>(((Map<String,String>)doc.getData().get(key)).keySet());
+                                keys.remove("count");
+                                catData.put(key,keys);
+                            });
                             extras.put("companies",catData);
 
                             List<Map<String,Object>> companydata = new ArrayList<>();
