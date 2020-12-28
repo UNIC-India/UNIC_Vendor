@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.unic.unic_vendor_final_1.BuildConfig;
 import com.unic.unic_vendor_final_1.R;
+import com.unic.unic_vendor_final_1.commons.Helpers;
 import com.unic.unic_vendor_final_1.datamodels.Order;
 import com.unic.unic_vendor_final_1.views.shop_addition_fragments.ProductDescriptionFragment;
 
@@ -97,8 +98,8 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Vi
 
         holder.tvProductName.setText(order.getItems().get(position).get("name").toString());
         holder.tvCompany.setText(order.getItems().get(position).get("company").toString());
-        holder.tvPrice.setText("\u20B9 "+order.getItems().get(position).get("price").toString());
-        holder.tvTotal.setText("\u20B9 "+Double.parseDouble(order.getItems().get(position).get("price").toString())*Integer.parseInt(order.getItems().get(position).get("orderQuantity").toString())+"");
+        holder.tvPrice.setText("\u20B9 "+(order.getItems().get(position).get("discount")==null?1.0:1.0-Double.parseDouble(order.getItems().get(position).get("discount").toString())/100)*Double.parseDouble(order.getItems().get(position).get("price").toString()));
+        holder.tvTotal.setText(Helpers.round(Double.valueOf(Double.parseDouble(order.getItems().get(position).get("price").toString())*(order.getItems().get(position).containsKey("discount")?1-Double.parseDouble(order.getItems().get(position).get("discount").toString())/100:1)*Integer.parseInt(order.getItems().get(position).get("orderQuantity").toString())),2) + "");
         holder.tvQty.setText(""+order.getItems().get(position).get("orderQuantity").toString());
         holder.tvExtraInfo1.setText((order.getItems().get(position).get("extraInfo1")!=null&&!order.getItems().get(position).get("extraInfo1").toString().equals("null"))?order.getItems().get(position).get("extraInfo1").toString():"");
         holder.tvExtraInfo2.setText((order.getItems().get(position).get("extraInfo2")!=null&&!order.getItems().get(position).get("extraInfo2").toString().equals("null"))?order.getItems().get(position).get("extraInfo2").toString():"");

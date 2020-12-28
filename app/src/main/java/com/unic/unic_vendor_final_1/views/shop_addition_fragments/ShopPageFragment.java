@@ -152,7 +152,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 view00.setId(view.getViewCode());
                 parent.addView(view00,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
                 RelativeLayout.LayoutParams frameLayoutParams = (RelativeLayout.LayoutParams) view00.getLayoutParams();
-                frameLayoutParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+                frameLayoutParams.topMargin = (int)dpToPx(view.getyPos()+25*viewPos);
                 view00.setLayoutParams(frameLayoutParams);
                 ((ViewGroup)view00.findViewById(R.id.view_loader)).addView(frame,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
                 view00.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
@@ -173,7 +173,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 view12.setId(view.getViewCode());
                 parent.addView(view12,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
                 RelativeLayout.LayoutParams doubleImageParams = (RelativeLayout.LayoutParams) view12.getLayoutParams();
-                doubleImageParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+                doubleImageParams.topMargin = (int)dpToPx(view.getyPos()+25*viewPos);
                 view12.setLayoutParams(doubleImageParams);
 
                 ((ViewGroup)view12.findViewById(R.id.view_loader)).addView(doubleImageView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
@@ -203,7 +203,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 view21.setId(view.getViewCode());
                 parent.addView(view21,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
                 RelativeLayout.LayoutParams categoriesViewParams = (RelativeLayout.LayoutParams) view21.getLayoutParams();
-                categoriesViewParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+                categoriesViewParams.topMargin = (int)dpToPx(view.getyPos()+25*viewPos);
                 view21.setLayoutParams(categoriesViewParams);
 
                 ((ViewGroup)view21.findViewById(R.id.view_loader)).addView(categoriesView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
@@ -225,7 +225,6 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 categoriesRecyclerView.setAdapter(categoriesAdapter);
                 break;
 
-
             case 22:
                 View categoriesView2=getLayoutInflater().inflate(R.layout.categories_view,parent,false);
                 categoriesView2.setId(view.getViewCode());
@@ -234,7 +233,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 view22.setId(view.getViewCode());
                 parent.addView(view22,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
                 RelativeLayout.LayoutParams categoriesViewParams2 = (RelativeLayout.LayoutParams) view22.getLayoutParams();
-                categoriesViewParams2.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+                categoriesViewParams2.topMargin = (int)dpToPx(view.getyPos()+25*viewPos);
                 view22.setLayoutParams(categoriesViewParams2);
 
                 ((ViewGroup)view22.findViewById(R.id.view_loader)).addView(categoriesView2,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
@@ -279,7 +278,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 view31.setId(view.getViewCode());
                 parent.addView(view31,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
                 RelativeLayout.LayoutParams sliderParams = (RelativeLayout.LayoutParams) view31.getLayoutParams();
-                sliderParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+                sliderParams.topMargin = (int)dpToPx(view.getyPos()+25*viewPos);
                 view31.setLayoutParams(sliderParams);
 
                 ((ViewGroup)view31.findViewById(R.id.view_loader)).addView(sliderView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
@@ -310,7 +309,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 view32.setId(view.getViewCode());
                 parent.addView(view32,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
                 RelativeLayout.LayoutParams sliderIndicatorParams = (RelativeLayout.LayoutParams) view32.getLayoutParams();
-                sliderIndicatorParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+                sliderIndicatorParams.topMargin = (int)dpToPx(view.getyPos()+25*viewPos);
                 view32.setLayoutParams(sliderIndicatorParams);
 
                 ((ViewGroup)view32.findViewById(R.id.view_loader)).addView(sliderIndicatorView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
@@ -346,7 +345,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
 
                 parent.addView(view41,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
                 RelativeLayout.LayoutParams doubleProductViewParams = (RelativeLayout.LayoutParams) view41.getLayoutParams();
-                doubleProductViewParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+                doubleProductViewParams.topMargin = (int)dpToPx(view.getyPos()+25*viewPos);
                 view41.setLayoutParams(doubleProductViewParams);
 
                 ((ViewGroup)view41.findViewById(R.id.view_loader)).addView(doubleProductView,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
@@ -377,7 +376,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 view42.setId(view.getViewCode());
                 parent.addView(view42,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
                 RelativeLayout.LayoutParams tripleProductViewParams = (RelativeLayout.LayoutParams) view42.getLayoutParams();
-                tripleProductViewParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+                tripleProductViewParams.topMargin = (int)dpToPx(view.getyPos()+25*viewPos);
 
                 ((ViewGroup)view42.findViewById(R.id.view_loader)).addView(doubleProductwoImages,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
                 view42.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
@@ -407,7 +406,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 view43.setId(view.getViewCode());
                 parent.addView(view43,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
                 RelativeLayout.LayoutParams productListWithoutImagesParams = (RelativeLayout.LayoutParams) view43.getLayoutParams();
-                productListWithoutImagesParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+                productListWithoutImagesParams.topMargin = (int)dpToPx(view.getyPos()+25*viewPos);
 
                 ((ViewGroup)view43.findViewById(R.id.view_loader)).addView(productListWithoutImages,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
                 view43.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
@@ -440,7 +439,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 view44.setId(view.getViewCode());
                 parent.addView(view44,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
                 RelativeLayout.LayoutParams productListWithImagesParams = (RelativeLayout.LayoutParams) view44.getLayoutParams();
-                productListWithImagesParams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+                productListWithImagesParams.topMargin = (int)dpToPx(view.getyPos()+25*viewPos);
 
                 ((ViewGroup)view44.findViewById(R.id.view_loader)).addView(productListWithImages,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
                 view44.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);
@@ -473,7 +472,7 @@ public class ShopPageFragment extends Fragment implements View.OnClickListener ,
                 view51.setId(view.getViewCode());
                 parent.addView(view51,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight()+30)));
                 RelativeLayout.LayoutParams Text_Viewparams = (RelativeLayout.LayoutParams) view51.getLayoutParams();
-                Text_Viewparams.topMargin = (int)dpToPx(view.getyPos()+30*viewPos);
+                Text_Viewparams.topMargin = (int)dpToPx(view.getyPos()+25*viewPos);
 
                 ((ViewGroup)view51.findViewById(R.id.view_loader)).addView(Text_View,new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,(int)dpToPx(view.getHeight())));
                 view51.findViewById(R.id.view_deleter).setOnClickListener(this::onClick);

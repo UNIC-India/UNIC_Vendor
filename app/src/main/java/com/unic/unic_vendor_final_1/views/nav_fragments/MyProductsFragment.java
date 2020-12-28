@@ -215,13 +215,13 @@ public class MyProductsFragment extends Fragment implements AdapterView.OnItemSe
 
         myProductsBinding.myProductFilter.setOnClickListener(v -> {
             if(isSelectorOpen) {
-                myProductsBinding.myProductFilterList.startAnimation(slideDown);
+                myProductsBinding.myProductFilterList.startAnimation(slideUp);
                 myProductsBinding.myProductFilterList.setVisibility(View.GONE);
                 isSelectorOpen = false;
             }
             else {
                 myProductsBinding.myProductFilterList.setVisibility(View.VISIBLE);
-                myProductsBinding.myProductFilterList.startAnimation(slideUp);
+                myProductsBinding.myProductFilterList.startAnimation(slideDown);
                 isSelectorOpen = true;
             }
         });

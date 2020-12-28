@@ -84,6 +84,7 @@
                 android:drawableLeft="@drawable/ic_phone_black_24dp"
                 android:drawableTint="#EC4156"
                 android:drawablePadding="10dp"
+                android:inputType="phone"
                 android:hint="Phone"
                 android:paddingTop="5dp"
                 app:layout_constraintEnd_toEndOf="@+id/edtfullname"

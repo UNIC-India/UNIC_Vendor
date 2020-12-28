@@ -17,6 +17,9 @@ import android.provider.MediaStore;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -24,7 +27,6 @@ import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.android.play.core.install.InstallStateUpdatedListener;
 import com.google.android.play.core.install.model.InstallStatus;
-import com.google.android.play.core.install.model.UpdateAvailability;
 import com.unic.unic_vendor_final_1.R;
 import com.unic.unic_vendor_final_1.adapters.AddProductImageAdapter;
 import com.unic.unic_vendor_final_1.databinding.ActivityAddNewProductBinding;
@@ -41,13 +43,14 @@ import java.util.List;
 
 import static com.unic.unic_vendor_final_1.commons.Helpers.enableDisableViewGroup;
 
-public class AddNewProduct extends AppCompatActivity implements View.OnClickListener {
+public class AddNewProduct extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private String shopId;
     private AddNewProductViewModel addNewProductViewModel;
     private ActivityAddNewProductBinding addNewProductBinding;
     private Product product;
     private View coverView;
     private AddProductImageAdapter productImageAdapter;
+    private ArrayAdapter companyAdapter,categoryAdapter;
 
     private static final int GALLERY_INTENT = 1001;
     private static final int CROP_IMAGE = 1002;
@@ -55,6 +58,8 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
 
     private List<Uri> imageUris;
     private Uri currentImageUri;
+    private List<String> companies;
+    private List<String> categories;
 
     private boolean userWantsImage = true;
 
@@ -101,10 +106,16 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         assert shopId != null;
         addNewProductBinding.btnAddProductImage.setOnClickListener(this);
         addNewProductBinding.btnConfirmProductAddition.setOnClickListener(this);
+        addNewProductBinding.productCompanySpinner.setOnItemSelectedListener(this);
+        addNewProductBinding.productCategorySpinner.setOnItemSelectedListener(this);
+        addNewProductBinding.addProductCompany.setOnClickListener(this);
+        addNewProductBinding.addProductCategory.setOnClickListener(this);
         addNewProductViewModel.setShopId(shopId);
         addNewProductViewModel.getProductStatus().observe(this, this::statusUpdate);
         addNewProductViewModel.getProduct().observe(this,this::setProduct);
-
+        addNewProductViewModel.getShopExtras();
+        addNewProductViewModel.getCompanies().observe(this,this::setCompanies);
+        addNewProductViewModel.getCategories().observe(this,this::setCategories);
         productImageAdapter = new AddProductImageAdapter(imageUris,this);
         addNewProductBinding.addProductImageSlider.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL,false));
         addNewProductBinding.addProductImageSlider.setAdapter(productImageAdapter);
@@ -114,41 +125,6 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
            if(aBoolean)
                uploadImage(currentPosition);
         });
-    }
-
-    @Override
-    public void onClick(View v) {
-
-        if(v.getId()==addNewProductBinding.btnAddProductImage.getId()){
-            Intent intent = new Intent(Intent.ACTION_PICK);
-            intent.setType("image/*");
-            startActivityForResult(intent,GALLERY_INTENT);
-        }
-
-        else if(v.getId()==addNewProductBinding.btnConfirmProductAddition.getId()){
-            if(userWantsImage&&imageUris==null){
-                AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                        .setMessage("No product image selected. Do you want to select one?")
-                        .setPositiveButton("Yes", (dialog, which) -> {
-                            userWantsImage = true;
-                            Intent intent = new Intent(Intent.ACTION_PICK);
-                            intent.setType("image/*");
-                            startActivityForResult(intent,GALLERY_INTENT);
-                        })
-                        .setNegativeButton("No", (dialog, which) -> {
-                            userWantsImage = false;
-                            saveProduct();
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-
-            else {
-                saveProduct();
-            }
-
-        }
-
     }
 
     private void statusUpdate(int i){
@@ -258,6 +234,25 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
         this.product = product;
     }
 
+    public void setCompanies(List<String> companies) {
+        this.companies = companies == null ? new ArrayList<>() : companies;
+        this.companies.add(0,"--SELECT--");
+
+        companyAdapter = new ArrayAdapter(this,R.layout.simple_textbox,this.companies);
+
+        addNewProductBinding.productCompanySpinner.setAdapter(companyAdapter);
+
+    }
+
+    public void setCategories(List<String> categories) {
+        this.categories = categories == null ? new ArrayList<>() : categories;
+        this.categories.add(0,"--SELECT--");
+
+        categoryAdapter = new ArrayAdapter(this,R.layout.simple_textbox,this.categories);
+
+        addNewProductBinding.productCategorySpinner.setAdapter(categoryAdapter);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -290,6 +285,95 @@ public class AddNewProduct extends AppCompatActivity implements View.OnClickList
             }
 
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if(parent.getId() == R.id.product_company_spinner) {
+            addNewProductBinding.edtProductCompany.setText(companies == null || companies.size() == 1 || position == 0 ? "" : companies.get(position));
+        }
+
+        else if(parent.getId() == R.id.product_category_spinner) {
+            addNewProductBinding.edtProductCategory.setText(categories == null || categories.size() == 1 || position == 0 ? "" : categories.get(position));
+        }
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        if(parent.getId() == R.id.product_company_spinner) {
+            addNewProductBinding.edtProductCompany.setText("");
+        }
+
+        else if(parent.getId() == R.id.product_category_spinner) {
+            addNewProductBinding.edtProductCategory.setText("");
+        }
+//        else if(parent.getId() == R.id.)
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        if(v.getId()==addNewProductBinding.btnAddProductImage.getId()){
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("image/*");
+            startActivityForResult(intent,GALLERY_INTENT);
+        }
+
+        else if(v.getId()==addNewProductBinding.btnConfirmProductAddition.getId()){
+            if(userWantsImage&&imageUris==null){
+                AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                        .setMessage("No product image selected. Do you want to select one?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            userWantsImage = true;
+                            Intent intent = new Intent(Intent.ACTION_PICK);
+                            intent.setType("image/*");
+                            startActivityForResult(intent,GALLERY_INTENT);
+                        })
+                        .setNegativeButton("No", (dialog, which) -> {
+                            userWantsImage = false;
+                            saveProduct();
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+
+            else {
+                saveProduct();
+            }
+
+        }
+
+        else if(v.getId() == addNewProductBinding.addProductCompany.getId()) {
+            EditText etCompanyName = new EditText(this);
+            new AlertDialog.Builder(this)
+                    .setTitle("Enter Company Name")
+                    .setMessage("")
+                    .setView(etCompanyName)
+                    .setPositiveButton("DONE", (dialog, which) -> {
+                        this.companies.add(etCompanyName.getText().toString());
+                        addNewProductBinding.productCompanySpinner.setSelection(companies.size()-1);
+                        dialog.dismiss();
+                    })
+                    .setNegativeButton("CANCEL", ((dialog, which) -> dialog.dismiss()))
+                    .create().show();
+        }
+
+        else if(v.getId() == addNewProductBinding.addProductCategory.getId()) {
+            EditText etCategoryName = new EditText(this);
+            new AlertDialog.Builder(this)
+                    .setTitle("Enter Category Name")
+                    .setMessage("")
+                    .setView(etCategoryName)
+                    .setPositiveButton("DONE", (dialog, which) -> {
+                        this.categories.add(etCategoryName.getText().toString());
+                        addNewProductBinding.productCategorySpinner.setSelection(categories.size()-1);
+                        dialog.dismiss();
+                    })
+                    .setNegativeButton("CANCEL", ((dialog, which) -> dialog.dismiss()))
+                    .create().show();
+        }
+
     }
 
     private void cropImage(Uri uri) {

@@ -211,9 +211,7 @@ public class UserShopsViewModel extends ViewModel {
     public void reportUser(String shopId,String userId,String orderId){
 
         firebaseRepository.reportUser(shopId,userId)
-                .addOnSuccessListener(result -> {
-                    firebaseRepository.updateReport(orderId);
-                });
+                .addOnSuccessListener(result -> firebaseRepository.updateReport(orderId));
 
     }
 

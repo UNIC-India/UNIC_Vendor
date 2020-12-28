@@ -61,21 +61,25 @@ public class MyReportsFragment extends Fragment implements View.OnClickListener,
         orderReportSettings = new HashMap<>();
 
         List<Shop> shops = userShopsViewModel.getShops().getValue();
-        if(shops!=null) {
+        if(shops!=null && shops.size()!=0) {
+            myReportsBinding.noshops.setVisibility(View.GONE);
+            myReportsBinding.tvnoshops.setVisibility(View.GONE);
+            myReportsBinding.cardReportOrder.setVisibility(View.VISIBLE);
             shopNames = new ArrayList<>();
             shops.forEach(shop -> shopNames.add(shop.getName()));
+            orderReportSettings.put("shopId",userShopsViewModel.getShopIds().getValue().get(0));
+            orderReportSettings.put("time",0);
+            orderReportSettings.put("allTypes",true);
+            orderReportSettings.put("allShops",false);
+            orderReportSettings.put("type",0);
+
+            myReportsBinding.cardReportOrder.setOnClickListener(this);
         }
         else {
-            //TODO
+            myReportsBinding.noshops.setVisibility(View.VISIBLE);
+            myReportsBinding.tvnoshops.setVisibility(View.VISIBLE);
+            myReportsBinding.cardReportOrder.setVisibility(View.GONE);
         }
-
-        orderReportSettings.put("shopId",userShopsViewModel.getShopIds().getValue().get(0));
-        orderReportSettings.put("time",0);
-        orderReportSettings.put("allTypes",true);
-        orderReportSettings.put("allShops",false);
-        orderReportSettings.put("type",0);
-
-        myReportsBinding.cardReportOrder.setOnClickListener(this);
 
         return myReportsBinding.getRoot();
     }
