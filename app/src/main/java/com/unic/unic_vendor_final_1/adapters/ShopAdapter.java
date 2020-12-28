@@ -7,7 +7,6 @@ import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,7 +24,6 @@ import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.views.activities.AddNewProduct;
 import com.unic.unic_vendor_final_1.views.activities.SetShopStructure;
 import com.unic.unic_vendor_final_1.views.activities.UserHome;
-import com.unic.unic_vendor_final_1.views.nav_fragments.MyAppsFragment;
 
 import java.util.List;
 
@@ -140,7 +138,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         if(from==0)
-            view= LayoutInflater.from(parent.getContext()).inflate(R.layout.my_shop_list_item_modified, parent, false);
+            view= LayoutInflater.from(parent.getContext()).inflate(R.layout.my_shop_list_item, parent, false);
         else
             view= LayoutInflater.from(parent.getContext()).inflate(R.layout.shop_list_item, parent, false);
         return new ViewHolder(view);

@@ -88,10 +88,9 @@ private class CheckBoxListener implements View.OnClickListener {
             if (((CheckBox) v).isChecked()) {
                 checkedProducts.add(products.get(position));
             } else {
-                if(checkedProducts.contains(products.get(position)))
-                    checkedProducts.remove(products.get(position));
+                checkedProducts.removeIf(map -> map.get("firestoreId").toString().equals(products.get(position).get("firestoreId").toString()));
             }
-            notifyDataSetChanged();
+            notifyItemChanged(position);
         }
 
 
@@ -175,10 +174,7 @@ private class CheckBoxListener implements View.OnClickListener {
 
             switch (which){
                 case 1:
-                    if(checkedProducts!=null&&checkedProducts.contains(products.get(position)))
-                        holder.cbCheck.setChecked(true);
-                    else
-                        holder.cbCheck.setChecked(false);
+                    holder.cbCheck.setChecked(checkedProducts != null && checkedProducts.stream().anyMatch(map -> map.get("firestoreId").toString().equals(products.get(position).get("firestoreId").toString())));
 
                     holder.cbCheck.setOnClickListener(new CheckBoxListener(position));
                     break;
@@ -200,10 +196,7 @@ private class CheckBoxListener implements View.OnClickListener {
     @Override
     public int getItemCount() {
         if(demo==0)
-            if(products!=null)
-                return products==null?0:products.size();
-            else
-                return 0;
+            return products==null?0:products.size();
         else
             return 3;
     }
@@ -221,4 +214,5 @@ private class CheckBoxListener implements View.OnClickListener {
         if(productIDs!=null)
             this.checkedProducts = productIDs;
     }
+
 }
