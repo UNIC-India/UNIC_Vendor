@@ -84,9 +84,11 @@
                         android:id="@+id/autoCompleteTextView"
                         android:layout_width="0dp"
                         android:layout_height="45dp"
+                        android:background="#FFFFFF"
                         android:drawableStart="@drawable/ic_search_black_24dp"
                         android:drawableTint="#D3D3D3"
                         android:hint="  Search "
+                        android:textSize="18sp"
                         app:layout_constraintEnd_toStartOf="@+id/view"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

@@ -89,6 +89,8 @@
                             android:text="Total Orders: "
                             android:textColor="@color/black"
                             android:textSize="16sp"
+                            app:autoSizeMaxTextSize="16sp"
+                            app:autoSizeMinTextSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/order_summary_title" />
 
@@ -110,6 +112,8 @@
                             android:text="Total Sales: "
                             android:textColor="@color/black"
                             android:textSize="16sp"
+                            app:autoSizeMaxTextSize="16sp"
+                            app:autoSizeMinTextSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tv_total_orders_title" />
 
@@ -139,6 +143,8 @@
                             android:text="Pending: "
                             android:textColor="@color/black"
                             android:textSize="16sp"
+                            app:autoSizeMaxTextSize="16sp"
+                            app:autoSizeMinTextSize="16sp"
                             app:layout_constraintEnd_toStartOf="@id/order_type_view"
                             app:layout_constraintHorizontal_bias=".45"
                             app:layout_constraintStart_toStartOf="parent"
@@ -160,6 +166,8 @@
                             android:text="Delivered: "
                             android:textColor="@color/black"
                             android:textSize="16sp"
+                            app:autoSizeMaxTextSize="16sp"
+                            app:autoSizeMinTextSize="16sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias=".45"
                             app:layout_constraintStart_toEndOf="@id/order_type_view"
@@ -182,7 +190,8 @@
                             android:text="Approved: "
                             android:textColor="@color/black"
                             android:textSize="16sp"
-                            app:layout_constraintHorizontal_bias=".45"
+                            app:autoSizeMaxTextSize="16sp"
+                            app:autoSizeMinTextSize="16sp"
                             app:layout_constraintStart_toStartOf="@id/tv_pending_orders_title"
                             app:layout_constraintTop_toBottomOf="@id/tv_pending_orders_title" />
 
@@ -202,6 +211,8 @@
                             android:text="Rejected: "
                             android:textColor="@color/black"
                             android:textSize="16sp"
+                            app:autoSizeMaxTextSize="16sp"
+                            app:autoSizeMinTextSize="16sp"
                             app:layout_constraintStart_toStartOf="@id/tv_delivered_orders_title"
                             app:layout_constraintTop_toTopOf="@id/tv_approved_orders_title" />
 
@@ -256,13 +267,15 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="Items"
                             android:textColor="@color/black"
                             android:textSize="18sp"
-                            app:layout_constraintTop_toTopOf="parent"
+                            app:autoSizeMaxTextSize="18sp"
+                            app:autoSizeMinTextSize="18sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            android:layout_marginStart="10dp"
-                            android:text="Items"/>
+                            app:layout_constraintTop_toTopOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

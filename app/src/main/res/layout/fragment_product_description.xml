@@ -28,22 +28,26 @@
             android:fontFamily="@font/abeezee"
             android:text="Product Details"
             android:textColor="#000000"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="20sp" />
     </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/tv_text_availability"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/montserrat_bold"
         android:text="Availability"
         android:textColor="@color/black"
         android:textSize="18sp"
-        android:fontFamily="@font/montserrat_bold"
-        app:layout_constraintTop_toBottomOf="@id/cardView2"
+        app:autoSizeMaxTextSize="18sp"
+        app:autoSizeMinTextSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@android:color/transparent"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="5dp"/>
+        app:layout_constraintTop_toBottomOf="@id/cardView2" />
 
     <Switch
         android:id="@+id/product_availability_switch"
@@ -107,14 +111,17 @@
     <TextView
         android:id="@+id/tv_edit_product_details"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" app:layout_constraintTop_toTopOf="@id/btn_edit_product_details"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:fontFamily="@font/abeezee"
+        android:text="Edit Details"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:autoSizeMaxTextSize="18sp"
+        app:autoSizeMinTextSize="18sp"
         app:layout_constraintBottom_toBottomOf="@id/btn_edit_product_details"
         app:layout_constraintEnd_toStartOf="@id/btn_edit_product_details"
-        android:fontFamily="@font/abeezee"
-        android:textSize="18sp"
-        android:textColor="@color/black"
-        android:text="Edit Details"
-        android:layout_marginEnd="5dp"/>
+        app:layout_constraintTop_toTopOf="@id/btn_edit_product_details" />
 
 
     <androidx.recyclerview.widget.RecyclerView

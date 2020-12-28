@@ -22,6 +22,8 @@
             android:fontFamily="@font/abeezee"
             android:text="Display QR"
             android:textColor="@color/black"
+            app:autoSizeMaxTextSize="15sp"
+            app:autoSizeMinTextSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/ib_qr_dialog"
             app:layout_constraintStart_toStartOf="@+id/ib_qr_dialog"
             app:layout_constraintTop_toBottomOf="@+id/ib_qr_dialog" />
@@ -34,6 +36,8 @@
             android:fontFamily="@font/abeezee"
             android:text="Share Link"
             android:textColor="@color/black"
+            app:autoSizeMaxTextSize="15sp"
+            app:autoSizeMinTextSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/dialog_shop_generate_qr"
             app:layout_constraintStart_toStartOf="@+id/dialog_shop_generate_qr"
             app:layout_constraintTop_toBottomOf="@+id/dialog_shop_generate_qr" />
@@ -95,6 +99,8 @@
             android:text="Shop name"
             android:textColor="@color/black"
             android:textSize="20sp"
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/qr_shop_image"
             app:layout_constraintTop_toTopOf="parent" />

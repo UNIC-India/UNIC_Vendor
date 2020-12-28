@@ -47,8 +47,10 @@
                 android:textColorHighlight="#FFFFFF"
                 android:textSize="21sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/rdBtn"/>
+                app:autoSizeMaxTextSize="23sp"
+                app:autoSizeMinTextSize="21sp"
+                app:layout_constraintLeft_toRightOf="@id/rdBtn"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

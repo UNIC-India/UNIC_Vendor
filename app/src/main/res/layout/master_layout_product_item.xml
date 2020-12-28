@@ -49,14 +49,16 @@
             android:ellipsize="end"
             android:fontFamily="@font/abeezee"
             android:hint="MASTI DAHI"
+            android:maxLines="1"
             android:padding="2dp"
             android:singleLine="true"
-            android:maxLines="1"
             android:textAllCaps="true"
             android:textColor="#000000"
             android:textColorHint="#000000"
             android:textSize="16sp"
             android:textStyle="bold"
+            app:autoSizeMaxTextSize="16sp"
+            app:autoSizeMinTextSize="16sp"
             app:layout_constraintLeft_toRightOf="@id/master_product_image"
             app:layout_constraintTop_toTopOf="@id/master_product_image"
             app:layout_constraintWidth_percent="0.7" />
@@ -67,14 +69,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:hint="Amul"
-            android:textColor="@color/grey4"
-            android:fontFamily="@font/abeezee"
-
-            android:textColorHint="@color/grey4"
-            android:maxLines="1"
             android:ellipsize="end"
+            android:fontFamily="@font/abeezee"
+            android:hint="Amul"
+
+            android:maxLines="1"
+            android:textColor="@color/grey4"
+            android:textColorHint="@color/grey4"
             android:textSize="14sp"
+            app:autoSizeMaxTextSize="14sp"
+            app:autoSizeMinTextSize="14sp"
             app:layout_constraintLeft_toRightOf="@id/master_product_image"
             app:layout_constraintTop_toBottomOf="@+id/master_product_name" />
 
@@ -83,14 +87,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
+            android:ellipsize="end"
             android:fontFamily="@font/abeezee"
             android:hint="Rs. 20"
+            android:maxLines="1"
             android:textColor="@color/black"
             android:textColorHint="@color/green"
-            android:textSize="15dp"
-            android:ellipsize="end"
-            android:maxLines="1"
+            android:textSize="15sp"
 
+            app:autoSizeMaxTextSize="15sp"
+            app:autoSizeMinTextSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/master_product_company" />
 
@@ -99,9 +105,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:text="Category"
-            android:maxLines="1"
             android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Category"
+            app:autoSizeMaxTextSize="14sp"
+            app:autoSizeMinTextSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/master_product_image"
             app:layout_constraintTop_toBottomOf="@+id/master_product_company" />
@@ -121,11 +129,13 @@
             android:id="@+id/master_extra_info1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
             android:ellipsize="end"
-            android:maxLines="1"
             android:fontFamily="@font/abeezee"
+            android:maxLines="1"
+            android:text="TextView"
 
+            app:autoSizeMaxTextSize="14sp"
+            app:autoSizeMinTextSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/master_product_price"
             app:layout_constraintStart_toEndOf="@+id/master_product_category" />
@@ -134,12 +144,13 @@
             android:id="@+id/master_extra_info2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:maxLines="1"
             android:ellipsize="end"
+            android:maxLines="1"
+            android:text="TextView"
+            app:autoSizeMinTextSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/master_extra_info1"
             app:layout_constraintEnd_toStartOf="@+id/master_product_price"
-            app:layout_constraintStart_toEndOf="@+id/master_product_category"
-            app:layout_constraintBottom_toTopOf="@+id/master_extra_info1" />
+            app:layout_constraintStart_toEndOf="@+id/master_product_category" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

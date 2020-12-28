@@ -9,12 +9,14 @@
         android:id="@+id/tv_view_header_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
         android:fontFamily="@font/abeezee"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Set view header"
         android:textSize="22sp"
-        android:text="Set view header"/>
+        app:autoSizeMaxTextSize="22sp"
+        app:autoSizeMinTextSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <EditText
         android:id="@+id/et_view_header_text"
         android:layout_width="300dp"
