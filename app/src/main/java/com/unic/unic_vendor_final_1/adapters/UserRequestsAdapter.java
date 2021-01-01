@@ -49,17 +49,17 @@ public class UserRequestsAdapter extends RecyclerView.Adapter<UserRequestsAdapte
                     .setMessage(type==0?"Do you wish to allow " + users.get(position).get("userName") + " to visit your shop?":"Do you wish to revoke " + users.get(position).get("userName") + "'s access to your shop?")
                     .setPositiveButton("YES",((dialog, which) -> {
                         if(type==0){
-                            userShopsViewModel.allowUserAccess(shopId,users.get(position).get("userId"));
+                            userShopsViewModel.allowUserAccess(shopId,users.get(position));
                         }
                         if(type==1){
-                            userShopsViewModel.revokeUserAccess(shopId,users.get(position).get("userId"));
+                            userShopsViewModel.revokeUserAccess(shopId,users.get(position));
                         }
                         users.remove(position);
                         notifyItemRemoved(position);
                     }))
                     .setNegativeButton("NO",(dialog, which) -> {
                         if(type==0){
-                            userShopsViewModel.rejectUserAccess(shopId,users.get(position).get("userId"));
+                            userShopsViewModel.rejectUserAccess(shopId,users.get(position));
                         }
 
                         dialog.dismiss();

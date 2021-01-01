@@ -149,27 +149,16 @@ private class CheckBoxListener implements View.OnClickListener {
                     .with(mContext)
                     .load(products.get(position).get("imageId").toString())
                     .into(holder.ivProductPhoto);
-            holder.addToCart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(mContext, "Product can only be added by a customer.", Toast.LENGTH_SHORT).show();
-
-                }
-            });
-            holder.btnDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
+            holder.addToCart.setOnClickListener(v -> Toast.makeText(mContext, "Product can only be added by a customer.", Toast.LENGTH_SHORT).show());
+            holder.btnDelete.setOnClickListener(v ->
                     new AlertDialog.Builder(mContext).setMessage("Are you sure you want to delete " +  products.get(position).get("name").toString())
-                            .setPositiveButton("YES",((dialog, which1) -> {
-                                setStructureViewModel.deleteProduct(products.get(position).get("shopId").toString(),products.get(position).get("firestoreId").toString());
-                                dialog.dismiss();
-                            }))
-                            .setNegativeButton("NO",((dialog, which1) -> dialog.dismiss()))
-                            .create().show();
-
-                }
-            });
+                    .setPositiveButton("YES",((dialog, which1) -> {
+                        setStructureViewModel.deleteProduct(products.get(position).get("shopId").toString(),products.get(position).get("firestoreId").toString());
+                        dialog.dismiss();
+                    }))
+                    .setNegativeButton("NO",((dialog, which1) -> dialog.dismiss()))
+                    .create().show()
+            );
             holder.bounding.setOnClickListener(new ProductDetailsListener(position));
 
             switch (which){

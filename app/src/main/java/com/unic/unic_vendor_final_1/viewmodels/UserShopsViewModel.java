@@ -16,11 +16,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.SetOptions;
 import com.unic.unic_vendor_final_1.commons.FirebaseRepository;
 import com.unic.unic_vendor_final_1.datamodels.Notification;
 import com.unic.unic_vendor_final_1.datamodels.Order;
@@ -196,12 +194,7 @@ public class UserShopsViewModel extends ViewModel {
     }
     public void updateOrderItems(Order order){
 
-        firebaseRepository.db.collection("orders").document(order.getId()).update("items",order.getItems()).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-
-            }
-        });
+        firebaseRepository.updateOrderItems(order);
     }
 
     public void setOrderStatus(String orderId,int orderStatus){
@@ -265,12 +258,12 @@ public class UserShopsViewModel extends ViewModel {
 
     public void sendNotification(Notification notification){
         notificationStatus.setValue(1);
-        firebaseRepository.db.collection("notifications").add(notification).addOnSuccessListener(documentReference -> notificationStatus.setValue(0));
+        firebaseRepository.sendNotification(notification).addOnSuccessListener(documentReference -> notificationStatus.setValue(0));
 
     }
 
     private void getAllNotifications(){
-        firebaseRepository.db.collection("notifications").whereIn("shopId",shopIds.getValue()).orderBy("time", Query.Direction.DESCENDING).limit(30).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        firebaseRepository.getNotifications(shopIds.getValue()).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 if(queryDocumentSnapshots==null)
@@ -297,44 +290,20 @@ public class UserShopsViewModel extends ViewModel {
         Map<String,Object> data=new HashMap<>();
         data.put(role,phones);
 
-        firebaseRepository.db.collection("shops").document(shopId).collection("extraData").document("team").get().addOnSuccessListener(documentSnapshot -> {
-            if(documentSnapshot.getData()==null) {
-                firebaseRepository.db.collection("shops").document(shopId).collection("extraData").document("team").set(data).addOnSuccessListener(aVoid -> memberAddStatus.setValue(1));
-            }
-            else {
-                if(documentSnapshot.getData().get(role)==null) {
-                    firebaseRepository.db.collection("shops").document(shopId).collection("extraData").document("team").set(data, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            memberAddStatus.setValue(1);
-                        }
-                    });
-                }
-                else {
-                    firebaseRepository.db.collection("shops").document(shopId).collection("extraData")
-                            .document("team").update(role, FieldValue.arrayUnion("+91"+phone)).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            memberAddStatus.setValue(1);
-                        }
-                    });
-                }
-            }
-
-
-        });
+        firebaseRepository.getTeamMembers(shopId).get().addOnSuccessListener(documentSnapshot ->
+            firebaseRepository.addTeamMember(shopId,role,phone,documentSnapshot.getData()==null ||documentSnapshot.getData().get(role)==null).addOnSuccessListener(aVoid -> memberAddStatus.setValue(1))
+        );
     }
 
     public MutableLiveData<List<Map<String,String>>> getAllMembers(String shopId){
-        firebaseRepository.db.collection("shops").document(shopId).collection("extraData").document("team")
+        firebaseRepository.getTeamMembers(shopId)
                 .addSnapshotListener((documentSnapshot, e) -> {
-                    Map<String,Object> data=new HashMap<>();
                     List<Map<String,String>> memberData=new ArrayList<>();
                     if(e!=null){
                         return;
                     }
                     if(documentSnapshot!=null && documentSnapshot.exists()) {
-                        data.putAll(documentSnapshot.getData());
+                        Map<String, Object> data = new HashMap<>(documentSnapshot.getData());
                         if(data.containsKey("salesMan")) {
                             for (String i : (ArrayList<String>) data.get("salesMan")) {
                                 Map<String, String> a = new HashMap<>();
@@ -444,13 +413,7 @@ public class UserShopsViewModel extends ViewModel {
     }
 
     public void deleteMember(String phone, String role, String shopId){
-        firebaseRepository.db.collection("shops").document(shopId).collection("extraData")
-                .document("team").update(role, FieldValue.arrayRemove(phone)).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-
-            }
-        });
+        firebaseRepository.deleteTeamMember(phone, role, shopId);
     }
 
     public void getUserPermissions(String shopId){
@@ -472,30 +435,30 @@ public class UserShopsViewModel extends ViewModel {
         });
     }
 
-    public void allowUserAccess(String shopId, String userId){
+    public void allowUserAccess(String shopId, Map<String,String> user){
 
         shops.getValue().forEach(shop -> {
             if(shop.getId().equals(shopId)) {
-                firebaseRepository.allowUserAccess(userId,shopId,shop.getName()).addOnSuccessListener(result -> {
+                firebaseRepository.allowUserAccess(user,shopId,shop.getName()).addOnSuccessListener(result -> {
 
                 });
             }
         });
     }
 
-    public void rejectUserAccess(String shopId, String userId){
+    public void rejectUserAccess(String shopId, Map<String,String> user){
         shops.getValue().forEach(shop -> {
             if(shop.getId().equals(shopId)) {
-                firebaseRepository.rejectUserAccess(userId,shopId,shop.getName()).addOnSuccessListener(result -> {
+                firebaseRepository.rejectUserAccess(user,shopId,shop.getName()).addOnSuccessListener(result -> {
                 });
             }
         });
     }
 
-    public void revokeUserAccess(String shopId, String userId){
+    public void revokeUserAccess(String shopId, Map<String,String> user){
         shops.getValue().forEach(shop -> {
             if(shop.getId().equals(shopId)) {
-                firebaseRepository.revokeUserAccess(userId,shopId,shop.getName()).addOnSuccessListener(result -> {
+                firebaseRepository.revokeUserAccess(user,shopId,shop.getName()).addOnSuccessListener(result -> {
 
                 });
             }

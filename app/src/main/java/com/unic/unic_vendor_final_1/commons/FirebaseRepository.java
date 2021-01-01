@@ -23,6 +23,8 @@ import com.google.firebase.functions.HttpsCallableResult;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.unic.unic_vendor_final_1.datamodels.Notification;
+import com.unic.unic_vendor_final_1.datamodels.Order;
 import com.unic.unic_vendor_final_1.datamodels.Product;
 import com.unic.unic_vendor_final_1.datamodels.Shop;
 import com.unic.unic_vendor_final_1.datamodels.Structure;
@@ -31,6 +33,7 @@ import com.unic.unic_vendor_final_1.datamodels.User;
 import java.io.ByteArrayOutputStream;
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -170,6 +173,10 @@ public class FirebaseRepository {
         if(isFirst)
             return db.collection("orders").whereIn("shopId",shopIds).orderBy("time", Query.Direction.DESCENDING).limit(25).get();
         return db.collection("orders").whereIn("shopId",shopIds).orderBy("time", Query.Direction.DESCENDING).limit(25).startAfter(lastDoc).get();
+    }
+
+    public void updateOrderItems(Order order) {
+        db.collection("orders").document(order.getId()).update("items", order.getItems());
     }
 
     public Task<HttpsCallableResult> deleteShop(String shopId){
@@ -340,19 +347,19 @@ public class FirebaseRepository {
                 .call(data);
     }
 
-    public Task<HttpsCallableResult> allowUserAccess(String userId, String shopId,String shopName){
+    public Task<HttpsCallableResult> allowUserAccess(Map<String,String> user, String shopId,String shopName){
         Map<String,Object> data = new HashMap<>();
         data.put("shopId",shopId);
-        data.put("userId",userId);
+        data.putAll(user);
         data.put("shopName",shopName);
         return  mFunctions.getHttpsCallable("allowViewShop")
                 .call(data);
     }
 
-    public Task<HttpsCallableResult> rejectUserAccess(String userId,String shopId,String shopName) {
+    public Task<HttpsCallableResult> rejectUserAccess(Map<String,String> user,String shopId,String shopName) {
         Map<String,Object> data = new HashMap<>();
         data.put("shopId",shopId);
-        data.put("userId",userId);
+        data.putAll(user);
         data.put("shopName",shopName);
         return  mFunctions.getHttpsCallable("rejectViewShop")
                 .call(data);
@@ -411,10 +418,10 @@ public class FirebaseRepository {
 
     }
 
-    public Task<HttpsCallableResult> revokeUserAccess(String userId,String shopId,String shopName){
+    public Task<HttpsCallableResult> revokeUserAccess(Map<String,String> user,String shopId,String shopName){
         Map<String,Object> data = new HashMap<>();
         data.put("shopId",shopId);
-        data.put("userId",userId);
+        data.putAll(user);
         data.put("shopName",shopName);
         return mFunctions.getHttpsCallable("revokeShopViewPermissions")
                 .call(data);
@@ -456,5 +463,29 @@ public class FirebaseRepository {
                         .build()
                 )
                 .buildShortDynamicLink();
+    }
+
+    public Task<Void> addTeamMember(String shopId, String role, String phone, boolean isFirst) {
+
+        Map<String,Object> data = new HashMap<>();
+        data.put(role, Collections.singletonList(phone));
+
+        return isFirst ? db.collection("shops").document(shopId).collection("extraData").document("team").set(data, SetOptions.merge()) : db.collection("shops").document(shopId).collection("extraData").document("team").update(role, FieldValue.arrayUnion("+91"+phone));
+    }
+
+    public DocumentReference getTeamMembers(String shopId) {
+        return db.collection("shops").document(shopId).collection("extraData").document("team");
+    }
+
+    public void deleteTeamMember(String phone, String role, String shopId) {
+        db.collection("shops").document(shopId).collection("extraData").document("team").update(role, FieldValue.arrayRemove(phone));
+    }
+
+    public Task<DocumentReference> sendNotification(Notification notification) {
+        return db.collection("notifications").add(notification);
+    }
+
+    public Query getNotifications(List<String> shopIds) {
+        return db.collection("notifications").whereIn("shopId",shopIds).orderBy("time", Query.Direction.DESCENDING).limit(30);
     }
 }
