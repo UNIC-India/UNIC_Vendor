@@ -69,6 +69,7 @@ public class ProductDescriptionFragment extends Fragment implements View.OnClick
         fragmentProductDescriptionBinding.btnAddToCart.setOnClickListener(this);
         fragmentProductDescriptionBinding.btnEditProductDetails.setOnClickListener(this);
         fragmentProductDescriptionBinding.btnFinishEditProductDetails.setOnClickListener(this);
+        fragmentProductDescriptionBinding.tvEditProductDetails.setOnClickListener(this);
 
         fragmentProductDescriptionBinding.productAvailabilitySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
