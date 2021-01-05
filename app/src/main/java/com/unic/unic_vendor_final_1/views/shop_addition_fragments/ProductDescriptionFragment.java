@@ -36,6 +36,7 @@ public class ProductDescriptionFragment extends Fragment implements View.OnClick
     FragmentProductDescriptionBinding fragmentProductDescriptionBinding;
     ProductDetailsAdapter productDetailsAdapter;
     SetStructureViewModel setStructureViewModel;
+    private boolean isReverting = false;
     public ProductDescriptionFragment() {
         // Required empty public constructor
     }
@@ -71,16 +72,25 @@ public class ProductDescriptionFragment extends Fragment implements View.OnClick
         fragmentProductDescriptionBinding.btnFinishEditProductDetails.setOnClickListener(this);
         fragmentProductDescriptionBinding.tvEditProductDetails.setOnClickListener(this);
 
-        fragmentProductDescriptionBinding.productAvailabilitySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                new AlertDialog.Builder(getContext())
-                        .setMessage("Set " + product.get("name").toString() + "'s status to" + (isChecked?"unavailable":"available") + "?")
-                        .setPositiveButton("YES",((dialog, which) -> {
-                            fragmentProductDescriptionBinding.productAvailabilitySwitch.setText(isChecked?"Unavailable":"Available");
-                            setStructureViewModel.setProductAvailability(product.get("firestoreId").toString(),!isChecked);
-                        }));
+        fragmentProductDescriptionBinding.productAvailabilitySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+
+            if(isReverting) {
+                isReverting = false;
+                return;
             }
+
+            new AlertDialog.Builder(getContext())
+                    .setMessage("Set " + product.get("name").toString() + "'s status to " + (isChecked?"unavailable":"available") + "?")
+                    .setPositiveButton("YES",((dialog, which) -> {
+                        fragmentProductDescriptionBinding.productAvailabilitySwitch.setText(isChecked?"Unavailable":"Available");
+                        setStructureViewModel.setProductAvailability(product.get("firestoreId").toString(),!isChecked);
+                    }))
+                    .setNegativeButton("NO", ((dialog, which) -> {
+                        isReverting = true;
+                        fragmentProductDescriptionBinding.productAvailabilitySwitch.setChecked(!isChecked);
+                    }))
+                    .setCancelable(false)
+                    .create().show();
         });
 
         ViewPager2.PageTransformer pageTransformer = (page, position) -> {
