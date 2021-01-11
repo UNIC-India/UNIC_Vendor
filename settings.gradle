@@ -1,2 +1,2 @@
-rootProject.name='UNIC_Vendor_Final_1'
+rootProject.name='UNIC_Vendor'
 include ':app'
