@@ -74,12 +74,14 @@ public class Page {
     }
 
     public void addView(View view,int code){
-        view.setyPos(size);
+        view.setyPos(size+5);
         view.setPos(views.size());
         view.setViewCode(code*100+views.size()+1);
 
         views.add(view);
-        updateHeight();
+
+        size = size + 5 + view.getHeight();
+//        updateHeight();
     }
 
     private void updateHeight(){

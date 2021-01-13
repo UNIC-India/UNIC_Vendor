@@ -130,15 +130,12 @@ public class FirebasePhoneAuthViewModel extends ViewModel {
 
     public void checkUserExists(String phoneNo){
         firebaseRepository.checkUser(phoneNo)
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if (queryDocumentSnapshots.getDocuments().size()!=0){
-                    status.setValue(5);
-                }
-                else status.setValue(-2);
-            }
-        })
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (queryDocumentSnapshots.getDocuments().size()!=0){
+                        status.setValue(5);
+                    }
+                    else status.setValue(-2);
+                })
         .addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
